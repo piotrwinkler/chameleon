@@ -1,0 +1,15 @@
+{
+  "batch_size": 32,
+  "epochs": 10,
+  "verbose": 1,
+  "callbacks": null,
+  "validation_split": 0.0,
+  "validation_data": null,
+  "shuffle": true,
+  "class_weight": null,
+  "sample_weight": null,
+  "initial_epoch": 0,
+  "steps_per_epoch": null,
+  "validation_steps": null,
+  "validation_freq": 1
+}
