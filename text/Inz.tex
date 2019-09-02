@@ -1,0 +1,80 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[MeX]{polski}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+
+%\renewcommand{\chaptername}{Rozdział}
+%\renewcommand{\contentsname}{Spis treści}
+%\renewcommand{\figurename}{Rys.}
+%\renewcommand{\tablename}{Tab.}
+%\renewcommand{\listfigurename}{Spis rysunków}
+%\renewcommand{\listtablename}{Spis tabel}
+%\renewcommand{\bibname}{Bibliografia}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\pagestyle{headings}
+
+
+\begin{document}
+\begin{titlepage}
+  \begin{center}
+
+    \vspace*{1cm}
+    \Huge
+    \textbf{POLITECHNIKA GDAŃSKA}
+    \vspace{0.5cm}
+    \LARGE
+    Katedra Systemów Decyzyjnych i Robotyki
+
+    \vspace{1.5cm}
+    \textbf{PRACA INŻYNIERSKA}
+    \\[0.5cm]
+    \textbf{Zastosowanie sieci neuronowych do edycji obrazów}
+
+    \vspace{2.5cm}
+    \Large
+    \textbf{Autorzy}\\
+    Piotr Winkler\\
+    Bartosz Bieliński
+
+    \vspace{3.5cm}
+    Gdańsk 2019
+
+  \end{center}
+\end{titlepage}
+
+\newpage
+  \tableofcontents
+
+\newpage
+  \section{Wstęp}
+  \tab Sztuczne sieci neuronowe sięgają swym początkiem lat 40. XX wieku. Historia ich rozwoju odnotowała trzy okresy, w których rozwiązania te odbijały się szerokim echem w środowisku naukowym.
+  \newline \tab Pierwszy model neuronu, a potem perceptron zapoczątkowały rozwój tej dziedziny nauki, jednak pierwsze sieci jednowarstwowe nie były w stanie rozwiązywać złożonych problemów. Przeszkodę nie do pokonania stanowiła dla nich nawet prosta funkcja logiczna XOR. Z tego powodu badania seci neuronowych zostały na długi czas porzucone.
+  \newline \tab Pojawienie się algorytmu wstecznej propagacji błędów pozwalającego skutecznie uczyć wielowarstwowe sieci neuronowe ponownie wzmogło zainteresowanie tematem, jednak tym razem na drodze postępowi stanęły ograniczenia technologiczne ówczesnych czasów.
+  \newline \tab Wreszcie wraz z nadejściem XXI wieku postępujący rozwój komputerów oraz internetu umożliwił sztucznym sieciom neuronowym rozwinięcie skrzydeł. Wejście w erę "big data" otworzyło dostęp do olbrzymich zbiorów danych niezbędnych do treningu, a pojawienie się wysokowydajnych jednostek obliczeniowych pozwoliło znacznie ten proces skrócić.
+  \newline \tab Zapoczątkowany w ten sposób rozwój trwa do dnia dzisiejszego. Sztuczne sieci neuronowe odnajdują zastosowanie w wielu dziedzinach życia i nauki. Grają w gry, przeprowadzają symulacje, przewidują i prognozują zachowanie rynku, czy pogody, analizują i przetwarzają obrazy cyfrowe.
+  \newline \tab Z punktu widzenia niniejszej pracy największe znaczenie ma oczywiście ostatni z wymienionych punktów. Zdefiniowanie sieci nauronowych, jako matematycznych modeli obliczeniowych ujawnia ich naturalne predyspozycje do pracy na obrazach cyfrowych. W praktyce stanowią one bowiem zbiór liczb, wartości poszczególnych pikseli, które sieć neuronowa jest w stanie analizować, przetwarzać i zmieniać.
+
+\newpage
+  \section{Przegląd rozwiązań}
+  \tab Lata rozwoju sztucznych sieci neuronowych zaowocowały powstaniem wielu technik służących do analizy i edycji obrazów. W poniższym rozdziale zaprezentowane zostaną, oraz pokrótce opisane, najważniejsze i najciekawsze przykłady, z których część znajdzie rozwinięcie w dalszej części tej pracy.
+
+  \subsection{Sieci splotowe}
+  \tab
+
+  \subsection{Modele generatywne}
+  \tab Koncepcja modeli generatywnych, w skrócie GANów, przedstawiona została w 2014 roku przez Iana Goodfellow oraz jego współpracowników na uniwersytecie w Montrealu \cite{gan}. Modele te stanowią połączenie dwóch głębokich sieci neuronowych działających przeciwstawnie do siebie nawzajem.
+  \newline \tab Pierwsza sieć to tak zwany generator. W odniesieniu do tematu pracy, jego działanie polega na generowaniu nowych obrazów, lub ich fragmentów na podstawie wektora szumów.
+  \newline \tab Obrazy te przekazywane są, równolegle z zestawem obrazów prawdziwych, do dyskryminatora stanowiącego drugą część modelu GAN. Działanie tej sieci neuronowej polega na określeniu (w skali 0 do 1), w jakim stopniu produkty wyjściowe generatora odpowiadają obrazom rzeczywistym.
+  \newline \tab W opisanym modelu występuje zatem podwójna pętla sprzężenia zwrotnego. Dyskryminator określa autentyczność obrazów porównująć je ze zdefiniowaną odgórnie bazą danych. Z kolei generator otrzymuje informację o skuteczności swojego działania ze strony dyskryminatora.
+  \newline \tab Model generatywny znajduje się w stanie ciągłego konfliktu. Generator dąży do jak najdokładniejszego fałszowania obrazów w celu oszukania dyskryminatora, którego celem jest z kolei jak najdokładniejsze wykrywanie podróbek. Obie sieci neuronowe nieustannie dążą do osiągnięcia przewagi nad rywalem w procesie treningu. Ciągła rywalizacja sprawia, że zarówno generator, jak i dyskryminator zyskują coraz wyższą skuteczność działania.
+  \newline \tab W praktyce modele generatywne są w stanie naśladować dowolną dystrybucję danych. Są w stanie kreować światy podobne do naszego w zakresie obrazu, dźwięku czy mowy. Można powiedzieć, że są to prawdziwi syntetyczni artyści.
+
+\newpage
+\begin{thebibliography}{99} %{99} numery co najwyżej dwucyfrowe
+  \bibitem{gan} Ian J.~Goodfellow, Jean~Pouget-Abadie, Mehdi~Mirza, Bing~Xu, David~Warde-Farley, Sherjil~Ozair, Aaron~Courville, Yoshua~Bengio:
+  \emph{Generative Adversarial Networks}, ('2014)
+\end{thebibliography}
+
+\end{document}
