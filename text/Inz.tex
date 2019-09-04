@@ -1,0 +1,85 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[MeX]{polski}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{pdfpages}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+
+%\renewcommand{\chaptername}{Rozdział}
+%\renewcommand{\contentsname}{Spis treści}
+%\renewcommand{\figurename}{Rys.}
+%\renewcommand{\tablename}{Tab.}
+%\renewcommand{\listfigurename}{Spis rysunków}
+%\renewcommand{\listtablename}{Spis tabel}
+%\renewcommand{\bibname}{Bibliografia}
+
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\pagestyle{plain}
+\pagenumbering{arabic}
+
+\begin{document}
+% Strone tytulowa trzeba bedzie pobrac z moja pg
+\includepdf[pages=-]{StronaTytulowa_bb.pdf}
+
+
+\begin{titlepage}
+  \begin{center}
+
+    \vspace*{1cm}
+    \Huge
+    \textbf{POLITECHNIKA GDAŃSKA}
+    \vspace{0.5cm}
+    \LARGE
+    Katedra Systemów Decyzyjnych i Robotyki
+
+    \vspace{1.5cm}
+    \textbf{PRACA INŻYNIERSKA}
+    \\[0.5cm]
+    \textbf{Zastosowanie sieci neuronowych do edycji obrazów}
+
+    \vspace{2.5cm}
+    \Large
+    \textbf{Autorzy}\\
+    Piotr Winkler\\
+    Bartosz Bieliński
+
+    \vspace{3.5cm}
+    Gdańsk 2019
+
+  \end{center}
+\end{titlepage}
+
+\setcounter{page}{2}
+
+\include{streszczenie}
+\include{abstract}
+\include{oznaczenia}
+\include{skroty}
+
+
+\newpage
+  \tableofcontents
+
+\include{wstep}
+
+\include{przeglad_rozwiazan}
+
+\section{Projekt Sieci Neuronowych}
+
+\section{Podsumowanie}
+
+
+\newpage
+\begin{thebibliography}{99} %{99} numery co najwyżej dwucyfrowe
+  \bibitem{gan} Ian J.~Goodfellow, Jean~Pouget-Abadie, Mehdi~Mirza, Bing~Xu, David~Warde-Farley, Sherjil~Ozair, Aaron~Courville, Yoshua~Bengio:
+  \emph{Generative Adversarial Networks}, ('2014)
+\end{thebibliography}
+
+\include{zalaczniki}
+
+
+\end{document}
