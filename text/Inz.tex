@@ -5,6 +5,7 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{pdfpages}
 \usepackage{titlesec}
+\usepackage{tocloft}
 \usepackage[nottoc,notlot,notlof]{tocbibind}
 
 %\renewcommand{\chaptername}{Rozdział}
@@ -14,21 +15,15 @@
 %\renewcommand{\listfigurename}{Spis rysunków}
 %\renewcommand{\listtablename}{Spis tabel}
 %\renewcommand{\bibname}{Bibliografia}
-%test comment
+
 \newcommand\tab[1][1cm]{\hspace*{#1}}
 
 \pagestyle{plain}
-
-% TODO: Dopisać formatowanie chapterów
-
-% \titleformat{\chapter}[block]
-%   {\normalfont\huge\bfseries}{\thechapter.}{1em}{\Huge}
-% \titlespacing*{\chapter}{0pt}{-19pt}{0pt}
 \pagenumbering{arabic}
 
 \begin{document}
 % Strone tytulowa trzeba bedzie pobrac z moja pg
-\includepdf[pages=-]{StronaTytulowa.pdf}
+\includepdf[pages=-]{StronaTytulowa_bb.pdf}
 
 
 \begin{titlepage}
@@ -84,9 +79,7 @@
   \emph{Generative Adversarial Networks}, ('2014)
 \end{thebibliography}
 
-% TODO: Jak dodać section do table of content bez numeru
-\section{Załączniki}
-
+\include{zalaczniki}
 
 
 \end{document}
