@@ -371,3 +371,10 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+*-tags.tex
+
+# standalone packages
+*.sta
+
+# Makeindex log files
+*.lpz
