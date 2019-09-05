@@ -1,12 +1,20 @@
-\documentclass[12pt]{article}
+\documentclass[10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[MeX]{polski}
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb,amsfonts}
-\usepackage{pdfpages}
-\usepackage{titlesec}
-\usepackage{tocloft}
-\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage{pdfpages} % paczka żeby móc importować gotowe strony z plików pdf do pdfa z latexa
+\usepackage{titlesec} % może być potrzebne jeśli będziemy chcieli edytować tytuły
+\usepackage{tocloft}  % żeby móc ręcznie dodawać sections do TOC (Table of Content)
+\usepackage[nottoc,notlot,notlof]{tocbibind}  % to chyba jest potrzebne, żeby bibliografia dobrze się dodawała do TOC
+% to powyższe można zastąpić 2 liniami:
+% \usepackage{tocbibind}
+% \tocbibind{nottoc,notlot,notlof}
+
+\usepackage{geometry} % Do ustawiania wyglądu stron
+\geometry{margin=1.2in} % Ustawia margines
+
+\usepackage{sectsty}  % Chyba żeby móc ustawić baselineskip i linespread
 
 %\renewcommand{\chaptername}{Rozdział}
 %\renewcommand{\contentsname}{Spis treści}
@@ -20,10 +28,19 @@
 
 \pagestyle{plain}
 \pagenumbering{arabic}
+\sectionfont{\fontsize{13}{15}\selectfont}  % Ustawia wielkośc czcionki tytułów sekcji
+% First {} is a font size for title of sections and second {} is baselineskip,
+% that is size of empty space between section title and text below
+
 
 \begin{document}
+\baselineskip=12pt  % odległość między liniami chyba
+\linespread{1.25} % W wymogach jest, że ma być  1.5, ale podobno ten końcowy line spacing
+% wylicza się jako ten linespread * (baselineskip/fontsize) i w naszym przypadku
+% to powinno być 1.25 * (12/10) = 1.5, no ale zobaczymy
+
 % Strone tytulowa trzeba bedzie pobrac z moja pg
-\includepdf[pages=-]{StronaTytulowa_bb.pdf}
+\includepdf[pages=-]{StronaTytulowa_bb.pdf} %pages=- to załączenie wszystkich stron
 
 
 \begin{titlepage}
@@ -32,6 +49,7 @@
     \vspace*{1cm}
     \Huge
     \textbf{POLITECHNIKA GDAŃSKA}
+    \newline
     \vspace{0.5cm}
     \LARGE
     Katedra Systemów Decyzyjnych i Robotyki
@@ -57,8 +75,7 @@
 
 \include{streszczenie}
 \include{abstract}
-\include{oznaczenia}
-\include{skroty}
+\include{oznaczenia_skroty}
 
 
 \newpage
