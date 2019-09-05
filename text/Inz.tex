@@ -15,7 +15,7 @@
 \geometry{margin=1.2in} % Ustawia margines
 
 \usepackage{sectsty}  % Chyba żeby móc ustawić baselineskip i linespread
-
+\usepackage{indentfirst}  % Ustawienia aby pierwszy paragraf w sekcji też miał akapit, bo domyślnie nie ma
 %\renewcommand{\chaptername}{Rozdział}
 %\renewcommand{\contentsname}{Spis treści}
 %\renewcommand{\figurename}{Rys.}
@@ -24,7 +24,9 @@
 %\renewcommand{\listtablename}{Spis tabel}
 %\renewcommand{\bibname}{Bibliografia}
 
-\newcommand\tab[1][1cm]{\hspace*{#1}}
+% Chyba lepiej używać latexowego \indent zamiast definiować własny akapit
+% \newcommand\tab[1][1cm]{\hspace*{#1}}
+% \newcommand\tab{\indent}
 
 \pagestyle{plain}
 \pagenumbering{arabic}
@@ -32,12 +34,17 @@
 % First {} is a font size for title of sections and second {} is baselineskip,
 % that is size of empty space between section title and text below
 
+\widowpenalties 1 10000
+\raggedbottom
 
 \begin{document}
-\baselineskip=12pt  % odległość między liniami chyba
-\linespread{1.25} % W wymogach jest, że ma być  1.5, ale podobno ten końcowy line spacing
+
+\parskip 1.5ex % paragraph spacing - zwiększa odstępy pomiędzy paragrafami
+
+\baselineskip=15pt  % odległość między liniami chyba
+\linespread{1.3} % W wymogach jest, że ma być  1.5, ale podobno ten końcowy line spacing
 % wylicza się jako ten linespread * (baselineskip/fontsize) i w naszym przypadku
-% to powinno być 1.25 * (12/10) = 1.5, no ale zobaczymy
+% to powinno być 1.25 * (12/10) = 1.5, no ale zobaczymy bo aktualnie ten parametr wygląda jakby nie działał
 
 % Strone tytulowa trzeba bedzie pobrac z moja pg
 \includepdf[pages=-]{StronaTytulowa_bb.pdf} %pages=- to załączenie wszystkich stron
@@ -83,9 +90,11 @@
 
 \include{wstep}
 
+\section{Podstawy Teoretyczne}
+
 \include{przeglad_rozwiazan}
 
-\section{Projekt Sieci Neuronowych}
+\section{Przebieg projektowania sieci neuronowych}
 
 \section{Podsumowanie}
 
