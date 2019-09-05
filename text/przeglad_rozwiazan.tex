@@ -7,6 +7,19 @@
 
   W tym rozdziale skupiono się na przedstawieniu kilku interesujących rozwiązań
   dla omawianej problematyki.
+   Neuronowe sieci splotowe (CNN) stanowią podstawową strukturę w zkaresie przetwarzania i analizowania obrazów cyfrowych. Stanowią podwaliny większości klasyfikatorów, detektorów, czy sieci segmentujących.
+
+   Autorzy jednego z artykułów traktujących o sieciach splotowych \cite{cnn} opisują je następująco: "CNN to skuteczny algorytm poznawczy, stosowany powszechnie przy rozpoznawaniu wzorców i przetwarzaniu obrazów. Posiada wiele cech, takich jak prosta struktura, mniej parametrów treningowych, czy zdolność do adaptacji. CNN stały się gorącym tematem w zakresie analizy głosu i rozpoznawania obrazu. Ich struktura oparta na podziale wag czyni je bardziej podobnymi do biologicznych sieci neuronowych. Redukuje to złożoność modelu sieci oraz liczbę wag".
+
+   Na CNN składają się zazwyczaj trzy rodzaje warstw, z których każda posiada inne cechy.
+
+   Podstawową warstwę stanowi warstwa splotowa. Składa się ona ze zbioru filtrów (neuronów) odpowiedzialnych za ekstrakcję cech z analizowanych obrazów. Każda kolejna warstwa splotowa wydobywa z obrazu cechy o wyższych poziomach abstrakcji bazując na wynikach obliczeń poprzednich warstw tego rodzaju.
+
+   Drugim istotnym elementem sieci splotowych jest warstwa poolingu. %TODO wstawić cytat
+
+   Końcowy element CNN w większości przypadków stanowią warstwy gęste (FC). Odpowiadają one za dokonanie odpowiedniej klasyfikacji obrazu na podstawie danych dostarczonych przez warstwy poprzedzające. Są przez to nieodzowne w przypdaku zadań związanych z wszelkiego rodzaju klasyfikacją obrazów.
+
+   Wymienione tutaj elementy składowe sieci splotowych mogą przyjmować różne rozmiary, powielać się, zmieniać miejscami i łączyć ze sobą. Zapewnia to szerokie pole do eksperymentów i sprawia, że sieci te zdolne są rozwiązywać złożone, różnorodne problemy z wielu dziedzin codziennego życia.
 
   \subsection{Colorful image colorization}
 
