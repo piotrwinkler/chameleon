@@ -6,16 +6,25 @@
 \usepackage{pdfpages} % paczka żeby móc importować gotowe strony z plików pdf do pdfa z latexa
 \usepackage{titlesec} % może być potrzebne jeśli będziemy chcieli edytować tytuły
 \usepackage{tocloft}  % żeby móc ręcznie dodawać sections do TOC (Table of Content)
-\usepackage[nottoc,notlot,notlof]{tocbibind}  % to chyba jest potrzebne, żeby bibliografia dobrze się dodawała do TOC
+\usepackage[nottoc]{tocbibind}  % definiuje co jest w TOC
+% nottoc -  Disables the inclusion of the ToC.
+
 % to powyższe można zastąpić 2 liniami:
 % \usepackage{tocbibind}
-% \tocbibind{nottoc,notlot,notlof}
+% \tocbibind{nottoc}
 
 \usepackage{geometry} % Do ustawiania wyglądu stron
 \geometry{margin=1.2in} % Ustawia margines
 
 \usepackage{sectsty}  % Chyba żeby móc ustawić baselineskip i linespread
 \usepackage{indentfirst}  % Ustawienia aby pierwszy paragraf w sekcji też miał akapit, bo domyślnie nie ma
+
+\usepackage{graphicx} % Do załączania obrazów
+\graphicspath{ {./images/} }
+
+\usepackage{chngcntr} % Do edycji numerowania rysunków w sekcjach
+\counterwithin{figure}{section} % Sprawia, że numeracja rysunków będzie podzielona na sekcje
+
 %\renewcommand{\chaptername}{Rozdział}
 %\renewcommand{\contentsname}{Spis treści}
 %\renewcommand{\figurename}{Rys.}
@@ -90,7 +99,7 @@
 
 \include{wstep}
 
-\section{Podstawy Teoretyczne}
+\include{podstawy_teoretyczne}
 
 \include{przeglad_rozwiazan}
 
