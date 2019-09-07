@@ -26,7 +26,7 @@
     \begin{figure}[h]
       \centering
       \includegraphics[width=4in]{NPE}
-      \caption{Efekt działania Neural Photo Editor}
+      \caption{Efekt działania Neural Photo Editor.}
       \label{fig:npe}
     \end{figure}
 
@@ -54,7 +54,7 @@
     \begin{figure}[h]
       \centering
       \includegraphics[width=4in]{image_colorization}
-      \caption{Efekt działania Neural Photo Editor}
+      \caption{Efekt kolorowanie czarno-białych zdjęć przez wytrenowany model.}
       \label{fig:colorful_image_colorization}
     \end{figure}
 
@@ -77,8 +77,52 @@
     dla każdego piksela i zmienianiu kosztu dla modelu, w celu wyróżnienia rzadko
     spotykanych kolorów.
 
-  \subsection{Transforming photos to comics using convolutional neural networks}
+  \subsection{Image Style Transfer Using Convolutional Neural Networks}
+    W roku 2016 został przedstawiony światu A Neural Algorithm of Artistic Style
+    \cite{image_style_transfer}. Wprowadzał on przełom w dziedzinie przenoszenia
+    stylu jednego obrazu na inny, a jego suckes opierał się na właściwym wykorzystaniu
+    konwolucyjnych sieci neuronowych. Podstawą tego sukcesu było odkrycie przez
+    Leona A. Gatys oraz jego współpracowników, że w CNN reprezentacja treści
+    obrazu oraz jego stylu jest rozłączna. Umożliwia to wydobycie stylu
+    przetwarzanego obrazu oraz połączenie go z treścią innego obrazu, czego
+    dokonuje właśnie A Neural Algorithm of Artistic Style. Rezultaty takich
+    operacji można zaobserwować na Rysunku \ref{fig:image_style_transfer}
 
-  \subsection{A neural algorithm of artistic style}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=4in]{image_style_transfer}
+      \caption{Obrazy będące kombinacją treści zdjęcia ze stylami kilku znanych dzieł sztuki.}
+      \label{fig:image_style_transfer}
+    \end{figure}
+
+    Do zbudowania modelu zostały użyte warsty konwolucyjne oraz łączące z
+    architektury VGG-Network \cite{vgg_network}, która została wytrenowana pod
+    kątem rozpoznawanie obiektów i określania ich położenia. Dzięki temu sieć
+    przetwarzając obraz tworzy jego reprezentację, która wraz z
+    kolejnymi warstwami, przedstawia coraz wyraźniejszą informację o obiektach,
+    a niekoniecznie o dokładnym wyglądzie obrazu.
+    W modelu nie została użyta ani jedna warstwa gęsta, dzięki czemu na wyjściu
+    możliwe jest otrzymanie dwuwymiarowego obrazu.
+    Dla lepszej syntezy obrazów, w warstwach
+    łączących zastosowano próbkowanie wartością średnią zamiast maksymalną.
+    Takie zabiegi umożliwiają wyliczenie reprezentacji stylu z korelacji
+    pomiędzy różnymi cechami w różnych warstwach konwolucyjnych.
+
+    Cały proces renderowania polega na odpowiednim zapisaniu w modelu treści
+    oraz stylu obrazów otrzymanych przez wcześniejsze podanie na model tychże
+    obrazów. Wpier obraz, z którego pobierany jest styl, jest podawany na
+    wejście sieci oraz przeliczany, reprezentacja stylu wyselekcjonowana z
+    właściwych warst jest przechowywana, obraz z treścią jest poddawany temu samemu
+    procesowi, ale reprezentacja treści jest wyciągana z ostatnich
+    warst konwolucyjnych.
+    W celu uzyskania fuzji obrazów, zapisane reprezentacje treści i stylu są
+    zapisywane w tych warstwach modelu skąd zostały odczytane, a następnie na wejście
+    podawany jest obraz składający się z losowego szumu białego.
+    Następnie poprzez iteracyjną minimalizację funckji kosztu, obraz wejściowy jest modyfikowany, co w rezultacie końcowym doprowadza do nałożenia zapisanego
+    stylu na wczytaną treść.
+
+
+
+  \subsection{Transforming photos to comics using convolutional neural networks}
 
   \subsection{Face App}

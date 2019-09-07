@@ -15,6 +15,11 @@ Papers:
 * [Alpha Zero](https://kstatic.googleusercontent.com/files/2f51b2a749a284c2e2dfa13911da965f4855092a179469aedd15fbe4efe8f8cbf9c515ef83ac03a6515fa990e6f85fd827dcd477845e806f23a17845072dc7bd)
 
 * [A Neural Algorithm of Artistic Style](https://arxiv.org/abs/1508.06576)
+* [A Neural Algorithm of Artistic Style2](http://openaccess.thecvf.com/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf)
+* [A Neural Algorithm of Artistic Style pytorch implementation](https://github.com/jcjohnson/neural-style)
+
+* [Very Deep Convolutional Networks for Large-Scale Image Recognition
+](https://arxiv.org/abs/1409.1556)
 
 * [Instance Normalization: The Missing Ingredient for Fast Stylization
 ](https://arxiv.org/abs/1607.08022)
