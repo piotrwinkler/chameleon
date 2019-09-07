@@ -3,7 +3,7 @@
   przemysłowych. W tym podrozdziale skupiono się na przedstawieniu istniejących
   rozwiązań rozważanej problematyki. \textless Do zredagowania jeszcze \textgreater
 
-  \subsection{Neural Photo Editing}
+  \subsection{Neural photo editing}
     W 2017 roku Andrew Brock, Theodore Lim, J.M. Ritchie and Nick Weston
     zaprezenowali Neural Photo Editor \cite{neural_photo_editor}, narzędzie
     do edytowania obrazu wyposażone w mechanizmy wykrywania kontekstu zmiany.
@@ -12,6 +12,9 @@
     \begin{quote}
       'An interface that leverages the power of generative neural networks to
       make large, semantically coherent changes to existing images.'
+
+      'Interfejs wykorzystujący moc generatywnych sieci neuronowych do
+      wprowadzania dużych, semantycznie spójnych zmian w istniejących obrazach.'
     \end{quote}
 
     Użytkowanie wygląda następująco: użytkownik pędzlem o określonym kolorze i
@@ -37,10 +40,45 @@
     udało się osiągnąć dokładną rekonstrukcje obrazu bez strat na jakości detali.
 
 
-  \subsection{TRANSFORMING PHOTOS TO COMICS USING CONVOLUTIONAL NEURAL NETWORKS}
+  \subsection{Colorful image colorization}
 
-  \subsection{Coloring black and white world using Deep Neural Nets}
+    Wraz z rozwojem sieci neuronowych, rosło zainteresowanie możliwościami zastosowania
+    ich do kolorowania czarno-białych obrazów. Jedno z dostępnych rozwiązań tego
+    zagadnienia zostało przedstawione przez grupę pracowników Uniwersytetu w
+    Berkeley \cite{colorful_image_colorization}. Zamiarem ich pracy było stworzenie
+    modelu, który niekoniecznie odtwarza oryginalne barwy obrazu, ale generuje
+    barwy prawdopodbne, zdolne przekonać ludzkiego obserwatora o autentyczności
+    obrazu. Uzyskane rezultaty zostały przedstawione na
+    Rysunku \ref{fig:colorful_image_colorization}.
 
-  \subsection{A Neural Algorithm of Artistic Style}
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=4in]{image_colorization}
+      \caption{Efekt działania Neural Photo Editor}
+      \label{fig:colorful_image_colorization}
+    \end{figure}
+
+    Wykorzystany model składa się z wielu warst CNN, w których skład wchodzą
+    warsta filtrów konwolucyjnych, warsta ReLU (ang. Rectified
+    Linear Unit) oraz warstwa BatchNorm (ang. Batch normalization).
+    Aby zapobiec utracie informacji przestrzennych, sieć nie posiada warst łączących.
+    Istotny był także sposób
+    przygotowania zbioru danych do trenowania modelu. Obrazy ze zbioru uczącego
+    były wpier konwertowane do modelu YUV, a następnie kanał Y był podawany na
+    wejście modelu, warstwy UV pełniły funkcję pożądnej odpowiedzi w uczeniu
+    nadzorowanym.
+
+    Ważnym aspktem zbadanym w artykule było także dobranie odpowiedniej
+    funkcji kosztu. Nieodpowiedni wybór skutkował desaturacją kolorowanych
+    obrazów, jedną z potencjalnych przyczyn tego zjawiska może być tendencja
+    sieci do tworzenia bardziej konserwatwynych odpowiedzi. Aby zniwelować ten
+    efekt w modelu została zastosowana specjalna technika modyfikacji
+    funkcji kosztu. Polega ona na przewidywaniu dystrybucji możliwych kolorów
+    dla każdego piksela i zmienianiu kosztu dla modelu, w celu wyróżnienia rzadko
+    spotykanych kolorów.
+
+  \subsection{Transforming photos to comics using convolutional neural networks}
+
+  \subsection{A neural algorithm of artistic style}
 
   \subsection{Face App}

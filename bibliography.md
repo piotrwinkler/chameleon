@@ -19,9 +19,23 @@ Papers:
 * [Instance Normalization: The Missing Ingredient for Fast Stylization
 ](https://arxiv.org/abs/1607.08022)
 
-* [Coloring black and white world using Deep Neural Nets
-](http://cs231n.stanford.edu/reports/2016/pdfs/205_Report.pdf)
+Paper about image colorization:
+
+* [Colorful Image Colorization
+](http://richzhang.github.io/colorization/)
+Ten jest najlepszy. Opiera się na wielu sieciach konwolucyjnych, co prawda cały model
+jest dosyć duży, ale chyba będziemy w stanie jakoś go użyć.
 
 * [Exploring Convolutional Neural Networks for Automatic Image Colorization
 ](http://cs231n.stanford.edu/reports/2017/pdfs/409.pdf)
+Ten paper w zasadzie wzoruje się na tym powyższym, ale go upraszcza, to w skrócie 
+taka trochę prostsza, napisana łatwiejszym językiem wersja tego powyższego, więc moim zdaniem tym paperem
+możemy się inspirować do naszej sieci, a tego powyższego użyć jako źródło do cytatów. I w tym i tym powyższym jest 
+dokładny opis struktur sieci.
+
+* [Coloring black and white world using Deep Neural Nets
+](http://cs231n.stanford.edu/reports/2016/pdfs/205_Report.pdf)
+Ten paper jest taki trochę w kit, bo oni tutaj najpierw używają już gotowej sieci
+do feature extraction i dopiero potem dodają coś swojego, wiec moim zdaniem nie wiele 
+możemy z tego papera wyciągnąc dla nas, no ale się zobaczy.
 
