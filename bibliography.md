@@ -24,6 +24,12 @@ Papers:
 * [Instance Normalization: The Missing Ingredient for Fast Stylization
 ](https://arxiv.org/abs/1607.08022)
 
+* [A Cellular Neural Network- Based Model for Edge Detection
+](https://pdfs.semanticscholar.org/8cd9/ace4deab407ed6d1495f7ff144cebdf50d42.pdf)
+
+* [Invertible Conditional GANs for image editing
+](hhttps://arxiv.org/abs/1611.06355)
+
 Paper about image colorization:
 
 * [Colorful Image Colorization
@@ -43,4 +49,6 @@ dokładny opis struktur sieci.
 Ten paper jest taki trochę w kit, bo oni tutaj najpierw używają już gotowej sieci
 do feature extraction i dopiero potem dodają coś swojego, wiec moim zdaniem nie wiele 
 możemy z tego papera wyciągnąc dla nas, no ale się zobaczy.
+
+
 
