@@ -1,44 +1,12 @@
 \section{Przegląd rozwiązań}
-  Sieci neuronowe, dzięki swoim cechom, znalazły wiele rzeczywistych zastosowań w produktach
-  przemysłowych. W tym podrozdziale skupiono się na przedstawieniu istniejących
-  rozwiązań rozważanej problematyki. \textless Do zredagowania jeszcze \textgreater
+  Na przestrzeni ostatnich paru lat pojawiło się wiele rozwiązań zastosowania
+  sieci neuronowych do edycji obrazu, duża część z nich była przełomowa w
+  swojej dziedzinie. Powstawały rewolucyjne architektury sieci oraz technologie
+  z nimi związane. Takie cechy sieci jak niezwykła zdolność do generalizacji zdobytej wiedzy na nowe przypadki oraz olbrzymia elastyczność sprawiły, że
+  znalazły one wiele rzeczywistych zastosowań.
 
-  \subsection{Neural photo editing}
-    W 2017 roku Andrew Brock, Theodore Lim, J.M. Ritchie and Nick Weston
-    zaprezenowali Neural Photo Editor \cite{neural_photo_editor}, narzędzie
-    do edytowania obrazu wyposażone w mechanizmy wykrywania kontekstu zmiany.
-    Twórcy opisują swój twór następująco:
-
-    \begin{quote}
-      'An interface that leverages the power of generative neural networks to
-      make large, semantically coherent changes to existing images.'
-
-      'Interfejs wykorzystujący moc generatywnych sieci neuronowych do
-      wprowadzania dużych, semantycznie spójnych zmian w istniejących obrazach.'
-    \end{quote}
-
-    Użytkowanie wygląda następująco: użytkownik pędzlem o określonym kolorze i
-    rozmiarze maluje na wybranym obrazie, jednak zamiast zmieniać wartości
-    pojedynczych pikseli, interfejs odczytuje konteks edycji i wprowadza zmiany
-    semantyczne w kontekście żądanej zmiany koloru. Efekt działania interfejsu
-    został przedstawiony na Rysunku \ref{fig:npe}.
-
-    \begin{figure}[h]
-      \centering
-      \includegraphics[width=4in]{NPE}
-      \caption{Efekt działania Neural Photo Editor.}
-      \label{fig:npe}
-    \end{figure}
-
-    Skuteczność NPE (Neural Photo Editor) polega na zastosowaniu IAN
-    (ang. Introspective Adversarial Network), czyli sieci złożonej z połączonych
-    VAE (ang. Variational Autoencoder) oraz GAN, w taki sposób, żę dekodująca
-    sieć autoenkodera jest używana jako sieć generująca w GAN.
-    Poprzez przechwytywanie przez model dalekosiężnych zależności, wykorzystanie
-    bloku obliczeniowego bazującego na rozszerzonych splotach o
-    współdzielonych wagach oraz dzięki zastosowaniu ulepszonej generalizacji,
-    udało się osiągnąć dokładną rekonstrukcje obrazu bez strat na jakości detali.
-
+  W tym rozdziale skupiono się na przedstawieniu kilku interesujących rozwiązań
+  dla omawianej problematyki. 
 
   \subsection{Colorful image colorization}
 
@@ -51,7 +19,7 @@
     obrazu. Uzyskane rezultaty zostały przedstawione na
     Rysunku \ref{fig:colorful_image_colorization}.
 
-    \begin{figure}[h]
+    \begin{figure}[ht]
       \centering
       \includegraphics[width=4in]{image_colorization}
       \caption{Efekt kolorowanie czarno-białych zdjęć przez wytrenowany model.}
@@ -77,6 +45,9 @@
     dla każdego piksela i zmienianiu kosztu dla modelu, w celu wyróżnienia rzadko
     spotykanych kolorów.
 
+    Powstałe rozwiązanie dowodzi olbrzymiego potencjału zastosowanie sieci
+    neuronowych w dziedzienie pracy nad obrazami.
+
   \subsection{Image Style Transfer Using Convolutional Neural Networks}
     W roku 2016 został przedstawiony światu A Neural Algorithm of Artistic Style
     \cite{image_style_transfer}. Wprowadzał on przełom w dziedzinie przenoszenia
@@ -88,7 +59,7 @@
     dokonuje właśnie A Neural Algorithm of Artistic Style. Rezultaty takich
     operacji można zaobserwować na Rysunku \ref{fig:image_style_transfer}
 
-    \begin{figure}[h]
+    \begin{figure}[ht]
       \centering
       \includegraphics[width=4in]{image_style_transfer}
       \caption{Obrazy będące kombinacją treści zdjęcia ze stylami kilku znanych dzieł sztuki.}
@@ -121,8 +92,109 @@
     Następnie poprzez iteracyjną minimalizację funckji kosztu, obraz wejściowy jest modyfikowany, co w rezultacie końcowym doprowadza do nałożenia zapisanego
     stylu na wczytaną treść.
 
+    A Neural Algorithm of Artistic Style jest świetnym przykładem, jak elastyczne
+    mogą być interfejsy do modyfikacji obrazu oparte na technologii sieci neuronowych.
 
+  \subsection{Invertible Conditional GANs for image editing}
+    Edycja obrazów może być dokonywana na wielu różnych poziomach zaawansowania
+    i abstrakcji, operacje takie jak nakładanie filtrów mogą być
+    wykonywane przez proste algorytmy. Jednak w przypadku próby modyfikacji
+    elementów na obrazie, algorytmy te nie będą w stanie dokonać semantycznych
+    zmian ze względu na brak możliwości zrozumienia treści obrazu. Rozwiązanie
+    tego problemu zostało przedstawione w postaci modelu IcGAN
+    (ang. Invertible Conditional Generative Adversarial Network) w roku 2016
+    \cite{gan_editing}. Zaprezentowany model był to enkoder z możliwością
+    generowania wektora informacji o atrybutach obrazu połączony z warunkowym
+    GAN zdolnym do kontrolowania cech generowanych obrazów na podstawie dodatkowej
+    informacji warunkowej. Takie działanie umożliwia wprowadzania zmian w
+    atrybutach generowanego obrazu uzyskiwanego na wyjście cGAN (ang. conditional Generative
+    Adversarial Network). Rezultaty działania modelu mozna zaobserwować na
+    Rysunku \ref{fig:IcGAN}
 
-  \subsection{Transforming photos to comics using convolutional neural networks}
+    \begin{figure}[ht]
+      \centering
+      \includegraphics[width=4in]{IcGAN}
+      \caption{Obrazy generowane przez IcGAN.}
+      \label{fig:IcGAN}
+    \end{figure}
+
+    Wykorzystany w IcGAN Ekonder w rzeczywistości składa się z dwóch podrzędznych
+    Enkoderów, Enkoder $E_{z}$ koduje wejściowy obraz do utajonego wektora $z$ reprezentacji
+    obrazu, natomiast Enkoder $E_{y}$ generuje wektor informacji $y$ oddających
+    pewne kluczowe atrybuty obrazu. Enkodey są trenowane z użyciem już wytrenowanego
+    cGAN oraz obrazów rzeczywistych z etykietami ze zbioru uczącego. Zbadane
+    zostały także różne podejścia interakcji między dwoma Enkoderami, wyróżnić
+    można podejście, w którym Enkdodery są w pełni niezależne, podejście
+    gdzie wyjście $E_{z}$ jest zależne od wyjścia $E_{y}$, a także podejście
+    gdzie $E_{z}$ oraz $E_{y}$ są połączone w jednej Enkoder o współdzielonych
+    warstwach i dwóch wyjściach.
+
+    W przypadku cGAN możemy wyróżnić dwa najważniejsze czynniki, które trzeba
+    mieć na uwadze. Pierwszym jest źródło wektora $y$ podawanego na
+    Generator. W przypadku Dyskryminatora $y$ jest pobierany ze
+    zbioru treningowego, jednakże w przypadku podawania tego
+    samego wektora na Generator wystąpiła możliwość, że może dojść do niepożądanego
+    przeuczenia modelu. Autorzy artykułu dokonali analizy tego rozwiązania,
+    a także zbadali wydajność metody Bezpośredniej Interpolacji oraz
+    Jądrowego estymatora gęstości. Wynikiem tych badań było stwierdzenie, że
+    dla danej problematyki najlepiej sprawdza się podawanie wektora $y$ ze zbioru
+    uczącego, możliwość przeuczenia modelu została skomentowana następująco:
+    \begin{quote}
+      % This is only likely to occur if the conditional information
+      % is, to some extent, unique for each image. In the case where the attributes of an image are binary, one attribute vector y could describe a varied and large enough subset of images, preventing the model from overfitting given y.
+      'Jest to możliwe tylko, gdy informacje warunkowe jest do pewnego stopnia
+      unikatowa dla każdego obrazu. W tym przypadku, gdzie atrybuty obrazów są
+      binarne, jeden wektor $y$ może opisać wystarczająco duży i zróżnicowany
+      podzbiór obrazów, zapobiegając nadmiernemu dopasowaniu się modelu do
+      danego $y$.'
+    \end{quote}
+    Drugim czynnikiem jest warstwa Generatora i Dyskryminatora cGAN na
+    którą podany jest wektor $y$. Guim Perarnau oraz jego współpracownicy ustalili, że najlepsze rezultaty otrzymuje się po podaniu wekora $y$ na warstwę wejściową
+    Generatora oraz pierwszą warstwę konwolucyjną Dyskryminatora.
+
+    Ważnym spostrzeżeniem z analizy rozwiązania IcGAN jest obecność
+    olbrzymiej ilości różnorodnych rozwiązań opartych na sieciach neuronowych,
+    coraz to nowe architektury zostają wynalezione, aby udoskonalić
+    zastosowania sieci neuronowych do przetwarzania i modyfikowania obrazów.
+
+  \subsection{Neural photo editing}
+    W 2017 roku Andrew Brock, Theodore Lim, J.M. Ritchie and Nick Weston
+    zaprezenowali Neural Photo Editor \cite{neural_photo_editor}, narzędzie
+    do edytowania obrazu wyposażone w mechanizmy wykrywania kontekstu zmiany.
+    Twórcy opisują swój twór następująco:
+
+    \begin{quote}
+      % 'An interface that leverages the power of generative neural networks to
+      % make large, semantically coherent changes to existing images.'
+      'Interfejs wykorzystujący moc generatywnych sieci neuronowych do
+      wprowadzania dużych, semantycznie spójnych zmian w istniejących obrazach.'
+    \end{quote}
+
+    Użytkowanie wygląda następująco: użytkownik pędzlem o określonym kolorze i
+    rozmiarze maluje na wybranym obrazie, jednak zamiast zmieniać wartości
+    pojedynczych pikseli, interfejs odczytuje konteks edycji i wprowadza zmiany
+    semantyczne w kontekście żądanej zmiany koloru. Efekt działania interfejsu
+    został przedstawiony na Rysunku \ref{fig:npe}.
+
+    \begin{figure}[ht]
+      \centering
+      \includegraphics[width=4in]{NPE}
+      \caption{Efekt działania Neural Photo Editor.}
+      \label{fig:npe}
+    \end{figure}
+
+    Skuteczność NPE (Neural Photo Editor) polega na zastosowaniu IAN
+    (ang. Introspective Adversarial Network), czyli sieci złożonej z połączonych
+    VAE (ang. Variational Autoencoder) oraz GAN, w taki sposób, żę dekodująca
+    sieć autoenkodera jest używana jako sieć generująca w GAN.
+    Poprzez przechwytywanie przez model dalekosiężnych zależności, wykorzystanie
+    bloku obliczeniowego bazującego na rozszerzonych splotach o
+    współdzielonych wagach oraz dzięki zastosowaniu ulepszonej generalizacji,
+    udało się osiągnąć dokładną rekonstrukcje obrazu bez strat na jakości detali.
+
+    Powstanie NPE utwierdza w przekonaniu, że aktualne możliwości sieci
+    neuronowych do edycji obrazu znacznie przewyższają zwykłe algorytmy pod
+    względem możliwości oraz uzależnienia od wkładu ludzkiego.
+
 
   \subsection{Face App}

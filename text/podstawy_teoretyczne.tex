@@ -21,6 +21,9 @@
   rezultatów.
   Typowa stuktura DNN została przedstawiona na Rysunku \ref{fig:dnn}.
   Dopiero nowe architektury sieci spowodowały przełom w tej dziedzienie.
+  Takimi architekturami są splotowe sieci neuronowe opisane w rozdziale
+  \ref{sieci_splotowe}, modele generatywne opisane w rodziale \ref{modele_generatywne}
+  oraz enkodery wariacyjne opisane w rozdziale \ref{autoenkodery_wariacyjne}.
 
   \begin{figure}[h]
     \centering
@@ -49,6 +52,7 @@
   % Lata rozwoju sztucznych sieci neuronowych zaowocowały powstaniem wielu technik służących do analizy i edycji obrazów. W poniższym rozdziale zaprezentowane zostaną, oraz pokrótce opisane, najważniejsze i najciekawsze przykłady, z których część znajdzie rozwinięcie w dalszej części tej pracy.
 
   \subsection{Sieci splotowe}
+    \label{sieci_splotowe}
 
     Neuronowe sieci splotowe (CNN ang. convolutional neural network) stanowią podstawową strukturę w zakresie przetwarzania i analizowania obrazów cyfrowych. Są to sieci o hierarchicznej strukturze stanowiące podwaliny większości klasyfikatorów, detektorów, czy sieci segmentujących.
 
@@ -74,7 +78,7 @@
       'We wszystkich przypadkach pooling pomaga uczynić reprezentację w przybliżeniu niezmienną w stosunku do małych tłumaczeń danych wejściowych. Niezmienność wobec tłumaczenia oznacza, że jeśli poddamy dane wejściowe nieznacznej translacji, to wartość większości wyników poddanych poolingowi nie ulegnie zmianie'.
     \end{quote}
 
-    Końcowy element CNN w większości przypadków stanowią warstwy gęste (FCN). Odpowiadają one za dokonanie odpowiedniej klasyfikacji obrazu na podstawie danych dostarczonych przez warstwy poprzedzające. Są przez to nieodzowne w przypadku zadań związanych z wszelkiego rodzaju klasyfikacją obrazów.
+    Końcowy element CNN w większości przypadków stanowią warstwy gęste (FCN ang. Fully Convolutional Network). Odpowiadają one za dokonanie odpowiedniej klasyfikacji obrazu na podstawie danych dostarczonych przez warstwy poprzedzające. Są przez to nieodzowne w przypadku zadań związanych z wszelkiego rodzaju klasyfikacją obrazów.
 
     Wymienione tutaj elementy składowe sieci splotowych mogą przyjmować różne rozmiary i występować w różnych konfiguracjach, co przedstawiono na poniższym Rysunku \ref{fig:cnn_structure}.
     \begin{figure}[h]
@@ -87,6 +91,7 @@
     Zapewnia to szerokie pole do eksperymentów i sprawia, że sieci te zdolne są rozwiązywać złożone, różnorodne problemy z wielu dziedzin codziennego życia.
 
   \subsection{Modele generatywne}
+  \label{modele_generatywne}
   Koncepcja modeli generatywnych, w skrócie GANów, przedstawiona została w 2014 roku przez Iana Goodfellow oraz jego współpracowników na uniwersytecie w Montrealu \cite{gan}. Modele te stanowią połączenie dwóch głębokich sieci neuronowych działających przeciwstawnie do siebie nawzajem.
 
   Pierwsza sieć to tak zwany generator. W odniesieniu do tematu pracy, jego działanie polega na generowaniu nowych obrazów, lub ich fragmentów na podstawie wektora szumów.
@@ -99,4 +104,5 @@
 
   W praktyce modele generatywne są w stanie naśladować dowolną dystrybucję danych. Są w stanie kreować światy podobne do naszego w zakresie obrazu, dźwięku czy mowy. Można powiedzieć, że są to prawdziwi syntetyczni artyści.
 
-  \subsection{Variational Autoencoder}
+  \subsection{Autoenkodery wariacyjne}
+  \label{autoenkodery_wariacyjne}
