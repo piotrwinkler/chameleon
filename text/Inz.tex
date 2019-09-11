@@ -1,12 +1,49 @@
-\documentclass[12pt]{article}
+\documentclass[10pt, a4paper, twoside]{article}
+
+% Mój kompilator tego nie obsłuży
+% \usepackage{fontspec}
+% \setmainfont{Arial}
+
 \usepackage[utf8]{inputenc}
 \usepackage[MeX]{polski}
 \usepackage{graphicx}
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{pdfpages}
-\usepackage{titlesec}
-\usepackage{tocloft}
-\usepackage[nottoc,notlot,notlof]{tocbibind}
+\usepackage{amsmath,amssymb}
+\usepackage{pdfpages} % paczka żeby móc importować gotowe strony z plików pdf do pdfa z latexa
+\usepackage{titlesec} % może być potrzebne jeśli będziemy chcieli edytować tytuły
+
+% First {} is a font size for title of sections and second {} is baselineskip,
+% that is size of empty space between section title and text below
+\titleformat{\section}
+  {\normalfont\fontsize{12}{15}\bfseries}{\thesection}{1em}{\MakeUppercase}
+\titleformat{\subsection}
+  {\normalfont\fontsize{10}{12}\bfseries\itshape}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}
+  {\normalfont\fontsize{10}{12}\itshape\selectfont}{\thesubsubsection}{1em}{}
+
+% Uwaga, nie dodawać biblioteki sectsty bo to zresetuje formatowanie
+
+\usepackage{tocloft}  % żeby móc ręcznie dodawać sections do TOC (Table of Content)
+\usepackage[nottoc]{tocbibind}  % definiuje co jest w TOC
+% nottoc -  Disables the inclusion of the ToC.
+
+% to powyższe można zastąpić 2 liniami:
+% \usepackage{tocbibind}
+% \tocbibind{nottoc}
+
+\usepackage{geometry} % Do ustawiania wyglądu stron
+\geometry{margin=1.2in} % Ustawia margines
+
+\usepackage{indentfirst}  % Ustawienia aby pierwszy paragraf w sekcji też miał akapit, bo domyślnie nie ma
+
+\usepackage{graphicx} % Do załączania obrazów
+\graphicspath{ {./images/} }  % Domyślna ścieżka do obrazów
+
+\usepackage{chngcntr} % Do edycji numerowania rysunków w sekcjach
+\counterwithin{figure}{section} % Sprawia, że numeracja rysunków będzie podzielona na sekcje
+
+\usepackage{csquotes} % Do cytowania
+\AtBeginEnvironment{quote}{\itshape}  % Ustawia to co jest między \begin{quote}
+% a \end{quote}, że będzie kursywą
 
 %\renewcommand{\chaptername}{Rozdział}
 %\renewcommand{\contentsname}{Spis treści}
@@ -16,14 +53,30 @@
 %\renewcommand{\listtablename}{Spis tabel}
 %\renewcommand{\bibname}{Bibliografia}
 
-\newcommand\tab[1][1cm]{\hspace*{#1}}
+% Chyba lepiej używać latexowego \indent zamiast definiować własny akapit
+% \newcommand\tab[1][1cm]{\hspace*{#1}}
+% \newcommand\tab{\indent}
 
 \pagestyle{plain}
 \pagenumbering{arabic}
 
+\widowpenalties 1 10000
+\raggedbottom
+
+
+
+
 \begin{document}
+
+\parskip 1.5ex % paragraph spacing - zwiększa odstępy pomiędzy paragrafami
+
+\baselineskip=15pt  % odległość między liniami chyba
+\linespread{1.3} % W wymogach jest, że ma być  1.5, ale podobno ten końcowy line spacing
+% wylicza się jako ten linespread * (baselineskip/fontsize) i w naszym przypadku
+% to powinno być 1.25 * (12/10) = 1.5, no ale zobaczymy bo aktualnie ten parametr wygląda jakby nie działał
+
 % Strone tytulowa trzeba bedzie pobrac z moja pg
-\includepdf[pages=-]{StronaTytulowa_bb.pdf}
+\includepdf[pages=-]{StronaTytulowa_bb.pdf} %pages=- to załączenie wszystkich stron
 
 
 \begin{titlepage}
@@ -32,6 +85,7 @@
     \vspace*{1cm}
     \Huge
     \textbf{POLITECHNIKA GDAŃSKA}
+    \newline
     \vspace{0.5cm}
     \LARGE
     Katedra Systemów Decyzyjnych i Robotyki
@@ -57,8 +111,7 @@
 
 \include{streszczenie}
 \include{abstract}
-\include{oznaczenia}
-\include{skroty}
+\include{oznaczenia_skroty}
 
 
 \newpage
@@ -66,18 +119,15 @@
 
 \include{wstep}
 
+\include{podstawy_teoretyczne}
+
 \include{przeglad_rozwiazan}
 
-\section{Projekt Sieci Neuronowych}
+\section{\textless Opis, implementacja oraz testy naszego rozwiązania \textgreater}
 
 \section{Podsumowanie}
 
-
-\newpage
-\begin{thebibliography}{99} %{99} numery co najwyżej dwucyfrowe
-  \bibitem{gan} Ian J.~Goodfellow, Jean~Pouget-Abadie, Mehdi~Mirza, Bing~Xu, David~Warde-Farley, Sherjil~Ozair, Aaron~Courville, Yoshua~Bengio:
-  \emph{Generative Adversarial Networks}, ('2014)
-\end{thebibliography}
+\include{bibliografia}
 
 \include{zalaczniki}
 
