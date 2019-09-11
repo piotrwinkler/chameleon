@@ -26,13 +26,13 @@
       \label{fig:colorful_image_colorization}
     \end{figure}
 
-    Wykorzystany model składa się z wielu warst CNN, w których skład wchodzą
+    Wykorzystany model składa się z wielu warstw CNN, w których skład wchodzą
     warsta filtrów konwolucyjnych, warsta ReLU (ang. Rectified
     Linear Unit) oraz warstwa BatchNorm (ang. Batch normalization).
-    Aby zapobiec utracie informacji przestrzennych, sieć nie posiada warst łączących.
+    Aby zapobiec utracie informacji przestrzennych, sieć nie posiada warstw łączących.
     Istotny był także sposób
     przygotowania zbioru danych do trenowania modelu. Obrazy ze zbioru uczącego
-    były wpier konwertowane do modelu YUV, a następnie kanał Y był podawany na
+    były wpierw konwertowane do modelu YUV, a następnie kanał Y był podawany na
     wejście modelu, warstwy UV pełniły funkcję pożądnej odpowiedzi w uczeniu
     nadzorowanym.
 
