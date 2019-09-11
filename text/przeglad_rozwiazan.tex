@@ -27,31 +27,31 @@
     \end{figure}
 
     Wykorzystany model składa się z wielu warstw CNN, w których skład wchodzą
-    warsta filtrów konwolucyjnych, warsta ReLU (ang. Rectified
+    warstwa filtrów konwolucyjnych, warstwa ReLU (ang. Rectified
     Linear Unit) oraz warstwa BatchNorm (ang. Batch normalization).
     Aby zapobiec utracie informacji przestrzennych, sieć nie posiada warstw łączących.
     Istotny był także sposób
     przygotowania zbioru danych do trenowania modelu. Obrazy ze zbioru uczącego
     były wpierw konwertowane do modelu YUV, a następnie kanał Y był podawany na
-    wejście modelu, warstwy UV pełniły funkcję pożądnej odpowiedzi w uczeniu
+    wejście modelu, warstwy UV pełniły funkcję pożądanej odpowiedzi w uczeniu
     nadzorowanym.
 
-    Ważnym aspktem zbadanym w artykule było także dobranie odpowiedniej
+    Ważnym aspektem zbadanym w artykule było także dobranie odpowiedniej
     funkcji kosztu. Nieodpowiedni wybór skutkował desaturacją kolorowanych
     obrazów, jedną z potencjalnych przyczyn tego zjawiska może być tendencja
-    sieci do tworzenia bardziej konserwatwynych odpowiedzi. Aby zniwelować ten
+    sieci do tworzenia bardziej konserwatywnych odpowiedzi. Aby zniwelować ten
     efekt w modelu została zastosowana specjalna technika modyfikacji
     funkcji kosztu. Polega ona na przewidywaniu dystrybucji możliwych kolorów
     dla każdego piksela i zmienianiu kosztu dla modelu, w celu wyróżnienia rzadko
     spotykanych kolorów.
 
     Powstałe rozwiązanie dowodzi olbrzymiego potencjału zastosowanie sieci
-    neuronowych w dziedzienie pracy nad obrazami.
+    neuronowych w dziedzinie pracy nad obrazami.
 
   \subsection{Image Style Transfer Using Convolutional Neural Networks}
     W roku 2016 został przedstawiony światu A Neural Algorithm of Artistic Style
     \cite{image_style_transfer}. Wprowadzał on przełom w dziedzinie przenoszenia
-    stylu jednego obrazu na inny, a jego suckes opierał się na właściwym wykorzystaniu
+    stylu jednego obrazu na inny, a jego sukces opierał się na właściwym wykorzystaniu
     konwolucyjnych sieci neuronowych. Podstawą tego sukcesu było odkrycie przez
     Leona A. Gatys oraz jego współpracowników, że w CNN reprezentacja treści
     obrazu oraz jego stylu jest rozłączna. Umożliwia to wydobycie stylu
@@ -66,7 +66,7 @@
       \label{fig:image_style_transfer}
     \end{figure}
 
-    Do zbudowania modelu zostały użyte warsty konwolucyjne oraz łączące z
+    Do zbudowania modelu zostały użyte warstwy konwolucyjne oraz łączące z
     architektury VGG-Network \cite{vgg_network}, która została wytrenowana pod
     kątem rozpoznawanie obiektów i określania ich położenia. Dzięki temu sieć
     przetwarzając obraz tworzy jego reprezentację, która wraz z
@@ -81,15 +81,15 @@
 
     Cały proces renderowania polega na odpowiednim zapisaniu w modelu treści
     oraz stylu obrazów otrzymanych przez wcześniejsze podanie na model tychże
-    obrazów. Wpier obraz, z którego pobierany jest styl, jest podawany na
+    obrazów. Wpierw obraz, z którego pobierany jest styl, jest podawany na
     wejście sieci oraz przeliczany, reprezentacja stylu wyselekcjonowana z
-    właściwych warst jest przechowywana, obraz z treścią jest poddawany temu samemu
+    właściwych warstw jest przechowywana, obraz z treścią jest poddawany temu samemu
     procesowi, ale reprezentacja treści jest wyciągana z ostatnich
-    warst konwolucyjnych.
+    warstw konwolucyjnych.
     W celu uzyskania fuzji obrazów, zapisane reprezentacje treści i stylu są
     zapisywane w tych warstwach modelu skąd zostały odczytane, a następnie na wejście
     podawany jest obraz składający się z losowego szumu białego.
-    Następnie poprzez iteracyjną minimalizację funckji kosztu, obraz wejściowy jest modyfikowany, co w rezultacie końcowym doprowadza do nałożenia zapisanego
+    Następnie poprzez iteracyjną minimalizację funkcji kosztu, obraz wejściowy jest modyfikowany, co w rezultacie końcowym doprowadza do nałożenia zapisanego
     stylu na wczytaną treść.
 
     A Neural Algorithm of Artistic Style jest świetnym przykładem, jak elastyczne
@@ -108,7 +108,7 @@
     GAN zdolnym do kontrolowania cech generowanych obrazów na podstawie dodatkowej
     informacji warunkowej. Takie działanie umożliwia wprowadzania zmian w
     atrybutach generowanego obrazu uzyskiwanego na wyjście cGAN (ang. conditional Generative
-    Adversarial Network). Rezultaty działania modelu mozna zaobserwować na
+    Adversarial Network). Rezultaty działania modelu można zaobserwować na
     Rysunku \ref{fig:IcGAN}
 
     \begin{figure}[ht]
@@ -142,7 +142,7 @@
     \begin{quote}
       % This is only likely to occur if the conditional information
       % is, to some extent, unique for each image. In the case where the attributes of an image are binary, one attribute vector y could describe a varied and large enough subset of images, preventing the model from overfitting given y.
-      'Jest to możliwe tylko, gdy informacje warunkowe jest do pewnego stopnia
+      'Jest to możliwe tylko, gdy informacje warunkowe są do pewnego stopnia
       unikatowa dla każdego obrazu. W tym przypadku, gdzie atrybuty obrazów są
       binarne, jeden wektor $y$ może opisać wystarczająco duży i zróżnicowany
       podzbiór obrazów, zapobiegając nadmiernemu dopasowaniu się modelu do
@@ -159,7 +159,7 @@
 
   \subsection{Neural photo editing}
     W 2017 roku Andrew Brock, Theodore Lim, J.M. Ritchie and Nick Weston
-    zaprezenowali Neural Photo Editor \cite{neural_photo_editor}, narzędzie
+    zaprezentowali Neural Photo Editor \cite{neural_photo_editor}, narzędzie
     do edytowania obrazu wyposażone w mechanizmy wykrywania kontekstu zmiany.
     Twórcy opisują swój twór następująco:
 
@@ -172,7 +172,7 @@
 
     Użytkowanie wygląda następująco: użytkownik pędzlem o określonym kolorze i
     rozmiarze maluje na wybranym obrazie, jednak zamiast zmieniać wartości
-    pojedynczych pikseli, interfejs odczytuje konteks edycji i wprowadza zmiany
+    pojedynczych pikseli, interfejs odczytuje kontekst edycji i wprowadza zmiany
     semantyczne w kontekście żądanej zmiany koloru. Efekt działania interfejsu
     został przedstawiony na Rysunku \ref{fig:npe}.
 

@@ -6,22 +6,22 @@
   technikami przetwarzania plików graficznych.
   Jednak pierwsze architektury ANN (ang. artificial neural network) nie nadawały
   się do przetwarzania grafik.
-  Było to częściwo spowodowane faktem, że obrazy, będące w rzeczywistości macierzami
+  Było to częściowo spowodowane faktem, że obrazy, będące w rzeczywistości macierzami
   wartości pikseli,
   % należało przekształcić w długie wektory liczbowe aby móc podać je
   ciężko było skutecznie podać
-  na wejscie typowych architekur DNN (ang. deep neural network) zbudowanych
-  pierwotnie z wielu warst ukrytych, pomiędzy którymi połączenia są na zasadzie
+  na wejście typowych architektur DNN (ang. deep neural network) zbudowanych
+  pierwotnie z wielu warstw ukrytych, pomiędzy którymi połączenia są na zasadzie
   każdy z każdym oraz mają swoje wagi podlegające modyfikacji w trakcie procesu
-  uczenia. Taka struktura pokazana została na Rysunku \ref{fig:dnn}. 
+  uczenia. Taka struktura pokazana została na Rysunku \ref{fig:dnn}.
   Obrazy o niskiej rozdzielczości można było przekształcić w wektory
   wartości poszczególnych pikseli i w takiej postaci podawać na wejście sieci,
-  jednak w przypadku obrazów o wyższej rozdzieloczości to rozwiązanie, ze
+  jednak w przypadku obrazów o wyższej rozdzielczości to rozwiązanie, ze
   względu na znaczną długość powstałych wektorów, nie oferowało dobrych
   rezultatów.
-  Dopiero nowe architektury sieci spowodowały przełom w tej dziedzienie.
+  Dopiero nowe architektury sieci spowodowały przełom w tej dziedzinie.
   Takimi architekturami są splotowe sieci neuronowe opisane w rozdziale
-  \ref{sieci_splotowe}, modele generatywne opisane w rodziale \ref{modele_generatywne}
+  \ref{sieci_splotowe}, modele generatywne opisane w rozdziale \ref{modele_generatywne}
   oraz enkodery wariacyjne opisane w rozdziale \ref{autoenkodery_wariacyjne}.
 
   \begin{figure}[h]
@@ -70,7 +70,7 @@
     procesowi kolejne warstwy filtrów uczą się
     rozpoznawać kluczowe cechy na obrazie, od drobnych elementów takich jak
     krawędzie albo kształty po bardziej złożone takie jak części ciała albo
-    całe obiekty. Filtry te są zazywczaj inicjowane losowymi wartościami i w miarę trenowania, dopasowują swoje parametry do wybranej problematyki.
+    całe obiekty. Filtry te są zazwyczaj inicjowane losowymi wartościami i w miarę trenowania, dopasowują swoje parametry do wybranej problematyki.
 
     Drugim istotnym elementem sieci splotowych jest warstwa poolingu. Może zostać opisana następująco \cite{pooling}:
     \begin{quote}
@@ -97,7 +97,7 @@
 
   Obrazy te przekazywane są, równolegle z zestawem obrazów prawdziwych, do dyskryminatora stanowiącego drugą część modelu GAN. Działanie tej sieci neuronowej polega na określeniu (w skali 0 do 1), w jakim stopniu produkty wyjściowe generatora odpowiadają obrazom rzeczywistym.
 
-  W opisanym modelu występuje zatem podwójna pętla sprzężenia zwrotnego. Dyskryminator określa autentyczność obrazów porównująć je ze zdefiniowaną odgórnie bazą danych. Z kolei generator otrzymuje informację o skuteczności swojego działania ze strony dyskryminatora.
+  W opisanym modelu występuje zatem podwójna pętla sprzężenia zwrotnego. Dyskryminator określa autentyczność obrazów porównując je ze zdefiniowaną odgórnie bazą danych. Z kolei generator otrzymuje informację o skuteczności swojego działania ze strony dyskryminatora.
 
   Model generatywny znajduje się w stanie ciągłego konfliktu. Generator dąży do jak najdokładniejszego fałszowania obrazów w celu oszukania dyskryminatora, którego celem jest z kolei jak najdokładniejsze wykrywanie podróbek. Obie sieci neuronowe nieustannie dążą do osiągnięcia przewagi nad rywalem w procesie treningu. Ciągła rywalizacja sprawia, że zarówno generator, jak i dyskryminator zyskują coraz wyższą skuteczność działania.
 
