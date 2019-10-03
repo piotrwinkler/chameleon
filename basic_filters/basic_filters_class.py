@@ -104,3 +104,8 @@ class BasicFilters(object):
     def show_image_without_waitkey(self, img, title="Image"):
         cv2.imshow(title, img)
 
+    def load_img(self, load_path):
+        return cv2.imread(load_path)
+
+    def save_img(self, save_path, img):
+        cv2.imwrite(save_path, img)
