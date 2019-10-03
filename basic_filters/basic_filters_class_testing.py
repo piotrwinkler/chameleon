@@ -16,7 +16,7 @@ def main():
     gray = basic_filters.rgb_to_gray(img)
     basic_filters.show_image_without_waitkey(gray, title="Gray")
 
-    # canny (mean is the best)
+    # Canny (mean is the best)
     img_canny_mean = basic_filters.canny_filter(img, threshold_type="mean")
     basic_filters.show_image_without_waitkey(img_canny_mean, title="Canny mean")
 
@@ -26,14 +26,14 @@ def main():
     img_canny_median = basic_filters.canny_filter(img, threshold_type="manual")
     basic_filters.show_image_without_waitkey(img_canny_median, title="Canny hardcoded")
 
-    # sobel
+    # Sobel
     img_sobel = basic_filters.sobel_filter(gray, depth="8U", kernel_size=3)
     basic_filters.show_image_without_waitkey(img_sobel, title="Sobel 8U")
 
     img_sobel_64 = basic_filters.sobel_filter(gray, depth="64F", kernel_size=3)
     basic_filters.show_image_without_waitkey(img_sobel_64, title="Sobel 64F")
 
-    # prewitt
+    # Prewitt
     img_prewitt = basic_filters.prewitt_filter(gray)
     basic_filters.show_image_without_waitkey(img_prewitt, title="Prewitt")
 
