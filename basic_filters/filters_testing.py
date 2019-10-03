@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 
+
 img_path = 'datasets/street/art379.jpg'
 # img_path = 'datasets/samolot_mini_mini.jpg'
 

@@ -19,6 +19,7 @@ def main():
 
     for counter, img_path in enumerate(glob.glob(from_path + "*")):
         print("processing image {} on {}".format(counter+1, number_of_images))
+
         try:
             img = basic_filters.load_img(img_path)
             gray = basic_filters.rgb_to_gray(img)

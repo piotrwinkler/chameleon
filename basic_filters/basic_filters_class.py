@@ -80,7 +80,6 @@ class BasicFilters(object):
 
         else:
             raise Exception('Wrong depth')
-            return None
 
     def prewitt_filter(self, img):
         kernel_x = np.array([[1, 1, 1], [0, 0, 0], [-1, -1, -1]])

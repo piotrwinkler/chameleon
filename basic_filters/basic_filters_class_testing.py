@@ -3,7 +3,6 @@ import cv2
 from basic_filters.basic_filters_class import BasicFilters
 
 img_path = 'datasets/street/art379.jpg'
-# img_path = 'datasets/samolot_mini_mini.jpg'
 
 
 def main():
