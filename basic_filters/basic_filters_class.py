@@ -189,6 +189,11 @@ class ImagesConverter:
         negative_img = 255 - img
         return negative_img
 
+    @staticmethod
+    def dither_filter(img):
+        """Potentially to implement"""
+        return None
+
 
     @staticmethod
     def show_single_img(img, title="Image"):
