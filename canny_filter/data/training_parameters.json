@@ -1,14 +1,19 @@
 {
-  "criterion": "CrossEntropyLoss",
+  "criterion": "L1Loss",
   "optimizer":
   {
-      "name": "Adam",
+      "name": "SGD",
       "parameters":
       {
         "lr": 0.001
       }
   },
-  "training_epochs": 2,
+  "training_epochs": 200,
   "training_monitoring_period": 100,
-  "batch_size": 32
+  "dataloader_parameters":
+  {
+      "batch_size": 1,
+      "shuffle": false,
+      "num_workers": 4
+  }
 }

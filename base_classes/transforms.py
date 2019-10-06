@@ -7,6 +7,7 @@ import torch
 from loguru import logger as log
 
 
+
 class Rescale:
     """Rescale the data in a sample to a given size."""
 
