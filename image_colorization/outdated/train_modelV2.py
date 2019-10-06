@@ -1,9 +1,8 @@
-from image_colorization.data_server import load_dataset
+from image_colorization.outdated.data_server import load_dataset
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Convolution2D, MaxPooling2D, UpSampling2D, BatchNormalization, \
+from keras.layers import Dense, Flatten, Convolution2D, BatchNormalization, \
     Reshape
 from keras.layers.advanced_activations import ReLU
-from keras.utils import np_utils
 from keras import optimizers
 from keras.callbacks import ModelCheckpoint, TensorBoard
 from time import time
