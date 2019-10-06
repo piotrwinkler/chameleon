@@ -1,0 +1,14 @@
+{
+  "criterion": "CrossEntropyLoss",
+  "optimizer":
+  {
+      "name": "Adam",
+      "parameters":
+      {
+        "lr": 0.001
+      }
+  },
+  "training_epochs": 2,
+  "training_monitoring_period": 100,
+  "batch_size": 32
+}
