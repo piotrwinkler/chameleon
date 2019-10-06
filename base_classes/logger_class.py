@@ -19,7 +19,7 @@ class Logger:
 
         # Creating empty log file with content of stdout stream
         with open(self.log, 'w') as log_file:
-            log_file.write("Logs from reliability test for Concord 4 started at {} \n".format(
+            log_file.write("Logs started at {} \n".format(
                 str(datetime.datetime.now().strftime("%d_%m_%Y_%H_%M_%S"))))
 
     def write(self, message):
