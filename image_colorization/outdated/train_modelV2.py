@@ -19,8 +19,8 @@ def main():
     saving_period = 100
     learning_rate = 0.001
     model, checkpointer, tensorboard = prepare_network(learning_rate, saving_period,
-                                                       'weights/weightsV3.{epoch:02d}.hdf5', 'logs')
-    model.save("weights/modelV3.hdf5")
+                                                       'model_states/weightsV3.{epoch:02d}.hdf5', 'logs')
+    model.save("model_states/modelV3.hdf5")
 
     model.fit(x_train, y_train,
               batch_size=batch_size, epochs=epochs, verbose=1, shuffle=False,

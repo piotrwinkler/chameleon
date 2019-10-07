@@ -6,10 +6,10 @@ import time
 import torch.optim as optim
 
 dataset_path = "image_colorization/datasets/Cifar-10"
-save_net_file = "image_colorization/weights/fcn_modelV1.pth"
+save_net_file = "image_colorization/model_states/fcn_modelV1.pth"
 how_many_epochs = 2
 do_load_model = 0
-load_net_file = "image_colorization/weights/fcn_modelV1.pth"
+load_net_file = "image_colorization/model_states/fcn_modelV1.pth"
 
 
 def main():

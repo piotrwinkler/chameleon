@@ -28,8 +28,8 @@ def main():
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
-    model = load_model("weights/modelV3.hdf5")
-    model.load_weights('weights/weightsV3.500.hdf5')
+    model = load_model("model_states/modelV3.hdf5")
+    model.load_weights('model_states/weightsV3.500.hdf5')
 
     score = model.evaluate(x_train, y_train, verbose=1)
     ab_new = model.predict(x_train)

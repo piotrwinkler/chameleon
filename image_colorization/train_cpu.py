@@ -1,5 +1,10 @@
-# TODO: Use step_decay param
 # TODO: Proper Weight initialization
+"""
+with torch.no_grad():
+    self.conv1.weight = torch.nn.Parameter(K)
+"""
+# TODO: Proper image format on input
+# TODO: Check how images were normalized in paper
 from image_colorization.data_server import load_cifar_10
 from image_colorization.nets.fcn_model import FCN_net
 import torch
@@ -8,87 +13,82 @@ import time
 import torch.optim as optim
 from base_classes.logger_class import Logger
 import sys
+import cv2
+import numpy as np
 
 dataset_path = "datasets/Cifar-10"
-save_net_file = "weights/fcn_modelV1.pth"
-how_many_epochs = 1
-do_load_model = 0
-load_net_file = "weights/fcn_modelV1.pth"
+
+which_version = "V1"
+
+load_net_file = f"model_states/fcn_model{which_version}_epoch{0}.pth"
+load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{0}.pth"
+load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{0}.pth"
+
 log_file = "logs/logs_fcn_modelV1_train.log"
-batch_size = 128
-learning_rate = 100
-momentum = 1#0.9
+
+init_epoch = 0
+how_many_epochs = 1
+do_load_model = False
+batch_size = 1
+learning_rate = 1
+momentum = 0.9
 lr_step_scheduler = 1
-lr_step_gamma = 0.9
+lr_step_gamma = 0.9999999
 step_decay = 0.5
 
 
 def main():
+
+    save_net_file = f"model_states/fcn_model{which_version}_epoch{0}.pth"
+    save_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{0}.pth"
+    save_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{0}.pth"
 
     sys.stdout = Logger(log_file)
 
     trainloader, testloader, _ = load_cifar_10(path_to_cifar10=dataset_path, batch_size=batch_size)
 
     net = FCN_net()
-    if do_load_model == 1:
-        net.load_state_dict(torch.load(load_net_file))
+    # Miało być "per-pixel Euclidean loss function", mam nadzieję, ze to ten MSELoss
+    criterion = nn.MSELoss(reduction='mean')
 
-    net.train()
+    # Możliwe, też, że to ma być:
+    # criterion = nn.MSELoss(reduction='sum')
+    # I wtedy:
+    # loss = criterion(outputs, labels) / output.size(0)
 
-    criterion = nn.CrossEntropyLoss()
+    # criterion = nn.SmoothL1Loss()
+
     optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
     scheduler = optim.lr_scheduler.StepLR(optimizer=optimizer, step_size=lr_step_scheduler, gamma=lr_step_gamma)
 
-    print(scheduler.state_dict())
-    # scheduler.state_dict()["step_size"] = 2
-    print(scheduler.state_dict())
-    print(scheduler.optimizer.state_dict())
-    print(scheduler.optimizer.state_dict()["param_groups"][0]["lr"])
-    a = scheduler.optimizer.state_dict()["param_groups"]
-    optimizer.zero_grad()
-    optimizer.step()
-    scheduler.step()
-    optimizer.step()
-    scheduler.step()
-    optimizer.step()
-    scheduler.step()
-    # opt = scheduler.optimizer.state_dict()
-    # scheduler.gamma = 0.1
-    # scheduler.base_lrs = scheduler.optimizer.param_groups[0]["lr"]
-    scheduler.base_lrs = [scheduler.optimizer.state_dict()["param_groups"][0]["lr"]]
-    scheduler.last_epoch = 0
-    scheduler.step_size = 2
+    if do_load_model:
+        net.load_state_dict(torch.load(load_net_file))
+        optimizer.load_state_dict(torch.load(load_optimizer_file))
+        scheduler.load_state_dict(torch.load(load_scheduler_file))
 
-    scheduler._step_count = 1
-    # scheduler.ste
-    # scheduler.optimizer.load_state_dict(opt)
-    # optimizer.load_state_dict(opt)
-    optimizer.step()
-    scheduler.step()
-    optimizer.step()
-    scheduler.step()
+    net.train()
 
-    optimizer.step()
-    scheduler.step()
-    optimizer.step()
-    scheduler.step()
+    torch.save(net.state_dict(), save_net_file)
+    torch.save(optimizer.state_dict(), save_optimizer_file)
+    torch.save(scheduler.state_dict(), save_scheduler_file)
 
-    print(scheduler.state_dict())
-    for epoch in range(how_many_epochs):  # loop over the dataset multiple times
+    for epoch in range(init_epoch, init_epoch+how_many_epochs):  # loop over the dataset multiple times
 
         start_time = time.time()
 
         running_loss = 0.0
         for i, data in enumerate(trainloader):
             # get the inputs; data is a list of [inputs, labels]
-            inputs, labels = data
+            inputs, _ = data
+
+            Y_batch, ab_batch = yuv_convert(inputs)
 
             # zero the parameter gradients
             optimizer.zero_grad()
 
             # forward + backward + optimize
-            outputs = net(inputs)
-            loss = criterion(outputs, labels)
+            outputs = net(Y_batch)
+            loss = criterion(outputs, ab_batch)
             loss.backward()
             optimizer.step()
             scheduler.step()
@@ -102,11 +102,52 @@ def main():
 
         end_time = time.time() - start_time
         print(f"Epoch {epoch} took {end_time} seconds")
+
+        save_net_file = f"model_states/fcn_modelV1_epoch{0}.pth"
+        save_optimizer_file = f"model_states/fcn_optimizerV1_epoch{0}.pth"
+        save_scheduler_file = f"model_states/fcn_schedulerV1_epoch{0}.pth"
+
         torch.save(net.state_dict(), save_net_file)
+        torch.save(optimizer.state_dict(), save_optimizer_file)
+        torch.save(scheduler.state_dict(), save_scheduler_file)
+
+        if epoch % 25 == 0:
+            scheduler.base_lrs = [scheduler.optimizer.state_dict()["param_groups"][0]["lr"]]
+            scheduler.last_epoch = 0
+            scheduler.step_size = scheduler.step_size / step_decay
+            scheduler._step_count = 1
 
     print('Finished Training')
 
     torch.save(net.state_dict(), save_net_file)
+
+
+def yuv_convert(imgs_batch):
+    Y_batch = []
+    ab_batch = []
+    imgs_batch = imgs_batch.view(-1, 32, 32, 3)
+    imgs_batch = np.array(imgs_batch)
+
+    a = imgs_batch[0]
+    # b = np.array(a)
+    a = imgs_batch.shape[0]
+    for i in range(imgs_batch.shape[0]):
+        img_rgb = imgs_batch[i]
+        # r,g, b = img_rgb[0, :, :], img_rgb[1, :, :], img_rgb[2, :, :]
+        # img_rgb = np.reshape(img_rgb, (32, 32, 3))
+        # img_rgb = np.stack((r, g, b), axis=2)
+        norm_image = cv2.normalize(img_rgb, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+        norm_image = norm_image.astype(np.uint8)
+
+        cv2.imshow("Original", norm_image)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+        img_Lab = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2LAB)
+        Y_batch.append(img_Lab[:, :, 0])
+        ab_batch.append(img_Lab[:, :, 1:3])
+
+    Y_batch = te
+    return Y_batch, ab_batch
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ from base_classes.logger_class import Logger
 import sys
 
 dataset_path = "image_colorization/datasets/Cifar-10"
-load_net_file = "weights/fcn_modelV1.pth"
+load_net_file = "model_states/fcn_modelV1.pth"
 log_file = "logs/logs_fcn_modelV1_eval.log"
 
 

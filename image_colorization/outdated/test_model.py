@@ -10,8 +10,8 @@ dataset_path = "datasets/broadleaf/"
 
 def main():
 
-    model = load_model("weights/modelV3.hdf5")
-    model.load_weights('weights/weightsV3.500.hdf5')
+    model = load_model("model_states/modelV3.hdf5")
+    model.load_weights('model_states/weightsV3.500.hdf5')
 
     for img_name in glob.glob(dataset_path + "*"):
         img = cv2.imread(img_name)

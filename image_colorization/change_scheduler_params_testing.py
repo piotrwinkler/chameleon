@@ -10,10 +10,10 @@ from base_classes.logger_class import Logger
 import sys
 
 dataset_path = "datasets/Cifar-10"
-save_net_file = "weights/fcn_modelV1.pth"
+save_net_file = "model_states/fcn_modelV1.pth"
 how_many_epochs = 1
 do_load_model = 0
-load_net_file = "weights/fcn_modelV1.pth"
+load_net_file = "model_states/fcn_modelV1.pth"
 log_file = "logs/logs_fcn_modelV1_train.log"
 batch_size = 128
 learning_rate = 100
