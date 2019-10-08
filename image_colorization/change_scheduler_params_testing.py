@@ -1,5 +1,3 @@
-# TODO: Use step_decay param
-# TODO: Proper Weight initialization
 from image_colorization.data_server import load_cifar_10
 from image_colorization.nets.fcn_model import FCN_net
 import torch

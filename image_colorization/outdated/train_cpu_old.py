@@ -3,7 +3,8 @@
 with torch.no_grad():
     self.conv1.weight = torch.nn.Parameter(K)
 """
-# TODO: Check how YUV were normalized in paper
+# TODO: Proper image format on input
+# TODO: Check how images were normalized in paper
 from image_colorization.data_server import load_cifar_10
 from image_colorization.nets.fcn_model import FCN_net
 import torch
@@ -16,9 +17,6 @@ import cv2
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 import matplotlib.pyplot as plt
-from skimage import io, color
-
-
 dataset_path = "datasets/Cifar-10"
 
 which_version = "V1"
@@ -32,8 +30,7 @@ log_file = "logs/logs_fcn_modelV1_train.log"
 init_epoch = 0
 how_many_epochs = 1
 do_load_model = False
-
-batch_size = 128
+batch_size = 100
 learning_rate = 1
 momentum = 0.9
 lr_step_scheduler = 1
@@ -52,12 +49,11 @@ def main():
     trainloader, testloader, _ = load_cifar_10(path_to_cifar10=dataset_path, batch_size=batch_size)
 
     net = FCN_net()
-    net = net.double()
     # Miało być "per-pixel Euclidean loss function", mam nadzieję, ze to ten MSELoss
-    # criterion = nn.MSELoss(reduction='mean')
+    criterion = nn.MSELoss(reduction='mean')
 
     # Możliwe, też, że to ma być:
-    criterion = nn.MSELoss(reduction='sum')
+    # criterion = nn.MSELoss(reduction='sum')
     # I wtedy:
     # loss = criterion(outputs, labels) / output.size(0)
 
@@ -95,7 +91,7 @@ def main():
 
             # forward + backward + optimize
             outputs = net(Y_batch)
-            loss = criterion(outputs, ab_batch) / outputs.size(0)
+            loss = criterion(outputs, ab_batch)
             writer.add_scalar('Loss/train', loss)
             loss.backward()
             optimizer.step()
@@ -103,9 +99,9 @@ def main():
 
             # print statistics
             running_loss += loss.item()
-            if i % 5 == 4:  # print every 5 mini-batches
+            if i % 50 == 49:  # print every 50 mini-batches
                 print('[%d, %5d] loss: %.3f' %
-                      (epoch + 1, (i + 1) * batch_size, running_loss / 5))
+                      (epoch + 1, (i + 1) * batch_size, running_loss / 50))
                 running_loss = 0.0
 
         end_time = time.time() - start_time
@@ -134,21 +130,35 @@ def main():
 def yuv_convert(imgs_batch):
     Y_batch = []
     ab_batch = []
+    # imgs_batch = imgs_batch.view(-1, 32, 32, 3)
+    # temp = imgs_batch[0]
+    # imgs_batch = np.array(imgs_batch)
 
+    # a = imgs_batch[0]
+    # b = np.array(a)
+    # a = imgs_batch.shape[0]
     for i in range(imgs_batch.shape[0]):
         img_rgb = np.transpose(imgs_batch[i].numpy(), (1, 2, 0))
-        # plt.imshow(img_rgb)
-        # plt.show()
-        img_Lab = color.rgb2lab(img_rgb)
+        # img_rgb = imgs_batch[i]
+        # img_rgb = np.swapaxes(img_rgb, 0, 2)
+        # img_rgb = np.flip(img_rgb, axis=0)
+        # Obrazy są w RGB
+        # r,g, b = img_rgb[0, :, :], img_rgb[1, :, :], img_rgb[2, :, :]
+        # img_rgb = np.reshape(img_rgb, (32, 32, 3))
+        # img_rgb = np.stack((r, g, b), axis=2)
+        # bgr_img = np.stack((b, g, r), axis=2)
+        norm_image = cv2.normalize(img_rgb, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+        norm_image = norm_image.astype(np.uint8)
 
+        cv2.imshow("Original", img_rgb)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+        img_Lab = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2LAB)
+        cv2.imshow("Original", img_Lab)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
         Y_batch.append(img_Lab[:, :, 0])
         ab_batch.append(img_Lab[:, :, 1:3])
-
-    Y_batch = torch.from_numpy(np.array(Y_batch)).double()
-    Y_batch = Y_batch.view(-1, 1, 32, 32)
-
-    ab_batch = torch.from_numpy(np.array(ab_batch)).double()
-    ab_batch = ab_batch.view(-1, 2, 32, 32)
 
     return Y_batch, ab_batch
 

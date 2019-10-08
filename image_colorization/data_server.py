@@ -4,11 +4,11 @@ import torchvision.transforms as transforms
 
 
 def load_cifar_10(path_to_cifar10, batch_size):
-    transform = transforms.Compose(
-        [transforms.ToTensor(),
-         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
     # transform = transforms.Compose(
-    #     [transforms.ToTensor()])
+    #     [transforms.ToTensor(),
+    #      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    transform = transforms.Compose(
+        [transforms.ToTensor()])
     # transform = transforms.Compose([])
 
     trainset = torchvision.datasets.CIFAR10(root=path_to_cifar10, train=True,
