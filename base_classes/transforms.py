@@ -45,6 +45,7 @@ class ToTensor:
 
     def __init__(self, data_type=torch.float):
         self.data_type = data_type
+        data_in, data_out = sample
 
     def __call__(self, sample):
         """Input and output data are 2 or 3 channels images."""
@@ -55,12 +56,10 @@ class ToTensor:
         sample = [torch.from_numpy(np.expand_dims(data.transpose((0, 1)), axis=0)).type(self.data_type)
                   if len(np.shape(data)) == 2
                   else torch.from_numpy(data.transpose((2, 0, 1))).type(self.data_type) for data in sample]
-
         # output_img = sample[1].detach().numpy()
         # output_img = np.squeeze(output_img)  # remove redundant dimensions
         # output_img = output_img.transpose((1, 2, 0)) if len(np.shape(output_img)) == 3 else output_img
         # cv2.imshow(f'dopa', output_img)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
 
         return sample
+            len(np.shape(data_out)) == 2 else data_out.transpose((2, 0, 1)).astype(np.float32)

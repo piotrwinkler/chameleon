@@ -1,165 +1,55 @@
 import cv2
+import glob
+import sys
 import torch
 
-from base_classes.data_collector import DataCollector
-from torch.utils.data import Dataset
-import numpy as np
-from skimage import color
-import pickle
 from loguru import logger as log
+from torch.utils.data import Dataset
 
 
-class BaseDataset(Dataset):
+class GeneralDataset(Dataset):
     """General dataset class allowing to load images from specified directory."""
-    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, transform):
+    def __init__(self, dataset_directory, transform):
         self._dataset_directory = dataset_directory
         self._transform = transform
-        self._input_conversions_list = input_conversions_list
-        self._output_conversions_list = output_conversions_list
+        self._files_list = glob.glob(f'{self._dataset_directory}/*.jpg')
 
-        self._files_list = DataCollector.collect_images(self._dataset_directory)
+        # TODO load many types of images, do something with directory path
+        # self._file_types = [f'{self._dataset_directory}/*.jpg'] #, f'{self._dataset_directory}/*.jpeg',
+        # f'{self._dataset_directory}/*.png', f'{self._dataset_directory}/*.bmp']
+        # self._list_of_files_lists = [glob.glob(e) for e in self._file_types if glob.glob(e) != []]
+        # for l in self._list_of_files_lists:
+        #    print(type(l))
+        #    self._files_list.append(l)
+
+        log.info(f'List of loaded files: {self._files_list}')
+        log.info(f'{len(self)} images loaded from: {self._dataset_directory}!')
+        if not self._files_list:
+            log.error(f'Images loading from {self._dataset_directory} failed!')
+            sys.exit(1)
 
     def __len__(self):
         return len(self._files_list)
 
 
-    @staticmethod
-    def _implement_conversions(data, conversions_list):
-        for conversion in conversions_list:
-            data = conversion(data)
-        return data
-
-
-class BasicFiltersDataset(BaseDataset):
-    """This class inherits from GeneralDataset to prepare converted and transformed inputs and outputs as
-    connected samples. All operations are defined in "training_parameters.json" """
-    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, additional_params,
-                 transform=None):
-        super().__init__(dataset_directory, input_conversions_list, output_conversions_list, transform)
+class BasicFiltersDataset(GeneralDataset):
+    """This class inherits from GeneralDataset to prepare filtered output image for each sample and properly
+    transform both images."""
+    def __init__(self, dataset_directory, conversion_method, conversion_parameters, transform=None):
+        super().__init__(dataset_directory, transform)
+        self._conversion_method = conversion_method
+        self._conversion_parameters = conversion_parameters
 
     def __getitem__(self, item):
         if torch.is_tensor(item):
             item = item.tolist()
 
         image_in = cv2.imread(self._files_list[item])
-        image_out = image_in.copy()
+        image_out = self._conversion_method(image_in, **self._conversion_parameters)
 
-        image_in = self._implement_conversions(image_in, self._input_conversions_list)
-        image_out = self._implement_conversions(image_out,  self._output_conversions_list)
-
-        # cv2.imshow(f'image_in', image_in)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-        #
-        # cv2.imshow(f'image_out', image_out)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-
-        sample = [image_in, image_out]
+        sample = (image_in, image_out)
 
         if self._transform:
             sample = self._transform(sample)
 
         return sample
-
-
-class BasicCifar10Dataset(BaseDataset):
-    L_rgb = []
-    ab_rgb = []
-    rgb_images = []
-    L_mean = None
-    L_std = None
-    ab_mean = None
-    ab_std = None
-    get_data_to_tests = None
-
-    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, additional_params,
-                 transform=None):
-        super().__init__(".", input_conversions_list, output_conversions_list, transform)
-
-        self.get_data_to_tests = additional_params['get_data_to_test']
-        self.additional_params = additional_params
-
-        if self.additional_params['choose_train_set']:
-            log.info("Loading train set")
-            for i in range(1, 6):
-                cifar_data_dict = self.unpickle(dataset_directory + "/data_batch_{}".format(i))
-                if i == 1:
-                    self.rgb_images = cifar_data_dict[b'data']
-                else:
-                    self.rgb_images = np.vstack((self.rgb_images, cifar_data_dict[b'data']))
-
-        else:
-            log.info("Loading test set")
-            cifar_data_dict = self.unpickle(dataset_directory + "/test_batch")
-            self.rgb_images = cifar_data_dict[b'data']
-
-        self.rgb_images = self.rgb_images.reshape((len(self.rgb_images), 3, 32, 32))
-        self.rgb_images = np.rollaxis(self.rgb_images, 1, 4)
-
-        for img in self.rgb_images:
-            lab_img = color.rgb2lab(img)
-            self.L_rgb.append(lab_img[:, :, 0])
-            self.ab_rgb.append(lab_img[:, :, 1:3])
-
-        """
-        After conversion to Lab, x set (L vector in Lab) is from 0 to 100
-        After conversion to Lab, y set (ab vector in Lab) is from -128 to +127
-        """
-
-        self.L_rgb = np.array(self.L_rgb)
-        self.ab_rgb = np.array(self.ab_rgb)
-
-        if self.get_data_to_tests:
-            self.L_mean = np.mean(self.L_rgb, axis=(0, 1, 2), keepdims=True)
-            self.L_std = np.std(self.L_rgb, axis=(0, 1, 2), keepdims=True)
-            self.ab_mean = np.mean(self.ab_rgb, axis=(0, 1, 2), keepdims=True)
-            self.ab_std = np.std(self.ab_rgb, axis=(0, 1, 2), keepdims=True)
-
-        self.L_rgb = self._implement_conversions(self.L_rgb, self._input_conversions_list)
-        self.ab_rgb = self._implement_conversions(self.ab_rgb,  self._output_conversions_list)
-
-        log.info("Dataset prepared")
-
-    def __len__(self):
-        return len(self.L_rgb)
-
-    def __getitem__(self, idx):
-        if torch.is_tensor(idx):
-            idx = idx.tolist()
-
-        if not self.get_data_to_tests:
-
-            # curr_L = self.L_rgb[idx]
-            # if self.blur_details['do_blur']:
-            #     curr_L = cv2.GaussianBlur(curr_L, tuple(self.blur_details['kernel_size']), 0)
-
-            return self.L_rgb[idx][np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1))
-
-        else:
-            gray_img = color.rgb2gray(self.rgb_images[idx])
-            gray_img = np.dstack((gray_img, gray_img, gray_img))
-            L_gray = color.rgb2lab(gray_img)[:, :, 0]
-            L_gray_not_processed = L_gray.copy()
-
-            # L_gray = self._implement_conversions(L_gray, self._input_conversions_list)
-            if self.additional_params['L_input_processing'] == "normalization":
-                # print("Normalization on L_gray channel")
-                L_gray = (L_gray - 50) / 100
-
-            elif self.additional_params['L_input_processing'] == "standardization":
-                # print("Standardization on L_gray channel")
-                L_gray = (L_gray - self.L_mean[0]) / self.L_std[0]
-
-            if self.additional_params['blur']['do_blur']:
-                L_gray = cv2.GaussianBlur(L_gray, tuple(self.additional_params['blur']['kernel_size']), 0)
-
-            L_gray = L_gray.astype('float32')
-
-            return L_gray_not_processed[np.newaxis, :, :], self.rgb_images[idx], L_gray[np.newaxis, :, :], gray_img
-
-    @staticmethod
-    def unpickle(file):
-        with open(file, 'rb') as pickle_file:
-            data = pickle.load(pickle_file, encoding='bytes')
-        return data

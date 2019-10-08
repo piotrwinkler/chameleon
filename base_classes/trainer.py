@@ -102,19 +102,14 @@ class Trainer:
                 start_time = time.time()
 
                 for i, data in enumerate(dataloader, 0):
-                    # log.info(f'Loaded data: {data}')
+                    inputs, expected_outputs = data
                     if self._train_on_gpu:
                         inputs = inputs.to(self._device)
                         expected_outputs = expected_outputs.to(self._device)
 
                     optimizer.zero_grad()
+                    outputs = self._network(inputs)
 
-
-                    # inputs = inputs.to(dtype=torch.double)
-                    # log.info(inputs)
-
-                    outputs = self._network(inputs[1])
-                    loss = criterion(outputs, expected_outputs[1])
                     loss.backward()
                     optimizer.step()
                     if scheduler is not None:
