@@ -18,23 +18,23 @@ from torch.utils.tensorboard import SummaryWriter
 import matplotlib.pyplot as plt
 from skimage import io, color
 
-
 dataset_path = "datasets/Cifar-10"
 
-which_version = "V1"
+which_version = "V4"
+which_epoch_version = 0
 
-load_net_file = f"model_states/fcn_model{which_version}_epoch{0}.pth"
-load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{0}.pth"
-load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{0}.pth"
+load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
 
-log_file = "logs/logs_fcn_modelV1_train.log"
+log_file = f"logs/logs_fcn_model{which_version}_train.log"
 
 init_epoch = 0
-how_many_epochs = 1
-do_load_model = False
+how_many_epochs = 10
+do_load_model = True
 
 batch_size = 128
-learning_rate = 1
+learning_rate = 0.1
 momentum = 0.9
 lr_step_scheduler = 1
 lr_step_gamma = 0.9999999
@@ -47,17 +47,17 @@ def main():
     save_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{0}.pth"
     save_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{0}.pth"
 
-    sys.stdout = Logger(log_file)
+    # sys.stdout = Logger(log_file)
 
     trainloader, testloader, _ = load_cifar_10(path_to_cifar10=dataset_path, batch_size=batch_size)
 
     net = FCN_net()
     net = net.double()
     # Miało być "per-pixel Euclidean loss function", mam nadzieję, ze to ten MSELoss
-    # criterion = nn.MSELoss(reduction='mean')
+    criterion = nn.MSELoss(reduction='mean')
 
     # Możliwe, też, że to ma być:
-    criterion = nn.MSELoss(reduction='sum')
+    # criterion = nn.MSELoss(reduction='sum')
     # I wtedy:
     # loss = criterion(outputs, labels) / output.size(0)
 
@@ -83,7 +83,7 @@ def main():
 
         start_time = time.time()
 
-        running_loss = 0.0
+        # running_loss = 0.0
         for i, data in enumerate(trainloader):
             # get the inputs; data is a list of [inputs, labels]
             inputs, _ = data
@@ -95,18 +95,21 @@ def main():
 
             # forward + backward + optimize
             outputs = net(Y_batch)
-            loss = criterion(outputs, ab_batch) / outputs.size(0)
+            loss = criterion(outputs, ab_batch)
             writer.add_scalar('Loss/train', loss)
             loss.backward()
             optimizer.step()
-            scheduler.step()
+            # scheduler.step()
 
             # print statistics
-            running_loss += loss.item()
-            if i % 5 == 4:  # print every 5 mini-batches
-                print('[%d, %5d] loss: %.3f' %
-                      (epoch + 1, (i + 1) * batch_size, running_loss / 5))
-                running_loss = 0.0
+            running_loss = loss.item()
+            # if i % 5 == 4:  # print every 5 mini-batches
+            #     print('[%d, %5d] loss: %.3f' %
+            #           (epoch + 1, (i + 1) * batch_size, running_loss / 5))
+            #     running_loss = 0.0
+
+            print(f'[{epoch + 1}, {(i + 1) * batch_size}] loss: {running_loss}')
+            break
 
         end_time = time.time() - start_time
         print(f"Epoch {epoch} took {end_time} seconds")
@@ -142,13 +145,25 @@ def yuv_convert(imgs_batch):
         img_Lab = color.rgb2lab(img_rgb)
 
         Y_batch.append(img_Lab[:, :, 0])
-        ab_batch.append(img_Lab[:, :, 1:3])
+        ab_batch.append(np.transpose(img_Lab[:, :, 1:3], (2, 0, 1)))
 
-    Y_batch = torch.from_numpy(np.array(Y_batch)).double()
+    ab_batch = np.array(ab_batch) / 255
+    Y_batch = (np.array(Y_batch) - 50) / 100
+
+    Y_batch = torch.from_numpy(Y_batch).double()
     Y_batch = Y_batch.view(-1, 1, 32, 32)
 
-    ab_batch = torch.from_numpy(np.array(ab_batch)).double()
-    ab_batch = ab_batch.view(-1, 2, 32, 32)
+    ab_batch = torch.from_numpy(ab_batch).double()
+    # ab_batch = ab_batch.view(-1, 2, 32, 32)
+
+    # Standarization:
+    # image = (image - mean) / std
+    # mean = ab_batch.mean()
+    # std = ab_batch.std()
+    #
+    #
+    # means = ab_batch.mean(dim=1, keepdim=True)
+    # stds = ab_batch.std(dim=1, keepdim=True)
 
     return Y_batch, ab_batch
 
