@@ -30,6 +30,7 @@ class Trainer:
         network = eval(config_dict['net'])()
         log.debug(f"Choosing net {config_dict['net']}")
 
+
         self._device = torch.device('cuda:0' if torch.cuda.is_available() else
                                     'cpu')
         log.info(self._device)
@@ -120,6 +121,8 @@ class Trainer:
                     if i % checker == checker-1:
                         training_loss = running_loss/checker
                         log.info(f"[EPOCH: {epoch + 1}, STEP: {i+1}, DATA: {(i+1) * batch_size}] loss: {training_loss}")
+                        log.info(f'EPOCH: {epoch + 1}, STEP: {i}] loss: {training_loss}')
+                        self._writer.add_scalar(f'{self._tensorboard_directory}/Loss/train', training_loss, i)
                         running_loss = 0.0
 
                 end_time = time.time() - start_time

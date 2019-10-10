@@ -47,7 +47,7 @@ class BasicFiltersDataset(GeneralDataset):
         image_in = cv2.imread(self._files_list[item])
         image_out = self._conversion_method(image_in, **self._conversion_parameters)
 
-        sample = (image_in, image_out)
+        sample = [image_in, image_out]
 
         if self._transform:
             sample = self._transform(sample)

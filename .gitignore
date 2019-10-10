@@ -379,5 +379,5 @@ TSWLatexianTemp*
 # Makeindex log files
 *.lpz
 
-canny_filter/datasets/*
+datasets/*
 */runs/*

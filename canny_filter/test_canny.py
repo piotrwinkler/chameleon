@@ -1,23 +1,25 @@
-import numpy as np
-import torch
-import cv2
-
 from base_classes.tester import Tester
+from base_classes.transforms import Rescale, Normalize, ToTensor
 from canny_filter import CannyFIlter
-from loguru import logger as log
+from data import consts
 
 
 def main():
-    img = Tester.read_image('./datasets/test_dataset/kon.jpg')
-    img = cv2.resize(img, (200, 200))
-    img = img.transpose((2, 0, 1)).astype(np.float32)
-    img = (img - 256 / 2) / 256 if np.mean(img) > 1 \
-        else img
-    img = np.expand_dims(img, axis=0)
-    img = torch.from_numpy(img)
-    log.info(img)
+    test_config = {
+            'image_path': f'{consts.DATASET_DIRECTORY}/100601.jpg',
+            'net_weights_path': consts.NET_SAVING_DIRECTORY,
+            'net_model': CannyFIlter(),
+            'transforms':   [{'type': Rescale,
+                            'arguments': [(500, 500)]},
+                            {'type': Normalize,
+                            'arguments': []},
+                            {'type': ToTensor,
+                            'arguments': []}],
+                   }
 
-    test_conf = {'input_img': img, 'net_path': './data/net.pth', 'model': CannyFIlter()}
+    img = Tester.read_image(test_config['image_path'])
+    img = Tester.implement_transforms([img], test_config['transforms'])
+    test_conf = {'input_img': img.pop(), 'net_path': test_config['net_weights_path'], 'model': test_config['net_model']}
     Tester.test_network(**test_conf)
 
 

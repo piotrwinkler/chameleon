@@ -30,3 +30,47 @@ class ImagesConverter:
             return None
 
         return canny_img
+
+    @staticmethod
+    def sobel_filter(img, depth="8U", kernel_size=3):
+        """
+        https://docs.opencv.org/2.4/modules/imgproc/doc/filtering.html?highlight=sobel#sobel
+        :param img: Input image (gray or RGB or BGR)
+        :param depth:
+        :param kernel_size:
+        :return: Input image with Sobel filter
+        """
+        if depth == "8U":
+            img_depth = cv2.CV_8U
+            img_sobel_x = cv2.Sobel(img, img_depth, 1, 0, ksize=kernel_size)
+            img_sobel_y = cv2.Sobel(img, img_depth, 0, 1, ksize=kernel_size)
+            return img_sobel_x + img_sobel_y
+
+        elif depth == "16U":
+            img_depth = cv2.CV_16U
+            """Not implemented"""
+            return None
+
+        elif depth == "16S":
+            img_depth = cv2.CV_16S
+            """Not implemented"""
+            return None
+
+        elif depth == "32F":
+            img_depth = cv2.CV_32F
+            """Not implemented"""
+            return None
+
+        elif depth == "64F":
+            img_depth = cv2.CV_64F
+            sobel_x64f = cv2.Sobel(img, img_depth, 1, 0, ksize=kernel_size)
+            abs_sobel_x64f = np.absolute(sobel_x64f)
+            sobel_8u_x = np.uint8(abs_sobel_x64f)
+
+            sobel_y64f = cv2.Sobel(img, img_depth, 0, 1, ksize=kernel_size)
+            abs_sobel_y64f = np.absolute(sobel_y64f)
+            sobel_8u_y = np.uint8(abs_sobel_y64f)
+            return sobel_8u_x + sobel_8u_y
+
+        else:
+            raise Exception('Wrong depth')

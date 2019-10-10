@@ -45,8 +45,7 @@ class ToTensor:
 
     def __init__(self, data_type=torch.float):
         self.data_type = data_type
-        data_in, data_out = sample
-
+        assert isinstance(sample, list), log.error(f'Input sample {sample} is not a list in transform {self}')
     def __call__(self, sample):
         """Input and output data are 2 or 3 channels images."""
         assert isinstance(sample, list), log.error(f'Input sample {sample} is not a list in transform {self}')
@@ -60,6 +59,4 @@ class ToTensor:
         # output_img = np.squeeze(output_img)  # remove redundant dimensions
         # output_img = output_img.transpose((1, 2, 0)) if len(np.shape(output_img)) == 3 else output_img
         # cv2.imshow(f'dopa', output_img)
-
         return sample
-            len(np.shape(data_out)) == 2 else data_out.transpose((2, 0, 1)).astype(np.float32)
