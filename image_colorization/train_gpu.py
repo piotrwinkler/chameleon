@@ -4,6 +4,8 @@ with torch.no_grad():
     self.conv1.weight = torch.nn.Parameter(K)
 """
 # TODO: Check how YUV were normalized in paper
+# TODO: AB standarization, Y by Gaussian kernel
+# TODO: Dataset class for Cifar 10 test set
 from image_colorization.data_server import load_cifar_10
 from image_colorization.nets.fcn_model import FCN_net
 import torch
@@ -17,11 +19,12 @@ import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 import matplotlib.pyplot as plt
 from skimage import io, color
+from image_colorization.cifar_dataset_class import CifarDataset
 
 
-dataset_path = "datasets/Cifar-10"
+dataset_path = 'datasets/Cifar-10/cifar-10-batches-py'
 
-which_version = "V7"
+which_version = "V8"
 which_epoch_version = 0
 
 load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
@@ -34,7 +37,7 @@ init_epoch = 0
 how_many_epochs = 20
 do_load_model = False
 
-batch_size = 32
+batch_size = 5
 learning_rate = 0.1
 momentum = 0.9
 lr_step_scheduler = 1
@@ -57,8 +60,9 @@ def main():
 
     # sys.stdout = Logger(log_file)
 
-    trainloader, testloader, _ = load_cifar_10(path_to_cifar10=dataset_path, batch_size=batch_size)
-
+    cifar_dataset = CifarDataset(dataset_path)
+    trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=batch_size,
+                                              shuffle=False, num_workers=0)
     net = FCN_net()
     net = net.double()
     net.train()
@@ -96,18 +100,16 @@ def main():
 
         start_time = time.time()
 
-        # running_loss = 0.0
         for i, data in enumerate(trainloader):
-            # get the inputs; data is a list of [inputs, labels]
-            inputs, _ = data
+            L_batch, ab_batch = data
 
-            Y_batch, ab_batch = yuv_convert(inputs)
+            L_batch = L_batch.view(-1, 1, 32, 32)
 
             # zero the parameter gradients
             optimizer.zero_grad()
 
             # forward + backward + optimize
-            outputs = net(Y_batch.to(device))
+            outputs = net(L_batch.to(device))
             loss = criterion(outputs, ab_batch.to(device))
             writer.add_scalar('Loss/train', loss)
             loss.backward()
@@ -116,13 +118,8 @@ def main():
 
             # print statistics
             running_loss = loss.item()
-            # if i % 5 == 4:  # print every 5 mini-batches
-            #     print('[%d, %5d] loss: %.3f' %
-            #           (epoch + 1, (i + 1) * batch_size, running_loss / 5))
-            #     running_loss = 0.0
 
             print(f'[{epoch + 1}, {(i + 1) * batch_size}] loss: {running_loss}')
-            # break
 
         end_time = time.time() - start_time
         print(f"Epoch {epoch} took {end_time} seconds")
@@ -145,42 +142,6 @@ def main():
 
     torch.save(net.state_dict(), save_net_file)
     writer.close()
-
-    # exit()
-
-
-def yuv_convert(imgs_batch):
-    Y_batch = []
-    ab_batch = []
-
-    for i in range(imgs_batch.shape[0]):
-        img_rgb = np.transpose(imgs_batch[i].numpy(), (1, 2, 0))
-        # plt.imshow(img_rgb)
-        # plt.show()
-        img_Lab = color.rgb2lab(img_rgb)
-
-        Y_batch.append(img_Lab[:, :, 0])
-        ab_batch.append(np.transpose(img_Lab[:, :, 1:3], (2, 0, 1)))
-
-    ab_batch = np.array(ab_batch) / 255
-    Y_batch = (np.array(Y_batch) - 50) / 100
-
-    Y_batch = torch.from_numpy(Y_batch).double()
-    Y_batch = Y_batch.view(-1, 1, 32, 32)
-
-    ab_batch = torch.from_numpy(ab_batch).double()
-    # ab_batch = ab_batch.view(-1, 2, 32, 32)
-
-    # Standarization:
-    # image = (image - mean) / std
-    # mean = ab_batch.mean()
-    # std = ab_batch.std()
-    #
-    #
-    # means = ab_batch.mean(dim=1, keepdim=True)
-    # stds = ab_batch.std(dim=1, keepdim=True)
-
-    return Y_batch, ab_batch
 
 
 if __name__ == "__main__":

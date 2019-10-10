@@ -17,51 +17,77 @@ import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 import matplotlib.pyplot as plt
 from skimage import io, color
+from image_colorization.cifar_dataset_class import CifarDataset
 
 
-dataset_path = "datasets/Cifar-10"
+dataset_path = 'datasets/Cifar-10/cifar-10-batches-py'
 
-which_version = "V8"
+which_version = "V7"
 which_epoch_version = 0
 
 load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
 
-batch_size = 128
+batch_size = 1
 
 
 def main():
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Assuming that we are on a CUDA machine, this should print a CUDA device:
 
-    print(device)
-    if str(device) != "cuda:0":
-        raise Exception("No cuda")
-
-    trainloader, testloader, _ = load_cifar_10(path_to_cifar10=dataset_path, batch_size=batch_size)
-
+    cifar_dataset = CifarDataset(dataset_path)
+    trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=batch_size,
+                                              shuffle=False, num_workers=0)
     net = FCN_net()
     net = net.double()
     # Miało być "per-pixel Euclidean loss function", mam nadzieję, ze to ten MSELoss
     net.load_state_dict(torch.load(load_net_file))
     net.eval()
-    net.to(device)
-    writer = SummaryWriter()
 
-    criterion = nn.MSELoss(reduction='mean').cuda()
+    criterion = nn.MSELoss(reduction='mean')
 
     with torch.no_grad():
         for i, data in enumerate(trainloader):
             # get the inputs; data is a list of [inputs, labels]
             inputs, _ = data
 
+            img_rgb = np.transpose(inputs[0].numpy(), (1, 2, 0))
+            # plt.imshow(img_rgb)
+            # plt.show()
+
+            # lab = color.rgb2lab(img_rgb)
+
             Y_batch, ab_batch = yuv_convert(inputs)
 
+            y_original = np.transpose(Y_batch[0].numpy(), (1, 2, 0))
+            y_original = y_original*100 + 50
+            ab_original = np.transpose(ab_batch[0].numpy(), (1, 2, 0))
+            ab_original = ab_original * 255
+
+            img_rgb_original = color.lab2rgb(np.dstack((y_original, ab_original)))
+            # plt.imshow(img_rgb_original)
+            # plt.show()
+
+            fig = plt.figure()
+            ax1 = fig.add_subplot(1, 3, 1)
+            ax1.imshow(img_rgb_original)
+            gray = color.rgb2gray(img_rgb_original)
+            ax2 = fig.add_subplot(1, 3, 2)
+            ax2.imshow(gray, cmap=plt.get_cmap('gray'))
             # zero the parameter gradients
             # forward + backward + optimize
-            outputs = net(Y_batch.to(device))
-            loss = criterion(outputs, ab_batch.to(device))
-            writer.add_scalar('Loss/eval', loss)
+            outputs = net(Y_batch)
+            loss = criterion(outputs, ab_batch)
+
+            ab_outputs = np.transpose(outputs[0].numpy(), (1, 2, 0))
+            ab_outputs = ab_outputs * 255
+
+            img_rgb_outputs = color.lab2rgb(np.dstack((y_original, ab_outputs)))
+            # plt.imshow(img_rgb_outputs)
+            # plt.show()
+            ax3 = fig.add_subplot(1, 3, 3)
+            ax3.imshow(img_rgb_outputs)
+
+            plt.show()
 
             running_loss = loss.item()
             # if i % 5 == 4:  # print every 5 mini-batches
@@ -72,8 +98,7 @@ def main():
             print(f'[{(i + 1) * batch_size}] loss: {running_loss}')
             # break
 
-    print('Finished Evaluating')
-    writer.close()
+    print('Finished Testing')
 
 
 def yuv_convert(imgs_batch):
@@ -86,17 +111,23 @@ def yuv_convert(imgs_batch):
         # plt.show()
         img_Lab = color.rgb2lab(img_rgb)
 
-        Y_batch.append(img_Lab[:, :, 0])
-        ab_batch.append(img_Lab[:, :, 1:3])
+        # ab = np.transpose(img_Lab[:, :, 1:3], (2, 0, 1))
 
-    ab_batch = np.array(ab_batch) / 255
+        Y_batch.append(img_Lab[:, :, 0])
+        ab_batch.append(np.transpose(img_Lab[:, :, 1:3], (2, 0, 1)))
+
+    temp = np.array(ab_batch)
+
+    ab_batch = temp / 255
     Y_batch = (np.array(Y_batch) - 50) / 100
 
     Y_batch = torch.from_numpy(Y_batch).double()
     Y_batch = Y_batch.view(-1, 1, 32, 32)
 
+    # ab_batch2 = np.transpose(ab_batch, (2, 0, 1))
+
     ab_batch = torch.from_numpy(ab_batch).double()
-    ab_batch = ab_batch.view(-1, 2, 32, 32)
+    # ab_batch = ab_batch.view(-1, 2, 32, 32)
 
     # Standarization:
     # image = (image - mean) / std
