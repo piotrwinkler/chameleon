@@ -9,6 +9,8 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega
 
+import numpy as np
+
 
 class Trainer:
     """This is main training class. It uses parameters directly from "training_parameters.json".
@@ -111,6 +113,10 @@ class Trainer:
                     optimizer.zero_grad()
                     outputs = self._network(inputs)
 
+                    # print(f'Inputs: {np.shape(inputs)}')
+                    # print(f'Outputs: {np.shape(outputs)}')
+                    # print(f'Expected outputs: {np.shape(expected_outputs)}')
+
                     loss.backward()
                     optimizer.step()
                     if scheduler is not None:
@@ -121,8 +127,8 @@ class Trainer:
                     if i % checker == checker-1:
                         training_loss = running_loss/checker
                         log.info(f"[EPOCH: {epoch + 1}, STEP: {i+1}, DATA: {(i+1) * batch_size}] loss: {training_loss}")
-                        log.info(f'EPOCH: {epoch + 1}, STEP: {i}] loss: {training_loss}')
-                        self._writer.add_scalar(f'{self._tensorboard_directory}/Loss/train', training_loss, i)
+                        log.info(f'EPOCH: {epoch + 1}, STEP: {i+1}] loss: {training_loss}')
+                        self._writer.add_scalar(f'{self._tensorboard_directory}/Loss/train', training_loss, i+1)
                         running_loss = 0.0
 
                 end_time = time.time() - start_time

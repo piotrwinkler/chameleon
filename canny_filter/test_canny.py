@@ -6,11 +6,11 @@ from data import consts
 
 def main():
     test_config = {
-            'image_path': f'{consts.DATASET_DIRECTORY}/100601.jpg',
+            'image_path': f'{consts.DATASET_DIRECTORY}/arab.jpg',
             'net_weights_path': consts.NET_SAVING_DIRECTORY,
             'net_model': CannyFIlter(),
             'transforms':   [{'type': Rescale,
-                            'arguments': [(500, 500)]},
+                            'arguments': [[(256, 256), (256, 256)]]},
                             {'type': Normalize,
                             'arguments': []},
                             {'type': ToTensor,
@@ -18,9 +18,9 @@ def main():
                    }
 
     img = Tester.read_image(test_config['image_path'])
-    img = Tester.implement_transforms([img], test_config['transforms'])
-    test_conf = {'input_img': img.pop(), 'net_path': test_config['net_weights_path'], 'model': test_config['net_model']}
-    Tester.test_network(**test_conf)
+    test_conf = {'input_img': img, 'net_path': test_config['net_weights_path'], 'model': test_config['net_model'],
+                 'transfroms': test_config['transforms']}
+    Tester.test_img_img_network(**test_conf)
 
 
 if __name__ == "__main__":

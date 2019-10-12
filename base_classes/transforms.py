@@ -10,7 +10,6 @@ from loguru import logger as log
 
 class Rescale:
     """Rescale the data in a sample to a given size."""
-
     def __init__(self, output_sizes_list):
         assert isinstance(output_sizes_list, list)
         self.output_sizes_list = output_sizes_list

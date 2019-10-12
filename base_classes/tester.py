@@ -38,6 +38,12 @@ class BaseTester:
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
+        input_img = Tester.implement_transforms([input_img], transfroms).pop()
+
+        log.info(f'Original image shape: {np.shape(orig_img)}')
+        log.info(f'Output image shape: {np.shape(output_img)}')
+        Tester.show_image([orig_img, output_img])
+
     @staticmethod
     def _implement_transforms(data, transforms):
         for transform in transforms:

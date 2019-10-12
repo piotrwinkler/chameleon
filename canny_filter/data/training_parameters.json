@@ -1,18 +1,28 @@
 {
-  "criterion": "L1Loss",
-  "optimizer":
+  "criterion":
   {
-      "name": "Adam",
-      "parameters":
+      "name": "MSELoss",
+      "patameters":
       {
-        "lr": 0.001
+
       }
   },
-  "training_epochs": 10,
+  "optimizer":
+  {
+      "name": "SGD",
+      "parameters":
+      {
+        "lr": 1e-5,
+        "momentum": 0.9,
+        "nesterov": true,
+        "weight_decay": 0
+      }
+  },
+  "training_epochs": 3,
   "training_monitoring_period": 1,
   "dataloader_parameters":
   {
-      "batch_size": 16,
+      "batch_size": 1,
       "shuffle": false,
       "num_workers": 4
   }
