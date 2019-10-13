@@ -7,9 +7,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-class FCN_net(nn.Module):
+class FCN_net1(nn.Module):
     def __init__(self):
-        super(FCN_net, self).__init__()
+        super(FCN_net1, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1)
         self.bn1 = nn.BatchNorm2d(32)
         self.relu1 = nn.ReLU()

@@ -5,7 +5,7 @@ with torch.no_grad():
 """
 # TODO: Check how YUV were normalized in paper
 from image_colorization.data_server import load_cifar_10
-from image_colorization.nets.fcn_model import FCN_net
+from image_colorization.nets.fcn_model import FCN_net1
 import torch
 import torch.nn as nn
 import time
@@ -37,7 +37,7 @@ def main():
     cifar_dataset = CifarDataset(dataset_path)
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=batch_size,
                                               shuffle=False, num_workers=0)
-    net = FCN_net()
+    net = FCN_net1()
     net = net.double()
     # Miało być "per-pixel Euclidean loss function", mam nadzieję, ze to ten MSELoss
     net.load_state_dict(torch.load(load_net_file))

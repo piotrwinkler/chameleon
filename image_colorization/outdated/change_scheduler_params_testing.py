@@ -1,5 +1,5 @@
 from image_colorization.data_server import load_cifar_10
-from image_colorization.nets.fcn_model import FCN_net
+from image_colorization.nets.fcn_model import FCN_net1
 import torch
 import torch.nn as nn
 import time
@@ -27,7 +27,7 @@ def main():
 
     trainloader, testloader, _ = load_cifar_10(path_to_cifar10=dataset_path, batch_size=batch_size)
 
-    net = FCN_net()
+    net = FCN_net1()
     if do_load_model == 1:
         net.load_state_dict(torch.load(load_net_file))
 

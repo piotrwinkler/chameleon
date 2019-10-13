@@ -4,10 +4,10 @@ with torch.no_grad():
     self.conv1.weight = torch.nn.Parameter(K)
 """
 # TODO: Check how YUV were normalized in paper
-# TODO: AB standarization, Y by Gaussian kernel
+# TODO: Y by Gaussian kernel
 # TODO: Dataset class for Cifar 10 test set
 from image_colorization.data_server import load_cifar_10
-from image_colorization.nets.fcn_model import FCN_net
+from image_colorization.nets.fcn_model import FCN_net1
 import torch
 import torch.nn as nn
 import time
@@ -24,7 +24,7 @@ from image_colorization.cifar_dataset_class import CifarDataset
 
 dataset_path = 'datasets/Cifar-10/cifar-10-batches-py'
 
-which_version = "V8"
+which_version = "V11"
 which_epoch_version = 0
 
 load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
@@ -37,12 +37,13 @@ init_epoch = 0
 how_many_epochs = 20
 do_load_model = False
 
-batch_size = 5
-learning_rate = 0.1
+batch_size = 128
+learning_rate = 0.01
 momentum = 0.9
 lr_step_scheduler = 1
 lr_step_gamma = 0.9
 step_decay = 0.5
+decay_after_steps = 3
 
 
 def main():
@@ -60,10 +61,10 @@ def main():
 
     # sys.stdout = Logger(log_file)
 
-    cifar_dataset = CifarDataset(dataset_path)
+    cifar_dataset = CifarDataset(dataset_path, train=True, preprocessing="standardization")
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=batch_size,
                                               shuffle=False, num_workers=0)
-    net = FCN_net()
+    net = FCN_net1()
     net = net.double()
     net.train()
 
@@ -132,7 +133,7 @@ def main():
         torch.save(optimizer.state_dict(), save_optimizer_file)
         torch.save(scheduler.state_dict(), save_scheduler_file)
 
-        if epoch % 100 == 0:
+        if epoch % decay_after_steps == 0:
             scheduler.base_lrs = [scheduler.optimizer.state_dict()["param_groups"][0]["lr"]]
             scheduler.last_epoch = 0
             scheduler.step_size = scheduler.step_size / step_decay

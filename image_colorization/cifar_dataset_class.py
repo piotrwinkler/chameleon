@@ -10,24 +10,33 @@ import cv2
 
 class CifarDataset(Dataset):
 
-    x_train = []
-    y_train = []
+    x_data = []
+    y_data = []
+    mean = None
+    std = None
 
-    def __init__(self, cifar_dir, transform=None):
+    def __init__(self, cifar_dir, train, preprocessing, transform=None):
 
-        for i in range(1, 6):
-            cifar_train_data_dict = self.unpickle(cifar_dir + "/data_batch_{}".format(i))
-            if i == 1:
-                cifar_train_data = cifar_train_data_dict[b'data']
-            else:
-                cifar_train_data = np.vstack((cifar_train_data, cifar_train_data_dict[b'data']))
+        print("Preparing dataset...")
 
-        # cifar_train_data = self.unpickle(cifar_dir + "/data_batch_{}".format(1))[b'data']
+        if train == True:
+            for i in range(1, 6):
+                cifar_data_dict = self.unpickle(cifar_dir + "/data_batch_{}".format(i))
+                if i == 1:
+                    cifar_data = cifar_data_dict[b'data']
+                else:
+                    cifar_data = np.vstack((cifar_data, cifar_data_dict[b'data']))
 
-        cifar_train_data = cifar_train_data.reshape((len(cifar_train_data), 3, 32, 32))
-        cifar_train_data = np.rollaxis(cifar_train_data, 1, 4)
+        elif train == False:
+            cifar_data_dict = self.unpickle(cifar_dir + "/test_batch")
+            cifar_data = cifar_data_dict[b'data']
 
-        # plt.imshow(self.cifar_train_data[0])
+        # cifar_data = self.unpickle(cifar_dir + "/data_batch_{}".format(1))[b'data']
+
+        cifar_data = cifar_data.reshape((len(cifar_data), 3, 32, 32))
+        cifar_data = np.rollaxis(cifar_data, 1, 4)
+
+        # plt.imshow(self.cifar_data[0])
         # plt.show()
 
         # img = cv2.imread("datasets/pink.png")
@@ -35,40 +44,36 @@ class CifarDataset(Dataset):
         #
         # img_Lab = color.rgb2lab(img)
 
-        for img in cifar_train_data:
-            self.x_train.append(color.rgb2lab(img)[:, :, 0])
-            self.y_train.append(color.rgb2lab(img)[:, :, 1:3])
-        # self.x_train = [color.rgb2lab(cifar_img)[0] for cifar_img in cifar_train_data]
-        # self.y_train = [color.rgb2lab(cifar_img)[1:3] for cifar_img in cifar_train_data]
+        for img in cifar_data:
+            lab_img = color.rgb2lab(img)
+            self.x_data.append(lab_img[:, :, 0])
+            self.y_data.append(lab_img[:, :, 1:3])
 
-        # self.x_train = np.array(self.x_train)
-        # self.y_train = np.array(self.y_train)
+        """
+        After conversion to Lab, x set (L vector in Lab) is from 0 to 100
+        After conversion to Lab, y set (ab vector in Lab) is from -128 to +127
+        """
 
-        self.x_train = (np.array(self.x_train) - 50) / 100
-        self.y_train = np.array(self.y_train) / 255
+        # self.x_train = [color.rgb2lab(cifar_img)[0] for cifar_img in cifar_data]
+        # self.y_train = [color.rgb2lab(cifar_img)[1:3] for cifar_img in cifar_data]
 
-        # cifar_test_data_dict = self.unpickle(cifar_dir + "/test_batch")
-        # cifar_test_data = cifar_test_data_dict[b'data']
-        #
-        # cifar_test_data = cifar_test_data.reshape((len(cifar_test_data), 3, 32, 32))
-        # cifar_test_data = np.rollaxis(cifar_test_data, 1, 4)
-        #
-        # for i in range(len(cifar_test_data)):
-        #     self.x_test.append(color.rgb2lab(cifar_test_data[i])[0])
-        #     self.y_test.append(color.rgb2lab(cifar_test_data[i])[1:3])
-        #
-        # self.x_test = np.array(self.x_test)
-        # self.y_test = np.array(self.y_test)
-        #
-        # self.x_test = (self.x_test - 50) / 100
-        # self.y_test = self.y_test / 255
+        self.x_data = np.array(self.x_data)
+        self.y_data = np.array(self.y_data)
 
-        # plt.imshow(self.cifar_test_data[0])
-        # plt.show()
-        # print(len(self.cifar_train_data))
+        self.x_data = (self.x_data - 50) / 100
+
+        if preprocessing == "standardization":
+            # Standardization per channel
+            self.mean = np.mean(self.y_data, axis=(0, 1, 2), keepdims=True)
+            self.std = np.std(self.y_data, axis=(0, 1, 2), keepdims=True)
+            self.y_data = (self.y_data - self.mean) / self.std
+        elif preprocessing == "normalization":
+            self.y_train = np.array(self.y_train) / 255
+
+        print("Dataset prepared")
 
     def __len__(self):
-        return len(self.x_train)
+        return len(self.x_data)
 
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
@@ -76,7 +81,7 @@ class CifarDataset(Dataset):
 
         # y = np.transpose(self.y_train[idx], (2, 0, 1))
 
-        return self.x_train[idx], np.transpose(self.y_train[idx], (2, 0, 1))
+        return self.x_data[idx], np.transpose(self.y_data[idx], (2, 0, 1))
 
     def unpickle(self, file):
         with open(file, 'rb') as pickle_file:

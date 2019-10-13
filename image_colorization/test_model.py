@@ -5,7 +5,7 @@ with torch.no_grad():
 """
 # TODO: Check how YUV were normalized in paper
 from image_colorization.data_server import load_cifar_10
-from image_colorization.nets.fcn_model import FCN_net
+from image_colorization.nets.fcn_model import FCN_net1
 import torch
 import torch.nn as nn
 import time
@@ -22,7 +22,7 @@ from image_colorization.cifar_dataset_class import CifarDataset
 
 dataset_path = 'datasets/Cifar-10/cifar-10-batches-py'
 
-which_version = "V8"
+which_version = "V10"
 which_epoch_version = 0
 
 load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
@@ -32,10 +32,10 @@ batch_size = 1
 
 def main():
 
-    cifar_dataset = CifarDataset(dataset_path)
+    cifar_dataset = CifarDataset(dataset_path, train=True, preprocessing="standardization")
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=batch_size,
                                               shuffle=False, num_workers=0)
-    net = FCN_net()
+    net = FCN_net1()
     net = net.double()
     # Miało być "per-pixel Euclidean loss function", mam nadzieję, ze to ten MSELoss
     net.load_state_dict(torch.load(load_net_file))
@@ -59,8 +59,12 @@ def main():
 
             L_original = np.transpose(L_batch[0].numpy(), (1, 2, 0))
             L_original = L_original*100 + 50
+            # plt.imshow(L_original[])
+            # plt.show()
             ab_original = np.transpose(ab_batch[0].numpy(), (1, 2, 0))
-            ab_original = ab_original * 255
+            ab_original = ab_original * cifar_dataset.std[0] + cifar_dataset.mean[0]
+            plt.imshow(np.dstack((L_original, ab_original))[:, :, 0])
+            plt.show()
 
             img_rgb_original = color.lab2rgb(np.dstack((L_original, ab_original)))
             # plt.imshow(img_rgb_original)
@@ -77,7 +81,7 @@ def main():
             loss = criterion(outputs, ab_batch)
 
             ab_outputs = np.transpose(outputs[0].numpy(), (1, 2, 0))
-            ab_outputs = ab_outputs * 255
+            ab_outputs = ab_outputs * cifar_dataset.std[0] + cifar_dataset.mean[0]
 
             img_rgb_outputs = color.lab2rgb(np.dstack((L_original, ab_outputs)))
             # plt.imshow(img_rgb_outputs)
