@@ -22,7 +22,7 @@ from image_colorization.cifar_dataset_class import CifarDataset
 
 dataset_path = 'datasets/Cifar-10/cifar-10-batches-py'
 
-which_version = "V10"
+which_version = "V12"
 which_epoch_version = 0
 
 load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
@@ -32,7 +32,7 @@ batch_size = 1
 
 def main():
 
-    cifar_dataset = CifarDataset(dataset_path, train=True, preprocessing="standardization")
+    cifar_dataset = CifarDataset(dataset_path, train=True, preprocessing="normalization", do_blur=False)
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=batch_size,
                                               shuffle=False, num_workers=0)
     net = FCN_net1()
@@ -62,7 +62,8 @@ def main():
             # plt.imshow(L_original[])
             # plt.show()
             ab_original = np.transpose(ab_batch[0].numpy(), (1, 2, 0))
-            ab_original = ab_original * cifar_dataset.std[0] + cifar_dataset.mean[0]
+            # ab_original = ab_original * cifar_dataset.std[0] + cifar_dataset.mean[0]
+            ab_original = ab_original * 255
             plt.imshow(np.dstack((L_original, ab_original))[:, :, 0])
             plt.show()
 
@@ -77,11 +78,18 @@ def main():
             ax2 = fig.add_subplot(1, 3, 2)
             ax2.imshow(gray, cmap=plt.get_cmap('gray'))
 
+            # Gaussian blur
+            L_blur = np.transpose(L_batch[0].numpy(), (1, 2, 0))
+            L_blur = cv2.GaussianBlur(L_blur, (7, 7), 0)
+            # L_blur = np.transpose(L_blur, (2, 0, 1))
+            L_blur = torch.from_numpy(L_blur).double()
+            L_batch = L_blur.view(-1, 1, 32, 32)
+
             outputs = net(L_batch)
             loss = criterion(outputs, ab_batch)
 
             ab_outputs = np.transpose(outputs[0].numpy(), (1, 2, 0))
-            ab_outputs = ab_outputs * cifar_dataset.std[0] + cifar_dataset.mean[0]
+            ab_outputs = ab_outputs * 255
 
             img_rgb_outputs = color.lab2rgb(np.dstack((L_original, ab_outputs)))
             # plt.imshow(img_rgb_outputs)

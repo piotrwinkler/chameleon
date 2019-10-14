@@ -6,7 +6,7 @@ cifar_path = 'datasets/Cifar-10/cifar-10-batches-py'
 
 def main():
     start_time = time.time()
-    cifar_dataset = CifarDataset(cifar_path, train=True)
+    cifar_dataset = CifarDataset(cifar_path, train=True, preprocessing="standardization")
     end_time = time.time() - start_time
     print(end_time)
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=10,

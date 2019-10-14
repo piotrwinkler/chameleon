@@ -15,7 +15,7 @@ class CifarDataset(Dataset):
     mean = None
     std = None
 
-    def __init__(self, cifar_dir, train, preprocessing, transform=None):
+    def __init__(self, cifar_dir, train, preprocessing, do_blur, transform=None):
 
         print("Preparing dataset...")
 
@@ -64,11 +64,33 @@ class CifarDataset(Dataset):
 
         if preprocessing == "standardization":
             # Standardization per channel
+            print("Standardization on  ab channels")
             self.mean = np.mean(self.y_data, axis=(0, 1, 2), keepdims=True)
             self.std = np.std(self.y_data, axis=(0, 1, 2), keepdims=True)
             self.y_data = (self.y_data - self.mean) / self.std
         elif preprocessing == "normalization":
-            self.y_train = np.array(self.y_train) / 255
+            print("Normalization on  ab channels")
+            self.y_data = np.array(self.y_data) / 255
+
+        # plt.imshow(self.x_data[0])
+        # plt.show()
+
+        if do_blur == True:
+            print("Blurring L channel")
+            for i in range(self.x_data.shape[0]):
+                self.x_data[i] = cv2.GaussianBlur(self.x_data[i], (7, 7), 0)
+
+        # self.x_data = cv2.GaussianBlur(self.x_data, (5, 5), 0)
+        # blur = cv2.GaussianBlur(self.x_data[0], (5, 5), 0)
+
+        # plt.imshow(blur)
+        # plt.show()
+
+        # plt.imshow(self.x_data[0])
+        # plt.show()
+
+        # plt.imshow(self.x_data[1])
+        # plt.show()
 
         print("Dataset prepared")
 
