@@ -44,7 +44,7 @@ class BasicFiltersDataset(GeneralDataset):
         if torch.is_tensor(item):
             item = item.tolist()
 
-        image_in = cv2.imread(self._files_list[item])
+        image_in = cv2.imread(self._files_list[item], cv2.IMREAD_GRAYSCALE) #=================================
         image_out = self._conversion_method(image_in, **self._conversion_parameters)
 
         sample = [image_in, image_out]

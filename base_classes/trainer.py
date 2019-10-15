@@ -32,7 +32,6 @@ class Trainer:
         network = eval(config_dict['net'])()
         log.debug(f"Choosing net {config_dict['net']}")
 
-
         self._device = torch.device('cuda:0' if torch.cuda.is_available() else
                                     'cpu')
         log.info(self._device)
@@ -53,7 +52,6 @@ class Trainer:
 
         # self._network = self._network.double()
         self._network.train()
-
     def train(self, dataset):
         try:
             criterion = getattr(nn, self._config_dict['criterion']['name'], 'Specified loss criterion not found')\

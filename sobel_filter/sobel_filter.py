@@ -1,5 +1,3 @@
-"""This class inherits from FilterSketch. It is crucial to fit NN structure with transforms and conversions implemented
-during setup process and mentioned in according configuration .json files."""
 import torch.nn as nn
 import torch.nn.functional as f
 

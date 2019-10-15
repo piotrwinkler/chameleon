@@ -9,13 +9,15 @@
   },
   "optimizer":
   {
-      "name": "Adagrad",
+      "name": "SGD",
       "parameters":
       {
-        "lr": 1e-2
+        "lr": 1e-3,
+        "momentum": 0.9,
+        "nesterov": true
       }
   },
-  "training_epochs": 2,
+  "training_epochs": 50,
   "training_monitoring_period": 1,
   "dataloader_parameters":
   {
@@ -23,25 +25,19 @@
       "shuffle": false,
       "num_workers": 4
   },
-  "train_on_gpu": false,
   "dataset":
   {
     "name": "BasicFiltersDataset",
-    "input_conversions": [{"name":"Resize",
-                        "parameters": [[256, 256]]},
-                          {"name":"NormalizeImage255",
+    "converter":
+    {
+      "name": "sobel_filter",
+      "parameters": {}
+    },
+    "transforms": [{"name": "Rescale",
+                        "parameters": [[[256, 256], [256, 256]]]},
+                        {"name": "Normalize",
                         "parameters": []},
-                          {"name":"RgbtoGray",
-                        "parameters": []}],
-    "output_conversions": [{"name":"Resize",
-                        "parameters": [[256, 256]]},
-                          {"name":"NormalizeImage255",
-                        "parameters": []},
-                          {"name":"RgbtoGray",
-                        "parameters": []},
-                          {"name": "FilterImageSobelx",
-                        "parameters": []}],
-    "transforms": [{"name": "ToTensor",
-                    "parameters": []}]
+                        {"name": "ToTensor",
+                        "parameters": []}]
   }
 }

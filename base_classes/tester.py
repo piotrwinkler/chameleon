@@ -29,7 +29,7 @@ class BaseTester:
 
     @staticmethod
     def read_image(img_path):
-        return cv2.imread(img_path)
+        return cv2.imread(img_path, cv2.IMREAD_GRAYSCALE) #===========================================
 
     @staticmethod
     def show_image(imgs_list):
@@ -56,6 +56,7 @@ class BaseTester:
             data = conversion(data)
         return data
 
+        input_img = Tester.read_image(input_img_path)
 
 class TestImgtoImg(BaseTester):
     """Class intended to perform tests of img to img networks."""

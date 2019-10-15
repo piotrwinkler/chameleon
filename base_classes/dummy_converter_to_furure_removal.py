@@ -42,13 +42,13 @@ class ImagesConverter:
         :param kernel_size:
         :return: Input image with Sobel filter
         """
-        img = ImagesConverter.rgb_to_gray(img)
+        # img = ImagesConverter.rgb_to_gray(img) #====================================================
         if depth == "8U":
             img_depth = cv2.CV_8U
             img_sobel_x = cv2.Sobel(img, img_depth, 1, 0, ksize=kernel_size)
             img_sobel_y = cv2.Sobel(img, img_depth, 0, 1, ksize=kernel_size)
             # Tester.show_image(img_sobel_x + img_sobel_y)
-            return img_sobel_x + img_sobel_y
+            return img_sobel_x
 
         elif depth == "16U":
             img_depth = cv2.CV_16U
@@ -90,9 +90,9 @@ class ImagesConverter:
 
 
 if __name__ == "__main__":
-    img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/100000.jpg"
+    img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/test_dataset/arab.jpg"
     img = cv2.imread(img_path)
-    img = cv2.resize(img, (64, 64))
+    img = cv2.resize(img, (256, 256))
     # img = ImagesConverter.rgb_to_gray(img)
     img = ImagesConverter.sobel_filter(img)
     cv2.imshow(f'image', img)
