@@ -1,12 +1,14 @@
 from image_colorization.cifar_dataset_class import CifarDataset
 import torch
 import time
-cifar_path = 'datasets/Cifar-10/cifar-10-batches-py'
+from image_colorization.configuration import *
 
 
 def main():
     start_time = time.time()
-    cifar_dataset = CifarDataset(cifar_path, train=True, preprocessing="standardization")
+    cifar_dataset = CifarDataset(dataset_path, train=choose_train_dataset, ab_preprocessing=ab_chosen_normalization,
+                                 L_processing=L_chosen_normalization, kernel_size=gauss_kernel_size,
+                                 do_blur=do_blur_processing)
     end_time = time.time() - start_time
     print(end_time)
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=10,

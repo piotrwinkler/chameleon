@@ -4,10 +4,7 @@ with torch.no_grad():
     self.conv1.weight = torch.nn.Parameter(K)
 """
 # TODO: Check how YUV were normalized in paper
-# TODO: Y by Gaussian kernel
-# TODO: Dataset class for Cifar 10 test set
 from image_colorization.data_server import load_cifar_10
-from image_colorization.nets.fcn_model import FCN_net1
 import torch
 import torch.nn as nn
 import time
@@ -22,28 +19,7 @@ from skimage import io, color
 from image_colorization.cifar_dataset_class import CifarDataset
 
 
-dataset_path = 'datasets/Cifar-10/cifar-10-batches-py'
-
-which_version = "V13"
-which_epoch_version = 0
-
-load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
-load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
-load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
-
-log_file = f"logs/logs_fcn_model{which_version}_train.log"
-
-init_epoch = 0
-how_many_epochs = 5
-do_load_model = False
-
-batch_size = 128
-learning_rate = 0.01
-momentum = 0.9
-lr_step_scheduler = 1
-lr_step_gamma = 0.99
-step_decay = 0.5
-decay_after_steps = 20
+from image_colorization.configuration import *
 
 
 def main():
@@ -61,18 +37,22 @@ def main():
 
     # sys.stdout = Logger(log_file)
 
-    cifar_dataset = CifarDataset(dataset_path, train=True, preprocessing="normalization", do_blur=True)
+    cifar_dataset = CifarDataset(dataset_path, train=choose_train_dataset, ab_preprocessing=ab_chosen_normalization,
+                                 L_processing=L_chosen_normalization, kernel_size=gauss_kernel_size,
+                                 do_blur=do_blur_processing)
+
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=batch_size,
                                               shuffle=False, num_workers=0)
-    net = FCN_net1()
+    net = chosen_net
     net = net.double()
     net.train()
+    print(f"Choosing net fcn_model{which_version}_epoch{which_epoch_version}")
 
     # Miało być "per-pixel Euclidean loss function", mam nadzieję, ze to ten MSELoss
     if do_load_model:
+        print("Loading wages")
         net.load_state_dict(torch.load(load_net_file))
 
-    # net.train()
     net.to(device)
 
     criterion = nn.MSELoss(reduction='mean').cuda()
@@ -97,14 +77,12 @@ def main():
 
     writer = SummaryWriter()
 
-    for epoch in range(init_epoch, init_epoch+how_many_epochs):  # loop over the dataset multiple times
+    for epoch in range(init_epoch, init_epoch+how_many_epochs):
 
         start_time = time.time()
 
         for i, data in enumerate(trainloader):
             L_batch, ab_batch = data
-
-            L_batch = L_batch.view(-1, 1, 32, 32)
 
             # zero the parameter gradients
             optimizer.zero_grad()
@@ -120,10 +98,10 @@ def main():
             # print statistics
             running_loss = loss.item()
 
-            print(f'[{epoch + 1}, {(i + 1) * batch_size}] loss: {running_loss}')
+            print(f'[{epoch}, {(i + 1) * batch_size}] loss: {running_loss}')
 
         end_time = time.time() - start_time
-        print(f"Epoch {epoch + 1} took {end_time} seconds")
+        print(f"Epoch {epoch} took {end_time} seconds")
 
         save_net_file = f"model_states/fcn_model{which_version}_epoch{0}.pth"
         save_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{0}.pth"

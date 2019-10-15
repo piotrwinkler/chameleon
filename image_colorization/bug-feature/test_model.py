@@ -46,6 +46,16 @@ def main():
         for i, data in enumerate(trainloader):
             L_batch, ab_batch = data
 
+            L_batch = L_batch.view(-1, 1, 32, 32)
+
+            # img_rgb = np.transpose(L_batch[0].numpy(), (1, 2, 0))
+            # plt.imshow(img_rgb)
+            # plt.show()
+
+            # lab = color.rgb2lab(img_rgb)
+
+            # L_batch, ab_batch = yuv_convert(inputs)
+
             L_original = np.transpose(L_batch[0].numpy(), (1, 2, 0))
             if L_chosen_normalization == "normalization":
                 L_original = L_original*100 + 50
@@ -55,6 +65,7 @@ def main():
             ab_original = np.transpose(ab_batch[0].numpy(), (1, 2, 0))
             if ab_chosen_normalization == "normalization":
                 ab_original = ab_original * 255
+
             elif ab_chosen_normalization == "standardization":
                 ab_original = ab_original * cifar_dataset.ab_std[0] + cifar_dataset.ab_mean[0]
 
@@ -65,36 +76,24 @@ def main():
             img_rgb_original = color.lab2rgb(np.dstack((L_original, ab_original)))
 
             fig = plt.figure(figsize=(14, 7))
-            ax1 = fig.add_subplot(1, 5, 1)
+            ax1 = fig.add_subplot(1, 4, 1)
             ax1.imshow(img_rgb_original)
             ax1.title.set_text('Ground Truth')
-
-            gray_img = color.rgb2gray(img_rgb_original)
-            gray_img = np.dstack((gray_img, gray_img, gray_img))
-            ax2 = fig.add_subplot(1, 5, 2)
-            ax2.imshow(gray_img)
+            gray = color.rgb2gray(img_rgb_original)
+            ax2 = fig.add_subplot(1, 4, 2)
+            ax2.imshow(gray, cmap=plt.get_cmap('gray'))
             ax2.title.set_text('Gray')
-
-            gray_lab = color.rgb2lab(gray_img)
-            L_gray = gray_lab[:, :, 0]
-            ax4 = fig.add_subplot(1, 5, 4)
-            ax4.imshow(L_gray)
-            ax4.title.set_text('gray L channel')
-
-            L_gray_normalized = (L_gray - 50) / 100
-            L_gray_normalized = torch.from_numpy(L_gray_normalized).double()
-            L_batch = L_gray_normalized.view(-1, 1, 32, 32)
 
             # Gaussian blur
             if do_blur_processing:
                 L_blur = np.transpose(L_batch[0].numpy(), (1, 2, 0))
                 L_blur = cv2.GaussianBlur(L_blur, gauss_kernel_size, 0)
+                # L_blur = np.transpose(L_blur, (2, 0, 1))
                 L_blur = torch.from_numpy(L_blur).double()
+                ax3 = fig.add_subplot(1, 4, 3)
+                ax3.imshow(L_blur)
+                ax3.title.set_text('Input L channel')
                 L_batch = L_blur.view(-1, 1, 32, 32)
-
-            ax3 = fig.add_subplot(1, 5, 3)
-            ax3.imshow(np.transpose(L_batch[0].numpy(), (1, 2, 0))[:, :, 0])
-            ax3.title.set_text(f'gray L channel, blur={do_blur_processing}')
 
             outputs = net(L_batch)
             loss = criterion(outputs, ab_batch)
@@ -102,22 +101,22 @@ def main():
             ab_outputs = np.transpose(outputs[0].numpy(), (1, 2, 0))
             if ab_chosen_normalization == "normalization":
                 ab_outputs = ab_outputs * 255
-                # scale = max([np.max(ab_outputs), abs(np.min(ab_outputs))])
-                # ab_outputs = ab_outputs / scale
-                # ab_outputs = ab_outputs * 80
+                scale = max([np.max(ab_outputs), abs(np.min(ab_outputs))])
+                ab_outputs = ab_outputs / scale
+                ab_outputs = ab_outputs * 80
 
             elif ab_chosen_normalization == "standardization":
                 ab_outputs = ab_outputs * cifar_dataset.ab_std[0] + cifar_dataset.ab_mean[0]
 
-            img_rgb_outputs = color.lab2rgb(np.dstack((L_gray, ab_outputs)))
-
-            ax5 = fig.add_subplot(1, 5, 5)
-            ax5.imshow(img_rgb_outputs)
-            ax5.title.set_text('model output')
+            img_rgb_outputs = color.lab2rgb(np.dstack((L_original, ab_outputs)))
+            ax4 = fig.add_subplot(1, 4, 4)
+            ax4.imshow(img_rgb_outputs)
+            ax4.title.set_text('model output')
             plt.show()
 
             if do_save_results:
                 matplotlib.image.imsave(f"{results_dir}/{i}.png", img_rgb_outputs)
+
 
             running_loss = loss.item()
 

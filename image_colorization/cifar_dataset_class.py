@@ -1,4 +1,4 @@
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
 from torchvision import transforms, utils
 import pickle
 import numpy as np
@@ -12,14 +12,15 @@ class CifarDataset(Dataset):
 
     x_data = []
     y_data = []
-    mean = None
-    std = None
+    ab_mean = None
+    ab_std = None
 
-    def __init__(self, cifar_dir, train, preprocessing, do_blur, transform=None):
+    def __init__(self, cifar_dir, train, ab_preprocessing, L_processing, do_blur, kernel_size, transform=None):
 
         print("Preparing dataset...")
 
         if train == True:
+            print("Loading train set")
             for i in range(1, 6):
                 cifar_data_dict = self.unpickle(cifar_dir + "/data_batch_{}".format(i))
                 if i == 1:
@@ -28,6 +29,7 @@ class CifarDataset(Dataset):
                     cifar_data = np.vstack((cifar_data, cifar_data_dict[b'data']))
 
         elif train == False:
+            print("Loading test set")
             cifar_data_dict = self.unpickle(cifar_dir + "/test_batch")
             cifar_data = cifar_data_dict[b'data']
 
@@ -35,14 +37,6 @@ class CifarDataset(Dataset):
 
         cifar_data = cifar_data.reshape((len(cifar_data), 3, 32, 32))
         cifar_data = np.rollaxis(cifar_data, 1, 4)
-
-        # plt.imshow(self.cifar_data[0])
-        # plt.show()
-
-        # img = cv2.imread("datasets/pink.png")
-        # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        #
-        # img_Lab = color.rgb2lab(img)
 
         for img in cifar_data:
             lab_img = color.rgb2lab(img)
@@ -54,43 +48,34 @@ class CifarDataset(Dataset):
         After conversion to Lab, y set (ab vector in Lab) is from -128 to +127
         """
 
-        # self.x_train = [color.rgb2lab(cifar_img)[0] for cifar_img in cifar_data]
-        # self.y_train = [color.rgb2lab(cifar_img)[1:3] for cifar_img in cifar_data]
-
         self.x_data = np.array(self.x_data)
         self.y_data = np.array(self.y_data)
 
-        self.x_data = (self.x_data - 50) / 100
+        if L_processing == "normalization":
+            print("Normalization on L channel")
+            self.x_data = (self.x_data - 50) / 100
 
-        if preprocessing == "standardization":
+        # TODO: tests required
+        elif L_processing == "standardization":
+            print("Standardization on L channel")
+            self.L_mean = np.mean(self.x_data, axis=(0, 1, 2), keepdims=True)
+            self.L_std = np.std(self.x_data, axis=(0, 1, 2), keepdims=True)
+            self.x_data = (self.x_data - self.L_mean) / self.L_mean
+
+        if ab_preprocessing == "standardization":
             # Standardization per channel
-            print("Standardization on  ab channels")
-            self.mean = np.mean(self.y_data, axis=(0, 1, 2), keepdims=True)
-            self.std = np.std(self.y_data, axis=(0, 1, 2), keepdims=True)
-            self.y_data = (self.y_data - self.mean) / self.std
-        elif preprocessing == "normalization":
-            print("Normalization on  ab channels")
+            print("Standardization on ab channels")
+            self.ab_mean = np.mean(self.y_data, axis=(0, 1, 2), keepdims=True)
+            self.ab_std = np.std(self.y_data, axis=(0, 1, 2), keepdims=True)
+            self.y_data = (self.y_data - self.ab_mean) / self.ab_std
+        elif ab_preprocessing == "normalization":
+            print("Normalization on ab channels")
             self.y_data = np.array(self.y_data) / 255
 
-        # plt.imshow(self.x_data[0])
-        # plt.show()
-
         if do_blur == True:
-            print("Blurring L channel")
+            print(f"Blurring L channel with kernel {kernel_size}")
             for i in range(self.x_data.shape[0]):
-                self.x_data[i] = cv2.GaussianBlur(self.x_data[i], (7, 7), 0)
-
-        # self.x_data = cv2.GaussianBlur(self.x_data, (5, 5), 0)
-        # blur = cv2.GaussianBlur(self.x_data[0], (5, 5), 0)
-
-        # plt.imshow(blur)
-        # plt.show()
-
-        # plt.imshow(self.x_data[0])
-        # plt.show()
-
-        # plt.imshow(self.x_data[1])
-        # plt.show()
+                self.x_data[i] = cv2.GaussianBlur(self.x_data[i], kernel_size, 0)
 
         print("Dataset prepared")
 
@@ -101,9 +86,7 @@ class CifarDataset(Dataset):
         if torch.is_tensor(idx):
             idx = idx.tolist()
 
-        # y = np.transpose(self.y_train[idx], (2, 0, 1))
-
-        return self.x_data[idx], np.transpose(self.y_data[idx], (2, 0, 1))
+        return self.x_data[idx][np.newaxis, :, :], np.transpose(self.y_data[idx], (2, 0, 1))
 
     def unpickle(self, file):
         with open(file, 'rb') as pickle_file:
