@@ -23,7 +23,7 @@ step_decay = 0.5
 
 def main():
 
-    sys.stdout = Logger(log_file)
+    # sys.stdout = Logger(log_file)
 
     trainloader, testloader, _ = load_cifar_10(path_to_cifar10=dataset_path, batch_size=batch_size)
 
@@ -38,6 +38,7 @@ def main():
     scheduler = optim.lr_scheduler.StepLR(optimizer=optimizer, step_size=lr_step_scheduler, gamma=lr_step_gamma)
 
     print(scheduler.state_dict())
+    a = optimizer.state_dict()
     # scheduler.state_dict()["step_size"] = 2
     print(scheduler.state_dict())
     print(scheduler.optimizer.state_dict())

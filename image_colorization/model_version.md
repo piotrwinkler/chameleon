@@ -1,3 +1,5 @@
+## Testy wstępne
+
 V1:
 
     criterion = nn.MSELoss(reduction='mean')
@@ -29,7 +31,7 @@ V10:
 
     Results: 
     
-V11:   !!! przy zmianie ab_chosen_normalization na  normalization jest coś ciekawego
+V11:   !!! przy zmianie ab_chosen_normalization na normalization jest coś ciekawego
     
     !!! ogólnie jak się nauczy sieć na zestandaryzowanym ab, a potem wyjściowe ab z sieci będzie się nie destandaryzować,
     a denormalizowac ale ograniczając pixele od -127 do 128 a nawet mniej to są świetne wyniki
@@ -52,7 +54,7 @@ V11:   !!! przy zmianie ab_chosen_normalization na  normalization jest coś ciek
     model - FCN_net1
 
     Results: Oct14_20-59-38_DESKTOP-K2JRB94
-    Wnioski: Loss tragdnia, cały czas na tym samym poziomie
+    Wnioski: Loss tragedia, cały czas na tym samym poziomie
 
 V12:
     
@@ -101,6 +103,10 @@ V13:
     Wnioski: Szału nie ma, większość brązowa, ale czasami fragmenty nieba są niebieskawe, loss wygląda spoko, ale też 
     szybko się uczy, na obrazkach są jakieś niebieskie plamy często (przez Gaussian blur)
     
+    
+## Nowa tura testów:
+
+
 V14:
 
         init_epoch = 0
@@ -110,6 +116,7 @@ V14:
         batch_size = 128
         learning_rate = 0.01
         momentum = 0.9
+        # scheduler był wyłączony
         lr_step_scheduler = 1
         lr_step_gamma = 0.99
         step_decay = 0.5
@@ -126,10 +133,62 @@ V14:
         
         criterion = nn.MSELoss(reduction='mean').cuda()
         optimizer = optim.SGD(net.parameters(), lr=learning_rate, momentum=momentum)
+        scheduler = optim.lr_scheduler.StepLR(optimizer=optimizer, step_size=lr_step_scheduler, gamma=lr_step_gamma)
         loss = criterion(outputs, ab_batch.to(device))
         
-        Results: Oct15_18-15-07_DESKTOP-K2JRB94, Oct15_18-40-52_DESKTOP-K2JRB94
+        Results: Oct15_18-15-07_DESKTOP-K2JRB94, Loss = 2,6e-3
+                 Oct15_18-40-52_DESKTOP-K2JRB94, Loss = 2,62e-3
                 
         
         Wnioski: Słabo wyszło, praktycznie wszystko brązowe, nawet nie ma prześwitów niebieskiego,
         loss wygląda nawet ok, trochę spadł ale przestał się uczyć po 5 min gdzieś
+        Z trickiem obrazy są po prostu trochę jaśniejsze, bardziej żółtawe
+        
+V15:
+    
+        which_version = "V15"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "normalization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net1()
+        
+        gauss_kernel_size = (7, 7)
+        
+        Results:  Oct16_18-36-12_DESKTOP-K2JRB94, Loss = 2,53e-3
+                  Oct16_18-41-46_DESKTOP-K2JRB94, Loss = 2,58e-3
+        
+        Wnioski: Słabo, wszystko brązowawe, nawet niebo i ziemia
+        Z trickiem bardziej żółtawo niż brązowawo
+        
+V16:
+        
+        To samo co V15 ale:
+        learning_rate = 0.3
+
+        Results:  Oct16_19-00-43_DESKTOP-K2JRB94, Loss = 2,64e-3
+        
+        Wnioski: te same praktycznie co w V15
+
+ 

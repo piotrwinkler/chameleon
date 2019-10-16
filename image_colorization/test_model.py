@@ -4,12 +4,9 @@ with torch.no_grad():
     self.conv1.weight = torch.nn.Parameter(K)
 """
 # TODO: Check how YUV were normalized in paper
-from image_colorization.data_server import load_cifar_10
-from image_colorization.nets.fcn_model import FCN_net1
 import torch
 import torch.nn as nn
 import os
-import cv2
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 import matplotlib
@@ -17,7 +14,7 @@ import matplotlib.pyplot as plt
 from skimage import color
 from image_colorization.cifar_dataset_class import CifarDataset
 from image_colorization.configuration import *
-
+import cv2
 
 results_dir = f"results/{which_version}"
 
@@ -30,7 +27,7 @@ def main():
 
     cifar_dataset = CifarDataset(dataset_path, train=choose_train_dataset, ab_preprocessing=ab_chosen_normalization,
                                  L_processing=L_chosen_normalization, kernel_size=gauss_kernel_size,
-                                 do_blur=False)
+                                 do_blur=do_blur_processing, get_data_to_tests=True)
 
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=1,
                                               shuffle=False, num_workers=0)
@@ -43,77 +40,58 @@ def main():
     criterion = nn.MSELoss(reduction='mean')
 
     with torch.no_grad():
-        for i, data in enumerate(trainloader):
-            L_batch, ab_batch = data
+        for i, (_, ab_batch_rgb, rgb_images, L_batch_gray, gray_images) in enumerate(trainloader):
+            rgb_img = rgb_images[0]
+            gray_img = gray_images[0]
+            L_gray = np.transpose(L_batch_gray[0].numpy(), (1, 2, 0))
+            L_input_gray = L_gray[:, :, 0]
 
-            L_original = np.transpose(L_batch[0].numpy(), (1, 2, 0))
-            if L_chosen_normalization == "normalization":
-                L_original = L_original*100 + 50
-            elif L_chosen_normalization == "standardization":
-                L_original = L_original * cifar_dataset.L_std[0] + cifar_dataset.L_mean[0]
-
-            ab_original = np.transpose(ab_batch[0].numpy(), (1, 2, 0))
-            if ab_chosen_normalization == "normalization":
-                ab_original = ab_original * 255
-            elif ab_chosen_normalization == "standardization":
-                ab_original = ab_original * cifar_dataset.ab_std[0] + cifar_dataset.ab_mean[0]
-
-            if plot_lab:
-                plt.imshow(np.dstack((L_original, ab_original))[:, :, 0])
-                plt.show()
-
-            img_rgb_original = color.lab2rgb(np.dstack((L_original, ab_original)))
+            if do_blur_processing:
+                print(f"Blurring L channel with kernel {gauss_kernel_size}")
+                L_input_gray = cv2.GaussianBlur(L_input_gray, gauss_kernel_size, 0)
+                L_batch_gray = torch.from_numpy(L_input_gray).double()
+                L_batch_gray = L_batch_gray.view(-1, 1, 32, 32)
 
             fig = plt.figure(figsize=(14, 7))
-            ax1 = fig.add_subplot(1, 5, 1)
-            ax1.imshow(img_rgb_original)
+            ax1 = fig.add_subplot(1, 4, 1)
+            ax1.imshow(rgb_img)
             ax1.title.set_text('Ground Truth')
 
-            gray_img = color.rgb2gray(img_rgb_original)
-            gray_img = np.dstack((gray_img, gray_img, gray_img))
-            ax2 = fig.add_subplot(1, 5, 2)
+            ax2 = fig.add_subplot(1, 4, 2)
             ax2.imshow(gray_img)
             ax2.title.set_text('Gray')
 
-            gray_lab = color.rgb2lab(gray_img)
-            L_gray = gray_lab[:, :, 0]
-            ax4 = fig.add_subplot(1, 5, 4)
-            ax4.imshow(L_gray)
-            ax4.title.set_text('gray L channel')
-
-            L_gray_normalized = (L_gray - 50) / 100
-            L_gray_normalized = torch.from_numpy(L_gray_normalized).double()
-            L_batch = L_gray_normalized.view(-1, 1, 32, 32)
-
-            # Gaussian blur
-            if do_blur_processing:
-                L_blur = np.transpose(L_batch[0].numpy(), (1, 2, 0))
-                L_blur = cv2.GaussianBlur(L_blur, gauss_kernel_size, 0)
-                L_blur = torch.from_numpy(L_blur).double()
-                L_batch = L_blur.view(-1, 1, 32, 32)
-
-            ax3 = fig.add_subplot(1, 5, 3)
-            ax3.imshow(np.transpose(L_batch[0].numpy(), (1, 2, 0))[:, :, 0])
+            ax3 = fig.add_subplot(1, 4, 3)
+            ax3.imshow(L_input_gray)
             ax3.title.set_text(f'gray L channel, blur={do_blur_processing}')
 
-            outputs = net(L_batch)
-            loss = criterion(outputs, ab_batch)
+            outputs = net(L_batch_gray)
+            loss = criterion(outputs, ab_batch_rgb)
+
+            if L_chosen_normalization == "normalization":
+                L_gray = L_gray * 100 + 50
+
+            elif L_chosen_normalization == "standardization":
+                L_gray = L_gray * cifar_dataset.L_std[0] + cifar_dataset.L_mean[0]
 
             ab_outputs = np.transpose(outputs[0].numpy(), (1, 2, 0))
-            if ab_chosen_normalization == "normalization":
+            if ab_output_normalization == "normalization":
                 ab_outputs = ab_outputs * 255
-                # scale = max([np.max(ab_outputs), abs(np.min(ab_outputs))])
-                # ab_outputs = ab_outputs / scale
-                # ab_outputs = ab_outputs * 80
 
-            elif ab_chosen_normalization == "standardization":
+            elif ab_output_normalization == "standardization":
                 ab_outputs = ab_outputs * cifar_dataset.ab_std[0] + cifar_dataset.ab_mean[0]
+
+            elif ab_output_normalization == "trick":
+                scale_L = L_gray / 100
+                scale = max([np.max(ab_outputs), abs(np.min(ab_outputs))])
+                ab_outputs = ab_outputs / scale
+                ab_outputs = ab_outputs * (scale_L * 127)
 
             img_rgb_outputs = color.lab2rgb(np.dstack((L_gray, ab_outputs)))
 
-            ax5 = fig.add_subplot(1, 5, 5)
-            ax5.imshow(img_rgb_outputs)
-            ax5.title.set_text('model output')
+            ax4 = fig.add_subplot(1, 4, 4)
+            ax4.imshow(img_rgb_outputs)
+            ax4.title.set_text('model output')
             plt.show()
 
             if do_save_results:

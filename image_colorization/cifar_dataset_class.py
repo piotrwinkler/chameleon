@@ -10,83 +10,116 @@ import cv2
 
 class CifarDataset(Dataset):
 
-    x_data = []
-    y_data = []
+    L_rgb = []
+    ab_rgb = []
+    rgb_images = []
     ab_mean = None
     ab_std = None
+    L_mean = None
+    L_std = None
+    get_data_to_tests = None
+    L_processing = None
+    do_blur = None
+    kernel_size = None
 
-    def __init__(self, cifar_dir, train, ab_preprocessing, L_processing, do_blur, kernel_size, transform=None):
+    def __init__(self, cifar_dir, train, ab_preprocessing, L_processing, do_blur, kernel_size, get_data_to_tests, transform=None):
 
         print("Preparing dataset...")
+        self.get_data_to_tests = get_data_to_tests
+        self.L_processing = L_processing
+        self.do_blur = do_blur
+        self.kernel_size = kernel_size
 
         if train == True:
             print("Loading train set")
             for i in range(1, 6):
                 cifar_data_dict = self.unpickle(cifar_dir + "/data_batch_{}".format(i))
                 if i == 1:
-                    cifar_data = cifar_data_dict[b'data']
+                    self.rgb_images = cifar_data_dict[b'data']
                 else:
-                    cifar_data = np.vstack((cifar_data, cifar_data_dict[b'data']))
+                    self.rgb_images = np.vstack((self.rgb_images, cifar_data_dict[b'data']))
 
         elif train == False:
             print("Loading test set")
             cifar_data_dict = self.unpickle(cifar_dir + "/test_batch")
-            cifar_data = cifar_data_dict[b'data']
+            self.rgb_images = cifar_data_dict[b'data']
 
-        # cifar_data = self.unpickle(cifar_dir + "/data_batch_{}".format(1))[b'data']
+        self.rgb_images = self.rgb_images.reshape((len(self.rgb_images), 3, 32, 32))
+        self.rgb_images = np.rollaxis(self.rgb_images, 1, 4)
 
-        cifar_data = cifar_data.reshape((len(cifar_data), 3, 32, 32))
-        cifar_data = np.rollaxis(cifar_data, 1, 4)
-
-        for img in cifar_data:
+        for img in self.rgb_images:
             lab_img = color.rgb2lab(img)
-            self.x_data.append(lab_img[:, :, 0])
-            self.y_data.append(lab_img[:, :, 1:3])
+            self.L_rgb.append(lab_img[:, :, 0])
+            self.ab_rgb.append(lab_img[:, :, 1:3])
 
         """
         After conversion to Lab, x set (L vector in Lab) is from 0 to 100
         After conversion to Lab, y set (ab vector in Lab) is from -128 to +127
         """
 
-        self.x_data = np.array(self.x_data)
-        self.y_data = np.array(self.y_data)
+        self.L_rgb = np.array(self.L_rgb)
+        self.ab_rgb = np.array(self.ab_rgb)
 
-        if L_processing == "normalization":
+        if self.L_processing == "normalization":
             print("Normalization on L channel")
-            self.x_data = (self.x_data - 50) / 100
+            self.L_rgb = (self.L_rgb - 50) / 100
 
         # TODO: tests required
-        elif L_processing == "standardization":
+        elif self.L_processing == "standardization":
             print("Standardization on L channel")
-            self.L_mean = np.mean(self.x_data, axis=(0, 1, 2), keepdims=True)
-            self.L_std = np.std(self.x_data, axis=(0, 1, 2), keepdims=True)
-            self.x_data = (self.x_data - self.L_mean) / self.L_mean
+            L_mean = np.mean(self.L_rgb, axis=(0, 1, 2), keepdims=True)
+            L_std = np.std(self.L_rgb, axis=(0, 1, 2), keepdims=True)
+            self.L_rgb = (self.L_rgb - L_mean) / L_std
 
         if ab_preprocessing == "standardization":
             # Standardization per channel
             print("Standardization on ab channels")
-            self.ab_mean = np.mean(self.y_data, axis=(0, 1, 2), keepdims=True)
-            self.ab_std = np.std(self.y_data, axis=(0, 1, 2), keepdims=True)
-            self.y_data = (self.y_data - self.ab_mean) / self.ab_std
+            self.ab_mean = np.mean(self.ab_rgb, axis=(0, 1, 2), keepdims=True)
+            self.ab_std = np.std(self.ab_rgb, axis=(0, 1, 2), keepdims=True)
+            self.ab_rgb = (self.ab_rgb - self.ab_mean) / self.ab_std
         elif ab_preprocessing == "normalization":
             print("Normalization on ab channels")
-            self.y_data = np.array(self.y_data) / 255
+            self.ab_rgb = np.array(self.ab_rgb) / 255
 
-        if do_blur == True:
-            print(f"Blurring L channel with kernel {kernel_size}")
-            for i in range(self.x_data.shape[0]):
-                self.x_data[i] = cv2.GaussianBlur(self.x_data[i], kernel_size, 0)
+        if self.do_blur:
+            print(f"Blurring L channel with kernel {self.kernel_size}")
+            for i in range(self.L_rgb.shape[0]):
+                self.L_rgb[i] = cv2.GaussianBlur(self.L_rgb[i], self.kernel_size, 0)
 
         print("Dataset prepared")
 
     def __len__(self):
-        return len(self.x_data)
+        return len(self.L_rgb)
 
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
 
-        return self.x_data[idx][np.newaxis, :, :], np.transpose(self.y_data[idx], (2, 0, 1))
+        if not self.get_data_to_tests:
+            return self.L_rgb[idx][np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1))
+
+        else:
+            gray_img = color.rgb2gray(self.rgb_images[idx])
+            gray_img = np.dstack((gray_img, gray_img, gray_img))
+            L_gray = color.rgb2lab(gray_img)[:, :, 0]
+
+            if self.L_processing == "normalization":
+                print("Normalization on L_gray channel")
+                L_gray = (L_gray - 50) / 100
+
+            # TODO: tests required
+            elif self.L_processing == "standardization":
+                print("Standardization on L_gray channel")
+                self.L_mean = np.mean(L_gray, axis=(0, 1, 2), keepdims=True)
+                self.L_std = np.std(L_gray, axis=(0, 1, 2), keepdims=True)
+                L_gray = (L_gray - self.L_mean) / self.L_std
+
+            # if self.do_blur:
+            #     print(f"Blurring L channel with kernel {self.kernel_size}")
+            #     L_gray = cv2.GaussianBlur(L_gray, self.kernel_size, 0)
+
+            return self.L_rgb[idx][np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1)), self.rgb_images[idx], \
+                   L_gray[np.newaxis, :, :], gray_img
 
     def unpickle(self, file):
         with open(file, 'rb') as pickle_file:

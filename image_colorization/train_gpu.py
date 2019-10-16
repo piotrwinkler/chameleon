@@ -39,7 +39,7 @@ def main():
 
     cifar_dataset = CifarDataset(dataset_path, train=choose_train_dataset, ab_preprocessing=ab_chosen_normalization,
                                  L_processing=L_chosen_normalization, kernel_size=gauss_kernel_size,
-                                 do_blur=do_blur_processing)
+                                 do_blur=do_blur_processing, get_data_to_tests=False)
 
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=batch_size,
                                               shuffle=False, num_workers=0)
@@ -81,8 +81,7 @@ def main():
 
         start_time = time.time()
 
-        for i, data in enumerate(trainloader):
-            L_batch, ab_batch = data
+        for i, (L_batch, ab_batch) in enumerate(trainloader):
 
             # zero the parameter gradients
             optimizer.zero_grad()
@@ -93,7 +92,7 @@ def main():
             writer.add_scalar('Loss/train', loss)
             loss.backward()
             optimizer.step()
-            # scheduler.step()
+            scheduler.step()
 
             # print statistics
             running_loss = loss.item()
@@ -116,6 +115,8 @@ def main():
             scheduler.last_epoch = 0
             scheduler.step_size = scheduler.step_size / step_decay
             scheduler._step_count = 1
+
+        print(f"Current learning rate = {optimizer.state_dict()['param_groups'][0]['lr']}")
 
     print('Finished Training')
 

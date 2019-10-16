@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from skimage import io, color
 
-img_path = 'datasets/samolot.jpg'
+img_path = 'datasets/red2.png'
 
 """
 Tak długo aż używamy tego samego formatu Lab do kodowania i dekodowania to wszystko powinno być w porządku
@@ -17,18 +17,42 @@ Tak długo aż używamy tego samego formatu Lab do kodowania i dekodowania to ws
 
 def main():
     img = cv2.imread(img_path)
+    brightLAB = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+
     # cv2.imshow("Original", img)
-    img_matplot = mpimg.imread(img_path)
+    img_matplot = mpimg.imread(img_path)[:, :, :-1]
+    brightLAB = cv2.cvtColor(img_matplot, cv2.COLOR_RGB2LAB)
+
     # plt.imshow(img_matplot)
     # plt.show()
+
+    ch1 = np.full((50, 50), 75.0)
+    ch2 = np.full((50, 50), 127.0)
+    ch3 = np.full((50, 50), 128.0)
+
+    test_img = np.dstack((ch1, ch2, ch3))
+    test_lab = color.lab2rgb(test_img)
+    plt.imshow(test_lab)
+    plt.show()
+    lab = color.rgb2lab(test_lab, illuminant='E')
+    print(f"min a: {np.min(lab[:, :, 1])}")
+    print(f"max a: {np.max(lab[:, :, 1])}")
+
+    print(f"min b: {np.min(lab[:, :, 2])}")
+    print(f"max b: {np.max(lab[:, :, 2])}")
 
     rgb = io.imread(img_path)
     rgb = rgb / 255.0
     plt.imshow(img_matplot)
     plt.show()
-    lab = color.rgb2lab(rgb)
+    lab = color.rgb2lab(rgb[:, :, :-1])
     plt.imshow(lab)
     plt.show()
+    print(f"min a: {np.min(lab[:, :, 1])}")
+    print(f"max a: {np.max(lab[:, :, 1])}")
+
+    print(f"min b: {np.min(lab[:, :, 2])}")
+    print(f"max b: {np.max(lab[:, :, 2])}")
     # Lab in skimage:
     """
     L is from 0 to 255
