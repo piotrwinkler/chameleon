@@ -95,7 +95,7 @@ def main():
             plt.show()
 
             if do_save_results:
-                matplotlib.image.imsave(f"{results_dir}/{i}.png", img_rgb_outputs)
+                matplotlib.image.imsave(f"{results_dir}/{str(i).zfill(4)}.png", img_rgb_outputs)
 
             running_loss = loss.item()
 
