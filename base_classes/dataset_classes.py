@@ -35,17 +35,31 @@ class GeneralDataset(Dataset):
 class BasicFiltersDataset(GeneralDataset):
     """This class inherits from GeneralDataset to prepare filtered output image for each sample and properly
     transform both images."""
-    def __init__(self, dataset_directory, conversion_method, conversion_parameters, transform=None):
+    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, transform=None):
         super().__init__(dataset_directory, transform)
-        self._conversion_method = conversion_method
-        self._conversion_parameters = conversion_parameters
+        self._input_conversions_list = input_conversions_list
+        self._output_conversions_list = output_conversions_list
 
     def __getitem__(self, item):
         if torch.is_tensor(item):
             item = item.tolist()
 
-        image_in = cv2.imread(self._files_list[item], cv2.IMREAD_GRAYSCALE) #=================================
-        image_out = self._conversion_method(image_in, **self._conversion_parameters)
+        image_in = cv2.imread(self._files_list[item])
+        image_out = image_in.copy()
+        for input_conversion in self._input_conversions_list:
+            image_in = input_conversion(image_in).astype('float32')
+        for output_conversion in self._output_conversions_list:
+            image_out = output_conversion(image_out).astype('float32')
+
+        img = cv2.resize(image_in, (256, 256))
+        cv2.imshow(f'image_in', img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+        img = cv2.resize(image_out, (256, 256))
+        cv2.imshow(f'image_out', img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
         sample = [image_in, image_out]
 

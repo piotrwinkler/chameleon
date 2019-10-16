@@ -28,15 +28,18 @@
   "dataset":
   {
     "name": "BasicFiltersDataset",
-    "converter":
-    {
-      "name": "sobel_filter",
-      "parameters": {}
-    },
+    "input_conversions": [{"name":"NormalizeImage255",
+                        "parameters": []},
+                          {"name":"RgbtoGray",
+                        "parameters": []}],
+    "output_conversions": [{"name":"NormalizeImage255",
+                        "parameters": []},
+                        {"name":"RgbtoGray",
+                        "parameters": []},
+                        {"name": "FilterImageSobelx",
+                        "parameters": []}],
     "transforms": [{"name": "Rescale",
                         "parameters": [[[256, 256], [256, 256]]]},
-                        {"name": "Standardize",
-                        "parameters": []},
                         {"name": "ToTensor",
                         "parameters": []}]
   },

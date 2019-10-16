@@ -79,36 +79,45 @@ class ImagesConverter:
         else:
             raise Exception('Wrong depth')
 
-    @staticmethod
-    def rgb_to_gray(img):
-        """
-        :param img: RGB image
-        :return: gray image
-        """
-        gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-        return gray
 
-    @staticmethod
-    def filter_image_sobelx(img):
-        # Perform filtering to the input image
-        sobelx = cv2.Sobel(img, cv2.CV_32F, 1, 0, ksize=3)
-        return sobelx
+class RgbtoGray:
+    def __init__(self):
+        pass
 
-    @staticmethod
-    def filter_image_sobely(img):
-        # Perform filtering to the input image
-        sobely = cv2.Sobel(img, cv2.CV_32F, 0, 1, ksize=3)
-        return sobely
+    def __call__(self, img):
+        print(np.shape(img))
+        return cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
-    @staticmethod
-    def normalize_image255(img):
-        # Changes the input image range from (0, 255) to (0, 1)
-        img = img/255.0
-        return img
 
-    @staticmethod
-    def normalize_image(img):
-        # Normalizes the input image to range (0, 1) for visualization
+class FilterImageSobelx:
+    def __init__(self):
+        pass
+
+    def __call__(self, img):
+        return cv2.Sobel(img, cv2.CV_32F, 1, 0, ksize=3)
+
+
+class FilterImageSobely:
+    def __init__(self):
+        pass
+
+    def __call__(self, img):
+        return cv2.Sobel(img, cv2.CV_32F, 0, 1, ksize=3)
+
+
+class NormalizeImage255:
+    def __init__(self):
+        pass
+
+    def __call__(self, img):
+        return img/255.0
+
+
+class NormalizeImage:
+    def __init__(self):
+        pass
+
+    def __call__(self, img):
         img = img - np.min(img)
         img = img / np.max(img)
         return img
@@ -118,14 +127,19 @@ if __name__ == "__main__":
     img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/test_dataset/arab.jpg"
     img = cv2.imread(img_path).astype(np.float32)
 
+    normalize_image255 = NormalizeImage255()
+    rgb_to_gray = RgbtoGray()
+    filter_image_sobelx = FilterImageSobelx()
+    normalize_image = NormalizeImage()
+
     img = cv2.resize(img, (256, 256))
-    img = ImagesConverter.normalize_image255(img)
-    gray_img = ImagesConverter.rgb_to_gray(img)
+    img = normalize_image255(img)
+    img = rgb_to_gray(img)
     # gray_img = ImagesConverter.normalize_image255(gray_img)
-    filtered_img = ImagesConverter.filter_image_sobely(gray_img)
+    filtered_img = filter_image_sobelx(img)
 
     filtered_img = np.array(filtered_img, dtype='float32')
 
-    cv2.imshow(f'filtered_img', ImagesConverter.normalize_image(filtered_img))
+    cv2.imshow(f'filtered_img', filtered_img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
