@@ -92,7 +92,8 @@ def main():
             ax4 = fig.add_subplot(1, 4, 4)
             ax4.imshow(img_rgb_outputs)
             ax4.title.set_text('model output')
-            plt.show()
+            if do_show_results:
+                plt.show()
 
             if do_save_results:
                 matplotlib.image.imsave(f"{results_dir}/{str(i).zfill(4)}.png", img_rgb_outputs)
@@ -100,6 +101,9 @@ def main():
             running_loss = loss.item()
 
             print(f'[{(i + 1) * batch_size}] loss: {running_loss}')
+
+            if i == how_many_results_to_generate:
+                break
 
     print('Finished Testing')
 

@@ -104,7 +104,7 @@ V13:
     szybko się uczy, na obrazkach są jakieś niebieskie plamy często (przez Gaussian blur)
     
     
-## Nowa tura testów:
+## Nowa tura testów: model FCN_net1
 
 
 V14:
@@ -420,5 +420,176 @@ V21:
         
         Results: Oct16_23-23-02_DESKTOP-K2JRB94, Loss = 0,84
         
-        Wnioski: Bez tricka słabo, brązowawo, niebo niebieskawe ale też nie jakoś super
-        Z trickiem: Chyba trochę mniej wycieków kolorów niż w V20 ale w sumie porównywalnie 
+        Wnioski:  Brązowawo, niebo niebieskawe ale też nie jakoś super, ogólnie bez jakichś super kolorów, jedynie 
+        całkiem pokolorowany ale trochę wyblakle jest ulubiony koń
+        Z trickiem: Są kolory, podobnie jak V20 i V21 ale trochę lepiej, konkuruje z V19, ale chyba jest gorsze
+        
+V23:
+
+        which_version = "V23"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = True
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "standardization"
+        
+        chosen_net = FCN_net1()
+        
+        gauss_kernel_size = (7, 7)
+        
+        Results: Oct17_13-29-10_DESKTOP-K2JRB94 , Loss = 0,86
+        
+        Wnioski: Bez tricku słabo, wszstko brązowe, rzadko są prześwity niebieskiego na niebie
+        Z trickiem: Lepiej niż V22, ale nie zawsze, mniej wycieków kolorów, ale dalej więcej niż w V19, kolory są czasami 
+        lekko zbyt żywe, chyba V22 jednak częściej lepsze
+        
+V24:
+
+        which_version = "V24"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = True
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "standardization"
+        
+        chosen_net = FCN_net1()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_13-54-56_DESKTOP-K2JRB94 , Loss = 0,85
+        
+        Wnioski: bez tricku wszystko brązowawe, ale chyba trochę lepiej niż w V23
+        Z trickiem: Praktycznie identycznie jak w V23, może leciutko lepiej
+        
+V25:
+
+        which_version = "V25"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "normalization"
+        ab_output_normalization = "normalization"
+        L_chosen_normalization = "standardization"
+        
+        chosen_net = FCN_net1()
+        
+        gauss_kernel_size = (7, 7)
+        
+        Results: Oct17_14-25-47_DESKTOP-K2JRB94 , Loss = 2,57e-3
+        
+        Wnioski: Sam brąz, nawet nie ma przebłysków innych kolorów
+        Z trickiem: Wszystko jest żółtawe, tylko żółtawe, bez przebłysków innych kolorów
+        
+            
+V26:
+
+        which_version = "V26"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = True
+        choose_train_dataset = True
+        ab_chosen_normalization = "normalization"
+        ab_output_normalization = "normalization"
+        L_chosen_normalization = "standardization"
+        
+        chosen_net = FCN_net1()
+        
+        gauss_kernel_size = (7, 7)
+        
+        Results: Oct17_14-45-53_DESKTOP-K2JRB94 , Loss = 2,59e-3
+        
+        Wnioski: Podobnie jak w V25, praktycznie bez zmian
+        Z trickiem: Podobnie jak w V25, praktycznie bez zmian
+        
+        
+### Wnioski przed kolejną fazą:
+Dla channeli ab standardyzacja jest o wiele lepsza niż normalizacja, dla obu bez triku ab wyjściowy jest głównie 
+brązowawy, ale z trikiem ab znormalizowane jest głównie żółte, a ab zdestandardyzowane ma całkiem fajne kolory
+
+Wielkość kernela dla Gaussa nie ma aż tak dużego znaczenia, pomiędczy (7, 7), a (5, 5) ciężko zauważyć różnicę, może 
+lekko lepiej jest dla (5, 5). Ogólnie ten Gauss czasami coś daje, ale nie zawsze, to trzeba przetestować jeszcze na
+kolejnych modelach
+
+Dla channelu L ciężko powiedzieć czy lepiej jest ze standardyzacją czy normalizacją, nie widać specjalnie różnicy, 
+czasami lepiej jest dla standardyzacji, czasami dla normalizacji, więc mozna póki co pozostać przy normalizacji
+
+
+
+## Kolejna faza, model - 

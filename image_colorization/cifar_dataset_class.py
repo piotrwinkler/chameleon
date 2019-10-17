@@ -64,12 +64,11 @@ class CifarDataset(Dataset):
             print("Normalization on L channel")
             self.L_rgb = (self.L_rgb - 50) / 100
 
-        # TODO: tests required
         elif self.L_processing == "standardization":
             print("Standardization on L channel")
-            L_mean = np.mean(self.L_rgb, axis=(0, 1, 2), keepdims=True)
-            L_std = np.std(self.L_rgb, axis=(0, 1, 2), keepdims=True)
-            self.L_rgb = (self.L_rgb - L_mean) / L_std
+            self.L_mean = np.mean(self.L_rgb, axis=(0, 1, 2), keepdims=True)
+            self.L_std = np.std(self.L_rgb, axis=(0, 1, 2), keepdims=True)
+            self.L_rgb = (self.L_rgb - self.L_mean) / self.L_std
 
         if ab_preprocessing == "standardization":
             # Standardization per channel
@@ -107,12 +106,9 @@ class CifarDataset(Dataset):
                 print("Normalization on L_gray channel")
                 L_gray = (L_gray - 50) / 100
 
-            # TODO: tests required
             elif self.L_processing == "standardization":
                 print("Standardization on L_gray channel")
-                self.L_mean = np.mean(L_gray, axis=(0, 1, 2), keepdims=True)
-                self.L_std = np.std(L_gray, axis=(0, 1, 2), keepdims=True)
-                L_gray = (L_gray - self.L_mean) / self.L_std
+                L_gray = (L_gray - self.L_mean[0]) / self.L_std[0]
 
             # if self.do_blur:
             #     print(f"Blurring L channel with kernel {self.kernel_size}")
