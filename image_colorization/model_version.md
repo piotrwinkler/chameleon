@@ -269,7 +269,7 @@ V18:
         Wnioski: Zmiana kernel size prawie nic nie zmieniło względem V17
         Z trickiem: Może lekko lepiej niż dla V17
         
-V19:
+V19:    (Póki co top 2)
  
         which_version = "V19"
         which_epoch_version = 0
@@ -591,4 +591,636 @@ Dla channelu L ciężko powiedzieć czy lepiej jest ze standardyzacją czy norma
 czasami lepiej jest dla standardyzacji, czasami dla normalizacji, więc mozna póki co pozostać przy normalizacji
 
 
-## Kolejna faza, model - 
+## Legenda kolejnych wersji
+
+Model podstawowy to FCN_net1
+Możliwe rozszerzenia:
+* A - Dodatkowa warstwa 64-64 z kernel_size = 3 i padding=1
+* B - Dodatkowa warstwa 32-32 z kernel_size = 3 i padding=1 bardziej na początku
+* C - Dodatkowa warstwa 32-32 z kernel_size = 1 i padding=0 bardziej na końcu
+
+## Kolejna faza, model - FCN_net2 (A)
+(1 epoka - 180 sek)
+(Najlepszy V32)
+V30:    
+
+        which_version = "V30"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net2()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_17-13-44_DESKTOP-K2JRB94 , Loss = 0,82
+        
+        Bez tricku: Niebo zazwyczaj niebieskie, ale reszta brązowa
+        Z trickiem: Dobre wyniki, prawie takie same jak dla V19
+        
+V31:
+        
+        !!! bez sensu raczej robić, wyjdzie brązowy i żółty
+        
+        which_version = "V31"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "normalization"
+        ab_output_normalization = "normalization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net2()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results:  , Loss = 
+        
+        Bez tricku: 
+        Z trickiem: 
+        
+V32:    (top 3)
+
+        which_version = "V32"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "standardization"
+        
+        chosen_net = FCN_net2()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_20-46-19_DESKTOP-K2JRB94 , Loss = 0,82
+        
+        Bez tricku: Brązowo, niebo niebieskawe
+        Z trickiem: Całkiem nieźle, lepiej niż V30, porównywalnie z V40
+        
+V33:
+
+        which_version = "V33"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = True
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "standardization"
+        
+        chosen_net = FCN_net2()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_21-23-44_DESKTOP-K2JRB94 , Loss = 0,84
+        
+        Bez tricku: Brąz ze słabo niebieskim niebem
+        Z trickiem: Trochę gorsze niż V32, więcej wycieków kolorów
+        
+### Wnioski: 
+        
+## Kolejna faza, model - FCN_net3 (B)
+(1 epoka - 115 sek)
+(Najlepszy V40)
+V40:    (Póki co top 1)
+
+        which_version = "V40"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net3()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_18-21-14_DESKTOP-K2JRB94 , Loss = 0,82
+        
+        Bez tricku: Ogólnie brązowawo, ale niebo jest trochę niebieskie 
+        Z trickiem: Prawie identycznie jak w V19, ale chyba trochę lepiej żywe kolory, na samolocie mini mini też mega
+        
+V41:
+
+        which_version = "V41"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "normalization"
+        ab_output_normalization = "normalization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net3()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_22-05-57_DESKTOP-K2JRB94 , Loss = 2,56e-3
+        
+        Bez tricku: Praktycznie tylko brązowy, bardzo mało niebieskiego
+        Z trickiem: Żółty znowu
+
+V42:
+
+        which_version = "V42"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "standardization"
+        
+        chosen_net = FCN_net3()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_22-27-54_DESKTOP-K2JRB94 , Loss = 0,82
+        
+        Bez tricku: Brąz z trochę niebieskim niebem i wodą
+        Z trickiem: Nieźle ale chyba lekko gorzej niż V40
+        
+V43:
+
+        which_version = "V43"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = True
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net3()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_22-52-12_DESKTOP-K2JRB94 , Loss = 0,84
+        
+        Bez tricku: Prawie sam brąz z przebłyskami niebieskiego
+        Z trickiem: Ok, ale gorsze niż V40, kolory się przebijają i momentami kolorystyka jest aż sztucznie żywa
+
+
+### Wnioski: 
+
+## Kolejna faza, model - FCN_net4 (C)
+(1 epoka - 95 sek)
+(Najlepszy V50, ewentualnie V52)
+V50: 
+
+        which_version = "V50"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net4()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_19-03-08_DESKTOP-K2JRB94 , Loss = 0,84
+        
+        Bez tricku: Brązowo, ale niebo zazwyczaj niebieskawe, bez szału
+        Z trickiem: Chyba gorzej niż V40, niebieski zaczął się przebijać tu i ówdzie, 
+        
+V51:
+
+        which_version = "V51"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "normalization"
+        ab_output_normalization = "normalization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net4()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_19-37-33_DESKTOP-K2JRB94 , Loss = 2,52e-3
+        
+        Bez tricku: Brązowo
+        Z trickiem: Żółto
+
+V52:
+
+        which_version = "V52"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "standardization"
+        
+        chosen_net = FCN_net4()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_19-55-38_DESKTOP-K2JRB94 , Loss = 0,84
+        
+        Bez tricku: Brązowo, niebo całkiem niebieskie
+        Z trickiem: Podobnie jak V50, ale trochę żywsze kolory
+        
+V53:
+
+        which_version = "V53"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = True
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net4()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_20-18-22_DESKTOP-K2JRB94 , Loss = 0,85
+        
+        Bez tricku: Brązowo, niebo słabo niebieskie
+        Z trickiem: Podobnie jak V50, ale trochę niebieski przecieka
+        
+## Kolejna faza, model - FCN_net5 (A, B, C)
+(1 epoka - 250 sek)
+V60:
+
+        which_version = "V60"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net5()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct17_18-46-43_DESKTOP-K2JRB94 , Loss = 
+        
+        Bez tricku: 
+        Z trickiem: 
+        
+V61:
+
+        which_version = "V61"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "normalization"
+        ab_output_normalization = "normalization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net5()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results:  , Loss = 
+        
+        Bez tricku: 
+        Z trickiem: 
+
+V62:
+
+        which_version = "V62"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "standardization"
+        
+        chosen_net = FCN_net5()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results:  , Loss = 
+        
+        Bez tricku: 
+        Z trickiem: 
+        
+V63:
+
+        which_version = "V63"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = True
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "?"
+        
+        chosen_net = FCN_net5()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results:  , Loss = 
+        
+        Bez tricku: 
+        Z trickiem: 

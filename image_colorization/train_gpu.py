@@ -65,9 +65,9 @@ def main():
         optimizer.load_state_dict(torch.load(load_optimizer_file))
         scheduler.load_state_dict(torch.load(load_scheduler_file))
 
-    torch.save(net.state_dict(), save_net_file)
-    torch.save(optimizer.state_dict(), save_optimizer_file)
-    torch.save(scheduler.state_dict(), save_scheduler_file)
+    # torch.save(net.state_dict(), save_net_file)
+    # torch.save(optimizer.state_dict(), save_optimizer_file)
+    # torch.save(scheduler.state_dict(), save_scheduler_file)
 
     writer = SummaryWriter()
 
