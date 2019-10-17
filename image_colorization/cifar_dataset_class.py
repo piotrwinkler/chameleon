@@ -1,10 +1,8 @@
 from torch.utils.data import Dataset
-from torchvision import transforms, utils
 import pickle
 import numpy as np
-import matplotlib.pyplot as plt
 import torch
-from skimage import io, color
+from skimage import color
 import cv2
 
 

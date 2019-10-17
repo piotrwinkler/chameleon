@@ -1,5 +1,5 @@
 from image_colorization.data_server import load_cifar_10
-from image_colorization.nets.fcn_model import FCN_net1
+from image_colorization.nets.fcn_models import FCN_net1
 import torch
 import torch.nn as nn
 import time

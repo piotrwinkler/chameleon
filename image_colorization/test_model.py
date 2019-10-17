@@ -3,7 +3,6 @@
 with torch.no_grad():
     self.conv1.weight = torch.nn.Parameter(K)
 """
-# TODO: Check how YUV were normalized in paper
 import torch
 import torch.nn as nn
 import os

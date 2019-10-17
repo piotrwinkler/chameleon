@@ -3,19 +3,13 @@
 with torch.no_grad():
     self.conv1.weight = torch.nn.Parameter(K)
 """
-# TODO: Check how YUV were normalized in paper
-from image_colorization.data_server import load_cifar_10
 import torch
 import torch.nn as nn
 import time
 import torch.optim as optim
 from base_classes.logger_class import Logger
-import sys
-import cv2
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
-import matplotlib.pyplot as plt
-from skimage import io, color
 from image_colorization.cifar_dataset_class import CifarDataset
 
 

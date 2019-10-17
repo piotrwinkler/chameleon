@@ -591,5 +591,4 @@ Dla channelu L ciężko powiedzieć czy lepiej jest ze standardyzacją czy norma
 czasami lepiej jest dla standardyzacji, czasami dla normalizacji, więc mozna póki co pozostać przy normalizacji
 
 
-
 ## Kolejna faza, model - 

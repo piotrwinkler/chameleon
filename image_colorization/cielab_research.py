@@ -4,7 +4,6 @@ https://pl.wikipedia.org/wiki/CIELab
 
 import cv2
 import numpy as np
-from PIL import Image
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from skimage import io, color
@@ -14,6 +13,7 @@ img_path = 'datasets/red2.png'
 """
 Tak długo aż używamy tego samego formatu Lab do kodowania i dekodowania to wszystko powinno być w porządku
 """
+
 
 def main():
     img = cv2.imread(img_path)
