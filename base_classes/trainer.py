@@ -111,9 +111,9 @@ class Trainer:
                     optimizer.zero_grad()
                     outputs = self._network(inputs)
 
-                    print(f'Inputs: {inputs}')
-                    print(f'Outputs: {outputs}')
-                    print(f'Expected outputs: {expected_outputs}')
+                    # print(f'Inputs: {inputs}')
+                    # print(f'Outputs: {outputs}')
+                    # print(f'Expected outputs: {expected_outputs}')
                     # print(f'Inputs: {np.shape(inputs)}')
                     # print(f'Outputs: {np.shape(outputs)}')
                     # print(f'Expected outputs: {np.shape(expected_outputs)}')

@@ -12,7 +12,7 @@
       "name": "SGD",
       "parameters":
       {
-        "lr": 1e-5,
+        "lr": 1e-3,
         "momentum": 0.9,
         "nesterov": true
       }
@@ -25,23 +25,25 @@
       "shuffle": false,
       "num_workers": 4
   },
+  "train_on_gpu": false,
   "dataset":
   {
     "name": "BasicFiltersDataset",
-    "input_conversions": [{"name":"NormalizeImage255",
+    "input_conversions": [{"name":"Resize",
+                        "parameters": [[256, 256]]},
+                          {"name":"NormalizeImage255",
                         "parameters": []},
                           {"name":"RgbtoGray",
                         "parameters": []}],
-    "output_conversions": [{"name":"NormalizeImage255",
+    "output_conversions": [{"name":"Resize",
+                        "parameters": [[256, 256]]},
+                          {"name":"NormalizeImage255",
                         "parameters": []},
-                        {"name":"RgbtoGray",
+                          {"name":"RgbtoGray",
                         "parameters": []},
-                        {"name": "FilterImageSobelx",
+                          {"name": "FilterImageSobelx",
                         "parameters": []}],
-    "transforms": [{"name": "Rescale",
-                        "parameters": [[[256, 256], [256, 256]]]},
-                        {"name": "ToTensor",
-                        "parameters": []}]
-  },
-  "train_on_gpu": false
+    "transforms": [{"name": "ToTensor",
+                    "parameters": []}]
+  }
 }

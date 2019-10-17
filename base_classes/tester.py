@@ -56,7 +56,6 @@ class BaseTester:
             data = conversion(data)
         return data
 
-        input_img = Tester.read_image(input_img_path)
 
 class TestImgtoImg(BaseTester):
     """Class intended to perform tests of img to img networks."""
@@ -83,7 +82,6 @@ class TestImgtoImg(BaseTester):
 
             log.info(f'Original image shape: {np.shape(orig_img)}')
             log.info(f'Output image shape: {np.shape(output_img)}')
-
             self.show_image([orig_img, output_img])
 
 
