@@ -35,6 +35,7 @@ def main():
     # Miało być "per-pixel Euclidean loss function", mam nadzieję, ze to ten MSELoss
     net.load_state_dict(torch.load(load_net_file))
     net.eval()
+    print(f"Choosing net fcn_model{which_version}_epoch{which_epoch_version}")
 
     criterion = nn.MSELoss(reduction='mean')
 

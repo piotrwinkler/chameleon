@@ -96,9 +96,9 @@ def main():
         end_time = time.time() - start_time
         print(f"Epoch {epoch} took {end_time} seconds")
 
-        save_net_file = f"model_states/fcn_model{which_version}_epoch{0}.pth"
-        save_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{0}.pth"
-        save_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{0}.pth"
+        save_net_file = f"model_states/fcn_model{which_version}_epoch{epoch}.pth"
+        save_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{epoch}.pth"
+        save_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{epoch}.pth"
 
         torch.save(net.state_dict(), save_net_file)
         torch.save(optimizer.state_dict(), save_optimizer_file)

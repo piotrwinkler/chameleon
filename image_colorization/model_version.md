@@ -269,7 +269,7 @@ V18:
         Wnioski: Zmiana kernel size prawie nic nie zmieniło względem V17
         Z trickiem: Może lekko lepiej niż dla V17
         
-V19:    (Póki co top 2)
+V19:    (Póki co top 3)
  
         which_version = "V19"
         which_epoch_version = 0
@@ -680,7 +680,7 @@ V31:
         Bez tricku: 
         Z trickiem: 
         
-V32:    (top 3)
+V32:    (top 4)
 
         which_version = "V32"
         which_epoch_version = 0
@@ -761,7 +761,7 @@ V33:
 ## Kolejna faza, model - FCN_net3 (B)
 (1 epoka - 115 sek)
 (Najlepszy V40)
-V40:    (Póki co top 1)
+V40:    (Póki co top 2)
 
         which_version = "V40"
         which_epoch_version = 0
@@ -1217,6 +1217,165 @@ V63:
         L_chosen_normalization = "?"
         
         chosen_net = FCN_net5()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results:  , Loss = 
+        
+        Bez tricku: 
+        Z trickiem: 
+        
+## Kolejna faza, model - FCN_net_mega (AA, BB, CC)
+(1 epoka - 390 sek)
+V70:    (top 1)
+
+        which_version = "V70"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 60
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net_mega()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct18_07-35-12_DESKTOP-K2JRB94 , Loss = 0,726
+        
+        Po 60 epokach:
+        Bez tricku: Całkiem spoko, nawet są kolory, trochę wyblakłe ale są
+        Z trickiem: Też są kolory fajne, chyba póki co najlepszy, mało przecieków, mega
+        
+        Po 10 epokach:
+        Bez tricku: Brązowo ale są kolorki, więc nieźle, lepiej niż inne po 10 epokach bez tricku
+        Z trickiem: Bardzo podobnie jak po 60 epokach, ale chyba troszkę lepiej
+        
+V71:
+
+        which_version = "V71"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "normalization"
+        ab_output_normalization = "normalization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net_mega()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results:  , Loss = 
+        
+        Bez tricku: 
+        Z trickiem: 
+
+V72:
+
+        which_version = "V72"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 45
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = False
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "standardization"
+        
+        chosen_net = FCN_net_mega()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results: Oct18_16-57-27_DESKTOP-K2JRB94 , Loss = 
+        
+        Bez tricku: 
+        Z trickiem: 
+        
+V73:
+
+        which_version = "V73"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 10
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = True
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "?"
+        
+        chosen_net = FCN_net_mega()
         
         gauss_kernel_size = (5, 5)
         

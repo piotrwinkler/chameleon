@@ -262,7 +262,7 @@ class FCN_net_mega(nn.Module):  # Ulepszenia AA, BB, CC
 
         self.conv11 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=1, stride=1, padding=0)
         self.bn11 = nn.BatchNorm2d(32)
-        self.rel11 = nn.ReLU()
+        self.relu11 = nn.ReLU()
 
         self.conv12 = nn.Conv2d(in_channels=32, out_channels=2, kernel_size=1, stride=1, padding=0)
 
