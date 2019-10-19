@@ -9,8 +9,6 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega
 
-import numpy as np
-
 
 class Trainer:
     """This is main training class. It uses parameters directly from "training_parameters.json".
@@ -110,13 +108,6 @@ class Trainer:
 
                     optimizer.zero_grad()
                     outputs = self._network(inputs)
-
-                    # print(f'Inputs: {inputs}')
-                    # print(f'Outputs: {outputs}')
-                    # print(f'Expected outputs: {expected_outputs}')
-                    # print(f'Inputs: {np.shape(inputs)}')
-                    # print(f'Outputs: {np.shape(outputs)}')
-                    # print(f'Expected outputs: {np.shape(expected_outputs)}')
 
                     loss.backward()
                     optimizer.step()
