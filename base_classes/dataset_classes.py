@@ -14,15 +14,12 @@ class BaseDataset(Dataset):
         self._transform = transform
         self._input_conversions_list = input_conversions_list
         self._output_conversions_list = output_conversions_list
-        self._files_list = glob.glob(f'{self._dataset_directory}/*.jpg')
 
-        # TODO load many types of images, do something with directory path
-        # self._file_types = [f'{self._dataset_directory}/*.jpg'] #, f'{self._dataset_directory}/*.jpeg',
-        # f'{self._dataset_directory}/*.png', f'{self._dataset_directory}/*.bmp']
-        # self._list_of_files_lists = [glob.glob(e) for e in self._file_types if glob.glob(e) != []]
-        # for l in self._list_of_files_lists:
-        #    print(type(l))
-        #    self._files_list.append(l)
+        self._file_types = [f'{self._dataset_directory}/*.jpg', f'{self._dataset_directory}/*.jpeg',
+                            f'{self._dataset_directory}/*.png', f'{self._dataset_directory}/*.bmp']
+        self._list_of_files_lists = [glob.glob(e) for e in self._file_types if glob.glob(e) != []]
+        for l in self._list_of_files_lists:
+            self._files_list = [img for img in l]
 
         log.info(f'List of loaded files: {self._files_list}')
         log.info(f'{len(self)} images loaded from: {self._dataset_directory}!')
@@ -34,7 +31,7 @@ class BaseDataset(Dataset):
         return len(self._files_list)
 
     @staticmethod
-    def implement_conversions(data, conversions_list):
+    def _implement_conversions(data, conversions_list):
         for conversion in conversions_list:
             data = conversion(data)
         return data
@@ -53,19 +50,8 @@ class BasicFiltersDataset(BaseDataset):
         image_in = cv2.imread(self._files_list[item])
         image_out = image_in.copy()
 
-        image_in = self.implement_conversions(image_in, self._input_conversions_list)
-        image_out = self.implement_conversions(image_out,  self._output_conversions_list)
-
-        # img = cv2.resize(image_in, (256, 256))
-        # cv2.imshow(f'image_in', img)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-        #
-        # print(image_out)
-        # img = cv2.resize(image_out, (256, 256))
-        # cv2.imshow(f'image_out', image_out)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
+        image_in = self._implement_conversions(image_in, self._input_conversions_list)
+        image_out = self._implement_conversions(image_out,  self._output_conversions_list)
 
         sample = [image_in, image_out]
 
