@@ -4,7 +4,7 @@ from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN
 dataset_path = 'datasets/Cifar-10/cifar-10-batches-py'
 save_every_10_epoch = True
 
-which_version = "V62"
+which_version = "V31"
 which_epoch_version = 0
 
 load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
@@ -25,13 +25,13 @@ lr_step_gamma = 0.999
 step_decay = 0.5
 decay_after_steps = 20
 
-do_blur_processing = False
+L_blur_processing = False
 choose_train_dataset = True
-ab_chosen_normalization = "standardization"
-ab_output_normalization = "trick"
-L_chosen_normalization = "standardization"
+ab_input_processing = "normalization"
+ab_output_normalization = "normalization"
+L_input_processing = "normalization"
 
-chosen_net = FCN_net5()
+chosen_net = FCN_net2()
 
 gauss_kernel_size = (5, 5)
 

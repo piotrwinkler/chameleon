@@ -26,6 +26,6 @@ class DataCollector:
         log.info(f'{len(files_list)} images loaded from: {dataset_directory}!')
         if not files_list:
             log.error(f'Images loading from {dataset_directory} failed!')
-            sys.exit(1)
+            # sys.exit(1)
 
         return files_list

@@ -29,6 +29,7 @@ class SetupCreator:
             transforms_list = [getattr(predefined_transforms, transform['name'],
                                        'Specified transform not found')(*transform['parameters'])
                                for transform in dataset_config_dict['transforms']]
+
         except KeyError as e:
             log.error(f'Requested key not found in config dictionary: {e}')
             sys.exit(1)

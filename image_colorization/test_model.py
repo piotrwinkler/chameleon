@@ -25,9 +25,9 @@ def main():
         if not os.path.exists(results_dir):
             os.makedirs(results_dir)
 
-    cifar_dataset = CifarDataset(dataset_path, train=choose_train_dataset, ab_preprocessing=ab_chosen_normalization,
-                                 L_processing=L_chosen_normalization, kernel_size=gauss_kernel_size,
-                                 do_blur=do_blur_processing, get_data_to_tests=True)
+    cifar_dataset = CifarDataset(dataset_path, train_set=choose_train_dataset, ab_preprocessing=ab_input_processing,
+                                 L_processing=L_input_processing, kernel_size=gauss_kernel_size,
+                                 do_blur=L_blur_processing, get_data_to_tests=True)
 
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=1,
                                               shuffle=False, num_workers=0)
@@ -47,7 +47,7 @@ def main():
             L_gray = np.transpose(L_batch_gray[0].numpy(), (1, 2, 0))
             L_input_gray = L_gray[:, :, 0]
 
-            if do_blur_processing:
+            if L_blur_processing:
                 print(f"Blurring L channel with kernel {gauss_kernel_size}")
                 L_input_gray = cv2.GaussianBlur(L_input_gray, gauss_kernel_size, 0)
                 L_batch_gray = torch.from_numpy(L_input_gray).double()
@@ -64,25 +64,25 @@ def main():
 
             ax3 = fig.add_subplot(1, 4, 3)
             ax3.imshow(L_input_gray)
-            ax3.title.set_text(f'gray L channel, blur={do_blur_processing}')
+            ax3.title.set_text(f'gray L channel, blur={L_blur_processing}')
 
             outputs = net(L_batch_gray)
             loss = criterion(outputs, ab_batch_rgb)
 
-            if L_chosen_normalization == "normalization":
+            if L_input_processing == "normalization":
                 L_gray = L_gray * 100 + 50
 
-            elif L_chosen_normalization == "standardization":
+            elif L_input_processing == "standardization":
                 L_gray = L_gray * cifar_dataset.L_std[0] + cifar_dataset.L_mean[0]
 
             ab_outputs = np.transpose(outputs[0].numpy(), (1, 2, 0))
-            if ab_output_normalization == "normalization":
+            if ab_output_processing == "normalization":
                 ab_outputs = ab_outputs * 255
 
-            elif ab_output_normalization == "standardization":
+            elif ab_output_processing == "standardization":
                 ab_outputs = ab_outputs * cifar_dataset.ab_std[0] + cifar_dataset.ab_mean[0]
 
-            elif ab_output_normalization == "trick":
+            elif ab_output_processing == "trick":
                 scale_L = L_gray / 100
                 scale = max([np.max(ab_outputs), abs(np.min(ab_outputs))])
                 ab_outputs = ab_outputs / scale

@@ -20,7 +20,7 @@ class CifarDataset(Dataset):
     do_blur = None
     kernel_size = None
 
-    def __init__(self, cifar_dir, train, ab_preprocessing, L_processing, do_blur, kernel_size, get_data_to_tests, transform=None):
+    def __init__(self, cifar_dir, train_set, ab_preprocessing, L_processing, do_blur, kernel_size, get_data_to_tests, transform=None):
 
         print("Preparing dataset...")
         self.get_data_to_tests = get_data_to_tests
@@ -28,7 +28,7 @@ class CifarDataset(Dataset):
         self.do_blur = do_blur
         self.kernel_size = kernel_size
 
-        if train == True:
+        if train_set == True:
             print("Loading train set")
             for i in range(1, 6):
                 cifar_data_dict = self.unpickle(cifar_dir + "/data_batch_{}".format(i))
@@ -37,7 +37,7 @@ class CifarDataset(Dataset):
                 else:
                     self.rgb_images = np.vstack((self.rgb_images, cifar_data_dict[b'data']))
 
-        elif train == False:
+        elif train_set == False:
             print("Loading test set")
             cifar_data_dict = self.unpickle(cifar_dir + "/test_batch")
             self.rgb_images = cifar_data_dict[b'data']

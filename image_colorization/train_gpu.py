@@ -30,9 +30,9 @@ def main():
 
     # sys.stdout = Logger(log_file)
 
-    cifar_dataset = CifarDataset(dataset_path, train=choose_train_dataset, ab_preprocessing=ab_chosen_normalization,
-                                 L_processing=L_chosen_normalization, kernel_size=gauss_kernel_size,
-                                 do_blur=do_blur_processing, get_data_to_tests=False)
+    cifar_dataset = CifarDataset(dataset_path, train_set=choose_train_dataset, ab_preprocessing=ab_input_processing,
+                                 L_processing=L_input_processing, kernel_size=gauss_kernel_size,
+                                 do_blur=L_blur_processing, get_data_to_tests=False)
 
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=batch_size,
                                               shuffle=False, num_workers=0)
