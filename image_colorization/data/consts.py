@@ -1,6 +1,8 @@
 """This file contains all necessary files directories."""
+from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega
 
 which_version = "V1"
+chosen_net = FCN_net2()
 
 TRAINING_PARAMETERS = f"data/configs/training_parameters_{which_version}.json"
 TEST_PARAMETERS = "data/test_parameters.json"

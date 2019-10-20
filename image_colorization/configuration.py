@@ -5,7 +5,7 @@ dataset_path = 'datasets/Cifar-10/cifar-10-batches-py'
 save_every_10_epoch = True
 
 which_version = "V31"
-which_epoch_version = 0
+which_epoch_version = 10
 
 load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
 load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
@@ -28,7 +28,7 @@ decay_after_steps = 20
 L_blur_processing = False
 choose_train_dataset = True
 ab_input_processing = "normalization"
-ab_output_normalization = "normalization"
+ab_output_processing = "normalization"
 L_input_processing = "normalization"
 
 chosen_net = FCN_net2()

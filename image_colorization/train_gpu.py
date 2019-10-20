@@ -37,7 +37,8 @@ def main():
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=batch_size,
                                               shuffle=False, num_workers=0)
     net = chosen_net
-    net = net.double()
+    # net = net.float()
+    # net = net.double()
     net.train()
     print(f"Choosing net fcn_model{which_version}_epoch{which_epoch_version}")
 
@@ -80,7 +81,7 @@ def main():
             optimizer.zero_grad()
 
             # forward + backward + optimize
-            outputs = net(L_batch.to(device))
+            outputs = net(L_batch.float().to(device))
             loss = criterion(outputs, ab_batch.to(device))
             writer.add_scalar('Loss/train', loss)
             loss.backward()

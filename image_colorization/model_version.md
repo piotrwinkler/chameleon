@@ -31,7 +31,7 @@ V10:
 
     Results: 
     
-V11:   !!! przy zmianie ab_chosen_normalization na normalization jest coś ciekawego
+V11:   !!! przy zmianie ab_input_processing na normalization jest coś ciekawego
     
     !!! ogólnie jak się nauczy sieć na zestandaryzowanym ab, a potem wyjściowe ab z sieci będzie się nie destandaryzować,
     a denormalizowac ale ograniczając pixele od -127 do 128 a nawet mniej to są świetne wyniki
@@ -122,10 +122,10 @@ V14:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "normalization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net1()
         
@@ -167,10 +167,10 @@ V15:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "normalization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net1()
         
@@ -216,11 +216,11 @@ V16:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        ab_output_normalization = "normalization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "normalization"
+        ab_output_processing = "normalization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net1()
         
@@ -254,11 +254,11 @@ V18:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        ab_output_normalization = "normalization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "normalization"
+        ab_output_processing = "normalization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net1()
         
@@ -292,11 +292,11 @@ V19:    (Póki co top 3)
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net1()
         
@@ -331,11 +331,11 @@ V20:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net1()
         
@@ -370,11 +370,11 @@ V21:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net1()
         
@@ -408,11 +408,11 @@ V21:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net1()
         
@@ -447,11 +447,11 @@ V23:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net1()
         
@@ -486,11 +486,11 @@ V24:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net1()
         
@@ -524,11 +524,11 @@ V25:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        ab_output_normalization = "normalization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "normalization"
+        ab_output_processing = "normalization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net1()
         
@@ -563,11 +563,11 @@ V26:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        ab_output_normalization = "normalization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "normalization"
+        ab_output_processing = "normalization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net1()
         
@@ -625,11 +625,11 @@ V30:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net2()
         
@@ -665,11 +665,11 @@ V31:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        ab_output_normalization = "normalization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "normalization"
+        ab_output_processing = "normalization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net2()
         
@@ -703,11 +703,11 @@ V32:    (top 4)
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net2()
         
@@ -741,11 +741,11 @@ V33:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net2()
         
@@ -784,11 +784,11 @@ V40:    (Póki co top 2)
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net3()
         
@@ -822,11 +822,11 @@ V41:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        ab_output_normalization = "normalization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "normalization"
+        ab_output_processing = "normalization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net3()
         
@@ -860,11 +860,11 @@ V42:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net3()
         
@@ -898,11 +898,11 @@ V43:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net3()
         
@@ -942,11 +942,11 @@ V50:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net4()
         
@@ -980,11 +980,11 @@ V51:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        ab_output_normalization = "normalization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "normalization"
+        ab_output_processing = "normalization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net4()
         
@@ -1018,11 +1018,11 @@ V52:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net4()
         
@@ -1056,11 +1056,11 @@ V53:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net4()
         
@@ -1096,11 +1096,11 @@ V60:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net5()
         
@@ -1134,11 +1134,11 @@ V61:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        ab_output_normalization = "normalization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "normalization"
+        ab_output_processing = "normalization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net5()
         
@@ -1172,11 +1172,11 @@ V62:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net5()
         
@@ -1210,11 +1210,11 @@ V63:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "?"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "?"
         
         chosen_net = FCN_net5()
         
@@ -1250,11 +1250,11 @@ V70:    (top 1)
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net_mega()
         
@@ -1294,11 +1294,11 @@ V71:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "normalization"
-        ab_output_normalization = "normalization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "normalization"
+        ab_output_processing = "normalization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net_mega()
         
@@ -1332,11 +1332,11 @@ V72:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = False
+        L_blur_processing = False
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net_mega()
         
@@ -1376,11 +1376,11 @@ V73:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "standardization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "standardization"
         
         chosen_net = FCN_net_mega()
         
@@ -1420,11 +1420,11 @@ V74:
         step_decay = 0.5
         decay_after_steps = 20
         
-        do_blur_processing = True
+        L_blur_processing = True
         choose_train_dataset = True
-        ab_chosen_normalization = "standardization"
-        ab_output_normalization = "standardization"
-        L_chosen_normalization = "normalization"
+        ab_input_processing = "standardization"
+        ab_output_processing = "standardization"
+        L_input_processing = "normalization"
         
         chosen_net = FCN_net_mega()
         

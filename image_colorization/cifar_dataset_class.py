@@ -20,7 +20,8 @@ class CifarDataset(Dataset):
     do_blur = None
     kernel_size = None
 
-    def __init__(self, cifar_dir, train_set, ab_preprocessing, L_processing, do_blur, kernel_size, get_data_to_tests, transform=None):
+    def __init__(self, cifar_dir, train_set, ab_preprocessing, L_processing, do_blur, kernel_size, get_data_to_tests,
+                 transform=None):
 
         print("Preparing dataset...")
         self.get_data_to_tests = get_data_to_tests
@@ -55,8 +56,8 @@ class CifarDataset(Dataset):
         After conversion to Lab, y set (ab vector in Lab) is from -128 to +127
         """
 
-        self.L_rgb = np.array(self.L_rgb)
-        self.ab_rgb = np.array(self.ab_rgb)
+        self.L_rgb = np.array(self.L_rgb).astype('float32')
+        self.ab_rgb = np.array(self.ab_rgb).astype('float32')
 
         if self.L_processing == "normalization":
             print("Normalization on L channel")
@@ -107,6 +108,8 @@ class CifarDataset(Dataset):
             elif self.L_processing == "standardization":
                 print("Standardization on L_gray channel")
                 L_gray = (L_gray - self.L_mean[0]) / self.L_std[0]
+
+            L_gray = L_gray.astype('float32')
 
             # if self.do_blur:
             #     print(f"Blurring L channel with kernel {self.kernel_size}")

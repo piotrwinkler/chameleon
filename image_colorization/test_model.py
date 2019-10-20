@@ -32,7 +32,8 @@ def main():
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=1,
                                               shuffle=False, num_workers=0)
     net = chosen_net
-    net = net.double()
+    # net = net.double()
+    # net = net.float()
     # Miało być "per-pixel Euclidean loss function", mam nadzieję, ze to ten MSELoss
     net.load_state_dict(torch.load(load_net_file))
     net.eval()
@@ -50,7 +51,8 @@ def main():
             if L_blur_processing:
                 print(f"Blurring L channel with kernel {gauss_kernel_size}")
                 L_input_gray = cv2.GaussianBlur(L_input_gray, gauss_kernel_size, 0)
-                L_batch_gray = torch.from_numpy(L_input_gray).double()
+                L_input_gray = L_input_gray.astype("float32")
+                L_batch_gray = torch.from_numpy(L_input_gray)
                 L_batch_gray = L_batch_gray.view(-1, 1, 32, 32)
 
             fig = plt.figure(figsize=(14, 7))
