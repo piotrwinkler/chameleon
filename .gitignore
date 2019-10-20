@@ -378,3 +378,6 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+
+datasets/*
+*/runs/*
