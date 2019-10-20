@@ -16,6 +16,7 @@ from image_colorization.configuration import *
 import cv2
 
 results_dir = f"results/{which_version}"
+# results_dir = f"results/V72_2"
 
 
 def main():

@@ -1106,10 +1106,10 @@ V60:
         
         gauss_kernel_size = (5, 5)
         
-        Results: Oct17_18-46-43_DESKTOP-K2JRB94 , Loss = 
+        Results: Oct20_15-44-55_DESKTOP-K2JRB94 , Loss = 0,8
         
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: Jest lekki kolor, ale głównie brązowy i szary
+        Z trickiem: Spoko kolory, ale raczej gorzej niż w V70
         
 V61:
 
@@ -1144,10 +1144,10 @@ V61:
         
         gauss_kernel_size = (5, 5)
         
-        Results:  , Loss = 
+        Results: Oct20_16-57-16_DESKTOP-K2JRB94 , Loss = 2.43e-3
         
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: Ogólnie brązowo, ale niebo czasami niebieskie
+        Z trickiem: Żółto, ale ogólnie niebo i woda są niebieskie pod tym żółtym
 
 V62:
 
@@ -1182,10 +1182,10 @@ V62:
         
         gauss_kernel_size = (5, 5)
         
-        Results:  , Loss = 
+        Results: Oct20_17-59-08_DESKTOP-K2JRB94 , Loss = 0,809
         
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: Ogólnie brązowo, ale niebo czasami niebieskie
+        Z trickiem: W sumie spoko, porównywalnie z V70, ale kolory są miejscami mniej wypełnione
         
 V63:
 
@@ -1267,8 +1267,9 @@ V70:    (top 1)
         Z trickiem: Też są kolory fajne, chyba póki co najlepszy, mało przecieków, mega
         
         Po 10 epokach:
-        Bez tricku: Brązowo ale są kolorki, więc nieźle, lepiej niż inne po 10 epokach bez tricku
-        Z trickiem: Bardzo podobnie jak po 60 epokach, ale chyba troszkę lepiej
+        Bez tricku: Brązowo ale są kolorki, więc nieźle, lepiej niż inne po 10 epokach bez tricku, ale chyba tak samo 
+        jak po 60 epokach
+        Z trickiem: Bardzo podobnie jak po 60 epokach, praktycznie nie da się wypatrzeć różnicy
         
 V71:
 
@@ -1341,10 +1342,16 @@ V72:
         
         gauss_kernel_size = (5, 5)
         
-        Results: Oct18_16-57-27_DESKTOP-K2JRB94 , Loss = 
+        Results: Oct18_16-57-27_DESKTOP-K2JRB94 , Loss = 0,73
         
-        Bez tricku: 
-        Z trickiem: 
+        Po 45 epokach:
+        Bez tricku: Całkiem spoko, podobnie jak V70
+        Z trickiem: Ogólnie spoko, w porównaniu do V70 są wady i zalety, jest mniej wycieków kolorów, ale z drugiej
+        strony kolory są czasami zbyt przejaskrawione
+        
+        Po 10 epokach:
+        Bez tricku: spoko, ale gorzej niż po 45 epokach
+        Z trickiem: Gorzej niż po 45 epokach, ale spoko
         
 V73:
 
@@ -1358,7 +1365,7 @@ V73:
         log_file = f"logs/logs_fcn_model{which_version}_train.log"
         
         init_epoch = 0
-        how_many_epochs = 10
+        how_many_epochs = 45
         do_load_model = False
         
         batch_size = 128
@@ -1373,7 +1380,7 @@ V73:
         choose_train_dataset = True
         ab_chosen_normalization = "standardization"
         ab_output_normalization = "standardization"
-        L_chosen_normalization = "?"
+        L_chosen_normalization = "standardization"
         
         chosen_net = FCN_net_mega()
         
@@ -1381,5 +1388,58 @@ V73:
         
         Results:  , Loss = 
         
+        Po 45 epokach:
         Bez tricku: 
         Z trickiem: 
+        
+        Po 10 epokach:
+        Bez tricku: 
+        Z trickiem: 
+        
+        
+V74:
+
+        which_version = "V74"
+        which_epoch_version = 0
+        
+        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
+        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
+        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        
+        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        
+        init_epoch = 0
+        how_many_epochs = 45
+        do_load_model = False
+        
+        batch_size = 128
+        learning_rate = 0.1
+        momentum = 0.9
+        lr_step_scheduler = 1
+        lr_step_gamma = 0.999
+        step_decay = 0.5
+        decay_after_steps = 20
+        
+        do_blur_processing = True
+        choose_train_dataset = True
+        ab_chosen_normalization = "standardization"
+        ab_output_normalization = "standardization"
+        L_chosen_normalization = "normalization"
+        
+        chosen_net = FCN_net_mega()
+        
+        gauss_kernel_size = (5, 5)
+        
+        Results:  , Loss = 
+        
+        Po 45 epokach:
+        Bez tricku: 
+        Z trickiem: 
+        
+        Po 10 epokach:
+        Bez tricku: 
+        Z trickiem: 
+
+### Wnioski: 
+Standardyzacja L chyba sprawia, że jest mniej wycieków kolorów, ale też sprawia, że kolory są momentami zbyt 
+przejaskrawione. 

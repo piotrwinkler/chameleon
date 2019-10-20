@@ -12,7 +12,6 @@ import numpy as np
 from torch.utils.tensorboard import SummaryWriter
 from image_colorization.cifar_dataset_class import CifarDataset
 
-
 from image_colorization.configuration import *
 
 
@@ -65,13 +64,13 @@ def main():
         optimizer.load_state_dict(torch.load(load_optimizer_file))
         scheduler.load_state_dict(torch.load(load_scheduler_file))
 
-    # torch.save(net.state_dict(), save_net_file)
-    # torch.save(optimizer.state_dict(), save_optimizer_file)
-    # torch.save(scheduler.state_dict(), save_scheduler_file)
+    torch.save(net.state_dict(), save_net_file)
+    torch.save(optimizer.state_dict(), save_optimizer_file)
+    torch.save(scheduler.state_dict(), save_scheduler_file)
 
     writer = SummaryWriter()
 
-    for epoch in range(init_epoch, init_epoch+how_many_epochs):
+    for epoch in range(init_epoch+1, init_epoch+how_many_epochs+1):
 
         start_time = time.time()
 
@@ -96,9 +95,15 @@ def main():
         end_time = time.time() - start_time
         print(f"Epoch {epoch} took {end_time} seconds")
 
-        save_net_file = f"model_states/fcn_model{which_version}_epoch{epoch}.pth"
-        save_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{epoch}.pth"
-        save_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{epoch}.pth"
+        if save_every_10_epoch and epoch % 10 == 0:
+            print(epoch % 10)
+            save_net_file = f"model_states/fcn_model{which_version}_epoch{epoch}.pth"
+            save_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{epoch}.pth"
+            save_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{epoch}.pth"
+        else:
+            save_net_file = f"model_states/fcn_model{which_version}_epoch{0}.pth"
+            save_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{0}.pth"
+            save_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{0}.pth"
 
         torch.save(net.state_dict(), save_net_file)
         torch.save(optimizer.state_dict(), save_optimizer_file)
@@ -111,6 +116,15 @@ def main():
             scheduler._step_count = 1
 
         print(f"Current learning rate = {optimizer.state_dict()['param_groups'][0]['lr']}")
+
+    else:
+        save_net_file = f"model_states/fcn_model{which_version}_epoch{epoch}.pth"
+        save_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{epoch}.pth"
+        save_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{epoch}.pth"
+
+        torch.save(net.state_dict(), save_net_file)
+        torch.save(optimizer.state_dict(), save_optimizer_file)
+        torch.save(scheduler.state_dict(), save_scheduler_file)
 
     print('Finished Training')
 
