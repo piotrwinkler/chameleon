@@ -1,0 +1,47 @@
+{
+  "criterion":
+  {
+      "name": "MSELoss",
+      "patameters":
+      {
+
+      }
+  },
+  "optimizer":
+  {
+      "name": "Adagrad",
+      "parameters":
+      {
+        "lr": 1e-2
+      }
+  },
+  "training_epochs": 2,
+  "training_monitoring_period": 1,
+  "dataloader_parameters":
+  {
+      "batch_size": 1,
+      "shuffle": false,
+      "num_workers": 4
+  },
+  "train_on_gpu": false,
+  "dataset":
+  {
+    "name": "BasicFiltersDataset",
+    "input_conversions": [{"name":"Resize",
+                        "parameters": [[256, 256]]},
+                          {"name":"NormalizeImage255",
+                        "parameters": []},
+                          {"name":"RgbtoGray",
+                        "parameters": []}],
+    "output_conversions": [{"name":"Resize",
+                        "parameters": [[256, 256]]},
+                          {"name":"NormalizeImage255",
+                        "parameters": []},
+                          {"name":"RgbtoGray",
+                        "parameters": []},
+                          {"name": "FilterImageSobelx",
+                        "parameters": []}],
+    "transforms": [{"name": "ToTensor",
+                    "parameters": []}]
+  }
+}
