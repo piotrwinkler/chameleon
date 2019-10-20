@@ -9,15 +9,13 @@
   },
   "optimizer":
   {
-      "name": "SGD",
+      "name": "Adagrad",
       "parameters":
       {
-        "lr": 1e-3,
-        "momentum": 0.9,
-        "nesterov": true
+        "lr": 1e-2
       }
   },
-  "training_epochs": 10,
+  "training_epochs": 2,
   "training_monitoring_period": 1,
   "dataloader_parameters":
   {

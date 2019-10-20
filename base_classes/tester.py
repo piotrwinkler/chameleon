@@ -29,7 +29,7 @@ class BaseTester:
 
     @staticmethod
     def read_image(img_path):
-        return cv2.imread(img_path, cv2.IMREAD_GRAYSCALE) #===========================================
+        return cv2.imread(img_path)
 
     @staticmethod
     def show_image(imgs_list):

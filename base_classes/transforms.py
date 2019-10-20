@@ -58,4 +58,8 @@ class ToTensor:
         # output_img = np.squeeze(output_img)  # remove redundant dimensions
         # output_img = output_img.transpose((1, 2, 0)) if len(np.shape(output_img)) == 3 else output_img
         # cv2.imshow(f'dopa', output_img)
+        # cv2.imshow(f'dopa', output_img)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
         return sample

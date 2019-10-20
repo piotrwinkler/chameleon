@@ -40,6 +40,14 @@ class Trainer:
             sys.exit(1)
         self._network = network.to(self._device) if self._train_on_gpu else network
 
+        if self._retraining_network_path != "":
+            try:
+                self._network.load_state_dict(torch.load(self._retraining_network_path))
+                log.info(f'{self._retraining_network_path} model loaded for retraining')
+            except FileNotFoundError:
+                log.debug(f'{self._retraining_network_path}: given model not found! Network will be initialized '
+                          f'with random weights.')
+
         if self.do_retrain and self._retraining_network_path != "":
             try:
                 self._network.load_state_dict(torch.load(self._retraining_network_path))

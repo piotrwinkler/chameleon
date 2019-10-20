@@ -1,9 +1,7 @@
 import cv2
-import glob
-import sys
 import torch
 
-from loguru import logger as log
+from base_classes.data_collector import DataCollector
 from torch.utils.data import Dataset
 
 
@@ -15,17 +13,7 @@ class BaseDataset(Dataset):
         self._input_conversions_list = input_conversions_list
         self._output_conversions_list = output_conversions_list
 
-        self._file_types = [f'{self._dataset_directory}/*.jpg', f'{self._dataset_directory}/*.jpeg',
-                            f'{self._dataset_directory}/*.png', f'{self._dataset_directory}/*.bmp']
-        self._list_of_files_lists = [glob.glob(e) for e in self._file_types if glob.glob(e) != []]
-        for l in self._list_of_files_lists:
-            self._files_list = [img for img in l]
-
-        log.info(f'List of loaded files: {self._files_list}')
-        log.info(f'{len(self)} images loaded from: {self._dataset_directory}!')
-        if not self._files_list:
-            log.error(f'Images loading from {self._dataset_directory} failed!')
-            sys.exit(1)
+        self._files_list = DataCollector.collect_images(self._dataset_directory)
 
     def __len__(self):
         return len(self._files_list)
@@ -52,6 +40,14 @@ class BasicFiltersDataset(BaseDataset):
 
         image_in = self._implement_conversions(image_in, self._input_conversions_list)
         image_out = self._implement_conversions(image_out,  self._output_conversions_list)
+
+        # cv2.imshow(f'image_in', image_in)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+        #
+        # cv2.imshow(f'image_out', image_out)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
 
         sample = [image_in, image_out]
 

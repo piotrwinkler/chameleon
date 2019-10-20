@@ -28,6 +28,19 @@ class FilterImageSobely:
         return cv2.Sobel(img, cv2.CV_32F, 0, 1, ksize=3).astype('float32')
 
 
+class Sepia:
+    def __init__(self):
+        self._kernel = np.array([[0.131, 0.534, 0.272],
+                           [0.168, 0.686, 0.349],
+                           [0.189, 0.769, 0.393]])
+
+    def __call__(self, img):
+        img_sepia = cv2.transform(img, self._kernel)
+        # Check which entries have a value greater than 255 and set it to 255
+        img_sepia[np.where(img_sepia > 255)] = 255
+        return img_sepia
+
+
 class NormalizeImage255:
     def __init__(self):
         pass
@@ -57,20 +70,21 @@ class Resize:
 
 if __name__ == "__main__":
     # Executable code intended to conversions testing (should be deleted in final version)
-    img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/test_dataset/arab.jpg"
+    img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/test_dataset/samolot.jpg"
     img = cv2.imread(img_path).astype(np.float32)
 
     normalize_image255 = NormalizeImage255()
-    rgb_to_gray = RgbtoGray()
-    filter_image_sobelx = FilterImageSobelx()
+    # rgb_to_gray = RgbtoGray()
+    # filter_image_sobelx = FilterImageSobely()
+    sepia = Sepia()
     normalize_image = NormalizeImage()
-    resize = Resize([256, 256])
+    resize = Resize([512, 512])
 
     img = resize(img)
     img = normalize_image255(img)
-    img = rgb_to_gray(img).astype('float32')
+    # img = sepia(img).astype('float32')
     # gray_img = ImagesConverter.normalize_image255(gray_img)
-    img = filter_image_sobelx(img).astype('float32')
+    img = sepia(img).astype('float32')
     img = np.array(img, dtype='float32')
 
     cv2.imshow(f'filtered_img', normalize_image(img))
