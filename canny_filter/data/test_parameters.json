@@ -1,0 +1,11 @@
+{
+  "net_model": "SobelFilter",
+  "transforms":   [{"name": "ToTensor",
+                  "parameters": []}],
+  "input_conversions": [{"name":"Resize",
+                        "parameters": [[512, 512]]},
+                        {"name":"NormalizeImage255Canny",
+                        "parameters": []}],
+  "output_conversions": [{"name":"NormalizeImage",
+                        "parameters": []}]
+}
