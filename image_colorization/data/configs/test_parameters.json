@@ -1,13 +1,28 @@
 {
-  "net_model": "SobelFilter",
-  "transforms":   [{"name": "ToTensor",
-                  "parameters": []}],
-  "input_conversions": [{"name":"Resize",
-                        "parameters": [[512, 512]]},
-                          {"name":"NormalizeImage255",
-                        "parameters": []},
-                          {"name":"RgbtoGray",
-                        "parameters": []}],
-  "output_conversions": [{"name":"NormalizeImage",
-                        "parameters": []}]
+  "do_save_results": true,
+
+  "dataset":
+  {
+    "name": "BasicCifar10Dataset",
+    "input_conversions": [{"name":"CustomNormalize",
+                        "parameters": [50, 100]}],
+    "output_conversions": [{"name":"CustomNormalize",
+                        "parameters": [0, 255.0]}],
+    "transforms": [{"name": "ToTensor",
+                    "parameters": []}],
+    "blur": {
+    "do_blur": false,
+    "kernel_size": [5, 5]
+  }
+  },
+  "deconversion": {
+
+  },
+
+  "dataloader_parameters":
+  {
+      "batch_size": 1,
+      "shuffle": false,
+      "num_workers": 0
+  }
 }

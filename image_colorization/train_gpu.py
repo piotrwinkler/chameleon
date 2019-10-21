@@ -7,10 +7,8 @@ import torch
 import torch.nn as nn
 import time
 import torch.optim as optim
-from base_classes.logger_class import Logger
-import numpy as np
 from torch.utils.tensorboard import SummaryWriter
-from image_colorization.cifar_dataset_class import CifarDataset
+from image_colorization.outdated.cifar_dataset_class import CifarDataset
 
 from image_colorization.configuration import *
 

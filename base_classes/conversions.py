@@ -77,6 +77,15 @@ class CustomNormalize:
         return ((input_array - self.substract_factor) / self.divide_factor).astype('float32')
 
 
+class CustomDenormalize:
+    def __init__(self, add_factor, multiply_factor):
+        self.multiply_factor = multiply_factor
+        self.add_factor = add_factor
+
+    def __call__(self, input_array):
+        return (input_array * self.multiply_factor + self.add_factor).astype('float32')
+
+
 class Standardization3ch:
     """
     Standardization of input array for 3 channel arrays

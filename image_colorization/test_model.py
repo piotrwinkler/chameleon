@@ -11,7 +11,7 @@ from torch.utils.tensorboard import SummaryWriter
 import matplotlib
 import matplotlib.pyplot as plt
 from skimage import color
-from image_colorization.cifar_dataset_class import CifarDataset
+from image_colorization.outdated.cifar_dataset_class import CifarDataset
 from image_colorization.configuration import *
 import cv2
 
@@ -27,7 +27,7 @@ def main():
 
     cifar_dataset = CifarDataset(dataset_path, train_set=choose_train_dataset, ab_preprocessing=ab_input_processing,
                                  L_processing=L_input_processing, kernel_size=gauss_kernel_size,
-                                 do_blur=L_blur_processing, get_data_to_tests=True)
+                                 do_blur=False, get_data_to_tests=True)
 
     trainloader = torch.utils.data.DataLoader(cifar_dataset, batch_size=1,
                                               shuffle=False, num_workers=0)

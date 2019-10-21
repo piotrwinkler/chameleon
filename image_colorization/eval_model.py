@@ -3,19 +3,13 @@
 with torch.no_grad():
     self.conv1.weight = torch.nn.Parameter(K)
 """
-from image_colorization.data_server import load_cifar_10
+from image_colorization.outdated.data_server import load_cifar_10
 from image_colorization.nets.fcn_models import FCN_net1
 import torch
 import torch.nn as nn
-import time
-import torch.optim as optim
-from base_classes.logger_class import Logger
-import sys
-import cv2
 import numpy as np
 from torch.utils.tensorboard import SummaryWriter
-import matplotlib.pyplot as plt
-from skimage import io, color
+from skimage import color
 
 
 dataset_path = "datasets/Cifar-10"

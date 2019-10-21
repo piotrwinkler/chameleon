@@ -135,6 +135,6 @@ class Trainer:
             splitted = self.scheduler_saving_directory.split('.')
             torch.save(scheduler.state_dict(), f"{splitted[0]}_epoch_{title}.{splitted[-1]}")
 
-            log.info('NN model weights saved succesfully!')
+            log.info('NN model weights saved successfully!')
         except Exception as e:
             log.error(f'Trainer was unable to save image due to: {e}')

@@ -70,10 +70,11 @@ class BasicCifar10Dataset(BaseDataset):
     L_std = None
     get_data_to_tests = None
 
-    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, transform=None):
+    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, blur_details, transform=None):
         super().__init__(".", input_conversions_list, output_conversions_list, transform)
 
         self.get_data_to_tests = get_data_to_tests
+        self.blur_details = blur_details
         train_set = choose_train_set
 
         if train_set == True:
@@ -123,30 +124,27 @@ class BasicCifar10Dataset(BaseDataset):
             idx = idx.tolist()
 
         if not self.get_data_to_tests:
-            return self.L_rgb[idx][np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1))
+
+            curr_L = self.L_rgb[idx]
+            if self.blur_details['do_blur']:
+                curr_L = cv2.GaussianBlur(curr_L, tuple(self.blur_details['kernel_size']), 0)
+
+            return curr_L[np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1))
 
         else:
             gray_img = color.rgb2gray(self.rgb_images[idx])
             gray_img = np.dstack((gray_img, gray_img, gray_img))
             L_gray = color.rgb2lab(gray_img)[:, :, 0]
 
-            # if self.L_processing == "normalization":
-            #     print("Normalization on L_gray channel")
-            #     L_gray = (L_gray - 50) / 100
-
-            #
-            # elif self.L_processing == "standardization":
-            #     print("Standardization on L_gray channel")
-            #     L_gray = (L_gray - self.L_mean[0]) / self.L_std[0]
-
             L_gray = self._implement_conversions(L_gray, self._input_conversions_list)
 
-            # if self.do_blur:
-            #     print(f"Blurring L channel with kernel {self.kernel_size}")
-            #     L_gray = cv2.GaussianBlur(L_gray, self.kernel_size, 0)
+            if self.blur_details['do_blur']:
+                L_gray_out = cv2.GaussianBlur(L_gray, tuple(self.blur_details['kernel_size']), 0)
+            else:
+                L_gray_out = L_gray
 
-            return self.L_rgb[idx][np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1)), self.rgb_images[idx], \
-                   L_gray[np.newaxis, :, :], gray_img
+            return L_gray[np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1)), self.rgb_images[idx], \
+                   L_gray_out[np.newaxis, :, :], gray_img
 
     @staticmethod
     def unpickle(file):

@@ -14,7 +14,7 @@ NET_SAVING_DIRECTORY = f"model_states/fcn_model{which_version}.pth"
 OPTIMIZER_SAVING_DIRECTORY = f"model_states/fcn_optimizer{which_version}.pth"
 SCHEDULER_SAVING_DIRECTORY = f"model_states/fcn_scheduler{which_version}.pth"
 
-do_retrain = False
+do_retrain = True
 retrain_model = "V1_epoch_final"
 RETRAINING_NET_DIRECTORY = f"model_states/fcn_model{retrain_model}.pth"
 RETRAINING_OPTIMIZER_DIRECTORY = f"model_states/fcn_optimizer{retrain_model}.pth"
