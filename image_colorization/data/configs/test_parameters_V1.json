@@ -17,7 +17,7 @@
       "shuffle": false,
       "num_workers": 0
   },
-  "test_on_gpu": true,
+  "test_on_gpu": false,
   "additional_params":
   {
     "blur":

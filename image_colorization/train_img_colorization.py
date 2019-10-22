@@ -1,7 +1,4 @@
 """Entrypoint for network training."""
-# TODO: Dopisać tester dla img colorization, dopisać tester dla pojedycznych obrazków
-# TODO: Tester dla datasetu
-# TODO: Dopisać przekształcenia standardyzacji
 import image_colorization.data.consts as consts
 
 from base_classes.setup_creator import SetupCreator
@@ -11,7 +8,8 @@ from base_classes.trainer import Trainer
 
 def main():
     config_dict = JsonParser.read_config(consts.TRAINING_PARAMETERS)
-    dataset = SetupCreator.create_img_color_dataset(consts.TRAINING_DATASET_DIRECTORY, config_dict['dataset'])
+    dataset = SetupCreator.create_dataset(consts.TRAINING_DATASET_DIRECTORY, config_dict['dataset'],
+                                                    config_dict['additional_params'])
 
     network = consts.chosen_net
     trainer = Trainer(config_dict, consts.NET_SAVING_DIRECTORY, consts.OPTIMIZER_SAVING_DIRECTORY,

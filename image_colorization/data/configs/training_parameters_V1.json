@@ -18,14 +18,7 @@
   },
   "scheduler":
   {
-      "name": "StepLR",
-      "parameters":
-      {
-        "step_size": 1,
-        "gamma": 0.999
-      },
-      "scheduler_decay": 0.5,
-      "scheduler_decay_period": 20
+
   },
   "init_epoch": 0,
   "training_epochs": 3,
@@ -42,14 +35,27 @@
   {
     "name": "BasicCifar10Dataset",
     "input_conversions": [{"name":"CustomNormalize",
-                        "parameters": [50, 100]}],
-    "output_conversions": [{"name":"CustomNormalize",
-                        "parameters": [0, 255.0]}],
+                        "parameters": [50, 100]},
+                          {"name":"Standardization",
+                        "parameters": []},
+                          {"name":"GaussKernel",
+                        "parameters": [[5,5]]}],
+    "output_conversions": [{"name":"Standardization",
+                        "parameters": []}],
     "transforms": [{"name": "ToTensor",
-                    "parameters": []}],
-    "blur": {
+                    "parameters": []}]
+  },
+  "additional_params":
+  {
+    "blur":
+    {
       "do_blur": false,
-      "kernel_size": [5, 5]}
+      "kernel_size": [5, 5]
+    },
+    "get_data_to_test": false,
+    "choose_train_set": true,
+    "L_input_processing": "normalization",
+    "ab_input_processing": "normalization",
+    "ab_output_processing": "normalization"
   }
-
 }

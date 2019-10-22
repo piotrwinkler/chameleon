@@ -86,9 +86,9 @@ class CustomDenormalize:
         return (input_array * self.multiply_factor + self.add_factor).astype('float32')
 
 
-class Standardization3ch:
+class Standardization:
     """
-    Standardization of input array for 3 channel arrays
+    Standardization of whole input array
     """
     def __init__(self):
         pass
@@ -98,6 +98,20 @@ class Standardization3ch:
         std = np.std(input_array, axis=(0, 1, 2), keepdims=True)
 
         return ((input_array - mean) / std).astype('float32')
+
+
+class GaussKernel:
+    """
+    Standardization of whole input array
+    """
+    def __init__(self, kernel_size):
+        self.kernel_size = tuple(kernel_size)
+
+    def __call__(self, input_array):
+        for i in range(input_array.shape[0]):
+            input_array[i] = cv2.GaussianBlur(input_array[i] , self.kernel_size, 0)
+
+        return input_array.astype('float32')
 
 
 if __name__ == "__main__":

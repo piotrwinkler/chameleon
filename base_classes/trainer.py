@@ -57,25 +57,38 @@ class Trainer:
                 (self._network.parameters(), **self._config_dict['optimizer']['parameters'])
             log.info(f'Trainer optimizer: {optimizer}')
 
-            scheduler = getattr(optim.lr_scheduler, self._config_dict['scheduler']['name'], 'Specified scheduler not found')\
-                (optimizer=optimizer,
-                 **self._config_dict['scheduler']['parameters'])
-            log.info(f'Trainer scheduler: {scheduler}')
+            try:
+                scheduler = getattr(optim.lr_scheduler, self._config_dict['scheduler']['name'], 'Specified scheduler not found')\
+                    (optimizer=optimizer,
+                     **self._config_dict['scheduler']['parameters'])
+                log.info(f'Trainer scheduler: {scheduler}')
+            except Exception as e:
+                log.debug(f'Cannot load scheduler: {e}')
+                scheduler = None
 
             if self.do_retrain and self._retraining_network_path != "":
                 try:
                     optimizer.load_state_dict(torch.load(self.retraining_optimizer_path))
                     log.info(f'{self.retraining_optimizer_path} optimizer loaded for retraining')
-
-                    scheduler.load_state_dict(torch.load(self.retraining_scheduler_path))
-                    log.info(f'{self.retraining_scheduler_path} scheduler loaded for retraining')
                 except FileNotFoundError:
-                    log.debug(f'{self._retraining_network_path}: given optimizer or scheduler not found! They will be '
+                    log.debug(f'{self._retraining_network_path}: given optimizer not found! It will be '
                               f'initialized with random weights.')
+                if scheduler is not None:
+                    try:
+                        scheduler.load_state_dict(torch.load(self.retraining_scheduler_path))
+                        log.info(f'{self.retraining_scheduler_path} scheduler loaded for retraining')
+                    except FileNotFoundError:
+                        log.debug(f'{self._retraining_network_path}: given scheduler not found! It will be '
+                                  f'initialized with random weights.')
 
             dataloader = DataLoader(dataset, **self._config_dict['dataloader_parameters'])
             checker = self._config_dict['training_monitoring_period']
-            scheduler_decay_period = self._config_dict['scheduler']['scheduler_decay_period']
+
+            if scheduler is not None:
+                scheduler_decay_period = self._config_dict['scheduler']['scheduler_decay_period']
+            else:
+                scheduler_decay_period = None
+
             saving_period = self._config_dict['saving_period']
             batch_size = self._config_dict['dataloader_parameters']["batch_size"]
 
@@ -95,7 +108,8 @@ class Trainer:
                     loss = criterion(outputs, expected_outputs)
                     loss.backward()
                     optimizer.step()
-                    scheduler.step()
+                    if scheduler is not None:
+                        scheduler.step()
 
                     running_loss += loss.item()
                     if i % checker == checker-1:
@@ -107,7 +121,7 @@ class Trainer:
                 end_time = time.time() - start_time
                 log.info(f"Epoch {epoch + 1} took {end_time} seconds")
 
-                if epoch % scheduler_decay_period == 0:
+                if scheduler is not None and epoch % scheduler_decay_period == 0:
                     scheduler.base_lrs = [scheduler.optimizer.state_dict()["param_groups"][0]["lr"]]
                     scheduler.last_epoch = 0
                     scheduler.step_size = scheduler.step_size / self._config_dict['scheduler']['scheduler_decay']
@@ -132,8 +146,9 @@ class Trainer:
             splitted = self.optimizer_saving_directory.split('.')
             torch.save(optimizer.state_dict(), f"{splitted[0]}_epoch_{title}.{splitted[-1]}")
 
-            splitted = self.scheduler_saving_directory.split('.')
-            torch.save(scheduler.state_dict(), f"{splitted[0]}_epoch_{title}.{splitted[-1]}")
+            if scheduler is not None:
+                splitted = self.scheduler_saving_directory.split('.')
+                torch.save(scheduler.state_dict(), f"{splitted[0]}_epoch_{title}.{splitted[-1]}")
 
             log.info('NN model weights saved successfully!')
         except Exception as e:

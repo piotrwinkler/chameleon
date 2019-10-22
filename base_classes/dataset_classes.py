@@ -6,7 +6,6 @@ from torch.utils.data import Dataset
 import numpy as np
 from skimage import color
 import pickle
-from image_colorization.data.consts import choose_train_set, get_data_to_tests
 
 
 class BaseDataset(Dataset):
@@ -33,7 +32,8 @@ class BaseDataset(Dataset):
 class BasicFiltersDataset(BaseDataset):
     """This class inherits from GeneralDataset to prepare converted and transformed inputs and outputs as
     connected samples. All operations are defined in "training_parameters.json" """
-    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, transform=None):
+    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, additional_params,
+                 transform=None):
         super().__init__(dataset_directory, input_conversions_list, output_conversions_list, transform)
 
     def __getitem__(self, item):
@@ -68,16 +68,18 @@ class BasicCifar10Dataset(BaseDataset):
     rgb_images = []
     L_mean = None
     L_std = None
+    ab_mean = None
+    ab_std = None
     get_data_to_tests = None
 
-    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, blur_details, transform=None):
+    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, additional_params,
+                 transform=None):
         super().__init__(".", input_conversions_list, output_conversions_list, transform)
 
-        self.get_data_to_tests = get_data_to_tests
-        self.blur_details = blur_details
-        train_set = choose_train_set
+        self.get_data_to_tests = additional_params['get_data_to_test']
+        self.additional_params = additional_params
 
-        if train_set == True:
+        if self.additional_params['choose_train_set']:
             print("Loading train set")
             for i in range(1, 6):
                 cifar_data_dict = self.unpickle(dataset_directory + "/data_batch_{}".format(i))
@@ -86,7 +88,7 @@ class BasicCifar10Dataset(BaseDataset):
                 else:
                     self.rgb_images = np.vstack((self.rgb_images, cifar_data_dict[b'data']))
 
-        elif train_set == False:
+        else:
             print("Loading test set")
             cifar_data_dict = self.unpickle(dataset_directory + "/test_batch")
             self.rgb_images = cifar_data_dict[b'data']
@@ -107,9 +109,11 @@ class BasicCifar10Dataset(BaseDataset):
         self.L_rgb = np.array(self.L_rgb)
         self.ab_rgb = np.array(self.ab_rgb)
 
-        if get_data_to_tests:
+        if self.get_data_to_tests:
             self.L_mean = np.mean(self.L_rgb, axis=(0, 1, 2), keepdims=True)
             self.L_std = np.std(self.L_rgb, axis=(0, 1, 2), keepdims=True)
+            self.ab_mean = np.mean(self.ab_rgb, axis=(0, 1, 2), keepdims=True)
+            self.ab_std = np.std(self.ab_rgb, axis=(0, 1, 2), keepdims=True)
 
         self.L_rgb = self._implement_conversions(self.L_rgb, self._input_conversions_list)
         self.ab_rgb = self._implement_conversions(self.ab_rgb,  self._output_conversions_list)
@@ -125,26 +129,34 @@ class BasicCifar10Dataset(BaseDataset):
 
         if not self.get_data_to_tests:
 
-            curr_L = self.L_rgb[idx]
-            if self.blur_details['do_blur']:
-                curr_L = cv2.GaussianBlur(curr_L, tuple(self.blur_details['kernel_size']), 0)
+            # curr_L = self.L_rgb[idx]
+            # if self.blur_details['do_blur']:
+            #     curr_L = cv2.GaussianBlur(curr_L, tuple(self.blur_details['kernel_size']), 0)
 
-            return curr_L[np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1))
+            return self.L_rgb[idx][np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1))
 
         else:
             gray_img = color.rgb2gray(self.rgb_images[idx])
             gray_img = np.dstack((gray_img, gray_img, gray_img))
             L_gray = color.rgb2lab(gray_img)[:, :, 0]
+            L_gray_not_processed = L_gray.copy()
 
-            L_gray = self._implement_conversions(L_gray, self._input_conversions_list)
+            # L_gray = self._implement_conversions(L_gray, self._input_conversions_list)
+            if self.additional_params['L_input_processing'] == "normalization":
+                print("Normalization on L_gray channel")
+                L_gray = (L_gray - 50) / 100
 
-            if self.blur_details['do_blur']:
-                L_gray_out = cv2.GaussianBlur(L_gray, tuple(self.blur_details['kernel_size']), 0)
-            else:
-                L_gray_out = L_gray
+            elif self.additional_params['L_input_processing'] == "standardization":
+                print("Standardization on L_gray channel")
+                L_gray = (L_gray - self.L_mean[0]) / self.L_std[0]
 
-            return L_gray[np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1)), self.rgb_images[idx], \
-                   L_gray_out[np.newaxis, :, :], gray_img
+            if self.additional_params['blur']['do_blur']:
+                L_gray = cv2.GaussianBlur(L_gray, tuple(self.additional_params['blur']['kernel_size']), 0)
+
+            L_gray = L_gray.astype('float32')
+
+            return L_gray_not_processed[np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1)), \
+                   self.rgb_images[idx], L_gray[np.newaxis, :, :], gray_img
 
     @staticmethod
     def unpickle(file):

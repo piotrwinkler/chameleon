@@ -17,7 +17,7 @@
       "shuffle": false,
       "num_workers": 0
   },
-  "test_on_gpu": true,
+  "test_on_gpu": false,
   "additional_params":
   {
     "blur":
@@ -29,7 +29,7 @@
     "choose_train_set": true,
     "L_input_processing": "standardization",
     "ab_input_processing": "standardization",
-    "ab_output_processing": "standardization",
+    "ab_output_processing": "trick",
     "do_save_results": true,
     "do_show_results": true,
     "how_many_results_to_generate": 50
