@@ -7,7 +7,6 @@ from loguru import logger as log
 import matplotlib.pyplot as plt
 from skimage import color
 import matplotlib
-import sys
 
 
 class BaseTester:
@@ -89,7 +88,6 @@ class ImageColorizationTester(BaseTester):
         self.additional_params = additional_params
         self.results_dir = results_dir
 
-
         self._device = torch.device('cuda:0' if torch.cuda.is_available() else
                                     'cpu')
         log.info(self._device)
@@ -106,7 +104,7 @@ class ImageColorizationTester(BaseTester):
         log.info(f"Choosing net {str(self._model)}")
 
         with torch.no_grad():
-            for i, (L_batch_gray_not_processed, ab_batch_rgb, rgb_images, L_batch_gray, gray_images) in enumerate(dataloader):
+            for i, (L_batch_gray_not_processed, rgb_images, L_batch_gray, gray_images) in enumerate(dataloader):
                 L_gray_not_processed = np.transpose(L_batch_gray_not_processed[0].numpy(), (1, 2, 0))
 
                 fig = plt.figure(figsize=(14, 7))

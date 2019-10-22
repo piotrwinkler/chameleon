@@ -1,23 +1,24 @@
 {
-  "do_save_results": true,
-  "net_model": "FCN_net2()",
+  "net_model": "",
 
   "dataset":
   {
     "name": "BasicCifar10Dataset",
     "input_conversions": [],
-    "output_conversions": [{"name":"CustomNormalize",
-                        "parameters": [0, 255.0]}],
+    "output_conversions": [],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]
   },
+
   "dataloader_parameters":
   {
       "batch_size": 1,
       "shuffle": false,
       "num_workers": 0
   },
-  "test_on_gpu": true,
+
+  "test_on_gpu": false,
+
   "additional_params":
   {
     "blur":
@@ -29,11 +30,12 @@
     "choose_train_set": true,
 
     "ab_input_processing": "standardization",
-    "ab_output_processing": "standardization",
-    "L_input_processing": "standardization",
+    "ab_output_processing": "trick",
+    "L_input_processing": "normalization",
 
     "do_save_results": true,
-    "do_show_results": true,
+    "do_show_results": false,
     "how_many_results_to_generate": 50
   }
+
 }

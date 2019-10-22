@@ -27,9 +27,11 @@
     },
     "get_data_to_test": true,
     "choose_train_set": true,
-    "L_input_processing": "standardization",
+
     "ab_input_processing": "standardization",
     "ab_output_processing": "standardization",
+    "L_input_processing": "standardization",
+
     "do_save_results": true,
     "do_show_results": true,
     "how_many_results_to_generate": 50

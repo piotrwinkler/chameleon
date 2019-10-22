@@ -92,7 +92,8 @@ class Trainer:
             saving_period = self._config_dict['saving_period']
             batch_size = self._config_dict['dataloader_parameters']["batch_size"]
 
-            for epoch in range(self._config_dict["init_epoch"], self._config_dict['training_epochs']):
+            for epoch in range(self._config_dict["init_epoch"],
+                               self._config_dict["init_epoch"]+self._config_dict['training_epochs']):
                 running_loss = 0.0
                 start_time = time.time()
 

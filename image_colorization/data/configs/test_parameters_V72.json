@@ -1,13 +1,13 @@
 {
-  "do_save_results": true,
-  "net_model": "FCN_net2()",
+  "net_model": "",
 
   "dataset":
   {
     "name": "BasicCifar10Dataset",
-    "input_conversions": [],
-    "output_conversions": [{"name":"CustomNormalize",
-                        "parameters": [0, 255.0]}],
+    "input_conversions": [{"name":"Standardization",
+                        "parameters": []}
+                         ],
+    "output_conversions": [],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]
   },
@@ -27,9 +27,11 @@
     },
     "get_data_to_test": true,
     "choose_train_set": true,
-    "L_input_processing": "standardization",
+
     "ab_input_processing": "standardization",
-    "ab_output_processing": "trick",
+    "ab_output_processing": "standardization",
+    "L_input_processing": "standardization",
+
     "do_save_results": true,
     "do_show_results": true,
     "how_many_results_to_generate": 50

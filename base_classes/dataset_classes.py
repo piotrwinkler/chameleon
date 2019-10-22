@@ -6,6 +6,7 @@ from torch.utils.data import Dataset
 import numpy as np
 from skimage import color
 import pickle
+from loguru import logger as log
 
 
 class BaseDataset(Dataset):
@@ -80,7 +81,7 @@ class BasicCifar10Dataset(BaseDataset):
         self.additional_params = additional_params
 
         if self.additional_params['choose_train_set']:
-            print("Loading train set")
+            log.info("Loading train set")
             for i in range(1, 6):
                 cifar_data_dict = self.unpickle(dataset_directory + "/data_batch_{}".format(i))
                 if i == 1:
@@ -89,7 +90,7 @@ class BasicCifar10Dataset(BaseDataset):
                     self.rgb_images = np.vstack((self.rgb_images, cifar_data_dict[b'data']))
 
         else:
-            print("Loading test set")
+            log.info("Loading test set")
             cifar_data_dict = self.unpickle(dataset_directory + "/test_batch")
             self.rgb_images = cifar_data_dict[b'data']
 
@@ -118,7 +119,7 @@ class BasicCifar10Dataset(BaseDataset):
         self.L_rgb = self._implement_conversions(self.L_rgb, self._input_conversions_list)
         self.ab_rgb = self._implement_conversions(self.ab_rgb,  self._output_conversions_list)
 
-        print("Dataset prepared")
+        log.info("Dataset prepared")
 
     def __len__(self):
         return len(self.L_rgb)
@@ -143,11 +144,11 @@ class BasicCifar10Dataset(BaseDataset):
 
             # L_gray = self._implement_conversions(L_gray, self._input_conversions_list)
             if self.additional_params['L_input_processing'] == "normalization":
-                print("Normalization on L_gray channel")
+                # print("Normalization on L_gray channel")
                 L_gray = (L_gray - 50) / 100
 
             elif self.additional_params['L_input_processing'] == "standardization":
-                print("Standardization on L_gray channel")
+                # print("Standardization on L_gray channel")
                 L_gray = (L_gray - self.L_mean[0]) / self.L_std[0]
 
             if self.additional_params['blur']['do_blur']:
@@ -155,8 +156,7 @@ class BasicCifar10Dataset(BaseDataset):
 
             L_gray = L_gray.astype('float32')
 
-            return L_gray_not_processed[np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1)), \
-                   self.rgb_images[idx], L_gray[np.newaxis, :, :], gray_img
+            return L_gray_not_processed[np.newaxis, :, :], self.rgb_images[idx], L_gray[np.newaxis, :, :], gray_img
 
     @staticmethod
     def unpickle(file):
