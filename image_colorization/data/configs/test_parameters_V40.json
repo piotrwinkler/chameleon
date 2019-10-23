@@ -21,7 +21,6 @@
 
   "additional_params":
   {
-
     "get_data_to_test": true,
     "choose_train_set": true,
 

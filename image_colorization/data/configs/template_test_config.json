@@ -1,6 +1,5 @@
 {
   "net_model": "",
-
   "dataset":
   {
     "name": "BasicCifar10Dataset",
@@ -9,19 +8,15 @@
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]
   },
-
   "dataloader_parameters":
   {
       "batch_size": 1,
       "shuffle": false,
       "num_workers": 0
   },
-
-  "test_on_gpu": false,
-
+  "test_on_gpu": true,
   "additional_params":
   {
-
     "get_data_to_test": true,
     "choose_train_set": true,
 
@@ -30,13 +25,12 @@
       "do_blur": false,
       "kernel_size": [5, 5]
     },
-    "ab_input_processing": "standardization",
-    "ab_output_processing": "standardization",
+    "ab_input_processing": "normalization",
+    "ab_output_processing": "normalization",
     "L_input_processing": "normalization",
 
     "do_save_results": true,
     "do_show_results": true,
     "how_many_results_to_generate": 50
   }
-
 }

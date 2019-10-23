@@ -1271,43 +1271,140 @@ V70:    (top 1)
         jak po 60 epokach
         Z trickiem: Bardzo podobnie jak po 60 epokach, praktycznie nie da się wypatrzeć różnicy
         
-V71:
 
-        which_version = "V71"
-        which_epoch_version = 0
+V70_2:
+
+    Próba odtworzenia V70 w frameworku
+    which_version = "V70_2"
+    chosen_net = FCN_net_mega()
+    
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "SGD",
+          "parameters":
+          {
+            "lr": 0.1,
+            "momentum": 0.9
+          }
+      },
+      "scheduler":
+      {
+          "name": "StepLR",
+          "parameters":
+          {
+            "step_size": 1,
+            "gamma": 0.999
+          },
+          "scheduler_decay": 0.5,
+          "scheduler_decay_period": 20
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: Oct23_19-47-27_DESKTOP-K2JRB94 , Loss = 0.71
+
+      
+    Po 60 epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+    Po 10 epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+
+V71:
         
-        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
-        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
-        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+    chosen_net = FCN_net_mega()
+
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "SGD",
+          "parameters":
+          {
+            "lr": 0.1,
+            "momentum": 0.9
+          }
+      },
+      "scheduler":
+      {
+          "name": "StepLR",
+          "parameters":
+          {
+            "step_size": 1,
+            "gamma": 0.999
+          },
+          "scheduler_decay": 0.5,
+          "scheduler_decay_period": 20
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"CustomNormalize",
+                            "parameters": [0, 255.0]}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "normalization",
+        "ab_output_processing": "normalization",
+        "L_input_processing": "normalization"
+      }
+
         
-        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        Results: Oct23_18-08-14_DESKTOP-K2JRB94 , Loss = 2,516e-3
         
-        init_epoch = 0
-        how_many_epochs = 10
-        do_load_model = False
-        
-        batch_size = 128
-        learning_rate = 0.1
-        momentum = 0.9
-        lr_step_scheduler = 1
-        lr_step_gamma = 0.999
-        step_decay = 0.5
-        decay_after_steps = 20
-        
-        L_blur_processing = False
-        choose_train_dataset = True
-        ab_input_processing = "normalization"
-        ab_output_processing = "normalization"
-        L_input_processing = "normalization"
-        
-        chosen_net = FCN_net_mega()
-        
-        gauss_kernel_size = (5, 5)
-        
-        Results:  , Loss = 
-        
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: tylko brąz
+        Z trickiem: Żółto, ale niebo czasami jest niebieskie, więc chyba lepiej niż inne żółte
 
 V72:
 
@@ -1355,91 +1452,145 @@ V72:
         
 V73:
 
-        which_version = "V73"
-        which_epoch_version = 0
+      which_version = "V73"
+      chosen_net = FCN_net_mega()
+
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "SGD",
+          "parameters":
+          {
+            "lr": 0.1,
+            "momentum": 0.9
+          }
+      },
+      "scheduler":
+      {
+          "name": "StepLR",
+          "parameters":
+          {
+            "step_size": 1,
+            "gamma": 0.999
+          },
+          "scheduler_decay": 0.5,
+          "scheduler_decay_period": 20
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
         
-        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
-        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
-        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        Results: Oct23_18-29-34_DESKTOP-K2JRB94 , Loss = 0,74
         
-        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        Po 45(final) epokach:
+        Bez tricku: Tak sobie, raczej szarawo, bez porównania do V70
+        Z trickiem: Słabo, burza kolorów i wszystko strasznie intensywne
         
-        init_epoch = 0
-        how_many_epochs = 45
-        do_load_model = False
-        
-        batch_size = 128
-        learning_rate = 0.1
-        momentum = 0.9
-        lr_step_scheduler = 1
-        lr_step_gamma = 0.999
-        step_decay = 0.5
-        decay_after_steps = 20
-        
-        L_blur_processing = True
-        choose_train_dataset = True
-        ab_input_processing = "standardization"
-        ab_output_processing = "standardization"
-        L_input_processing = "standardization"
-        
-        chosen_net = FCN_net_mega()
-        
-        gauss_kernel_size = (5, 5)
-        
-        Results:  , Loss = 
-        
-        Po 45 epokach:
-        Bez tricku: 
-        Z trickiem: 
-        
-        Po 10 epokach:
-        Bez tricku: 
-        Z trickiem: 
+        Po 10 epokach:  Podobnie jak po 45
+
         
         
 V74:
 
-        which_version = "V74"
-        which_epoch_version = 0
+      which_version = "V74"
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "SGD",
+          "parameters":
+          {
+            "lr": 0.1,
+            "momentum": 0.9
+          }
+      },
+      "scheduler":
+      {
+          "name": "StepLR",
+          "parameters":
+          {
+            "step_size": 1,
+            "gamma": 0.999
+          },
+          "scheduler_decay": 0.5,
+          "scheduler_decay_period": 20
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
         
-        load_net_file = f"model_states/fcn_model{which_version}_epoch{which_epoch_version}.pth"
-        load_optimizer_file = f"model_states/fcn_optimizer{which_version}_epoch{which_epoch_version}.pth"
-        load_scheduler_file = f"model_states/fcn_scheduler{which_version}_epoch{which_epoch_version}.pth"
+        Results: Oct23_19-04-47_DESKTOP-K2JRB94 , Loss = 0,73
         
-        log_file = f"logs/logs_fcn_model{which_version}_train.log"
+        Po final epokach:
+        Bez tricku: Słabo, brązowo, prawie bez kolorów
+        Z trickiem: Nie jest źle, ale trochę zbyt kolorowo i zbyt jaskrwawo
         
-        init_epoch = 0
-        how_many_epochs = 45
-        do_load_model = False
-        
-        batch_size = 128
-        learning_rate = 0.1
-        momentum = 0.9
-        lr_step_scheduler = 1
-        lr_step_gamma = 0.999
-        step_decay = 0.5
-        decay_after_steps = 20
-        
-        L_blur_processing = True
-        choose_train_dataset = True
-        ab_input_processing = "standardization"
-        ab_output_processing = "standardization"
-        L_input_processing = "normalization"
-        
-        chosen_net = FCN_net_mega()
-        
-        gauss_kernel_size = (5, 5)
-        
-        Results:  , Loss = 
-        
-        Po 45 epokach:
-        Bez tricku: 
-        Z trickiem: 
-        
-        Po 10 epokach:
-        Bez tricku: 
-        Z trickiem: 
+        Po 10 epokach: Tak samo jak po final
 
 ### Wnioski: 
 Standardyzacja L chyba sprawia, że jest mniej wycieków kolorów, ale też sprawia, że kolory są momentami zbyt 
 przejaskrawione. 
+
+Gaussian Blur pomaga wyciągnąć kolory i bardziej zwrócić uwagę sieci na główne elementy na obrazku, ale często
+powoduje, ze kolory są zbyt intensywne i zbyt mocno wyciekają
+
+#### Wnioski Końcowe mega netu:
+Bez triku: najlepsze jest V70 i V72, są one lekko kolorowe, kolory są mocno stłumione ale są,
+te wersje z blurem są o wiele gorsze, wszystko jest szarawe i mniej kolorowe
+Ciężko wybrać co jest lepsze, V70 czy V72.
+
+Z trikiem: V70 i V72 (remis między nimi) wyglądają spoko, V73 i V 74 (te są z blurem) już gorzej, są przekolorowane i
+kolory są zbyt intensywne, czasami aż przesadnie jaskrawe
+

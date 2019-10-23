@@ -4,9 +4,7 @@
   "dataset":
   {
     "name": "BasicCifar10Dataset",
-    "input_conversions": [{"name":"Standardization",
-                        "parameters": []}
-                         ],
+    "input_conversions": [],
     "output_conversions": [],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]
@@ -20,14 +18,15 @@
   "test_on_gpu": false,
   "additional_params":
   {
+
+    "get_data_to_test": true,
+    "choose_train_set": true,
+
     "blur":
     {
       "do_blur": false,
       "kernel_size": [5, 5]
     },
-    "get_data_to_test": true,
-    "choose_train_set": true,
-
     "ab_input_processing": "standardization",
     "ab_output_processing": "standardization",
     "L_input_processing": "standardization",

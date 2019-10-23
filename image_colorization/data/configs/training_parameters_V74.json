@@ -28,7 +28,7 @@
       "scheduler_decay_period": 20
   },
   "init_epoch": 0,
-  "training_epochs": 60,
+  "training_epochs": 45,
   "training_monitoring_period": 1,
   "saving_period": 10,
   "dataloader_parameters":
@@ -41,10 +41,8 @@
   "dataset":
   {
     "name": "BasicCifar10Dataset",
-    "input_conversions": [{"name":"CustomNormalize",
-                        "parameters": [50, 100]}],
-    "output_conversions": [{"name":"Standardization",
-                        "parameters": []}],
+    "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+    "output_conversions": [{"name":"Standardization", "parameters": []}],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]
   },
@@ -56,7 +54,7 @@
 
     "blur":
     {
-      "do_blur": false,
+      "do_blur": true,
       "kernel_size": [5, 5]
     },
     "ab_input_processing": "standardization",

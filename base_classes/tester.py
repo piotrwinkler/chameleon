@@ -158,6 +158,7 @@ class ImageColorizationTester(BaseTester):
 
                 if i == self.additional_params['how_many_results_to_generate']:
                     break
+                plt.close(fig)
 
         print('Finished Testing')
 

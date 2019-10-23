@@ -12,7 +12,7 @@
       "name": "SGD",
       "parameters":
       {
-        "lr": 1e-2,
+        "lr": 0.1,
         "momentum": 0.9
       }
   },
@@ -27,10 +27,10 @@
       "scheduler_decay": 0.5,
       "scheduler_decay_period": 20
   },
-  "init_epoch": 0,
-  "training_epochs": 3,
+  "init_epoch": 60,
+  "training_epochs": 10,
   "training_monitoring_period": 1,
-  "saving_period": 1,
+  "saving_period": 5,
   "dataloader_parameters":
   {
       "batch_size": 128,
@@ -42,11 +42,7 @@
   {
     "name": "BasicCifar10Dataset",
     "input_conversions": [{"name":"CustomNormalize",
-                        "parameters": [50, 100]},
-                          {"name":"Standardization",
-                        "parameters": []},
-                          {"name":"GaussKernel",
-                        "parameters": [[5,5]]}],
+                        "parameters": [50, 100]}],
     "output_conversions": [{"name":"Standardization",
                         "parameters": []}],
     "transforms": [{"name": "ToTensor",
@@ -54,17 +50,17 @@
   },
   "additional_params":
   {
+
+    "get_data_to_test": false,
+    "choose_train_set": true,
+
     "blur":
     {
       "do_blur": false,
       "kernel_size": [5, 5]
     },
-    "get_data_to_test": false,
-    "choose_train_set": true,
-
-    "ab_input_processing": "normalization",
-    "ab_output_processing": "normalization",
-    "L_input_processing": "normalization",
-
+    "ab_input_processing": "standardization",
+    "ab_output_processing": "standardization",
+    "L_input_processing": "normalization"
   }
 }

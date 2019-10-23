@@ -4,13 +4,13 @@ import matplotlib.image as mpimg
 
 path_to_results_folder = "results/"
 
-chosen_results = ["original", "V60", "V62", "V70", "V70_2"]
+chosen_versions = ["original", "V70",  "V70_2", "V71", "V72", "V73", "V74"]
 
 
 def main():
 
     paths_list = []
-    for i, results_dir in enumerate(chosen_results):
+    for i, results_dir in enumerate(chosen_versions):
         paths_list.append([])
         for file in glob.glob(path_to_results_folder + results_dir + "/*.png"):
             paths_list[i].append(file)

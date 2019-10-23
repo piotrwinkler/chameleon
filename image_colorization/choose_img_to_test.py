@@ -15,13 +15,15 @@ def main():
     root = Tk()     # Used to get paths to files from user
     root.withdraw()
 
-    img_path = filedialog.askopenfilename(initialdir=".",
+    img_paths = filedialog.askopenfilenames(initialdir=".",
                                              title="Select input image",
                                              filetypes=(("All images", "*.*"), ("PNG images", "*.png"),
                                                         ("JPG images", ".jpg"),
                                                         ("JPEG images", "*.jpeg*")))
 
-    net = consts.chosen_net
+    # del root
+
+    net = consts.chosen_net()
     net.load_state_dict(torch.load(consts.RETRAINING_NET_DIRECTORY))
     # self._network.load_state_dict(torch.load(self._retraining_network_path))
 
@@ -33,7 +35,13 @@ def main():
     cifar_ab_mean = np.array([[[0.39576409, 5.72532708]]])
     cifar_ab_std = np.array([[[10.15176795, 16.08094785]]])
 
-    with torch.no_grad():
+    fig = plt.figure(figsize=(14, 7))
+    ax1 = fig.add_subplot(1, 4, 1)
+    ax2 = fig.add_subplot(1, 4, 2)
+    ax3 = fig.add_subplot(1, 4, 3)
+    ax4 = fig.add_subplot(1, 4, 4)
+
+    for img_path in img_paths:
         rgb_img = io.imread(img_path)
         rgb_img = rgb_img / 255.0
         gray_img = color.rgb2gray(rgb_img)
@@ -51,27 +59,25 @@ def main():
 
         if additional_params['blur']['do_blur']:
             print(f"Blurring L channel with kernel {additional_params['blur']['kernel_size']}")
-            L_input_gray = cv2.GaussianBlur(L_input_gray, additional_params['blur']['kernel_size'], 0)
+            L_input_gray = cv2.GaussianBlur(L_input_gray, tuple(additional_params['blur']['kernel_size']), 0)
 
         L_batch_gray = torch.from_numpy(L_input_gray).float()
         L_batch_gray = L_batch_gray.view(-1, 1, L_input_gray.shape[0], L_input_gray.shape[1])
 
-        fig = plt.figure(figsize=(14, 7))
-        ax1 = fig.add_subplot(1, 4, 1)
         ax1.imshow(rgb_img)
         ax1.title.set_text('Ground Truth')
 
-        ax2 = fig.add_subplot(1, 4, 2)
+        # ax2 = fig.add_subplot(1, 4, 2)
         ax2.imshow(gray_img)
         ax2.title.set_text('Gray')
 
-        ax3 = fig.add_subplot(1, 4, 3)
+        # ax3 = fig.add_subplot(1, 4, 3)
         ax3.imshow(L_input_gray)
         ax3.title.set_text(f"gray L channel, blur={additional_params['blur']['do_blur']}")
 
         outputs = net(L_batch_gray)
+        ab_outputs = np.transpose(outputs[0].detach().numpy(), (1, 2, 0))
 
-        ab_outputs = np.transpose(outputs[0].numpy(), (1, 2, 0))
         if additional_params['ab_output_processing'] == "normalization":
             ab_outputs = ab_outputs * 255
 
@@ -86,11 +92,16 @@ def main():
 
         img_rgb_outputs = color.lab2rgb(np.dstack((L_gray, ab_outputs)))
 
-        ax4 = fig.add_subplot(1, 4, 4)
+        # ax4 = fig.add_subplot(1, 4, 4)
         ax4.imshow(img_rgb_outputs)
         ax4.title.set_text('model output')
-        if additional_params['do_show_results']:
-            plt.show()
+        # del net
+        # del img_rgb_outputs, ab_outputs, outputs, L_batch_gray, L_gray, L_input_gray, gray_img, rgb_img
+        # del config_dict, fig, ax1, ax2, ax3, ax4
+        # if additional_params['do_show_results']:
+        plt.show()
+        # plt.close()
+        # del fig
 
     print('Finished Testing')
 
