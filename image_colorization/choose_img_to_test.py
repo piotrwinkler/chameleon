@@ -6,6 +6,7 @@ from tkinter import filedialog, Tk
 from skimage import io, color
 from image_colorization.data import consts
 from base_classes.json_parser import JsonParser
+from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega
 
 
 def main():
@@ -23,7 +24,7 @@ def main():
 
     # del root
 
-    net = consts.chosen_net()
+    net = eval(config_dict['net'])()
     net.load_state_dict(torch.load(consts.RETRAINING_NET_DIRECTORY))
     # self._network.load_state_dict(torch.load(self._retraining_network_path))
 

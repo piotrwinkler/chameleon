@@ -7,14 +7,15 @@ import time
 from loguru import logger as log
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
+from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega
 
 
 class Trainer:
     """This is main training class. It uses parameters directly from "training_parameters.json".
     It allows to monitor training steps, save NN models and use gpu to speed up computations. """
     def __init__(self, config_dict, net_saving_directory, optimizer_saving_directory, scheduler_saving_directory,
-                 tensorboard_directory, network, retraining_network_path="", retraining_optimizer_path='',
-                 retraining_scheduler_path='', do_retrain=False):
+                 tensorboard_directory, retraining_network_path="", retraining_optimizer_path='',
+                 retraining_scheduler_path=''):
         self._config_dict = config_dict
         self._net_saving_directory = net_saving_directory
         self.optimizer_saving_directory = optimizer_saving_directory
@@ -23,8 +24,10 @@ class Trainer:
         self._retraining_network_path = retraining_network_path
         self.retraining_optimizer_path = retraining_optimizer_path
         self.retraining_scheduler_path = retraining_scheduler_path
-        self.do_retrain = do_retrain
+        self.do_retrain = config_dict['retrain']
         self._writer = SummaryWriter()
+
+        network = eval(config_dict['net'])()
 
         self._device = torch.device('cuda:0' if torch.cuda.is_available() else
                                     'cpu')

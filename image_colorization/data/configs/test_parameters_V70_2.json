@@ -1,6 +1,5 @@
 {
-  "net_model": "",
-
+  "net": "FCN_net_mega",
   "dataset":
   {
     "name": "BasicCifar10Dataset",

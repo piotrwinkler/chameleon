@@ -1,4 +1,5 @@
 {
+  "net": "FCN_net_mega",
   "criterion":
   {
       "name": "MSELoss",
@@ -27,6 +28,7 @@
       "scheduler_decay": 0.5,
       "scheduler_decay_period": 20
   },
+  "retrain": true,
   "init_epoch": 0,
   "training_epochs": 30,
   "training_monitoring_period": 1,

@@ -1278,6 +1278,7 @@ V70_2:
     which_version = "V70_2"
     chosen_net = FCN_net_mega()
     
+    "net": "FCN_net_mega",
     "criterion":
       {
           "name": "MSELoss",
@@ -1346,7 +1347,7 @@ V70_2:
 V71:
         
     chosen_net = FCN_net_mega()
-
+      "net": "FCN_net_mega",
       "criterion":
       {
           "name": "MSELoss",
@@ -1455,6 +1456,7 @@ V73:
       which_version = "V73"
       chosen_net = FCN_net_mega()
 
+      "net": "FCN_net_mega",
       "criterion":
       {
           "name": "MSELoss",
@@ -1520,6 +1522,8 @@ V73:
 V74:
 
       which_version = "V74"
+      
+      "net": "FCN_net_mega",
       "criterion":
       {
           "name": "MSELoss",
@@ -1587,10 +1591,85 @@ Gaussian Blur pomaga wyciągnąć kolory i bardziej zwrócić uwagę sieci na g�
 powoduje, ze kolory są zbyt intensywne i zbyt mocno wyciekają
 
 #### Wnioski Końcowe mega netu:
-Bez triku: najlepsze jest V70 i V72, są one lekko kolorowe, kolory są mocno stłumione ale są,
-te wersje z blurem są o wiele gorsze, wszystko jest szarawe i mniej kolorowe
+Bez triku: najlepsze jest V70, V70_2 i V72, są one lekko kolorowe, kolory są mocno stłumione ale są,
+te wersje z blurem (V73 i V74) są o wiele gorsze, wszystko jest szarawe i mniej kolorowe, podobnie V71, czyli słabo 
+ogólnie
 Ciężko wybrać co jest lepsze, V70 czy V72.
 
 Z trikiem: V70 i V72 (remis między nimi) wyglądają spoko, V73 i V 74 (te są z blurem) już gorzej, są przekolorowane i
 kolory są zbyt intensywne, czasami aż przesadnie jaskrawe
 
+## Kolejna faza - testy optimizera i funkcji kosztu dla V70
+
+V70:
+
+    which_version = "V80"
+    chosen_net = FCN_net_mega()
+    
+    zmiana w MSELoss na sum i 
+    # loss = criterion(outputs, labels) / output.size(0)
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "sum"
+          }
+      },
+      "optimizer":
+      {
+          "name": "SGD",
+          "parameters":
+          {
+            "lr": 0.1,
+            "momentum": 0.9
+          }
+      },
+      "scheduler":
+      {
+          "name": "StepLR",
+          "parameters":
+          {
+            "step_size": 1,
+            "gamma": 0.999
+          },
+          "scheduler_decay": 0.5,
+          "scheduler_decay_period": 20
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: Oct23_19-47-27_DESKTOP-K2JRB94 , Loss = 0.71
+
+      
+    Po 60 epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+    Po 10 epokach:
+    Bez tricku: 
+    Z trickiem: 

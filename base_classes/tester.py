@@ -7,6 +7,7 @@ from loguru import logger as log
 import matplotlib.pyplot as plt
 from skimage import color
 import matplotlib
+from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega
 
 
 class BaseTester:
@@ -80,18 +81,18 @@ class TestImgtoImg(BaseTester):
 
 
 class ImageColorizationTester(BaseTester):
-    def __init__(self, load_net_path, model, dataset, dataloader_params, additional_params, results_dir, do_test_on_gpu):
+    def __init__(self, load_net_path, dataset, results_dir, config_dict):
+        model = eval(config_dict['net'])()
         super().__init__(load_net_path, model, [], [], [], '.')
         self.dataset = dataset
-        self.dataloader_params = dataloader_params
-        # self.do_save_results = additional_params['do_save_results']
-        self.additional_params = additional_params
+        self.dataloader_params = config_dict['dataloader_parameters']
+        self.additional_params = config_dict['additional_params']
         self.results_dir = results_dir
 
         self._device = torch.device('cuda:0' if torch.cuda.is_available() else
                                     'cpu')
         log.info(self._device)
-        self._test_on_gpu = do_test_on_gpu
+        self._test_on_gpu = config_dict['test_on_gpu']
 
     def test(self):
 
