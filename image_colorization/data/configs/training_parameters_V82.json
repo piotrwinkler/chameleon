@@ -10,29 +10,22 @@
   },
   "optimizer":
   {
-      "name": "SGD",
+      "name": "Adagrad",
       "parameters":
       {
         "lr": 0.1,
-        "momentum": 0.9
+        "lr_decay": 0.999
       }
   },
   "scheduler":
   {
-      "name": "StepLR",
-      "parameters":
-      {
-        "step_size": 1,
-        "gamma": 0.999
-      },
-      "scheduler_decay": 0.5,
-      "scheduler_decay_period": 20
+
   },
   "retrain": true,
   "init_epoch": 0,
-  "training_epochs": 3,
+  "training_epochs": 30,
   "training_monitoring_period": 1,
-  "saving_period": 20,
+  "saving_period": 10,
   "dataloader_parameters":
   {
       "batch_size": 128,
@@ -52,6 +45,7 @@
   },
   "additional_params":
   {
+
     "get_data_to_test": false,
     "choose_train_set": true,
 

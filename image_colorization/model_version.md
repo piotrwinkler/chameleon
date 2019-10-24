@@ -1,3 +1,10 @@
+# Ranking sieci 
+1. V84
+2. V70
+3. V40
+4. V19
+5. V32
+
 ## Testy wstępne
 
 V1:
@@ -269,7 +276,7 @@ V18:
         Wnioski: Zmiana kernel size prawie nic nie zmieniło względem V17
         Z trickiem: Może lekko lepiej niż dla V17
         
-V19:    (Póki co top 3)
+V19:    
  
         which_version = "V19"
         which_epoch_version = 0
@@ -680,7 +687,7 @@ V31:
         Bez tricku: 
         Z trickiem: 
         
-V32:    (top 4)
+V32:    
 
         which_version = "V32"
         which_epoch_version = 0
@@ -761,7 +768,7 @@ V33:
 ## Kolejna faza, model - FCN_net3 (B)
 (1 epoka - 115 sek)
 (Najlepszy V40)
-V40:    (Póki co top 2)
+V40:   
 
         which_version = "V40"
         which_epoch_version = 0
@@ -1227,7 +1234,7 @@ V63:
         
 ## Kolejna faza, model - FCN_net_mega (AA, BB, CC)
 (1 epoka - 390 sek)
-V70:    (top 1)
+V70:   
 
         which_version = "V70"
         which_epoch_version = 0
@@ -1601,7 +1608,7 @@ kolory są zbyt intensywne, czasami aż przesadnie jaskrawe
 
 ## Kolejna faza - testy optimizera i funkcji kosztu dla V70
 
-V70:
+V80:
 
     which_version = "V80"
     chosen_net = FCN_net_mega()
@@ -1663,13 +1670,317 @@ V70:
         "L_input_processing": "normalization"
       }
      
-    Results: Oct23_19-47-27_DESKTOP-K2JRB94 , Loss = 0.71
+    Results: Szkoda słów, loss cały czas nan , Loss = nan
 
-      
-    Po 60 epokach:
+    Czarny obraz, porażka
+    
+V81:
+
+    which_version = "V81"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "SGD",
+          "parameters":
+          {
+            "lr": 0.1,
+            "momentum": 0
+          }
+      },
+      "scheduler":
+      {
+          "name": "StepLR",
+          "parameters":
+          {
+            "step_size": 1,
+            "gamma": 0.999
+          },
+          "scheduler_decay": 0.5,
+          "scheduler_decay_period": 20
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: Oct24_21-00-29_DESKTOP-K2JRB94 , Loss = 0.84
+    
+    Po final epokach:
+    Bez tricku: Bez różnicy względem V70
+    Z trickiem: Podobnie do V70, ale trochę bardziej jaskrawo
+
+V82:
+
+    which_version = "V82"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adagrad",
+          "parameters":
+          {
+            "lr": 0.1,
+            "lr_decay": 0.999
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: Oct24_21-21-42_DESKTOP-K2JRB94 , Loss = 0.94
+    
+    Po final epokach:
+    Bez tricku: Słabo, wszystko szare, warto o tym wspomnieć w pracy, że Adagrad słaby
+    Z trickiem: Też słabo, wszystko jakieś tęczowe, ale ostro błękitne albo różowe
+    
+V83:
+
+    which_version = "V83"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adagrad",
+          "parameters":
+          {
+            "lr": 0.001,
+            "lr_decay": 0.999
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: Oct24_21-48-48_DESKTOP-K2JRB94 , Loss = 0.97
+    
+    Po final epokach:
+    Bez tricku: 
+    Z trickiem: 
+
+
+V84:
+
+    which_version = "V84"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: Oct24_22-04-51_DESKTOP-K2JRB94 + Oct24_23-04-02_DESKTOP-K2JRB94 , Loss = 0.76
+    
+    Po final epokach:
     Bez tricku: 
     Z trickiem: 
     
-    Po 10 epokach:
+
+V85:
+
+    which_version = "V85"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.001,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: Oct24_22-21-03_DESKTOP-K2JRB94 + Oct24_23-37-26_DESKTOP-K2JRB94 , Loss = 0.72
+    
+    Po final epokach:
     Bez tricku: 
     Z trickiem: 
+
+### Wnioski ze zmiany optimizerów
+PO 30 epokach uczenia Adamów
+Bez triku: chyba V84 prowadzi, Adam spoko
+Z trikiem: Adam chyba dalej trochę lepszy niż V70, kolory sa trochę bardziej dokolorowane
+
+PO 70 epokach uczenia Adamów
+Bez triku: Adam V84 świetnie, kolory pełne, bez wycieków prawie, ale czasami część obiektów traci swoje barwy i są szare,
+może to zniknie po dłuższym uczeniu
+Z trikiem: Adam V84 dalej spoko, kolory pełne, ale bardzo się nauczyła sieć zielonego i często nakłada na różne obiekty
+zielony, ale chyba dalej V84 top 1
+

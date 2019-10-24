@@ -4,8 +4,9 @@ from base_classes.tester import ImageColorizationTester
 import os
 from loguru import logger as log
 from image_colorization.data import consts
+import gc
 
-chosen_versions = ["V70", "V70_2", "V71", "V72", "V73", "V74"]
+chosen_versions = ["V70", "V81", "V82", "V83", "V84", "V85"]
 
 
 def main():
@@ -44,7 +45,11 @@ def main():
         tester = ImageColorizationTester(RETRAINING_NET_DIRECTORY, dataset, results_dir, config_dict)
 
         tester.test()
-        del dataset, tester
+        log.info("Cleaning")
+        del dataset, tester, config_dict
+        gc.collect()
+
+    log.info("Finished Generating")
 
 
 if __name__ == "__main__":

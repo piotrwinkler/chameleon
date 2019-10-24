@@ -11,7 +11,10 @@ from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN
 
 def main():
     config_dict = JsonParser.read_config(consts.TEST_PARAMETERS)
-    additional_params = config_dict['additional_params']
+    if consts.do_trick:
+        config_dict['additional_params']['ab_output_processing'] = "trick"
+    if consts.choose_test_set:
+        config_dict['additional_params']['choose_train_set'] = False
 
     root = Tk()     # Used to get paths to files from user
     root.withdraw()
@@ -22,11 +25,8 @@ def main():
                                                         ("JPG images", ".jpg"),
                                                         ("JPEG images", "*.jpeg*")))
 
-    # del root
-
     net = eval(config_dict['net'])()
     net.load_state_dict(torch.load(consts.RETRAINING_NET_DIRECTORY))
-    # self._network.load_state_dict(torch.load(self._retraining_network_path))
 
     net.eval()
 
@@ -50,17 +50,17 @@ def main():
         L_input_gray = color.rgb2lab(gray_img)[:, :, 0]
         L_gray = L_input_gray[:, :, np.newaxis]
 
-        if additional_params['L_input_processing'] == "normalization":
+        if config_dict['additional_params']['L_input_processing'] == "normalization":
             print("Normalization on L_gray channel")
             L_input_gray = (L_input_gray - 50) / 100
 
-        elif additional_params['L_input_processing'] == "standardization":
+        elif config_dict['additional_params']['L_input_processing'] == "standardization":
             print("Standardization on L_gray channel")
             L_input_gray = (L_input_gray - cifar_L_mean) / cifar_L_std
 
-        if additional_params['blur']['do_blur']:
-            print(f"Blurring L channel with kernel {additional_params['blur']['kernel_size']}")
-            L_input_gray = cv2.GaussianBlur(L_input_gray, tuple(additional_params['blur']['kernel_size']), 0)
+        if config_dict['additional_params']['blur']['do_blur']:
+            print(f"Blurring L channel with kernel {config_dict['additional_params']['blur']['kernel_size']}")
+            L_input_gray = cv2.GaussianBlur(L_input_gray, tuple(config_dict['additional_params']['blur']['kernel_size']), 0)
 
         L_batch_gray = torch.from_numpy(L_input_gray).float()
         L_batch_gray = L_batch_gray.view(-1, 1, L_input_gray.shape[0], L_input_gray.shape[1])
@@ -74,18 +74,18 @@ def main():
 
         # ax3 = fig.add_subplot(1, 4, 3)
         ax3.imshow(L_input_gray)
-        ax3.title.set_text(f"gray L channel, blur={additional_params['blur']['do_blur']}")
+        ax3.title.set_text(f"gray L channel, blur={config_dict['additional_params']['blur']['do_blur']}")
 
         outputs = net(L_batch_gray)
         ab_outputs = np.transpose(outputs[0].detach().numpy(), (1, 2, 0))
 
-        if additional_params['ab_output_processing'] == "normalization":
+        if config_dict['additional_params']['ab_output_processing'] == "normalization":
             ab_outputs = ab_outputs * 255
 
-        elif additional_params['ab_output_processing'] == "standardization":
+        elif config_dict['additional_params']['ab_output_processing'] == "standardization":
             ab_outputs = ab_outputs * cifar_ab_std + cifar_ab_mean
 
-        elif additional_params['ab_output_processing'] == "trick":
+        elif config_dict['additional_params']['ab_output_processing'] == "trick":
             scale_L = L_gray / 100
             scale = max([np.max(ab_outputs), abs(np.min(ab_outputs))])
             ab_outputs = ab_outputs / scale

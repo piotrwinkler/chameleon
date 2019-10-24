@@ -161,7 +161,7 @@ class ImageColorizationTester(BaseTester):
                     break
                 plt.close(fig)
 
-        print('Finished Testing')
+        log.info('Finished Testing')
 
     def __len__(self):
         return len(self.dataset)

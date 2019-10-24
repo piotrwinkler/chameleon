@@ -1,6 +1,8 @@
 """Entrypoint for network training."""
-# TODO: Dodać w configach wybór sieci której chce się użyć
-# TODO: Przetestować wpływ optimizerów i funkcji lossu
+# TODO: Optimizery: Adam, Adagrad, SGE
+# TODO: Loss functions: L2, L1 smoothed, L1 (MAE - Mean Absolute Error), Cross Entropy Loss
+# TODO: Skrypt do masowego testowania
+# TODO: Masowe generowanie do funckji, żeby zwalniać pamięć
 
 import image_colorization.data.consts as consts
 
