@@ -22,8 +22,8 @@
 
   },
   "retrain": true,
-  "init_epoch": 30,
-  "training_epochs": 40,
+  "init_epoch": 40,
+  "training_epochs": 5,
   "training_monitoring_period": 1,
   "saving_period": 10,
   "dataloader_parameters":

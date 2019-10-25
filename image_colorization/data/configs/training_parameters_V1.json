@@ -1,5 +1,5 @@
 {
-  "net": "FCN_net_mega",
+  "net": "FCN_net1",
   "criterion":
   {
       "name": "MSELoss",
@@ -30,7 +30,7 @@
   },
   "retrain": true,
   "init_epoch": 0,
-  "training_epochs": 2,
+  "training_epochs": 1,
   "training_monitoring_period": 80,
   "saving_period": 20,
   "dataloader_parameters":

@@ -31,7 +31,7 @@
   "retrain": true,
   "init_epoch": 0,
   "training_epochs": 45,
-  "training_monitoring_period": 1,
+  "training_monitoring_period": 80,
   "saving_period": 10,
   "dataloader_parameters":
   {
@@ -43,7 +43,8 @@
   "dataset":
   {
     "name": "BasicCifar10Dataset",
-    "input_conversions": [{"name":"Standardization", "parameters": []}],
+    "input_conversions": [{"name":"Standardization", "parameters": []},
+                          {"name":"GaussKernel", "parameters": [[5,5]]}],
     "output_conversions": [{"name":"Standardization", "parameters": []}],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]

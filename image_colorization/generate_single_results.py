@@ -1,35 +1,32 @@
-# TODO: Źle działa - używać deploy_multiple_trainings.bat
-
+import sys
+sys.path.append('C:/STUDIA/INZYNIERKA/chameleon')
 from base_classes.json_parser import JsonParser
 from base_classes.setup_creator import SetupCreator
 from base_classes.tester import ImageColorizationTester
 import os
 from loguru import logger as log
 from image_colorization.data import consts
-import gc
 import time
-
-chosen_versions = ["V70", "V81", "V82", "V83", "V84", "V85"]
+import argparse
 
 
 def main():
+    args = parse_args()
+    version = args.version
+    log.debug(f"Generating results for version: {version}")
 
-    raise Exception("Skrypt nie działa")
+    TEST_PARAMETERS = f"data/configs/test_parameters_{version}.json"
+    if not os.path.isfile(TEST_PARAMETERS):
+        log.error(f"No file {TEST_PARAMETERS}")
+        raise Exception(f"No file {TEST_PARAMETERS}")
+    RETRAINING_NET_DIRECTORY = f"model_states/{version}/fcn_model{version}_epoch_final.pth"
+    if not os.path.isfile(RETRAINING_NET_DIRECTORY):
+        log.error(f"No file {RETRAINING_NET_DIRECTORY}")
+        raise Exception(f"No file {RETRAINING_NET_DIRECTORY}")
 
-    for version in chosen_versions:
-        TEST_PARAMETERS = f"data/configs/test_parameters_{version}.json"
-        if not os.path.isfile(TEST_PARAMETERS):
-            raise Exception(f"No file {TEST_PARAMETERS}")
-        RETRAINING_NET_DIRECTORY = f"model_states/{version}/fcn_model{version}_epoch_final.pth"
-        if not os.path.isfile(RETRAINING_NET_DIRECTORY):
-            raise Exception(f"No file {RETRAINING_NET_DIRECTORY}")
-
-    for version in chosen_versions:
-        time_start = time.time()
-        generate_results(version)
-        log.info("Cleaning")
-        gc.collect()
-        print(f"It took {time.time() - time_start} seconds")
+    time_start = time.time()
+    generate_results(version)
+    log.debug(f"It took {time.time() - time_start} seconds")
 
     log.info("Finished Generating")
 
@@ -60,6 +57,20 @@ def generate_results(version):
     tester = ImageColorizationTester(RETRAINING_NET_DIRECTORY, dataset, results_dir, config_dict)
 
     tester.test()
+
+
+def parse_args():
+    """
+    This module parses command line arguments.
+    :return:
+        Parser containing command line data.
+    """
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--version', '-v', help='chosen config version',
+                        required=True, type=str)
+
+    return parser.parse_args()
 
 
 if __name__ == "__main__":

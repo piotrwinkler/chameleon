@@ -1458,7 +1458,7 @@ V72:
         Bez tricku: spoko, ale gorzej niż po 45 epokach
         Z trickiem: Gorzej niż po 45 epokach, ale spoko
         
-V73:
+V73:    (Źle wyuczone)
 
       which_version = "V73"
       chosen_net = FCN_net_mega()
@@ -1495,7 +1495,8 @@ V73:
       "dataset":
       {
         "name": "BasicCifar10Dataset",
-        "input_conversions": [{"name":"Standardization", "parameters": []}],
+        "input_conversions": [{"name":"Standardization", "parameters": []},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
         "output_conversions": [{"name":"Standardization", "parameters": []}],
         "transforms": [{"name": "ToTensor",
                         "parameters": []}]
@@ -1516,17 +1517,19 @@ V73:
         "L_input_processing": "standardization"
       }
         
-        Results: Oct23_18-29-34_DESKTOP-K2JRB94 , Loss = 0,74
+        Results: Oct25_15-55-44_DESKTOP-K2JRB94 , Loss = 0.79
         
         Po 45(final) epokach:
-        Bez tricku: Tak sobie, raczej szarawo, bez porównania do V70
-        Z trickiem: Słabo, burza kolorów i wszystko strasznie intensywne
+        Bez tricku: Praktycznie identycznie z V70 i V72, może leciutko gorzej
+        Z trickiem: 
         
-        Po 10 epokach:  Podobnie jak po 45
+        Po 10 epokach:  
+        
+    
 
         
         
-V74:
+V74:    (Źle wyuczone)
 
       which_version = "V74"
       
@@ -1562,7 +1565,8 @@ V74:
       "dataset":
       {
         "name": "BasicCifar10Dataset",
-        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
         "output_conversions": [{"name":"Standardization", "parameters": []}],
         "transforms": [{"name": "ToTensor",
                         "parameters": []}]
@@ -1589,7 +1593,8 @@ V74:
         Z trickiem: Nie jest źle, ale trochę zbyt kolorowo i zbyt jaskrwawo
         
         Po 10 epokach: Tak samo jak po final
-
+    
+Powtórzyć po ponownym wyuczeniu V73 i V74
 ### Wnioski: 
 Standardyzacja L chyba sprawia, że jest mniej wycieków kolorów, ale też sprawia, że kolory są momentami zbyt 
 przejaskrawione. 
@@ -1851,9 +1856,9 @@ V83:
      
     Results: Oct24_21-48-48_DESKTOP-K2JRB94 , Loss = 0.97
     
-    Po final epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Po final epokach:   Porównanie wszystkiego dalej
+    Bez tricku: Gorzej niż V82, szaro
+    Z trickiem: Jeszcze gorzej niż V82, nie dość, że przekolorowane to jeszcze jakeis zakłócenia wszędzie
 
 
 V84:
@@ -1911,8 +1916,8 @@ V84:
     Results: Oct24_22-04-51_DESKTOP-K2JRB94 + Oct24_23-04-02_DESKTOP-K2JRB94 , Loss = 0.76
     
     Po final epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Całkiem spoko, chyba lepiej niż V70, są przytułmione kolory
+    Z trickiem: Batdzo fajnie, są wyraźne kolory, nawet sensowne, lepiej niż V70, momentami tylko zielony wycieka
     
 
 V85:
@@ -1970,8 +1975,8 @@ V85:
     Results: Oct24_22-21-03_DESKTOP-K2JRB94 + Oct24_23-37-26_DESKTOP-K2JRB94 , Loss = 0.72
     
     Po final epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Całkiem spoko, ale gorzej niż V84
+    Z trickiem: Też spoko, ale gorzej niż V84 i chyba gorzej też niż V70
 
 ### Wnioski ze zmiany optimizerów
 PO 30 epokach uczenia Adamów
@@ -1984,3 +1989,589 @@ może to zniknie po dłuższym uczeniu
 Z trikiem: Adam V84 dalej spoko, kolory pełne, ale bardzo się nauczyła sieć zielonego i często nakłada na różne obiekty
 zielony, ale chyba dalej V84 top 1
 
+### Testy funkcji lossu dla V84
+CrossEntropyLoss nie działa, jest tylko dla klasyfikatorów
+
+    "criterion":
+      {
+          "name": "CrossEntropyLoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+
+V86:
+
+    which_version = "V86"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "L1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: Oct25_14-46-39_DESKTOP-K2JRB94 , Loss = 0.60
+    
+    Po final epokach:
+    Bez tricku: Słabo, mocno szarawo, nie ma kolorów specjalnie
+    Z trickiem: Trochę niebieskawo, trawa zamiast zielona to jest żółtawa albo niebieskawa, gorzej niż V84
+    
+    
+V87:
+
+    which_version = "V87"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "SmoothL1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: Oct25_15-06-49_DESKTOP-K2JRB94 , Loss = 0.30
+    
+    Po final epokach:
+    Bez tricku: Średnio, jest więcej kolorów niż w V86 ale mniej niż w V84
+    Z trickiem: Nawet nieźle ogólnie, też niebieskawo, trawa zamiast zielona to jest żółtawa albo niebieskawa, gorzej niż V84, ale lepiej niż
+                V86
+    
+### Wnioski:
+
+Cross entropy Loss w ogóle się nie nadaje, nawet się nie chce odpalić to on powinien mieć format jak do klasyfikacji,
+czyli pasująca klasa jako Y.
+L1 loss powoduje, że zdjęcia są bardziej niebieskawe, MSELoss lepszy
+SmoothL1Loss lepszy niż L1, ale gorszy niż MSELoss, też powoduje, że zdjęcia są trochę niebieskawe, MSELoss lepszy
+
+## Kolejna faza - testy optimizera i funkcji kosztu dla V72
+
+V90:    Adagrad zamiast SGD
+
+    which_version = "V90"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adagrad",
+          "parameters":
+          {
+            "lr": 0.1,
+            "lr_decay": 0.999
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po final epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+V91:    Adam zamiast SGD
+
+    which_version = "V91"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po final epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+V92:    Adam zamiast SGD oraz L1Loss zamiast MSELoss
+
+    which_version = "V92"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "L1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po final epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+V93:    Adam zamiast SGD oraz SmoothL1Loss zamiast MSELoss
+
+    which_version = "V93"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "SmoothL1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po final epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+### Wnioski:
+
+## Kolejna faza - testy optimizera i funkcji kosztu dla V73
+
+V100:
+
+    which_version = "V100"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adagrad",
+          "parameters":
+          {
+            "lr": 0.1,
+            "lr_decay": 0.999
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po final epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+V101:
+
+    which_version = "V101"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po final epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+V102:
+
+    which_version = "V102"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "L1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po final epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+V103:
+
+    which_version = "V103"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "SmoothL1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po final epokach:
+    Bez tricku: 
+    Z trickiem:
+    
+### Wnioski:
+
+## Kolejna faza - testy optimizera i funkcji kosztu dla V74

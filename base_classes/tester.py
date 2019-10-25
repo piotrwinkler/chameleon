@@ -93,6 +93,7 @@ class ImageColorizationTester(BaseTester):
                                     'cpu')
         log.info(self._device)
         self._test_on_gpu = config_dict['test_on_gpu']
+        log.debug(f"Choosing net {config_dict['net']}")
 
     def test(self):
 
@@ -101,8 +102,6 @@ class ImageColorizationTester(BaseTester):
         self._model.eval()
         if self._test_on_gpu:
             self._model = self._model.to(self._device)
-
-        log.info(f"Choosing net {str(self._model)}")
 
         with torch.no_grad():
             for i, (L_batch_gray_not_processed, rgb_images, L_batch_gray, gray_images) in enumerate(dataloader):

@@ -29,10 +29,10 @@
       "scheduler_decay_period": 20
   },
   "retrain": true,
-  "init_epoch": 69,
-  "training_epochs": 3,
-  "training_monitoring_period": 1,
-  "saving_period": 1,
+  "init_epoch": 70,
+  "training_epochs": 10,
+  "training_monitoring_period": 10,
+  "saving_period": 10,
   "dataloader_parameters":
   {
       "batch_size": 128,

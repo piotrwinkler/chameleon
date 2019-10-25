@@ -28,10 +28,10 @@
       "scheduler_decay": 0.5,
       "scheduler_decay_period": 20
   },
-  "retrain": true,
+  "retrain": false,
   "init_epoch": 0,
   "training_epochs": 45,
-  "training_monitoring_period": 1,
+  "training_monitoring_period": 80,
   "saving_period": 10,
   "dataloader_parameters":
   {
@@ -43,7 +43,8 @@
   "dataset":
   {
     "name": "BasicCifar10Dataset",
-    "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+    "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
+                          {"name":"GaussKernel", "parameters": [[5,5]]}],
     "output_conversions": [{"name":"Standardization", "parameters": []}],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]

@@ -30,9 +30,9 @@
   },
   "retrain": true,
   "init_epoch": 0,
-  "training_epochs": 2,
-  "training_monitoring_period": 80,
-  "saving_period": 20,
+  "training_epochs": 45,
+  "training_monitoring_period": 1,
+  "saving_period": 10,
   "dataloader_parameters":
   {
       "batch_size": 128,
@@ -43,10 +43,8 @@
   "dataset":
   {
     "name": "BasicCifar10Dataset",
-    "input_conversions": [{"name":"CustomNormalize",
-                        "parameters": [50, 100]}],
-    "output_conversions": [{"name":"Standardization",
-                        "parameters": []}],
+    "input_conversions": [{"name":"Standardization", "parameters": []}],
+    "output_conversions": [{"name":"Standardization", "parameters": []}],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]
   },
@@ -62,6 +60,6 @@
     },
     "ab_input_processing": "standardization",
     "ab_output_processing": "standardization",
-    "L_input_processing": "normalization"
+    "L_input_processing": "standardization"
   }
 }

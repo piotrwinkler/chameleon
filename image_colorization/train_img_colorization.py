@@ -1,9 +1,7 @@
 """Entrypoint for network training."""
 # TODO: Optimizery: Adam, Adagrad, SGE
-# TODO: Loss functions: L2, L1 smoothed, L1 (MAE - Mean Absolute Error), Cross Entropy Loss
-# TODO: Skrypt do masowego testowania
-# TODO: Masowe generowanie do funckji, żeby zwalniać pamięć
-
+# TODO: Loss functions: L2 (inaczej MSELoss), L1 smoothed, L1 (MAE - Mean Absolute Error),
+#  Cross Entropy Loss(Nie działa, bo jest dla klasyfikatorów)
 import image_colorization.data.consts as consts
 
 from base_classes.setup_creator import SetupCreator

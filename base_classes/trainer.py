@@ -28,6 +28,7 @@ class Trainer:
         self._writer = SummaryWriter()
 
         network = eval(config_dict['net'])()
+        log.debug(f"Choosing net {config_dict['net']}")
 
         self._device = torch.device('cuda:0' if torch.cuda.is_available() else
                                     'cpu')
@@ -42,7 +43,7 @@ class Trainer:
         if self.do_retrain and self._retraining_network_path != "":
             try:
                 self._network.load_state_dict(torch.load(self._retraining_network_path))
-                log.info(f'{self._retraining_network_path} model loaded for retraining')
+                log.debug(f'{self._retraining_network_path} model loaded for retraining')
             except FileNotFoundError:
                 log.debug(f'{self._retraining_network_path}: given model not found! Network will be initialized '
                           f'with random weights.')
@@ -54,25 +55,25 @@ class Trainer:
         try:
             criterion = getattr(nn, self._config_dict['criterion']['name'], 'Specified loss criterion not found')\
                 (**self._config_dict['criterion']['patameters'])
-            log.info(f'Trainer loss function: {criterion}')
+            log.debug(f'Trainer loss function: {criterion}')
 
             optimizer = getattr(optim, self._config_dict['optimizer']['name'], 'Specified optimizer not found')\
                 (self._network.parameters(), **self._config_dict['optimizer']['parameters'])
-            log.info(f'Trainer optimizer: {optimizer}')
+            log.debug(f'Trainer optimizer: {optimizer}')
 
             try:
                 scheduler = getattr(optim.lr_scheduler, self._config_dict['scheduler']['name'], 'Specified scheduler not found')\
                     (optimizer=optimizer,
                      **self._config_dict['scheduler']['parameters'])
-                log.info(f'Trainer scheduler: {scheduler}')
+                log.debug(f'Trainer scheduler: {scheduler}')
             except Exception as e:
-                log.debug(f'Cannot load scheduler: {e}')
+                log.debug(f'Cannot initialize scheduler: {e}')
                 scheduler = None
 
             if self.do_retrain and self._retraining_network_path != "":
                 try:
                     optimizer.load_state_dict(torch.load(self.retraining_optimizer_path))
-                    log.info(f'{self.retraining_optimizer_path} optimizer loaded for retraining')
+                    log.debug(f'{self.retraining_optimizer_path} scheduler loaded for retraining')
                 except FileNotFoundError:
                     log.debug(f'{self._retraining_network_path}: given optimizer not found! It will be '
                               f'initialized with random weights.')
@@ -115,11 +116,11 @@ class Trainer:
                     if scheduler is not None:
                         scheduler.step()
 
+                    self._writer.add_scalar(f'{self._tensorboard_directory}/Loss/train', loss.item(), i+1)
                     running_loss += loss.item()
                     if i % checker == checker-1:
                         training_loss = running_loss/checker
                         log.info(f"[EPOCH: {epoch + 1}, STEP: {i+1}, DATA: {(i+1) * batch_size}] loss: {training_loss}")
-                        self._writer.add_scalar(f'{self._tensorboard_directory}/Loss/train', training_loss, i+1)
                         running_loss = 0.0
 
                 end_time = time.time() - start_time
