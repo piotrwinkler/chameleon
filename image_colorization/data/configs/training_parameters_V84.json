@@ -22,9 +22,9 @@
 
   },
   "retrain": true,
-  "init_epoch": 40,
-  "training_epochs": 5,
-  "training_monitoring_period": 1,
+  "init_epoch": 70,
+  "training_epochs": 240,
+  "training_monitoring_period": 160,
   "saving_period": 10,
   "dataloader_parameters":
   {

@@ -1458,7 +1458,7 @@ V72:
         Bez tricku: spoko, ale gorzej niż po 45 epokach
         Z trickiem: Gorzej niż po 45 epokach, ale spoko
         
-V73:    (Źle wyuczone)
+V73: 
 
       which_version = "V73"
       chosen_net = FCN_net_mega()
@@ -1521,7 +1521,8 @@ V73:    (Źle wyuczone)
         
         Po 45(final) epokach:
         Bez tricku: Praktycznie identycznie z V70 i V72, może leciutko gorzej
-        Z trickiem: 
+        Z trickiem: Ogólnie bardzo dobrze, prawie jak V70 i V72, ale kolory są momentami zbyt intensywne i czasami 
+                    wyciekają
         
         Po 10 epokach:  
         
@@ -1586,13 +1587,12 @@ V74:    (Źle wyuczone)
         "L_input_processing": "normalization"
       }
         
-        Results: Oct23_19-04-47_DESKTOP-K2JRB94 , Loss = 0,73
+        Results: Oct25_16-29-15_DESKTOP-K2JRB94 , Loss = 
         
         Po final epokach:
-        Bez tricku: Słabo, brązowo, prawie bez kolorów
-        Z trickiem: Nie jest źle, ale trochę zbyt kolorowo i zbyt jaskrwawo
+        Bez tricku: 
+        Z trickiem:
         
-        Po 10 epokach: Tak samo jak po final
     
 Powtórzyć po ponownym wyuczeniu V73 i V74
 ### Wnioski: 
@@ -2356,7 +2356,7 @@ V93:    Adam zamiast SGD oraz SmoothL1Loss zamiast MSELoss
 
 ## Kolejna faza - testy optimizera i funkcji kosztu dla V73
 
-V100:
+V100:   Adagrad zamiast SGD
 
     which_version = "V100"
     chosen_net = FCN_net_mega()
@@ -2410,7 +2410,7 @@ V100:
     Bez tricku: 
     Z trickiem: 
     
-V101:
+V101:   Adam zamiast SGD
 
     which_version = "V101"
     chosen_net = FCN_net_mega()
@@ -2464,7 +2464,7 @@ V101:
     Bez tricku: 
     Z trickiem: 
     
-V102:
+V102:   Adam i L1Loss
 
     which_version = "V102"
     chosen_net = FCN_net_mega()
@@ -2518,7 +2518,7 @@ V102:
     Bez tricku: 
     Z trickiem: 
     
-V103:
+V103:   Adam i SmoothL1Loss
 
     which_version = "V103"
     chosen_net = FCN_net_mega()
