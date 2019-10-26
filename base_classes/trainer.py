@@ -67,6 +67,8 @@ class Trainer:
             self._batch_size = self._config_dict['dataloader_parameters']["batch_size"]
             self._init_epoch = self._config_dict["init_epoch"]
             self._training_epochs = self._config_dict['training_epochs']
+
+            self._dataloader_parameters = self._config_dict['dataloader_parameters']
         except KeyError as e:
             log.error(f'Requested key not found in config dictionary: {e}')
             sys.exit(1)
@@ -98,11 +100,7 @@ class Trainer:
         # self._network.train()
 
     def train(self, dataset):
-        try:
-            dataloader = DataLoader(dataset, **self._config_dict['dataloader_parameters'])
-        except KeyError as e:
-            log.error(f'Requested key not found in config dictionary: {e}')
-            sys.exit(1)
+        dataloader = DataLoader(dataset, **self._dataloader_parameters)
 
         # main training loop
         for epoch in range(self._init_epoch,
