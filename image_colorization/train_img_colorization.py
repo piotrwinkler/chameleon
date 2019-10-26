@@ -9,6 +9,7 @@ from base_classes.json_parser import JsonParser
 from base_classes.trainer import Trainer
 from loguru import logger as log
 import os
+from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega
 
 
 def main():
@@ -21,10 +22,16 @@ def main():
     dataset = SetupCreator.create_dataset(consts.TRAINING_DATASET_DIRECTORY, config_dict['dataset'],
                                                     config_dict['additional_params'])
 
-    trainer = Trainer(config_dict, consts.NET_SAVING_DIRECTORY, consts.OPTIMIZER_SAVING_DIRECTORY,
-                      consts.SCHEDULER_SAVING_DIRECTORY, consts.TENSORBOARD_DIRECTORY,
-                      consts.RETRAINING_NET_DIRECTORY, consts.RETRAINING_OPTIMIZER_DIRECTORY,
-                      consts.RETRAINING_SCHEDULER_DIRECTORY)
+    network = eval(config_dict['net'])()
+
+    trainer = Trainer(config_dict, network=network, tensorboard_directory=consts.TENSORBOARD_DIRECTORY,
+                      net_saving_directory=consts.NET_SAVING_DIRECTORY,
+                      optimizer_saving_directory=consts.OPTIMIZER_SAVING_DIRECTORY,
+                      scheduler_saving_directory=consts.SCHEDULER_SAVING_DIRECTORY,
+                      retraining_net_directory=consts.RETRAINING_NET_DIRECTORY,
+                      retraining_optimizer_directory=consts.RETRAINING_OPTIMIZER_DIRECTORY,
+                      retraining_scheduler_directory=consts.RETRAINING_SCHEDULER_DIRECTORY)
+
     trainer.train(dataset)
 
 

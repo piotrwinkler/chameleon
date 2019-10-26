@@ -82,12 +82,10 @@ class TestImgtoImg(BaseTester):
 
 
 class ImageColorizationTester(BaseTester):
-    def __init__(self, load_net_path, dataset, results_dir, config_dict):
-        model = eval(config_dict['net'])()
-        super().__init__(load_net_path, model, [], [], [], '.')
+    def __init__(self, load_net_path, network, dataset, results_dir, config_dict):
+        super().__init__(load_net_path, network, [], [], [], '.', additional_params=config_dict['additional_params'])
         self.dataset = dataset
         self.dataloader_params = config_dict['dataloader_parameters']
-        self.additional_params = config_dict['additional_params']
         self.results_dir = results_dir
 
         self._device = torch.device('cuda:0' if torch.cuda.is_available() else
@@ -119,7 +117,7 @@ class ImageColorizationTester(BaseTester):
 
                 ax3 = fig.add_subplot(1, 4, 3)
                 ax3.imshow(np.transpose(L_batch_gray[0].numpy(), (1, 2, 0)).squeeze())
-                ax3.title.set_text(f"gray L channel, blur={self.additional_params['blur']['do_blur']}")
+                ax3.title.set_text(f"gray L channel, blur={self._additional_params['blur']['do_blur']}")
 
                 if self._test_on_gpu:
                     L_batch_gray = L_batch_gray.to(self._device)
@@ -130,13 +128,13 @@ class ImageColorizationTester(BaseTester):
                     outputs = outputs.cpu()
 
                 ab_outputs = np.transpose(outputs[0].numpy(), (1, 2, 0))
-                if self.additional_params['ab_output_processing'] == "normalization":
+                if self._additional_params['ab_output_processing'] == "normalization":
                     ab_outputs = ab_outputs * 255
 
-                elif self.additional_params['ab_output_processing'] == "standardization":
+                elif self._additional_params['ab_output_processing'] == "standardization":
                     ab_outputs = ab_outputs * self.dataset.ab_std[0] + self.dataset.ab_mean[0]
 
-                elif self.additional_params['ab_output_processing'] == "trick":
+                elif self._additional_params['ab_output_processing'] == "trick":
                     scale_L = L_gray_not_processed / 100
                     scale = max([np.max(ab_outputs), abs(np.min(ab_outputs))])
                     ab_outputs = ab_outputs / scale
@@ -147,17 +145,17 @@ class ImageColorizationTester(BaseTester):
                 ax4 = fig.add_subplot(1, 4, 4)
                 ax4.imshow(img_rgb_outputs)
                 ax4.title.set_text('model output')
-                if self.additional_params['do_show_results']:
+                if self._additional_params['do_show_results']:
                     plt.show()
 
-                if self.additional_params['do_save_results']:
+                if self._additional_params['do_save_results']:
                     matplotlib.image.imsave(f"{self.results_dir}/{str(i).zfill(4)}.png", img_rgb_outputs)
 
                 # running_loss = loss.item()
                 #
                 # print(f'[{(i + 1) * batch_size}] loss: {running_loss}')
 
-                if i == self.additional_params['how_many_results_to_generate']:
+                if i == self._additional_params['how_many_results_to_generate']:
                     break
                 plt.close(fig)
 
