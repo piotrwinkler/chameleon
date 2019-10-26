@@ -29,10 +29,14 @@ def main():
         RETRAINING_OPTIMIZER_DIRECTORY = f"model_states/{version}/fcn_optimizer{load_model}.pth"
         RETRAINING_SCHEDULER_DIRECTORY = f"model_states/{version}/fcn_scheduler{load_model}.pth"
 
-        trainer = Trainer(config_dict, NET_SAVING_DIRECTORY, OPTIMIZER_SAVING_DIRECTORY,
-                          SCHEDULER_SAVING_DIRECTORY, consts.TENSORBOARD_DIRECTORY,
-                          RETRAINING_NET_DIRECTORY, RETRAINING_OPTIMIZER_DIRECTORY,
-                          RETRAINING_SCHEDULER_DIRECTORY)
+        network = eval(config_dict['net'])()
+        trainer = Trainer(config_dict, network=network, tensorboard_directory=consts.TENSORBOARD_DIRECTORY,
+                          net_saving_directory=NET_SAVING_DIRECTORY,
+                          optimizer_saving_directory=OPTIMIZER_SAVING_DIRECTORY,
+                          scheduler_saving_directory=SCHEDULER_SAVING_DIRECTORY,
+                          retraining_net_directory=RETRAINING_NET_DIRECTORY,
+                          retraining_optimizer_directory=RETRAINING_OPTIMIZER_DIRECTORY,
+                          retraining_scheduler_directory=RETRAINING_SCHEDULER_DIRECTORY)
         log.debug(f"Version {version} - OK")
 
 
