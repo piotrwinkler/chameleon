@@ -381,4 +381,4 @@ TSWLatexianTemp*
 
 datasets/*
 */runs/*
-*/checkpoints/*
+*/data/checkpoints/*
