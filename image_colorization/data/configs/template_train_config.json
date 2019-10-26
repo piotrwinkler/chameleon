@@ -65,7 +65,7 @@
     },
     "ab_input_processing": "normalization",
     "ab_output_processing": "normalization",
-    "L_input_processing": "normalization",
+    "L_input_processing": "normalization"
 
   }
 }

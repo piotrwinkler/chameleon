@@ -9,5 +9,6 @@
                           {"name":"RgbtoGray",
                         "parameters": []}],
   "output_conversions": [{"name":"NormalizeImage",
-                        "parameters": []}]
+                        "parameters": []}],
+  "additional_params": {}
 }

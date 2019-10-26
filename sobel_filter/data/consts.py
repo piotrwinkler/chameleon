@@ -5,6 +5,13 @@ TEST_PARAMETERS = "data/test_parameters.json"
 TRAINING_DATASET_DIRECTORY = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset"    # This path has to be overriten
 TEST_DATASET_DIRECTORY = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset"   # This path has to be overriten
 
-NET_SAVING_DIRECTORY = "data/net.pth"
-RETRAINING_NET_DIRECTORY = "data/net_sobel_base.pth"
-TENSORBOARD_DIRECTORY = "data"
+NET_SAVING_DIRECTORY = "data/checkpoints/net.pth"
+NET_LOADING_DIRECTORY = "data/checkpoints/net_epoch_final.pth"
+OPTIMIZER_SAVING_DIRECTORY = ""
+SCHEDULER_SAVING_DIRECTORY = ""
+
+RETRAINING_NET_DIRECTORY = "data/checkpoints/net.pth"
+RETRAINING_OPTIMIZER_DIRECTORY = ""
+RETRAINING_SCHEDULER_DIRECTORY = ""
+
+TENSORBOARD_DIRECTORY = "."

@@ -7,9 +7,9 @@ import torch
 from loguru import logger as log
 
 
-
 class Rescale:
     """Rescale the data in a sample to a given size."""
+
     def __init__(self, output_sizes_list):
         assert isinstance(output_sizes_list, list)
         self.output_sizes_list = output_sizes_list
@@ -44,7 +44,7 @@ class ToTensor:
 
     def __init__(self, data_type=torch.float):
         self.data_type = data_type
-        assert isinstance(sample, list), log.error(f'Input sample {sample} is not a list in transform {self}')
+
     def __call__(self, sample):
         """Input and output data are 2 or 3 channels images."""
         assert isinstance(sample, list), log.error(f'Input sample {sample} is not a list in transform {self}')
@@ -54,10 +54,10 @@ class ToTensor:
         sample = [torch.from_numpy(np.expand_dims(data.transpose((0, 1)), axis=0)).type(self.data_type)
                   if len(np.shape(data)) == 2
                   else torch.from_numpy(data.transpose((2, 0, 1))).type(self.data_type) for data in sample]
+
         # output_img = sample[1].detach().numpy()
         # output_img = np.squeeze(output_img)  # remove redundant dimensions
         # output_img = output_img.transpose((1, 2, 0)) if len(np.shape(output_img)) == 3 else output_img
-        # cv2.imshow(f'dopa', output_img)
         # cv2.imshow(f'dopa', output_img)
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
