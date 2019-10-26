@@ -1,26 +1,27 @@
 import cv2
+import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
-from torch.utils.data import DataLoader
+
 from base_classes.data_collector import DataCollector
 from loguru import logger as log
-import matplotlib.pyplot as plt
 from skimage import color
-import matplotlib
-from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega
+from torch.utils.data import DataLoader
 
 
 class BaseTester:
     """Base class for all tests. When you create your own testing class you should inherit from this one, because it
     contains all parameters from "test_parameters.json" (Provided through entrypoint by SetupCreator) """
     def __init__(self, load_net_path, model, transforms, input_conversions_list, output_conversions_list,
-                 dataset_directory):
+                 dataset_directory, additional_params=dict):
         self._dataset_directory = dataset_directory
         self._load_net_path = load_net_path
         self._model = model
         self._transforms = transforms
         self._input_conversions_list = input_conversions_list
         self._output_conversions_list = output_conversions_list
+        self._additional_params = additional_params
 
         self._files_list = DataCollector.collect_images(self._dataset_directory)
 
@@ -53,9 +54,10 @@ class BaseTester:
 
 class TestImgtoImg(BaseTester):
     """Class intended to perform tests of img to img networks."""
-    def __init__(self, load_net_path, model, transforms, input_conversions_list, output_conversions_list, dataset_directory):
+    def __init__(self, load_net_path, model, transforms, input_conversions_list, output_conversions_list,
+                 dataset_directory, additional_params):
         super().__init__(load_net_path, model, transforms, input_conversions_list, output_conversions_list,
-                         dataset_directory)
+                         dataset_directory, additional_params)
 
     def test(self):
         self._model.load_state_dict(torch.load(self._load_net_path))
@@ -76,7 +78,6 @@ class TestImgtoImg(BaseTester):
 
             log.info(f'Original image shape: {np.shape(orig_img)}')
             log.info(f'Output image shape: {np.shape(output_img)}')
-
             self.show_image([orig_img, output_img])
 
 

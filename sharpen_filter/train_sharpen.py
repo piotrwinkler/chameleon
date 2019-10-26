@@ -4,7 +4,7 @@ import data.consts as consts
 from base_classes.setup_creator import SetupCreator
 from base_classes.json_parser import JsonParser
 from base_classes.trainer import Trainer
-from sepia_filter import SepiaFilter
+from sharpen_filter import SharpenFilter
 
 
 def main():

@@ -12,11 +12,10 @@ def main():
     dataset = SetupCreator.create_dataset(consts.TRAINING_DATASET_DIRECTORY, config_dict['dataset'],
                                           config_dict['additional_params'])
 
-    network = SobelFilter()
-    trainer = Trainer(config_dict, consts.NET_SAVING_DIRECTORY, consts.OPTIMIZER_SAVING_DIRECTORY,
-                      consts.SCHEDULER_SAVING_DIRECTORY, consts.TENSORBOARD_DIRECTORY, network,
-                      consts.RETRAINING_NET_DIRECTORY, consts.RETRAINING_OPTIMIZER_DIRECTORY,
-                      consts.RETRAINING_SCHEDULER_DIRECTORY, consts.do_retrain)
+    network = eval(config_dict['net_model'])()
+    trainer = Trainer(config_dict, network, tensorboard_directory=consts.TENSORBOARD_DIRECTORY,
+                      net_saving_directory=consts.NET_SAVING_DIRECTORY,
+                      retraining_net_directory=consts.RETRAINING_NET_DIRECTORY)
     trainer.train(dataset)
 
 
