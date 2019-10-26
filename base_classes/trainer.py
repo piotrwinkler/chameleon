@@ -73,7 +73,7 @@ class Trainer:
             if self.do_retrain and self._retraining_network_path != "":
                 try:
                     optimizer.load_state_dict(torch.load(self.retraining_optimizer_path))
-                    log.debug(f'{self.retraining_optimizer_path} scheduler loaded for retraining')
+                    log.debug(f'{self.retraining_optimizer_path} optimizer loaded for retraining')
                 except FileNotFoundError:
                     log.debug(f'{self._retraining_network_path}: given optimizer not found! It will be '
                               f'initialized with random weights.')

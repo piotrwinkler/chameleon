@@ -8,11 +8,13 @@ from loguru import logger as log
 from image_colorization.data import consts
 import gc
 import argparse
+from datetime import datetime
 
 
 def main():
     args = parse_args()
     version = args.version
+    log.add(f"logs/{version}_training_{datetime.now().strftime('%d-%b-%Y_%H-%M-%S')}.log")
     log.debug(f"Training version: {version}")
 
     TRAINING_PARAMETERS = f"data/configs/training_parameters_{version}.json"

@@ -1530,7 +1530,7 @@ V73:
 
         
         
-V74:    (Źle wyuczone)
+V74:   
 
       which_version = "V74"
       
@@ -1587,14 +1587,13 @@ V74:    (Źle wyuczone)
         "L_input_processing": "normalization"
       }
         
-        Results: Oct25_16-29-15_DESKTOP-K2JRB94 , Loss = 
+        Results: Oct25_16-29-15_DESKTOP-K2JRB94 , Loss = 0.74
         
         Po final epokach:
-        Bez tricku: 
-        Z trickiem:
+        Bez tricku: Identycznie jak V73
+        Z trickiem: Identycznie jak V73
         
     
-Powtórzyć po ponownym wyuczeniu V73 i V74
 ### Wnioski: 
 Standardyzacja L chyba sprawia, że jest mniej wycieków kolorów, ale też sprawia, że kolory są momentami zbyt 
 przejaskrawione. 
@@ -1606,12 +1605,16 @@ powoduje, ze kolory są zbyt intensywne i zbyt mocno wyciekają
 Bez triku: najlepsze jest V70, V70_2 i V72, są one lekko kolorowe, kolory są mocno stłumione ale są,
 te wersje z blurem (V73 i V74) są o wiele gorsze, wszystko jest szarawe i mniej kolorowe, podobnie V71, czyli słabo 
 ogólnie
+
 Ciężko wybrać co jest lepsze, V70 czy V72.
 
 Z trikiem: V70 i V72 (remis między nimi) wyglądają spoko, V73 i V 74 (te są z blurem) już gorzej, są przekolorowane i
 kolory są zbyt intensywne, czasami aż przesadnie jaskrawe
 
 ## Kolejna faza - testy optimizera i funkcji kosztu dla V70
+Bez triku najlepszy V84
+
+Z trikiem najlepszy V84
 
 V80:
 
@@ -1913,12 +1916,20 @@ V84:
         "L_input_processing": "normalization"
       }
      
-    Results: Oct24_22-04-51_DESKTOP-K2JRB94 + Oct24_23-04-02_DESKTOP-K2JRB94 , Loss = 0.76
+    Results: Oct24_22-04-51_DESKTOP-K2JRB94 + Oct24_23-04-02_DESKTOP-K2JRB94 + Oct25_19-54-49_DESKTOP-K2JRB94, Loss = 0.76 ; końcowy Loss = 0.79
     
-    Po final epokach:
+    Po 60 epokach:
     Bez tricku: Całkiem spoko, chyba lepiej niż V70, są przytułmione kolory
     Z trickiem: Batdzo fajnie, są wyraźne kolory, nawet sensowne, lepiej niż V70, momentami tylko zielony wycieka
     
+    Po 310 epokach
+    Bez tricku: Może lekko lepiej niż po 60 
+    Z trickiem: Bardzo fajnie, ale trawa jest trochę bardziej żółta, względem po 60 epokach, ogólnie kolory są 
+    trochę bardziej stłumione się wydaje, więc po 60 epokach chyba jednak lepiej
+    
+    Po 300 epokach
+    Okazało się, że po 300 epokach wszystko jest normalnie fajnie zieone zamiast mieć żółte akcenty, wiec aktualny final
+    model to jest właśnie po 300 epokach
 
 V85:
 
@@ -1980,16 +1991,20 @@ V85:
 
 ### Wnioski ze zmiany optimizerów
 PO 30 epokach uczenia Adamów
+
 Bez triku: chyba V84 prowadzi, Adam spoko
+
 Z trikiem: Adam chyba dalej trochę lepszy niż V70, kolory sa trochę bardziej dokolorowane
 
 PO 70 epokach uczenia Adamów
 Bez triku: Adam V84 świetnie, kolory pełne, bez wycieków prawie, ale czasami część obiektów traci swoje barwy i są szare,
 może to zniknie po dłuższym uczeniu
+
 Z trikiem: Adam V84 dalej spoko, kolory pełne, ale bardzo się nauczyła sieć zielonego i często nakłada na różne obiekty
 zielony, ale chyba dalej V84 top 1
 
 ### Testy funkcji lossu dla V84
+
 CrossEntropyLoss nie działa, jest tylko dla klasyfikatorów
 
     "criterion":
@@ -2123,10 +2138,14 @@ V87:
 
 Cross entropy Loss w ogóle się nie nadaje, nawet się nie chce odpalić to on powinien mieć format jak do klasyfikacji,
 czyli pasująca klasa jako Y.
+
 L1 loss powoduje, że zdjęcia są bardziej niebieskawe, MSELoss lepszy
 SmoothL1Loss lepszy niż L1, ale gorszy niż MSELoss, też powoduje, że zdjęcia są trochę niebieskawe, MSELoss lepszy
 
 ## Kolejna faza - testy optimizera i funkcji kosztu dla V72
+Bez triku najlepszy V91
+
+Z trikiem najlepszy V91
 
 V90:    Adagrad zamiast SGD
 
@@ -2178,11 +2197,11 @@ V90:    Adagrad zamiast SGD
         "L_input_processing": "standardization"
       }
      
-    Results:  , Loss = 
+    Results: Oct25_16-58-15_DESKTOP-K2JRB94 , Loss = 0.88
     
     Po final epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Słabo, szarawo
+    Z trickiem: Słabo, żółtawo
     
 V91:    Adam zamiast SGD
 
@@ -2234,11 +2253,11 @@ V91:    Adam zamiast SGD
         "L_input_processing": "standardization"
       }
      
-    Results:  , Loss = 
+    Results: Oct25_17-19-49_DESKTOP-K2JRB94 , Loss = 0.77
     
     Po final epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Bardzo podobnie do V72, ale trochę lepiej, obiekty są bardziej wypełnione kolorami
+    Z trickiem: Spoko, kolory lepiej wypełnione niż w V72, ale z drugiej strony częściej wyciekaja
     
 V92:    Adam zamiast SGD oraz L1Loss zamiast MSELoss
 
@@ -2290,11 +2309,11 @@ V92:    Adam zamiast SGD oraz L1Loss zamiast MSELoss
         "L_input_processing": "standardization"
       }
      
-    Results:  , Loss = 
+    Results: Oct25_17-42-06_DESKTOP-K2JRB94 , Loss = 0.62
     
     Po final epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Słabo, bardziej żółtawo i mniej kolorow
+    Z trickiem: Słabo, żółtawo
     
 V93:    Adam zamiast SGD oraz SmoothL1Loss zamiast MSELoss
 
@@ -2346,15 +2365,20 @@ V93:    Adam zamiast SGD oraz SmoothL1Loss zamiast MSELoss
         "L_input_processing": "standardization"
       }
      
-    Results:  , Loss = 
+    Results: Oct25_18-04-25_DESKTOP-K2JRB94 , Loss = 0.30
     
     Po final epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Nawet nieźlem ale trochę gorzej niż V91
+    Z trickiem: Nie jest źle, ale trawa jest czasami wyblakła, V91 lepsze
     
 ### Wnioski:
 
+Adam lepszy niż Adagrad, L1Loss nagorzej, MSELoss najlepszy, SmoothL1Loss całkiem spoko, ale gorszy lekko niż MSELoss
+
 ## Kolejna faza - testy optimizera i funkcji kosztu dla V73
+Bez triku najlepszy V101/73
+
+Z trikiem najlepszy V101
 
 V100:   Adagrad zamiast SGD
 
@@ -2404,11 +2428,11 @@ V100:   Adagrad zamiast SGD
         "L_input_processing": "standardization"
       }
      
-    Results:  , Loss = 
+    Results: Oct25_18-26-41_DESKTOP-K2JRB94 , Loss = 0.91
     
-    Po final epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Po 45 epokach:
+    Bez tricku: Słabo, szarawo
+    Z trickiem: Słabo, wszystko jest tęczowe i jaskrawe
     
 V101:   Adam zamiast SGD
 
@@ -2458,11 +2482,11 @@ V101:   Adam zamiast SGD
         "L_input_processing": "standardization"
       }
      
-    Results:  , Loss = 
+    Results: Oct25_18-47-58_DESKTOP-K2JRB94 , Loss = 0.79
     
-    Po final epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Po 45 epokach:
+    Bez tricku: Spoko, porobnie jak V73, może leciutko gorzej, ale raczej identyczny
+    Z trickiem: Bardzo fajnie, kolorowe, biekty są wypełnione kolorami
     
 V102:   Adam i L1Loss
 
@@ -2512,11 +2536,11 @@ V102:   Adam i L1Loss
         "L_input_processing": "standardization"
       }
      
-    Results:  , Loss = 
+    Results: Oct25_19-10-16_DESKTOP-K2JRB94 , Loss = 0.59
     
-    Po final epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Po 45 epokach:
+    Bez tricku: Słabo, szaro
+    Z trickiem: Średnio, niby kolorowo, ale kolory nie są jakieś dopasowane i są raczej zbyt jaskrawe
     
 V103:   Adam i SmoothL1Loss
 
@@ -2566,12 +2590,234 @@ V103:   Adam i SmoothL1Loss
         "L_input_processing": "standardization"
       }
      
-    Results:  , Loss = 
+    Results: Oct25_19-32-35_DESKTOP-K2JRB94 , Loss = 0.29
     
-    Po final epokach:
-    Bez tricku: 
-    Z trickiem:
+    Po 45 epokach:
+    Bez tricku: Całkiem spoko, ale lekko gorzej niż V101
+    Z trickiem: Średnio, lepiej niż V102, ale gorzej niż V101
     
 ### Wnioski:
+Adam lepszy niż Adagrad, L1Loss nagorzej, MSELoss najlepszy, SmoothL1Loss całkiem spoko, ale gorszy lekko niż MSELoss
 
 ## Kolejna faza - testy optimizera i funkcji kosztu dla V74
+Bez triku najlepszy 
+
+Z trikiem najlepszy 
+V110   Adagrad zamiast SGD
+
+    which_version = "V110"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adagrad",
+          "parameters":
+          {
+            "lr": 0.1,
+            "lr_decay": 0.999
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po 45 epokach:
+    Bez tricku:
+    Z trickiem: 
+    
+V111:   Adam zamiast SGD
+
+    which_version = "V111"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po 45 epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+V112:   Adam i L1Loss
+
+    which_version = "V112"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "L1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results:  , Loss = 
+    
+    Po 45 epokach:
+    Bez tricku: 
+    Z trickiem: 
+    
+V113:   Adam i SmoothL1Loss
+
+    which_version = "V113"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "SmoothL1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results:  , Loss =
+    
+    Po 45 epokach:
+    Bez tricku: 
+    Z trickiem: 
+
+### Wnioski:
+

@@ -3,6 +3,9 @@ sys.path.append('C:/STUDIA/INZYNIERKA/chameleon')
 import os
 import argparse
 from loguru import logger as log
+from base_classes.json_parser import JsonParser
+from image_colorization.data import consts
+from base_classes.trainer import Trainer
 
 
 def main():
@@ -15,6 +18,21 @@ def main():
         log.error(f"No file {TRAINING_PARAMETERS}")
         raise Exception(f"No file {TRAINING_PARAMETERS}")
     else:
+        config_dict = JsonParser.read_config(TRAINING_PARAMETERS)
+
+        load_model = f"{version}_epoch_final"
+        NET_SAVING_DIRECTORY = f"model_states/{version}/fcn_model{version}.pth"
+        OPTIMIZER_SAVING_DIRECTORY = f"model_states/{version}/fcn_optimizer{version}.pth"
+        SCHEDULER_SAVING_DIRECTORY = f"model_states/{version}/fcn_scheduler{version}.pth"
+
+        RETRAINING_NET_DIRECTORY = f"model_states/{version}/fcn_model{load_model}.pth"
+        RETRAINING_OPTIMIZER_DIRECTORY = f"model_states/{version}/fcn_optimizer{load_model}.pth"
+        RETRAINING_SCHEDULER_DIRECTORY = f"model_states/{version}/fcn_scheduler{load_model}.pth"
+
+        trainer = Trainer(config_dict, NET_SAVING_DIRECTORY, OPTIMIZER_SAVING_DIRECTORY,
+                          SCHEDULER_SAVING_DIRECTORY, consts.TENSORBOARD_DIRECTORY,
+                          RETRAINING_NET_DIRECTORY, RETRAINING_OPTIMIZER_DIRECTORY,
+                          RETRAINING_SCHEDULER_DIRECTORY)
         log.debug(f"Version {version} - OK")
 
 
