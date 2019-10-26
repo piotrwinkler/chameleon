@@ -3,7 +3,7 @@ from base_classes.json_parser import JsonParser
 from base_classes.setup_creator import SetupCreator
 from base_classes.tester import TestImgtoImg
 from data import consts
-from sepia_filter import SepiaFilter
+from canny_filter import CannyFilter
 
 
 def main():

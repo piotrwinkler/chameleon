@@ -1,5 +1,5 @@
 {
-  "net_model": "SobelFilter",
+  "net_model": "CannyFilter",
   "criterion":
   {
       "name": "MSELoss",
@@ -33,7 +33,7 @@
   "saving_period": 1,
   "dataloader_parameters":
   {
-      "batch_size": 1,
+      "batch_size": 16,
       "shuffle": false,
       "num_workers": 4
   },
@@ -44,17 +44,13 @@
     "name": "BasicFiltersDataset",
     "input_conversions": [{"name":"Resize",
                         "parameters": [[256, 256]]},
-                          {"name":"NormalizeImage255",
-                        "parameters": []},
-                          {"name":"RgbtoGray",
+                          {"name":"NormalizeImage255Canny",
                         "parameters": []}],
     "output_conversions": [{"name":"Resize",
                         "parameters": [[256, 256]]},
-                          {"name":"NormalizeImage255",
+                          {"name": "FilterCanny",
                         "parameters": []},
-                          {"name":"RgbtoGray",
-                        "parameters": []},
-                          {"name": "FilterImageSobelx",
+                          {"name":"NormalizeImage255Canny",
                         "parameters": []}],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]

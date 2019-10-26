@@ -401,6 +401,7 @@ TSWLatexianTemp*
 
 datasets/*
 */runs/*
+*/data/checkpoints/*
 /image_colorization/sort_models_in_files.py
 /basic_filters/
 /image_colorization/datasets/

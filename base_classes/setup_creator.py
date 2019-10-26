@@ -29,7 +29,6 @@ class SetupCreator:
             transforms_list = [getattr(predefined_transforms, transform['name'],
                                        'Specified transform not found')(*transform['parameters'])
                                for transform in dataset_config_dict['transforms']]
-
         except KeyError as e:
             log.error(f'Requested key not found in config dictionary: {e}')
             sys.exit(1)
@@ -42,13 +41,13 @@ class SetupCreator:
                        transform=transforms.Compose(transforms_list))
 
     @staticmethod
-    def create_testbase(dataset_directory, net_saving_directory, model, test_config_dict) -> dict:
+    def create_testbase(dataset_directory, load_net_path, model, test_config_dict) -> dict:
         """Contols flow of the data from test_parameters.json and fits it to BaseTester class.
         Should be used in testing entrypoint."""
         setup_dict = dict()
         try:
             setup_dict['dataset_directory'] = dataset_directory
-            setup_dict['net_path'] = net_saving_directory
+            setup_dict['load_net_path'] = load_net_path
             setup_dict['model'] = model()
 
             setup_dict['transforms'] = [getattr(predefined_transforms, transform['name'],
@@ -62,6 +61,8 @@ class SetupCreator:
             setup_dict['output_conversions_list'] = [getattr(conversions, conversion['name'],
                                                      'Specified output conversion not found')(*conversion['parameters'])
                                                      for conversion in test_config_dict['output_conversions']]
+
+            setup_dict['additional_params'] = test_config_dict['additional_params']
         except KeyError as e:
             log.error(f'Requested key not found in config dictionary: {e}')
             sys.exit(1)

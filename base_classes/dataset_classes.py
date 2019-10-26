@@ -11,17 +11,18 @@ from loguru import logger as log
 
 class BaseDataset(Dataset):
     """General dataset class allowing to load images from specified directory."""
-    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, transform):
+    def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, additional_params,
+                 transform):
         self._dataset_directory = dataset_directory
-        self._transform = transform
         self._input_conversions_list = input_conversions_list
         self._output_conversions_list = output_conversions_list
+        self._additional_params = additional_params
+        self._transform = transform
 
         self._files_list = DataCollector.collect_images(self._dataset_directory)
 
     def __len__(self):
         return len(self._files_list)
-
 
     @staticmethod
     def _implement_conversions(data, conversions_list):
@@ -35,7 +36,8 @@ class BasicFiltersDataset(BaseDataset):
     connected samples. All operations are defined in "training_parameters.json" """
     def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, additional_params,
                  transform=None):
-        super().__init__(dataset_directory, input_conversions_list, output_conversions_list, transform)
+        super().__init__(dataset_directory, input_conversions_list, output_conversions_list, additional_params,
+                         transform)
 
     def __getitem__(self, item):
         if torch.is_tensor(item):
@@ -75,10 +77,10 @@ class BasicCifar10Dataset(BaseDataset):
 
     def __init__(self, dataset_directory, input_conversions_list, output_conversions_list, additional_params,
                  transform=None):
-        super().__init__(".", input_conversions_list, output_conversions_list, transform)
+        super().__init__(".", input_conversions_list, output_conversions_list, additional_params, transform)
 
-        self.get_data_to_tests = additional_params['get_data_to_test']
-        self.additional_params = additional_params
+        self.get_data_to_tests = self._additional_params['get_data_to_test']
+        self.additional_params = self._additional_params
 
         if self.additional_params['choose_train_set']:
             log.info("Loading train set")
