@@ -4,7 +4,7 @@ import matplotlib.image as mpimg
 
 path_to_results_folder = "results/"
 
-chosen_versions = ["original", "V74", "V110", "V111", "V112", "V113"]
+chosen_versions = ["original", "V71", "V120", "V121", "V122", "V123"]
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
 
     number_of_subplots = len(paths_list)
     for list_of_imgs in zip(*paths_list):
-        fig = plt.figure(figsize=(14, 7))
+        fig = plt.figure(figsize=(16, 8))
         for i, img_path in enumerate(list_of_imgs):
             img = mpimg.imread(img_path)
             ax1 = fig.add_subplot(1, number_of_subplots, i+1)

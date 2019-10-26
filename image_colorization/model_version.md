@@ -2823,9 +2823,9 @@ V113:   Adam i SmoothL1Loss
 ### Wnioski:
 
 ## Kolejna faza - testy optimizera i funkcji kosztu dla V71
-Bez triku najlepszy 
+Bez triku najlepszy V123
 
-Z trikiem najlepszy 
+Z trikiem najlepszy V123
 
 V120:   Adagrad zamiast SGD
 
@@ -2877,11 +2877,11 @@ V120:   Adagrad zamiast SGD
         "L_input_processing": "normalization"
       }
  
-        Results: , Loss =
+        Results: Oct26_12-59-30_DESKTOP-K2JRB94 , Loss = 2.79e-3
         
         Po 45 epokach
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: Słabo, wszystko szare ale niektóre piksele są tęczowe
+        Z trickiem: Słabo, wszystko szare albo żółte ale niektóre piksele są tęczowe
      
 V121:   Adam zamiast SGD
    
@@ -2933,11 +2933,11 @@ V121:   Adam zamiast SGD
         "L_input_processing": "normalization"
       }
     
-        Results: , Loss =
+        Results: Oct26_13-21-14_DESKTOP-K2JRB94 , Loss = 2,25e-3
         
         Po 45 epokach
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: Słabo, raczej szarawo, ale lepiej niż V71
+        Z trickiem: Lepiej niż V71, dalej momentami żółtawo, ale teraz woda jest zazwyczaj niebieska
         
 V122:   Adam zamiast SGD oraz L1Loss zamiast MSELoss
    
@@ -2988,9 +2988,14 @@ V122:   Adam zamiast SGD oraz L1Loss zamiast MSELoss
         "L_input_processing": "normalization"
       }
         
-        Results: , Loss =
+        Results: Oct26_13-44-09_DESKTOP-K2JRB94 , Loss = 0.03
+        Results nowe, żeby nie było na czerwono: Oct26_15-11-20_DESKTOP-K2JRB94 , Loss = 
         
-        Po 45 epokach
+        Po 45 epokach:
+        Bez tricku: Słabo, wszystko szare 
+        Z trickiem: Dziwnie, wszystko na czerwono 
+        
+        Po 45 epokach nowe:
         Bez tricku: 
         Z trickiem: 
         
@@ -3043,10 +3048,10 @@ V123:   Adam zamiast SGD oraz SmoothL1Loss zamiast MSELoss
         "L_input_processing": "normalization"
       }
     
-        Results: , Loss =
+        Results: Oct26_14-06-52_DESKTOP-K2JRB94 , Loss = 1.14e-3
         
         Po 45 epokach
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: Podobnie jak V71, może lekko lepiej niż V71 i V121
+        Z trickiem: Podobnie jak V121, ale chyba lepiej, czyli lepiej niż V71
         
 ### Wnioski:

@@ -43,7 +43,11 @@
 
 \usepackage{csquotes} % Do cytowania
 \AtBeginEnvironment{quote}{\itshape}  % Ustawia to co jest między \begin{quote}
-% a \end{quote}, że będzie kursywą
+% a \end{quote}, że będzie kursyw
+
+\usepackage[hyphens]{url} % Dodatkowa opcja, żeby linki url łamały się jeśli są
+% za długie
+\usepackage{hyperref} % Do linków url
 
 %\renewcommand{\chaptername}{Rozdział}
 %\renewcommand{\contentsname}{Spis treści}
@@ -125,6 +129,9 @@
 \include{przeglad_rozwiazan}
 
 \section{\textless Opis, implementacja oraz testy naszego rozwiązania \textgreater}
+
+\section{\textless what coś coss \textgreater}
+
 
 \section{Podsumowanie}
 

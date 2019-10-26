@@ -16,10 +16,10 @@
   uczenia. Taka struktura pokazana została na Rysunku \ref{fig:dnn}.
   Obrazy o niskiej rozdzielczości można było przekształcić w wektory
   wartości poszczególnych pikseli i w takiej postaci podawać na wejście sieci,
-  jednak w przypadku obrazów o wyższej rozdzieloczości to rozwiązanie, ze
+  jednak w przypadku obrazów o wyższej rozdzielczości to rozwiązanie, ze
   względu na znaczną długość powstałych wektorów, nie oferowało dobrych
   rezultatów.
-  Dopiero nowe architektury sieci spowodowały przełom w tej dziedzienie.
+  Dopiero nowe architektury sieci spowodowały przełom w tej dziedzinie.
   Wprowadzenie do najistotniejszych i najciekawszych z nich zostanie przedstawione w
   poniższym rozdziale, a także rozwinięte w dalszej części tej pracy.
 
@@ -27,7 +27,7 @@
   \begin{figure}[h]
     \centering
     \includegraphics[width=4in]{dnn}
-    \caption{Struktura DNN}
+    \caption[Struktura DNN - źródło: \url{https://towardsdatascience.com/building-a-convolutional-neural-network-male-vs-female-50347e2fa88b}]{Struktura DNN}
     \label{fig:dnn}
   \end{figure}
 
@@ -83,7 +83,7 @@
     \begin{figure}[h]
      \centering
      \includegraphics[width=4in]{cnn_structure}
-     \caption{Przykładowa struktura CNN}
+     \caption[Przykładowa struktura CNN - źródło: \url{https://www.mathworks.com/solutions/deep-learning/convolutional-neural-network.html}]{Przykładowa struktura CNN}
      \label{fig:cnn_structure}
     \end{figure}
     \newline
@@ -96,7 +96,7 @@
    \begin{figure}[h]
     \centering
     \includegraphics[width=4in]{segmentation}
-    \caption{Segmentacja semantyczna}
+    \caption[Segmentacja semantyczna - źródło: \url{https://devblogs.nvidia.com/image-segmentation-using-digits-5/}]{Segmentacja semantyczna}
     \label{fig:segmentation}
   \end{figure}
 
@@ -114,7 +114,7 @@
 
    Obrazy te przekazywane są, równolegle z zestawem obrazów prawdziwych, do dyskryminatora stanowiącego drugą część modelu GAN. Działanie tej sieci neuronowej polega na określeniu (w skali 0 do 1), w jakim stopniu produkty wyjściowe generatora odpowiadają obrazom rzeczywistym.
 
-   W opisanym modelu występuje zatem podwójna pętla sprzężenia zwrotnego. Dyskryminator określa autentyczność obrazów porównująć je ze zdefiniowaną odgórnie bazą danych. Z kolei generator otrzymuje informację o skuteczności swojego działania ze strony dyskryminatora.
+   W opisanym modelu występuje zatem podwójna pętla sprzężenia zwrotnego. Dyskryminator określa autentyczność obrazów porównując je ze zdefiniowaną odgórnie bazą danych. Z kolei generator otrzymuje informację o skuteczności swojego działania ze strony dyskryminatora.
 
    Model generatywny znajduje się w stanie ciągłego konfliktu. Generator dąży do jak najdokładniejszego fałszowania obrazów w celu oszukania dyskryminatora, którego celem jest z kolei jak najdokładniejsze wykrywanie podróbek. Obie sieci neuronowe nieustannie dążą do osiągnięcia przewagi nad rywalem w procesie treningu. Ciągła rywalizacja sprawia, że zarówno generator, jak i dyskryminator zyskują coraz wyższą skuteczność działania.
 
