@@ -1,17 +1,22 @@
 import cv2
 import numpy as np
 import torch
-
+from torch.utils.data import DataLoader
 from base_classes.data_collector import DataCollector
 from loguru import logger as log
+import matplotlib.pyplot as plt
+from skimage import color
+import matplotlib
+from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega
 
 
 class BaseTester:
     """Base class for all tests. When you create your own testing class you should inherit from this one, because it
     contains all parameters from "test_parameters.json" (Provided through entrypoint by SetupCreator) """
-    def __init__(self, net_path, model, transforms, input_conversions_list, output_conversions_list, dataset_directory):
+    def __init__(self, load_net_path, model, transforms, input_conversions_list, output_conversions_list,
+                 dataset_directory):
         self._dataset_directory = dataset_directory
-        self._net_path = net_path
+        self._load_net_path = load_net_path
         self._model = model
         self._transforms = transforms
         self._input_conversions_list = input_conversions_list
@@ -48,12 +53,12 @@ class BaseTester:
 
 class TestImgtoImg(BaseTester):
     """Class intended to perform tests of img to img networks."""
-    def __init__(self, net_path, model, transforms, input_conversions_list, output_conversions_list, dataset_directory):
-        super().__init__(net_path, model, transforms, input_conversions_list, output_conversions_list,
+    def __init__(self, load_net_path, model, transforms, input_conversions_list, output_conversions_list, dataset_directory):
+        super().__init__(load_net_path, model, transforms, input_conversions_list, output_conversions_list,
                          dataset_directory)
 
     def test(self):
-        self._model.load_state_dict(torch.load(self._net_path))
+        self._model.load_state_dict(torch.load(self._load_net_path))
 
         for i in range(len(self)):
             input_img = self.read_image(self._files_list[i])
@@ -73,3 +78,89 @@ class TestImgtoImg(BaseTester):
             log.info(f'Output image shape: {np.shape(output_img)}')
 
             self.show_image([orig_img, output_img])
+
+
+class ImageColorizationTester(BaseTester):
+    def __init__(self, load_net_path, dataset, results_dir, config_dict):
+        model = eval(config_dict['net'])()
+        super().__init__(load_net_path, model, [], [], [], '.')
+        self.dataset = dataset
+        self.dataloader_params = config_dict['dataloader_parameters']
+        self.additional_params = config_dict['additional_params']
+        self.results_dir = results_dir
+
+        self._device = torch.device('cuda:0' if torch.cuda.is_available() else
+                                    'cpu')
+        log.info(self._device)
+        self._test_on_gpu = config_dict['test_on_gpu']
+        log.debug(f"Choosing net {config_dict['net']}")
+
+    def test(self):
+
+        dataloader = DataLoader(self.dataset, **self.dataloader_params)
+        self._model.load_state_dict(torch.load(self._load_net_path))
+        self._model.eval()
+        if self._test_on_gpu:
+            self._model = self._model.to(self._device)
+
+        with torch.no_grad():
+            for i, (L_batch_gray_not_processed, rgb_images, L_batch_gray, gray_images) in enumerate(dataloader):
+                L_gray_not_processed = np.transpose(L_batch_gray_not_processed[0].numpy(), (1, 2, 0))
+
+                fig = plt.figure(figsize=(14, 7))
+                ax1 = fig.add_subplot(1, 4, 1)
+                ax1.imshow(rgb_images[0])
+                ax1.title.set_text('Ground Truth')
+
+                ax2 = fig.add_subplot(1, 4, 2)
+                ax2.imshow(gray_images[0])
+                ax2.title.set_text('Gray')
+
+                ax3 = fig.add_subplot(1, 4, 3)
+                ax3.imshow(np.transpose(L_batch_gray[0].numpy(), (1, 2, 0)).squeeze())
+                ax3.title.set_text(f"gray L channel, blur={self.additional_params['blur']['do_blur']}")
+
+                if self._test_on_gpu:
+                    L_batch_gray = L_batch_gray.to(self._device)
+
+                outputs = self._model(L_batch_gray)
+
+                if self._test_on_gpu:
+                    outputs = outputs.cpu()
+
+                ab_outputs = np.transpose(outputs[0].numpy(), (1, 2, 0))
+                if self.additional_params['ab_output_processing'] == "normalization":
+                    ab_outputs = ab_outputs * 255
+
+                elif self.additional_params['ab_output_processing'] == "standardization":
+                    ab_outputs = ab_outputs * self.dataset.ab_std[0] + self.dataset.ab_mean[0]
+
+                elif self.additional_params['ab_output_processing'] == "trick":
+                    scale_L = L_gray_not_processed / 100
+                    scale = max([np.max(ab_outputs), abs(np.min(ab_outputs))])
+                    ab_outputs = ab_outputs / scale
+                    ab_outputs = ab_outputs * (scale_L * 127)
+
+                img_rgb_outputs = color.lab2rgb(np.dstack((L_gray_not_processed, ab_outputs)))
+
+                ax4 = fig.add_subplot(1, 4, 4)
+                ax4.imshow(img_rgb_outputs)
+                ax4.title.set_text('model output')
+                if self.additional_params['do_show_results']:
+                    plt.show()
+
+                if self.additional_params['do_save_results']:
+                    matplotlib.image.imsave(f"{self.results_dir}/{str(i).zfill(4)}.png", img_rgb_outputs)
+
+                # running_loss = loss.item()
+                #
+                # print(f'[{(i + 1) * batch_size}] loss: {running_loss}')
+
+                if i == self.additional_params['how_many_results_to_generate']:
+                    break
+                plt.close(fig)
+
+        log.info('Finished Testing')
+
+    def __len__(self):
+        return len(self.dataset)

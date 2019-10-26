@@ -12,7 +12,7 @@ class SetupCreator:
         pass
 
     @staticmethod
-    def create_dataset(dataset_directory, dataset_config_dict) -> object:
+    def create_dataset(dataset_directory, dataset_config_dict, additional_params) -> object:
         """Contols flow of the data from "dataset" part of training_parameters.json and fits it to BaseDataset class.
         Should be used in training entrypoint."""
         try:
@@ -29,6 +29,7 @@ class SetupCreator:
             transforms_list = [getattr(predefined_transforms, transform['name'],
                                        'Specified transform not found')(*transform['parameters'])
                                for transform in dataset_config_dict['transforms']]
+
         except KeyError as e:
             log.error(f'Requested key not found in config dictionary: {e}')
             sys.exit(1)
@@ -37,7 +38,7 @@ class SetupCreator:
             sys.exit(1)
 
         log.info('All dataset features collected properly!')
-        return dataset(dataset_directory, input_conversions_list, output_conversions_list,
+        return dataset(dataset_directory, input_conversions_list, output_conversions_list, additional_params,
                        transform=transforms.Compose(transforms_list))
 
     @staticmethod

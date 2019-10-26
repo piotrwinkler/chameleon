@@ -1,0 +1,71 @@
+{
+  "net": "",
+  "criterion":
+  {
+      "name": "MSELoss",
+      "patameters":
+      {
+        "reduction": "mean"
+      }
+  },
+  "optimizer":
+  {
+      "name": "SGD",
+      "parameters":
+      {
+        "lr": 0.1,
+        "momentum": 0.9
+      }
+  },
+  "scheduler":
+  {
+      "name": "StepLR",
+      "parameters":
+      {
+        "step_size": 1,
+        "gamma": 0.999
+      },
+      "scheduler_decay": 0.5,
+      "scheduler_decay_period": 20
+  },
+  "init_epoch": 0,
+  "training_epochs": 10,
+  "training_monitoring_period": 1,
+  "saving_period": 1,
+  "dataloader_parameters":
+  {
+      "batch_size": 128,
+      "shuffle": false,
+      "num_workers": 0
+  },
+  "train_on_gpu": true,
+  "dataset":
+  {
+    "name": "BasicCifar10Dataset",
+    "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
+                           {"name":"Standardization", "parameters": []},
+                           {"name":"GaussKernel", "parameters": [[5,5]]}
+    ],
+    "output_conversions": [{"name":"CustomNormalize", "parameters": [0, 255.0]},
+                           {"name":"Standardization", "parameters": []},
+                           {"name":"GaussKernel", "parameters": [[5,5]]}
+    ],
+    "transforms": [{"name": "ToTensor",
+                    "parameters": []}]
+  },
+  "additional_params":
+  {
+    "get_data_to_test": false,
+    "choose_train_set": true,
+
+    "blur":
+    {
+      "do_blur": false,
+      "kernel_size": [5, 5]
+    },
+    "ab_input_processing": "normalization",
+    "ab_output_processing": "normalization",
+    "L_input_processing": "normalization",
+
+  }
+}

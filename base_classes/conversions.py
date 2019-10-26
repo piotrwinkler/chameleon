@@ -68,6 +68,52 @@ class Resize:
         return cv2.resize(data, tuple(self._intended_size))
 
 
+class CustomNormalize:
+    def __init__(self, substract_factor, divide_factor):
+        self.divide_factor = divide_factor
+        self.substract_factor = substract_factor
+
+    def __call__(self, input_array):
+        return ((input_array - self.substract_factor) / self.divide_factor).astype('float32')
+
+
+class CustomDenormalize:
+    def __init__(self, add_factor, multiply_factor):
+        self.multiply_factor = multiply_factor
+        self.add_factor = add_factor
+
+    def __call__(self, input_array):
+        return (input_array * self.multiply_factor + self.add_factor).astype('float32')
+
+
+class Standardization:
+    """
+    Standardization of whole input array
+    """
+    def __init__(self):
+        pass
+
+    def __call__(self, input_array):
+        mean = np.mean(input_array, axis=(0, 1, 2), keepdims=True)
+        std = np.std(input_array, axis=(0, 1, 2), keepdims=True)
+
+        return ((input_array - mean) / std).astype('float32')
+
+
+class GaussKernel:
+    """
+    Standardization of whole input array
+    """
+    def __init__(self, kernel_size):
+        self.kernel_size = tuple(kernel_size)
+
+    def __call__(self, input_array):
+        for i in range(input_array.shape[0]):
+            input_array[i] = cv2.GaussianBlur(input_array[i] , self.kernel_size, 0)
+
+        return input_array.astype('float32')
+
+
 if __name__ == "__main__":
     # Executable code intended to conversions testing (should be deleted in final version)
     img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/test_dataset/samolot.jpg"
