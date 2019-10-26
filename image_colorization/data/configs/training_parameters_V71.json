@@ -29,9 +29,9 @@
       "scheduler_decay_period": 20
   },
   "retrain": true,
-  "init_epoch": 0,
-  "training_epochs": 30,
-  "training_monitoring_period": 1,
+  "init_epoch": 30,
+  "training_epochs": 15,
+  "training_monitoring_period": 80,
   "saving_period": 10,
   "dataloader_parameters":
   {

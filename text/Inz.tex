@@ -43,7 +43,11 @@
 
 \usepackage{csquotes} % Do cytowania
 \AtBeginEnvironment{quote}{\itshape}  % Ustawia to co jest między \begin{quote}
-% a \end{quote}, że będzie kursywą
+% a \end{quote}, że będzie kursyw
+
+\usepackage[hyphens]{url} % Dodatkowa opcja, żeby linki url łamały się jeśli są
+% za długie
+\usepackage{hyperref} % Do linków url
 
 %\renewcommand{\chaptername}{Rozdział}
 %\renewcommand{\contentsname}{Spis treści}
@@ -124,7 +128,16 @@
 
 \include{przeglad_rozwiazan}
 
-\section{\textless Opis, implementacja oraz testy naszego rozwiązania \textgreater}
+\section{Zaimplementowane rozwiązania}
+
+  W celu zbadania skuteczności sieci neuronowych jako narzędzi do edycji obrazu
+  należało wybrać przykładowe zagadnienia z tej dziedziny, rozwiązać je z
+  użyciem technik sztucznej inteligencji oraz ocenić ich skuteczność.
+
+  W tym rozdziale zostały przedstawione koncepcje rozwiązań wybranych zagadnień
+  oraz ich implementacje.
+
+  \include{image_colorization}
 
 \section{Podsumowanie}
 

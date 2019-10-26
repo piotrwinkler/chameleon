@@ -1,7 +1,7 @@
 """This file contains all necessary files directories."""
 
-which_version = "V84"
-do_trick = True
+which_version = "V122"
+do_trick = False
 choose_test_set = False
 
 load_model = f"{which_version}_epoch_final"

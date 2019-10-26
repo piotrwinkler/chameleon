@@ -2600,9 +2600,10 @@ V103:   Adam i SmoothL1Loss
 Adam lepszy niż Adagrad, L1Loss nagorzej, MSELoss najlepszy, SmoothL1Loss całkiem spoko, ale gorszy lekko niż MSELoss
 
 ## Kolejna faza - testy optimizera i funkcji kosztu dla V74
-Bez triku najlepszy 
+Bez triku najlepszy V74
 
-Z trikiem najlepszy 
+Z trikiem najlepszy V74
+
 V110   Adagrad zamiast SGD
 
     which_version = "V110"
@@ -2651,11 +2652,11 @@ V110   Adagrad zamiast SGD
         "L_input_processing": "normalization"
       }
      
-    Results:  , Loss = 
+    Results: Oct26_10-12-46_DESKTOP-K2JRB94 , Loss = 0.86
     
     Po 45 epokach:
-    Bez tricku:
-    Z trickiem: 
+    Bez tricku: Słabo, szaro
+    Z trickiem: Dziwnie, wszystko tęczowe
     
 V111:   Adam zamiast SGD
 
@@ -2705,11 +2706,11 @@ V111:   Adam zamiast SGD
         "L_input_processing": "normalization"
       }
      
-    Results:  , Loss = 
+    Results: Oct26_10-34-24_DESKTOP-K2JRB94 , Loss = 0.88
     
     Po 45 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Słabo, szaro
+    Z trickiem: Słabo, wszystko ostro żółte
     
 V112:   Adam i L1Loss
 
@@ -2759,11 +2760,11 @@ V112:   Adam i L1Loss
         "L_input_processing": "normalization"
       }
      
-    Results:  , Loss = 
+    Results: Oct26_10-57-52_DESKTOP-K2JRB94 + Oct26_11-31-33_DESKTOP-K2JRB94 , Loss = 0.59
     
     Po 45 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Ok, podobnie jak V74, ale leciutko gorzej
+    Z trickiem: Dziwnie, ogólnie często ok, ale często wszystko niebieskie albo żółte, gorzej niż V74
     
 V113:   Adam i SmoothL1Loss
 
@@ -2813,11 +2814,247 @@ V113:   Adam i SmoothL1Loss
         "L_input_processing": "normalization"
       }
      
-    Results:  , Loss =
+    Results: Oct26_11-54-20_DESKTOP-K2JRB94 , Loss = 0.28
     
     Po 45 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Tak sobie, gorzej niż V74 i V112
+    Z trickiem: Słabo, żółtawo, albo niebieskawo
 
 ### Wnioski:
 
+## Kolejna faza - testy optimizera i funkcji kosztu dla V71
+Bez triku najlepszy V123
+
+Z trikiem najlepszy V123
+
+V120:   Adagrad zamiast SGD
+
+    which_version = "V120"
+            
+    chosen_net = FCN_net_mega()
+      "net": "FCN_net_mega",
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adagrad",
+          "parameters":
+          {
+            "lr": 0.1,
+            "lr_decay": 0.999
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"CustomNormalize", "parameters": [0, 255.0]}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "normalization",
+        "ab_output_processing": "normalization",
+        "L_input_processing": "normalization"
+      }
+ 
+        Results: Oct26_12-59-30_DESKTOP-K2JRB94 , Loss = 2.79e-3
+        
+        Po 45 epokach
+        Bez tricku: Słabo, wszystko szare ale niektóre piksele są tęczowe
+        Z trickiem: Słabo, wszystko szare albo żółte ale niektóre piksele są tęczowe
+     
+V121:   Adam zamiast SGD
+   
+    which_version = "V121"
+            
+    chosen_net = FCN_net_mega()
+      "net": "FCN_net_mega",
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"CustomNormalize", "parameters": [0, 255.0]}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "normalization",
+        "ab_output_processing": "normalization",
+        "L_input_processing": "normalization"
+      }
+    
+        Results: Oct26_13-21-14_DESKTOP-K2JRB94 , Loss = 2,25e-3
+        
+        Po 45 epokach
+        Bez tricku: Słabo, raczej szarawo, ale lepiej niż V71
+        Z trickiem: Lepiej niż V71, dalej momentami żółtawo, ale teraz woda jest zazwyczaj niebieska
+        
+V122:   Adam zamiast SGD oraz L1Loss zamiast MSELoss
+   
+    which_version = "V122"            
+    chosen_net = FCN_net_mega()
+      "net": "FCN_net_mega",
+      "criterion":
+      {
+          "name": "L1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"CustomNormalize", "parameters": [0, 255.0]}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "normalization",
+        "ab_output_processing": "normalization",
+        "L_input_processing": "normalization"
+      }
+        
+        Results: Oct26_13-44-09_DESKTOP-K2JRB94 , Loss = 0.03
+        Results nowe, żeby nie było na czerwono: Oct26_15-11-20_DESKTOP-K2JRB94 , Loss = 
+        
+        Po 45 epokach:
+        Bez tricku: Słabo, wszystko szare 
+        Z trickiem: Dziwnie, wszystko na czerwono 
+        
+        Po 45 epokach nowe:
+        Tak samo, też czerwowo
+        
+V123:   Adam zamiast SGD oraz SmoothL1Loss zamiast MSELoss
+   
+    which_version = "V123"            
+    chosen_net = FCN_net_mega()
+      "net": "FCN_net_mega",
+      "criterion":
+      {
+          "name": "SmoothL1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"CustomNormalize", "parameters": [0, 255.0]}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "normalization",
+        "ab_output_processing": "normalization",
+        "L_input_processing": "normalization"
+      }
+    
+        Results: Oct26_14-06-52_DESKTOP-K2JRB94 , Loss = 1.14e-3
+        
+        Po 45 epokach
+        Bez tricku: Podobnie jak V71, może lekko lepiej niż V71 i V121
+        Z trickiem: Podobnie jak V121, ale chyba lepiej, czyli lepiej niż V71
+        
+### Wnioski:
+
+W sumie i Adam i Adagrad słabo, ale Adam chyba lekko lepiej
+
+L1 loss tragedia, ale Smooth L1 loss całkiem nieźle, chyba nawet lepiej niż MSELoss
