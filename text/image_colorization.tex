@@ -25,19 +25,56 @@
   rozwiązania jest niekoniecznie odtworzenie rzeczywistych barw obrazu, a raczej
   wygenerowanie barw, które mogłyby być barwami rzeczywistymi.
 
-  LAB format
+  Aby zwiększyć efektywność uczenia wykorzystano przestrzeń barw CIELab. W tej
+  przestrzeni barwę obrazu opisują 3 składowe:
+  \begin{itemize}
+  \item L -jasność (luminacja)
+  \item A -barwa od zielonej do magenty
+  \item B - barwa od niebieskiej do żółtej
+  \end{itemize}
+  Przestrzeń barw CIELab została przedstawiona na Rysunku \ref{fig:CIELab}
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=4in]{CIELab}
+    \caption[Przestrzeń barw CIELab - źródło:
+    \url{https://www.flickr.com/photos/greenmambagreenmamba/4236391637}]
+    {Przestrzeń barw CIELab.}
+    \label{fig:CIELab}
+  \end{figure}
+
+  Zaletą zastosowania CIELab jest fakt, że jest ona najbardziej równomierną
+  przestrzenią barw, co oznacza, że jeśli barwy znajdują się w jednakowej
+  odległości od siebie w tej przestrzeni, to będą one postrzegane jako jednakowo
+  różniące się od siebie. Powinno to zwiększyć skuteczność uczenia sieci oraz
+  zapewnić bardziej realistyczne kolorowanie.
+
+  Składowa \textit{L}, jako, że jest identyczna dla obrazu kolorowego jak i
+  czarno-białego, stanowi w tym przypadku wejście sieci, na jej podstawie sieć
+  odtwarza składowe \textit{A} oraz \textit{B}, które reprezentują przewidziane
+  kolory dla obrazu wejściowego.
+
+  Jako rozwiązanie podanej problematyki wpierw został oceniony autorski
+  model podstawowy, na jego podstawie zostało przeprowadzone porównanie skuteczności
+  różnych konfiguracji, w których uczony był model. Do elementów poddanych
+  testom należą algorytm optymalizacyjny, funkcja straty, funkcja aktywacja oraz
+  sposób przetwarzania wstępnego danych treningowych.
 
   \subsubsection{Model podstawowy}
-
-  \subsubsection{Wykorzystywany zbiór treningowy}
-
-  \subsubsection{Funkcje kosztów}
-
-  \subsubsection{Funkcje aktywacji}
 
   \subsubsection{BatchNorm}
 
   \subsubsection{Dropout}
+
+  \subsubsection{Wykorzystywany zbiór treningowy}
+
+  W trakcie uczenia obraz w przestrzeni barw RGB jest konwertowany do CIELab,
+  składowa \textit{L} stanowi w tym przypadku wejście sieci, a składowe \textit{A}
+  oraz \textit{B}
+
+  \subsubsection{Funkcje kosztów}
+
+  \subsubsection{Funkcje aktywacji}
 
   \subsubsection{Trening}
 
