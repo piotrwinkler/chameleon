@@ -1,5 +1,5 @@
 {
-  "net_model": "CannyFilter",
+  "net_model": "SharpenFilter",
   "criterion":
   {
       "name": "MSELoss",
@@ -13,7 +13,7 @@
       "name": "Adagrad",
       "parameters":
       {
-        "lr": 1e-2
+        "lr": 1e-1
       }
   },
    "scheduler":
@@ -33,25 +33,27 @@
   "saving_period": 1,
   "dataloader_parameters":
   {
-      "batch_size": 16,
-      "shuffle": false,
+      "batch_size": 1,
+      "shuffle": true,
       "num_workers": 4
   },
+
   "retrain": false,
   "train_on_gpu": false,
+
   "dataset":
   {
     "name": "BasicFiltersDataset",
     "input_conversions": [{"name":"Resize",
                         "parameters": [[256, 256]]},
-                          {"name":"NormalizeImage255Canny",
+                          {"name":"NormalizeImage255",
                         "parameters": []}],
     "output_conversions": [{"name":"Resize",
                         "parameters": [[256, 256]]},
-                          {"name": "FilterCanny",
-                        "parameters": []},
-                          {"name":"NormalizeImage255Canny",
-                        "parameters": []}],
+                          {"name": "FilterSharpen",
+                            "parameters": []},
+                          {"name":"NormalizeImage255",
+                          "parameters": []}],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]
   },
