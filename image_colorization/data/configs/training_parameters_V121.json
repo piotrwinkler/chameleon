@@ -10,27 +10,20 @@
   },
   "optimizer":
   {
-      "name": "SGD",
+      "name": "Adam",
       "parameters":
       {
         "lr": 0.1,
-        "momentum": 0.9
+        "weight_decay": 1e-10
       }
   },
   "scheduler":
   {
-      "name": "StepLR",
-      "parameters":
-      {
-        "step_size": 1,
-        "gamma": 0.999
-      },
-      "scheduler_decay": 0.5,
-      "scheduler_decay_period": 20
+
   },
   "retrain": true,
-  "init_epoch": 30,
-  "training_epochs": 15,
+  "init_epoch": 0,
+  "training_epochs": 45,
   "training_monitoring_period": 80,
   "saving_period": 10,
   "dataloader_parameters":
