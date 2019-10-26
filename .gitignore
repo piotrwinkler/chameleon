@@ -4,15 +4,25 @@ __pycache__/
 *$py.class
 
 # Images:
-#.jpg
-#*.png
-#*.jpeg
+*.jpg
+*.png
+*.jpeg
 
 # Videos:
-#*.mp4
+*.mp4
 
-# XMLS:
-#*.xml
+# XMLS and HTMLs:
+*.xml
+*.html
+
+*.db
+*.DS_Store
+*.zip
+*.tar
+*.rar
+
+# PTH files
+*.pth
 
 # C extensions
 *.so
@@ -63,7 +73,6 @@ coverage.xml
 *.pot
 
 # Django stuff:
-*.log
 local_settings.py
 db.sqlite3
 
@@ -117,18 +126,18 @@ venv.bak/
 .idea/
 
 ## Core latex/pdflatex auxiliary files:
-*.aux
-*.lof
-*.log
-*.lot
-*.fls
-*.out
-*.toc
-*.fmt
-*.fot
-*.cb
-*.cb2
-.*.lb
+text/*.log
+text/*.aux
+text/*.lof
+text/*.lot
+text/*.fls
+text/*.out
+text/*.toc
+text/*.fmt
+text/*.fot
+text/*.cb
+text/*.cb2
+text/**.lb
 
 ## Intermediate documents:
 *.dvi
@@ -392,3 +401,7 @@ TSWLatexianTemp*
 
 datasets/*
 */runs/*
+/image_colorization/sort_models_in_files.py
+/basic_filters/
+/image_colorization/datasets/
+/image_colorization/outdated/
