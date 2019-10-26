@@ -97,7 +97,7 @@ class Trainer:
                     log.debug(f'{self._retraining_net_directory}: given retraining scheduler not found! It will be '
                               f'initialized with random weights.')
 
-        # self._network.train()
+        self._network.train()
 
     def train(self, dataset):
         dataloader = DataLoader(dataset, **self._dataloader_parameters)
