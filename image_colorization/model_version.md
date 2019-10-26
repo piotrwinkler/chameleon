@@ -2996,8 +2996,7 @@ V122:   Adam zamiast SGD oraz L1Loss zamiast MSELoss
         Z trickiem: Dziwnie, wszystko na czerwono 
         
         Po 45 epokach nowe:
-        Bez tricku: 
-        Z trickiem: 
+        Tak samo, też czerwowo
         
 V123:   Adam zamiast SGD oraz SmoothL1Loss zamiast MSELoss
    
@@ -3055,3 +3054,7 @@ V123:   Adam zamiast SGD oraz SmoothL1Loss zamiast MSELoss
         Z trickiem: Podobnie jak V121, ale chyba lepiej, czyli lepiej niż V71
         
 ### Wnioski:
+
+W sumie i Adam i Adagrad słabo, ale Adam chyba lekko lepiej
+
+L1 loss tragedia, ale Smooth L1 loss całkiem nieźle, chyba nawet lepiej niż MSELoss
