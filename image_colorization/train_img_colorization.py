@@ -2,6 +2,9 @@
 # TODO: Optimizery: Adam, Adagrad, SGE
 # TODO: Loss functions: L2 (inaczej MSELoss), L1 smoothed, L1 (MAE - Mean Absolute Error),
 #  Cross Entropy Loss(Nie działa, bo jest dla klasyfikatorów)
+
+# TODO: Ocenić V141
+# TODO: Ogólnie podsumowanie modeli
 import image_colorization.data.consts as consts
 
 from base_classes.setup_creator import SetupCreator
@@ -9,8 +12,7 @@ from base_classes.json_parser import JsonParser
 from base_classes.trainer import Trainer
 from loguru import logger as log
 import os
-from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega, \
-    FCN_net_mega_V2, FCN_net_mega_dropout
+from image_colorization.nets.fcn_models import *
 
 
 def main():

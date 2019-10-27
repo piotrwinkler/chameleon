@@ -3415,8 +3415,18 @@ V130 ale z dropoutami czyli FCN_net_mega_dropout
         "L_input_processing": "normalization"
       }
     
-        Results: Oct27_21-33-32_DESKTOP-K2JRB94 , Loss = 
+        Results: Oct27_21-33-32_DESKTOP-K2JRB94 , Loss = 0.77
         
         Po 60 epokach
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: podobnie jak V130, ale barwy bardziej przytłumione co ma sens, bo dropout
+        Z trickiem: W sumie z trickiem w V140 jest bardziej kolorowo, ale to trick, więc przemilczmy to
+
+V141:
+
+    To samo co V140, ale z dropoput rate = 0.5, model FCN_net_mega_dropout2
+    
+    Results: Oct27_22-29-04_DESKTOP-K2JRB94, Loss = 
+    
+    Po 60 epokach
+    Bez tricku: 
+    Z trickiem: 
