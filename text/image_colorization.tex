@@ -68,21 +68,27 @@
   składowe \textit{A} i \textit{B}. Składowe wyjściowe muszą mieć takie same
   wymiary jak składowa wejściowe, co oznacza, że kluczowym było odpowiednie dobranie
   parametrów warstw takich jak \textit{padding} (pol. otoczka), \textit{stride}
-  (pol. krok) oraz wielkość filtrów. Architektura sieci została przedstawiona w
+  (pol. krok) oraz wielkość filtrów. Pełna architektura sieci została przedstawiona w
   Tabeli \ref{table:model_architecture}.
-
-  \begin{table}[h!]
-  \centering
-    \begin{tabular}{||c c c c||}
+  \noindent\begin{table}[h!]
+    \center
+    \begin{tabular}{|c | c | m{3.3em} | c | c | m{4em} | c | c| }
      \hline
-     Col1 & Col2 & Col2 & Col3 \\ [0.5ex]
-       \hline\hline
-       1 & 6 & 87837 & 787 \\
-       2 & 7 & 78 & 5415 \\
-       3 & 545 & 778 & 7507 \\
-       4 & 545 & 18744 & 7560 \\
-       5 & 88 & 788 & 6344 \\ [1ex]
-       \hline
+     Nr & Warstwa & Rozmiar filtra & Stride & Padding & Batch Normalization &
+     Fun. aktywacji & Ilość kanałów wej./wyj. \\ [0.5ex]
+    \hline
+    1 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 1/32 \\ \hline
+    2 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 32/32 \\ \hline
+    3 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 32/32 \\ \hline
+    4 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 32/32 \\ \hline
+    5 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 32/64 \\ \hline
+    6 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 64/64 \\ \hline
+    7 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 64/64 \\ \hline
+    8 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 64/32 \\ \hline
+    9 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 32/32 \\ \hline
+    10 & Splotowa & 1x1 & 1 & 0 & Tak & RELU & 32/32 \\ \hline
+    11 & Splotowa & 1x1 & 1 & 0 & Tak & RELU & 32/32 \\ \hline
+    12 & Splotowa & 1x1 & 1 & 0 & Nie & - & 32/2 \\ \hline
     \end{tabular}
     \caption{Architektura modelu podstawowego.}
     \label{table:model_architecture}
@@ -117,7 +123,33 @@
   składowym \textit{A} oraz \textit{B}, które stanowią pożądany rezultat działania
   sieci.
 
+  Po wszystkich, oprócz ostatniej, warstwach konwolucyjnych znajdują się dodatkowo
+  warstwa BatchNorm oraz warstwa funkcji aktywacji RELU mające na celu
+  ustabilizować proces uczenia oraz zwiększyć jego efektywność.
+
   \subsubsection{BatchNorm}
+
+  Warstwa Batch Normalization została przedstawiona w 2015 roku jako odpowiedź
+  na problem zmieniającej się podczas uczenia dystrybucji wartości wejść
+  każdej z warstw sieci \cite{BatchNorm}. Ma ona na celu usprawnić i ustabilizować
+  trening sieci poprzez normalizację wartości podawanych na funkcje aktywacji.
+  Zmienna dystrybucja tych wartości znacznie spowalnia proces uczenia poprzez
+  konieczność używania mniejszych wartości współczynnika uczenia, aby
+  przeciwdziałać problemom zanikającego oraz wybuchającego gradientu
+  \cite{exploding_vanishing_grad} oraz przez potrzebę przemyślanego inicjowania
+  wag sieci w celu zwiększenia prawdopodobieństwa nakierowania modelu na pożądane
+  rozwiązania w trakcie procesu uczenia.
+  % Może jeszcze opisać co to eksplodujący i zanikający gradient
+
+  Podczas uczenia metodą mini-batch (pol. małych paczek), każda paczka jest
+  normalizowana w sposób zapewniający zerową wartość średnią oraz
+  równą jedności wariancję na przestrzeni wszystkich kanałów wejściowych.
+  Zaletą takiego podejścia jest poprawienie przepływu korygującego gradientu
+  przez kolejne warstwy sieci podczas fazy wstecznej propagacji błędu. Ponadto
+  warstwy BatchNorm zapewniają większą odporność sieci na niekorzystnie zainicjowane
+  wagi początkowe modelu.
+  Użycie tych warstw w modelu podstawowym pozwoliło uzyskać bardziej korzystną
+  zbieżność modelu oraz lepsze rezultaty końcowe.
 
   \subsubsection{Dropout}
 
