@@ -406,3 +406,4 @@ datasets/*
 /basic_filters/
 /image_colorization/datasets/
 /image_colorization/outdated/
+/image_colorization/runs_old/

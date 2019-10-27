@@ -148,14 +148,46 @@
   przez kolejne warstwy sieci podczas fazy wstecznej propagacji błędu. Ponadto
   warstwy BatchNorm zapewniają większą odporność sieci na niekorzystnie zainicjowane
   wagi początkowe modelu.
-  Użycie tych warstw w modelu podstawowym pozwoliło uzyskać bardziej korzystną
-  zbieżność modelu oraz lepsze rezultaty końcowe.
+
+  Użycie tych warstw w modelu podstawowym tuż za warstwami RELU pozwoliło
+  uzyskać bardziej korzystną zbieżność modelu oraz lepsze rezultaty końcowe.
+  Ocenione zostało też rozwiązania, w którym warstwy BatchNorm znajdują się
+  przed warstwami funkcji aktywacji, lecz dało ono gorsze rezultaty, niż
+  podejście wspomniane wcześniej.
 
   \subsubsection{Dropout}
 
-  \subsubsection{Pooling}
+  W trakcie pracy nad ostatecznym modelem podstawowym sprawdzona została
+  skuteczność zastosowania warstw Dropout \cite{dropout}. Warstwy te w trakcie
+  treningu dezaktywują część neuron aby przeciwdziałać efektowi przeuczania
+  się sieci oraz zapewniać wydajny sposób łączenia wielu różnych architektur
+  sieci stworzonych do jednego celu w jednolitą całość o skuteczności większej
+  niż poszczególne sieci osobno.
 
-  \subsubsection{Upsampling i downsampling}
+  Wybór neuronów, dla których w danej iteracji treningu nie zostaną
+  zaktualizowane wagi odbywa się z pewnym prawdopodobieństwem określonym
+  podczas inicjalizacji modelu. Dezaktywowanie neuronów można interpretować jak
+  przerywanie tymczasowo wszystkich połączeń danego neuronu, zarówno wejściowych
+  jak i wyjściowych. Takie działania są równoznaczne z wyselekcjonowaniem z modelu
+  mniejszej sieci i trenowaniu wyłącznie jej w aktualnej iteracji. Wagi tej
+  podsieci są wtedy współdzielone z modelem źródłowym.
+  Jako rezultat uzyskuje się model o znacznie ulepszonych zdolnościach generalizacji.
+
+  Zastosowanie tych warstw w modelu nie przyniosło wyraźnego polepszenia rezultatów
+  sieci. W przypadku danej problematyki oraz obranego podejścia do jej rozwiązania,
+  przeuczenie sieci nie stanowi wyraźnego zagrożenia, a zastosowanie Dropout
+  wiąże się z utratą części informacji kluczowych do odpowiedniego
+  generowanie kolorów dla wejściowych obrazów. Model powinien nauczyć się jak
+  największej różnorodności kolorów, a Dropout przeciwdziała uczeniu się
+  nadmiernej ilości cech przez sieć, co wpływa niekorzystnie na otrzymywane
+  rezultaty końcowe. Podczas testów skuteczności tych warstw zostały one umieszczone
+  za warstwami BatchNorm. Wizualizacja skutków tej decyzji wraz z rozważeniem
+  pozostałych czynników wpływających na efektywność sieci znajduje się w
+  sekcji związanej z rezultatami modelu podstawowego.
+
+  \subsubsection{Modyfikacja rozdzilczości}
+
+  Pooling, downsampling i Upsampling
 
   \subsubsection{Wykorzystywany zbiór treningowy}
 
@@ -166,6 +198,8 @@
   \subsubsection{Funkcje kosztów}
 
   \subsubsection{Funkcje aktywacji}
+
+  \subsubsection{Algorytmy optymalizacyjne}
 
   \subsubsection{Trening}
 
