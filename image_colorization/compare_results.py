@@ -4,7 +4,7 @@ import matplotlib.image as mpimg
 
 path_to_results_folder = "results/"
 
-chosen_versions = ["original", "V71", "V120", "V121", "V122", "V123"]
+chosen_versions = ["original", "V123", "V131", "V91", "V132", "V101", "V133", "V74", "V134"]
 
 
 def main():

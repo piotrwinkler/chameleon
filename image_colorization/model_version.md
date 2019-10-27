@@ -1,9 +1,10 @@
 # Ranking sieci 
-1. V84
-2. V70
-3. V40
-4. V19
-5. V32
+1. V130
+2. V84
+3. V70
+4. V40
+5. V19
+6. V32
 
 ## Testy wstępne
 
@@ -3129,8 +3130,8 @@ FCN_net_mega w wersji V84, ale z zamienionymi miejscami warstwami BatchNorm i Re
         Results: Oct27_17-38-09_DESKTOP-K2JRB94 , Loss = 0.75
         
         Po 60 epokach
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: Tak sobie, podobnie jak V84, ale chyba lekko lepiej
+        Z trickiem: Fajnie, lepiej niż V84, 
         
 V131:
 
@@ -3183,11 +3184,11 @@ FCN_net_mega_V2 z V123:
         "L_input_processing": "normalization"
       }
     
-        Results:  , Loss = 
+        Results: Oct27_18-59-32_DESKTOP-K2JRB94 , Loss = 1.28e-3
         
         Po 60 epokach
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: Słabo, wszystko szare
+        Z trickiem: Słabo, głównie żółto i są jakieś losowe plamy kolorów
         
 V132:
 
@@ -3238,11 +3239,11 @@ FCN_net_mega_V2 w wersji V91
         "L_input_processing": "standardization"
       }
      
-    Results:  , Loss = 
+    Results: Oct27_19-29-28_DESKTOP-K2JRB94 , Loss = 0.7
     
     Po 60 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Spoko, ale V91 lepiej
+    Z trickiem: Spoko, ale V91 lepiej
 
 V133:
 
@@ -3291,11 +3292,11 @@ FCN_net_mega_V2 w wersji V101
         "L_input_processing": "standardization"
       }
      
-    Results:  , Loss = 
+    Results: Oct27_19-59-45_DESKTOP-K2JRB94 , Loss = 0.85
     
     Po 60 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Słabo, szaro
+    Z trickiem: Słabo, wszystko niebieskie
 
 V134:
 
@@ -3354,10 +3355,68 @@ FCN_net_mega_V2 w wersji V74
         "L_input_processing": "normalization"
       }
       
-        Results:  , Loss = 
+        Results: Oct27_20-29-50_DESKTOP-K2JRB94 , Loss = 0.74
         
         Po 60 epokach:
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: Trochę lepiej niżx V74
+        Z trickiem: Spoko, podobnie jak V74, może lekko lepiej
         
 ### Wnioski
+
+
+## Test dropout
+
+V140:
+
+V130 ale z dropoutami czyli FCN_net_mega_dropout
+
+      "net": "FCN_net_mega_dropout",
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+    
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+    
+        Results: Oct27_21-33-32_DESKTOP-K2JRB94 , Loss = 
+        
+        Po 60 epokach
+        Bez tricku: 
+        Z trickiem: 

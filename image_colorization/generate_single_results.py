@@ -8,7 +8,8 @@ from loguru import logger as log
 from image_colorization.data import consts
 import time
 import argparse
-from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega
+from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega, \
+    FCN_net_mega_V2
 
 
 def main():
