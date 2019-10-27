@@ -185,9 +185,15 @@
   pozostałych czynników wpływających na efektywność sieci znajduje się w
   sekcji związanej z rezultatami modelu podstawowego.
 
-  \subsubsection{Modyfikacja rozdzilczości}
+  \subsubsection{Modyfikacja rozdzielczości}
 
-  Pooling, downsampling i Upsampling
+  W modelach FCN powszechnie stosuje się różne metody zmiany rozdzielczości
+  kanałów przechodzących przez sieć, najczęściej są do operacje poolingu mające
+  na celu zredukować przestrzenną wielkość reprezentacji cech wyciągniętych z
+  obrazu poprzez wyciągnięcie najbardziej istotnych wartości aktywacji z
+  określonych obszarów reprezentacji w celu zmniejszenia zredukowania rozmiaru
+  sieci, a co za tym idzie, zmniejszenia ilości obliczeń koniecznych do wykonania
+  przez sieć. Ponadto This has the effect of making the resulting down sampled feature maps more robust to changes in the position of the feature in the image, referred to by the technical phrase “local translation invariance.”
 
   \subsubsection{Wykorzystywany zbiór treningowy}
 
