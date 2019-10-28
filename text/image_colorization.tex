@@ -93,7 +93,6 @@
     \caption{Architektura modelu podstawowego.}
     \label{table:model_architecture}
   \end{table}
-
   Pierwsza warstwa konwolucyjna rozkłada wejściowy kanał na 32 kanały, co
   pozwala wyciągnąć z niego jak najwięcej informacji o cechach obrazu. Warstwa
   ta ma wielkość filtra 3x3, tak więc aby zachować wymiar kanałów zostały
@@ -129,7 +128,8 @@
 
   \subsubsection{BatchNorm}
 
-  Warstwa Batch Normalization została przedstawiona w 2015 roku jako odpowiedź
+  Warstwa Batch Normalization została przedstawiona w 2015 roku przez S. Ioeffe
+  oraz C. Szegedy jako odpowiedź
   na problem zmieniającej się podczas uczenia dystrybucji wartości wejść
   każdej z warstw sieci \cite{BatchNorm}. Ma ona na celu usprawnić i ustabilizować
   trening sieci poprzez normalizację wartości podawanych na funkcje aktywacji.
@@ -153,7 +153,7 @@
   uzyskać bardziej korzystną zbieżność modelu oraz lepsze rezultaty końcowe.
   Ocenione zostało też rozwiązania, w którym warstwy BatchNorm znajdują się
   przed warstwami funkcji aktywacji, lecz dało ono gorsze rezultaty, niż
-  podejście wspomniane wcześniej.
+  podejście wspomniane jako pierwsze.
 
   \subsubsection{Dropout}
 
@@ -190,12 +190,38 @@
   W modelach FCN powszechnie stosuje się różne metody zmiany rozdzielczości
   kanałów przechodzących przez sieć, najczęściej są do operacje poolingu mające
   na celu zredukować przestrzenną wielkość reprezentacji cech wyciągniętych z
-  obrazu poprzez wyciągnięcie najbardziej istotnych wartości aktywacji z
-  określonych obszarów reprezentacji w celu zmniejszenia zredukowania rozmiaru
+  obrazu poprzez wyciągnięcie najbardziej istotnych wartości funkcji aktywacji z
+  określonych obszarów reprezentacji w celu zredukowania rozmiaru
   sieci, a co za tym idzie, zmniejszenia ilości obliczeń koniecznych do wykonania
-  przez sieć. Ponadto This has the effect of making the resulting down sampled feature maps more robust to changes in the position of the feature in the image, referred to by the technical phrase “local translation invariance.”
+  przez sieć.
+
+  Ponadto pooling wspomaga adaptację modelu do zmiennego położenia
+  kluczowych wzorów rozpoznawanych przez sieć na obrazie wejściowym. Cecha ta
+  zwana jest niezmiennością od translacji (ang. transaltion invariance). Jest
+  ona rezultatem dokonywania operacji, takich jak wyliczanie wartości maksymalnej
+  z poszczególnych obszarów, dzięki którym zmienne położenie wartości
+  selekcjonowanej, a co tym idzie, zmienne położenie ekstraktowanej cechy w obrębie
+  danego obszaru nie wpływa na końcową postać reprezentacji przestrzennej obrazu
+  wejściowego po przejściu przez warstwę poolingu. Przykładowe operacja poolingu
+  została przedstawiona na Rysunku \ref{fig:pooling}.
+
+  \begin{figure}[h]
+   \centering
+   \includegraphics[width=4in]{pooling}
+   \caption[Przykładowe operacje warstwy poolingu - źródło: Rysunek własny]{Przykładowe operacje warstwy poolingu}
+   \label{fig:pooling}
+  \end{figure}
+
+  W modelu końcowym warstwy poolingu nie zostały zastosowane, aby uniknąć utraty
+  kluczowych informacji przestrzennych koniecznych to właściwego wygenerowanie
+  możliwych barw obrazu.
 
   \subsubsection{Wykorzystywany zbiór treningowy}
+
+  Do uczenia modelu został wykorzystany zbiór danych CIFAR-10, składający się z
+  60000 obrazów w przestrzeni kolorów RGB o rozdzielczości 32 x 32 pikseli.
+  Spośród tych obrazów 10000 z nich zostało wykorzystanych jako zbiór
+  walidacyjny do śledzenia skuteczności treningu modelu. 
 
   W trakcie uczenia obraz w przestrzeni barw RGB jest konwertowany do CIELab,
   składowa \textit{L} stanowi w tym przypadku wejście sieci, a składowe \textit{A}
