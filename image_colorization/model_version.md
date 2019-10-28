@@ -3061,20 +3061,6 @@ W sumie i Adam i Adagrad słabo, ale Adam chyba lekko lepiej
 L1 loss tragedia, ale Smooth L1 loss całkiem nieźle, chyba nawet lepiej niż MSELoss
 
 
-## Mega wnioski końcowe:
-
-Jeśli mamy normalizację na L i standardyzację na AB (V70) to najlepsza jest wersja V84, czyli Adam i MSELoss
-
-Jeśli mamy normalizację na L i na AB (V71) to najlepsza jest wersja V123 czyli Adam i SmoothL1Loss
-
-Jeśli mamy standardyzację na L i AB (V72) to najlepsza jest wersja V91, czyli Adam i MSELOss
-
-Jeśli mamy standardzyację na L i AB i do tego robimy blur (V73) to najlepsza jest wersja V101, czyli Adam i MSELoss
-
-Jeśli mamy normalizację na L i standardyzację na AB (V74) i do tego robimy blur to najlepsza jest wersja V74, czyli 
-SGD i MSELoss
-
-
 ## Testy zamiany kolejności warst BatchNorm i Relu
 
 V130:
@@ -3363,6 +3349,9 @@ FCN_net_mega_V2 w wersji V74
         
 ### Wnioski
 
+Zamiana kolejności warstw czasmia pomaga, ale nie zawsze, w przypadku V84 pomogło, ale w przypadku V123, V91, V101
+pogorszyło rezultaty, a w przypadku V74 tylko leciutko polepszył, ogólnie zamiania warstw miejscami nie robi jakiejś 
+wielkiej różnicy
 
 ## Test dropout
 
@@ -3423,10 +3412,31 @@ V130 ale z dropoutami czyli FCN_net_mega_dropout
 
 V141:
 
-    To samo co V140, ale z dropoput rate = 0.5, model FCN_net_mega_dropout2
+To samo co V140, ale z dropoput rate = 0.5, model FCN_net_mega_dropout2
     
     Results: Oct27_22-29-04_DESKTOP-K2JRB94, Loss = 
     
     Po 60 epokach
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Słabo, wszystko szare
+    Z trickiem: Słabo, wszystko niebieskie
+    
+### Wnioski: 
+
+Widać, że dropout duży szkodzi
+
+
+## Mega wnioski końcowe:
+
+Jeśli mamy normalizację na L i standardyzację na AB (V70) to najlepsza jest wersja V84, czyli Adam i MSELoss
+
+Jeśli mamy normalizację na L i na AB (V71) to najlepsza jest wersja V123 czyli Adam i SmoothL1Loss
+
+Jeśli mamy standardyzację na L i AB (V72) to najlepsza jest wersja V91, czyli Adam i MSELOss
+
+Jeśli mamy standardzyację na L i AB i do tego robimy blur (V73) to najlepsza jest wersja V101, czyli Adam i MSELoss
+
+Jeśli mamy normalizację na L i standardyzację na AB (V74) i do tego robimy blur to najlepsza jest wersja V74, czyli 
+SGD i MSELoss
+
+Jeśli zamienimy miejscami warstwy BatchNorm i Relu to zyska na tym V84, czyli normalizacja na L i standardyzacja na 
+AB z Adam i MSELoss

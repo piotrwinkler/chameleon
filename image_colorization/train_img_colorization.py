@@ -3,8 +3,6 @@
 # TODO: Loss functions: L2 (inaczej MSELoss), L1 smoothed, L1 (MAE - Mean Absolute Error),
 #  Cross Entropy Loss(Nie działa, bo jest dla klasyfikatorów)
 
-# TODO: Ocenić V141
-# TODO: Ogólnie podsumowanie modeli
 import image_colorization.data.consts as consts
 
 from base_classes.setup_creator import SetupCreator
