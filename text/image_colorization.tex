@@ -223,25 +223,89 @@
   Składa się on z 60000 obrazów w przestrzeni kolorów RGB o rozdzielczości 32 x 32 piksele.
   Spośród tych obrazów 10000 z nich zostało wykorzystanych jako zbiór
   walidacyjny do śledzenia skuteczności treningu modelu. Przykładowe obrazy
-  ze zbioru danych zostały przedstawione na Rysunku
+  ze zbioru danych zostały przedstawione na Rysunku \ref{fig:cifar10}.
+
+  \begin{figure}[h]
+   \centering
+   \includegraphics[width=4in]{cifar10}
+   \caption[Przykładowe obrazy z CIFAR-10 - źródło: Rysunek własny]
+   {Przykładowe obrazy z CIFAR-10}
+   \label{fig:cifar10}
+  \end{figure}
 
   Zaletą CIFAR-10 jest niewielka rozdzielczość obrazów co pozwala na mniej
   złożony model oraz szybszy proces uczenia, który można skutecznie przeprowadzić
   nawet przy ograniczonych możliwościach obliczeniowych. Ponadto zbiór ten składa
-  się z obrazów dzielących się na 10 klas,
+  się z obrazów dzielących się na 10 klas, tak mała różnorodność klas, a co za
+  tym idzie, stosunkowo niewielka ilość możliwych obiektów pojawiających się
+  na zdjęciach powinna ułatwić sieci wyuczenie się właściwych barw dla
+  identyfikowanych powierzchni. Z drugiej strony mała ilość klas może niekorzystnie
+  wpłynąć na umiejętność generalizacji modelu, jednakże obrazy z CIFAR-10
+  przedstawiają zróżnicowane otoczenia zawierające obiekty nie kwalifikujące
+  się do żadnej klasy, co powinno umożliwić wyuczenia się generalizacji przez
+  sieć.
 
-  W trakcie uczenia obraz w przestrzeni barw RGB jest konwertowany do CIELab,
-  składowa \textit{L} stanowi w tym przypadku wejście sieci, a składowe \textit{A}
-  oraz \textit{B}
+  \subsubsection{Przetwarzanie wstępne danych}
 
-  \subsubsection{Wstępne przetwarzania danych}
+  Przed podaniem na wejście sieci obrazy uczące były wpierw poddawane
+  przetwarzaniu wstępnemu mającemu na celu doprowadzić do szybszego oraz
+  stabilniejszego treningu modelu. Przetwarzanie wstępne jest kluczowe, gdyż
+  wartości o jakie aktualizowane są wagi neuronu zależą w dużej mierze od
+  wartości wejść tego neuronu. W przypadku gdy przedziały wartości tych wejść
+  nie są jednolite, to może wystąpić duża różnica w tempie aktualizacji wag
+  sieci, niektóre wagi będą zmieniane o wiele szybciej niż inne co może spowodować
+  destabilizację treningu. Przeskalowanie wszystkich wartości wejściowych do jednakowych
+  przedziałów, o niewielkiej wartości maksymalnej i minimalnej oraz wartości
+  średniej zbliżonej do zera zmniejsza możliwość wystąpienia tego problemu
+  oraz sprzyja ujednoliceniu tempa uczenia się przez sieć rozpoznawania różnych cech.
+  Ponadto brak przeskalowania wejść może doprowadzić do zjawisk wybuchającego
+  oraz zanikającego gradientu.
+
+  % Przeskalowanie wszystkich wartości wejściowych do jednakowych
+  % przedziałów, o niewielkiej wartości maksymalnej i minimalnej oraz wartości
+  % średniej zbliżonej do zera, sprzyja ujednoliceniu tempa uczenia się przez sieć
+  % rozpoznawania różnych cech.
+
+  W ramach badania rozwiązania przetestowane zostały różne metody przetwarzania
+  wstępnego:
+  \begin{itemize}
+  \item Normalizacja danych na przestrzeni całego zbioru danych z użyciem wartości
+  maksymalnej oraz minimalnej całego zbioru, tak aby wartości pikseli danej składowej
+  dla każdego obrazu zawierały się w przedziale od -0.5 do 0.5.
+  \item Standaryzacja danych na przestrzeni całego zbioru danych z użyciem wartości
+  średniej oraz odchylenia standardowego całego zbioru, tak aby uzyskać wartość
+  średnią równą w przybliżeniu zero oraz jednostkowe odchylenie standardowe.
+  \item Zastosowanie rozmycia gaussowskiego(ang. Gaussian blur) o różnej
+  wielkości filtru Gaussowskiego.
+  \item Przepuszczenie składowej przez filtr Gaussa o różnej wielkości filtru.
+  \end{itemize}
+
+  Rozmycie gaussowskie, zwane także wygładzaniem gaussowskim (ang. Gaussian smoothing),
+  jest to operacja polegająca na modyfikacji obrazu z użyciem filtru Gaussa.
+  Stosuje się je w celu rozmycia detali na przetwarzanym obrazie, a także by
+  ograniczyć ilość występujących na nim zakłóceń oraz szumów. Jest ono powszechnie
+  stosowane w fazie przetwarzania wstępnego danych graficznych. W praktyce
+  operacja ta sprowadza się do dokonywania splotu kolejnych fragmentów obrazu
+  z funkcją Gaussa. Zastosowanie jej na danych wejściowych miało na celu
+  zmniejszenie znaczenie detali na obrazie oraz ułatwienie sieci nauczenia się
+  rozróżniania rozmaitych powierzchni oraz wzorców.
+
+  Wymienione metody przetwarzania były stosowane w różnych połączeniach oraz
+  konfiguracjach zarówno na składowej \textit{L}, jak i składowych \textit{A}
+  oraz \textit{B}.
+
+
+  \subsubsection{Augmentacja danych}
+
 
 
   \subsubsection{Funkcje kosztów}
+  % Bez teorii
 
   \subsubsection{Funkcje aktywacji}
 
   \subsubsection{Algorytmy optymalizacyjne}
+  % Bez teorii
 
   \subsubsection{Trening}
 
