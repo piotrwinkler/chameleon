@@ -1,5 +1,5 @@
 {
-  "net": "FCN_net_mega",
+  "net": "FCN_net_mega_V2",
   "criterion":
   {
       "name": "MSELoss",
@@ -10,11 +10,11 @@
   },
   "optimizer":
   {
-      "name": "Adagrad",
+      "name": "Adam",
       "parameters":
       {
-        "lr": 0.001,
-        "lr_decay": 0.999
+        "lr": 0.1,
+        "weight_decay": 1e-10
       }
   },
   "scheduler":
@@ -23,8 +23,8 @@
   },
   "retrain": true,
   "init_epoch": 0,
-  "training_epochs": 30,
-  "training_monitoring_period": 1,
+  "training_epochs": 80,
+  "training_monitoring_period": 80,
   "saving_period": 10,
   "dataloader_parameters":
   {
@@ -36,12 +36,10 @@
   "dataset":
   {
     "name": "BasicCifar10Dataset",
-    "input_conversions": [{"name":"CustomNormalize",
-                        "parameters": [50, 100]}],
-    "output_conversions": [{"name":"Standardization",
-                        "parameters": []}],
-    "transforms": []
-
+    "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+    "output_conversions": [{"name":"Standardization", "parameters": []}],
+    "transforms": [{"name": "RandomHorizontalFlip",
+                    "parameters": []}]
   },
   "additional_params":
   {

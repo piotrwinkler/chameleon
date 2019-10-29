@@ -39,8 +39,7 @@
     "input_conversions": [{"name":"Standardization", "parameters": []},
                           {"name":"GaussKernel", "parameters": [[5,5]]}],
     "output_conversions": [{"name":"Standardization", "parameters": []}],
-    "transforms": [{"name": "ToTensor",
-                    "parameters": []}]
+    "transforms": []
   },
   "additional_params":
   {

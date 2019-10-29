@@ -1,5 +1,5 @@
 {
-  "net": "FCN_net_mega",
+  "net": "FCN_net1",
   "criterion":
   {
       "name": "MSELoss",
@@ -10,25 +10,32 @@
   },
   "optimizer":
   {
-      "name": "Adagrad",
+      "name": "SGD",
       "parameters":
       {
-        "lr": 0.001,
-        "lr_decay": 0.999
+        "lr": 0.1,
+        "momentum": 0.9
       }
   },
   "scheduler":
   {
-
+      "name": "StepLR",
+      "parameters":
+      {
+        "step_size": 1,
+        "gamma": 0.999
+      },
+      "scheduler_decay": 0.5,
+      "scheduler_decay_period": 20
   },
   "retrain": true,
   "init_epoch": 0,
-  "training_epochs": 30,
-  "training_monitoring_period": 1,
-  "saving_period": 10,
+  "training_epochs": 1,
+  "training_monitoring_period": 80,
+  "saving_period": 20,
   "dataloader_parameters":
   {
-      "batch_size": 128,
+      "batch_size": 1,
       "shuffle": false,
       "num_workers": 0
   },
@@ -36,16 +43,13 @@
   "dataset":
   {
     "name": "BasicCifar10Dataset",
-    "input_conversions": [{"name":"CustomNormalize",
-                        "parameters": [50, 100]}],
-    "output_conversions": [{"name":"Standardization",
-                        "parameters": []}],
+    "input_conversions": [],
+    "output_conversions": [],
     "transforms": []
 
   },
   "additional_params":
   {
-
     "get_data_to_test": false,
     "choose_train_set": true,
 
@@ -54,8 +58,8 @@
       "do_blur": false,
       "kernel_size": [5, 5]
     },
-    "ab_input_processing": "standardization",
-    "ab_output_processing": "standardization",
-    "L_input_processing": "normalization"
+    "ab_input_processing": "",
+    "ab_output_processing": "",
+    "L_input_processing": ""
   }
 }
