@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 from skimage import io, color
 
-img_path = 'datasets/red2.png'
+img_path = 'datasets/samolot_mini_mini.jpg'
 
 """
 Tak długo aż używamy tego samego formatu Lab do kodowania i dekodowania to wszystko powinno być w porządku
@@ -17,6 +17,11 @@ Tak długo aż używamy tego samego formatu Lab do kodowania i dekodowania to ws
 
 def main():
     img = cv2.imread(img_path)
+    roiyuv = cv2.cvtColor(img, cv2.COLOR_RGB2YUV)
+    roilab = cv2.cvtColor(img, cv2.COLOR_RGB2LAB)
+    lab = color.rgb2lab(img)
+    lab2 = RGB2YUV(img)
+
     brightLAB = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
 
     # cv2.imshow("Original", img)
@@ -92,6 +97,16 @@ def main():
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+
+
+def RGB2YUV(rgb):
+    m = np.array([[0.29900, -0.16874, 0.50000],
+                  [0.58700, -0.33126, -0.41869],
+                  [0.11400, 0.50000, -0.08131]])
+
+    yuv = np.dot(rgb, m)
+    yuv[:, :, 1:] += 128.0
+    return yuv
 
 
 if __name__ == "__main__":

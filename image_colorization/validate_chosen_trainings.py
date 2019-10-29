@@ -6,6 +6,7 @@ from loguru import logger as log
 from base_classes.json_parser import JsonParser
 from image_colorization.data import consts
 from base_classes.trainer import Trainer
+from image_colorization.nets.fcn_models import *
 
 
 def main():

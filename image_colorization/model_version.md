@@ -1,9 +1,10 @@
 # Ranking sieci 
-1. V84
-2. V70
-3. V40
-4. V19
-5. V32
+1. V130
+2. V84
+3. V70
+4. V40
+5. V19
+6. V32
 
 ## Testy wstępne
 
@@ -1390,7 +1391,7 @@ V71:
                             "parameters": [50, 100]}],
         "output_conversions": [{"name":"CustomNormalize",
                             "parameters": [0, 255.0]}],
-        "transforms": [{"name": "ToTensor",
+        "transforms": [{"name": "ToTenso",
                         "parameters": []}]
       },
       "additional_params":
@@ -2217,7 +2218,7 @@ V91:    Adam zamiast SGD
             "reduction": "mean"
           }
       },
-      "optimizer":
+      "optimizer":standardization
       {
           "name": "Adam",
           "parameters":
@@ -3058,3 +3059,384 @@ V123:   Adam zamiast SGD oraz SmoothL1Loss zamiast MSELoss
 W sumie i Adam i Adagrad słabo, ale Adam chyba lekko lepiej
 
 L1 loss tragedia, ale Smooth L1 loss całkiem nieźle, chyba nawet lepiej niż MSELoss
+
+
+## Testy zamiany kolejności warst BatchNorm i Relu
+
+V130:
+
+FCN_net_mega w wersji V84, ale z zamienionymi miejscami warstwami BatchNorm i Relu
+
+      which_version = "V130"            
+      "net": "FCN_net_mega_V2",
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+    
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+    
+        Results: Oct27_17-38-09_DESKTOP-K2JRB94 , Loss = 0.75
+        
+        Po 60 epokach
+        Bez tricku: Tak sobie, podobnie jak V84, ale chyba lekko lepiej
+        Z trickiem: Fajnie, lepiej niż V84, 
+        
+V131:
+
+FCN_net_mega_V2 z V123:
+
+    which_version = "V131"            
+    
+      "net": "FCN_net_mega_V2",
+      "criterion":
+      {
+          "name": "SmoothL1Loss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"CustomNormalize", "parameters": [0, 255.0]}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "normalization",
+        "ab_output_processing": "normalization",
+        "L_input_processing": "normalization"
+      }
+    
+        Results: Oct27_18-59-32_DESKTOP-K2JRB94 , Loss = 1.28e-3
+        
+        Po 60 epokach
+        Bez tricku: Słabo, wszystko szare
+        Z trickiem: Słabo, głównie żółto i są jakieś losowe plamy kolorów
+        
+V132:
+
+FCN_net_mega_V2 w wersji V91
+
+    "net": "FCN_net_mega_V2",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":standardization
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results: Oct27_19-29-28_DESKTOP-K2JRB94 , Loss = 0.7
+    
+    Po 60 epokach:
+    Bez tricku: Spoko, ale V91 lepiej
+    Z trickiem: Spoko, ale V91 lepiej
+
+V133:
+
+FCN_net_mega_V2 w wersji V101
+
+    "net": "FCN_net_mega_V2",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results: Oct27_19-59-45_DESKTOP-K2JRB94 , Loss = 0.85
+    
+    Po 60 epokach:
+    Bez tricku: Słabo, szaro
+    Z trickiem: Słabo, wszystko niebieskie
+
+V134:
+
+FCN_net_mega_V2 w wersji V74
+    
+      "net": "FCN_net_mega_V2",
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "SGD",
+          "parameters":
+          {
+            "lr": 0.1,
+            "momentum": 0.9
+          }
+      },
+      "scheduler":
+      {
+          "name": "StepLR",
+          "parameters":
+          {
+            "step_size": 1,
+            "gamma": 0.999
+          },
+          "scheduler_decay": 0.5,
+          "scheduler_decay_period": 20
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+      
+        Results: Oct27_20-29-50_DESKTOP-K2JRB94 , Loss = 0.74
+        
+        Po 60 epokach:
+        Bez tricku: Trochę lepiej niżx V74
+        Z trickiem: Spoko, podobnie jak V74, może lekko lepiej
+        
+### Wnioski
+
+Zamiana kolejności warstw czasmia pomaga, ale nie zawsze, w przypadku V84 pomogło, ale w przypadku V123, V91, V101
+pogorszyło rezultaty, a w przypadku V74 tylko leciutko polepszył, ogólnie zamiania warstw miejscami nie robi jakiejś 
+wielkiej różnicy
+
+## Test dropout
+
+V140:
+
+V130 ale z dropoutami czyli FCN_net_mega_dropout
+
+      "net": "FCN_net_mega_dropout",
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+    
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+    
+        Results: Oct27_21-33-32_DESKTOP-K2JRB94 , Loss = 0.77
+        
+        Po 60 epokach
+        Bez tricku: podobnie jak V130, ale barwy bardziej przytłumione co ma sens, bo dropout
+        Z trickiem: W sumie z trickiem w V140 jest bardziej kolorowo, ale to trick, więc przemilczmy to
+
+V141:
+
+To samo co V140, ale z dropoput rate = 0.5, model FCN_net_mega_dropout2
+    
+    Results: Oct27_22-29-04_DESKTOP-K2JRB94, Loss = 
+    
+    Po 60 epokach
+    Bez tricku: Słabo, wszystko szare
+    Z trickiem: Słabo, wszystko niebieskie
+    
+### Wnioski: 
+
+Widać, że dropout duży szkodzi
+
+
+## Mega wnioski końcowe:
+
+Jeśli mamy normalizację na L i standardyzację na AB (V70) to najlepsza jest wersja V84, czyli Adam i MSELoss
+
+Jeśli mamy normalizację na L i na AB (V71) to najlepsza jest wersja V123 czyli Adam i SmoothL1Loss
+
+Jeśli mamy standardyzację na L i AB (V72) to najlepsza jest wersja V91, czyli Adam i MSELOss
+
+Jeśli mamy standardzyację na L i AB i do tego robimy blur (V73) to najlepsza jest wersja V101, czyli Adam i MSELoss
+
+Jeśli mamy normalizację na L i standardyzację na AB (V74) i do tego robimy blur to najlepsza jest wersja V74, czyli 
+SGD i MSELoss
+
+Jeśli zamienimy miejscami warstwy BatchNorm i Relu to zyska na tym V84, czyli normalizacja na L i standardyzacja na 
+AB z Adam i MSELoss

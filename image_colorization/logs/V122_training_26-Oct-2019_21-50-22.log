@@ -1,0 +1,38 @@
+2019-10-26 21:50:22.594 | DEBUG    | __main__:main:18 - Training version: V122
+2019-10-26 21:50:22.595 | INFO     | __main__:deploy_training:33 - TRAINING
+2019-10-26 21:50:22.596 | INFO     | __main__:deploy_training:34 - Choosing version V122
+2019-10-26 21:50:22.597 | INFO     | __main__:deploy_training:38 - Saving models to directory model_states/V122
+2019-10-26 21:50:22.598 | INFO     | base_classes.setup_creator:create_dataset:39 - All dataset features collected properly!
+2019-10-26 21:50:22.600 | INFO     | base_classes.data_collector:collect_images:24 - List of loaded files: []
+2019-10-26 21:50:22.601 | INFO     | base_classes.data_collector:collect_images:25 - 0 images loaded from: .!
+2019-10-26 21:50:22.602 | DEBUG    | base_classes.data_collector:collect_images:27 - . is empty!
+2019-10-26 21:50:22.605 | INFO     | base_classes.dataset_classes:__init__:86 - Loading train set
+2019-10-26 21:50:39.636 | INFO     | base_classes.dataset_classes:__init__:124 - Dataset prepared
+2019-10-26 21:50:40.694 | INFO     | base_classes.trainer:__init__:33 - cuda:0
+2019-10-26 21:50:41.998 | DEBUG    | base_classes.trainer:__init__:43 - Trainer loss function: L1Loss()
+2019-10-26 21:50:41.999 | DEBUG    | base_classes.trainer:__init__:47 - Trainer optimizer: Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    eps: 1e-08
+    lr: 0.1
+    weight_decay: 1e-10
+)
+2019-10-26 21:50:42.001 | DEBUG    | base_classes.trainer:__init__:56 - Cannot initialize scheduler: 'name'
+2019-10-26 21:50:42.011 | DEBUG    | base_classes.trainer:__init__:80 - model_states/V122/fcn_modelV122_epoch_final.pth model loaded for retraining
+2019-10-26 21:50:42.024 | DEBUG    | base_classes.trainer:__init__:87 - model_states/V122/fcn_optimizerV122_epoch_final.pth optimizer loaded for retraining
+2019-10-26 21:50:48.612 | INFO     | base_classes.trainer:train:130 - [EPOCH: 46, STEP: 80, DATA: 10240] loss: 0.03576808066572994
+2019-10-26 21:50:54.633 | INFO     | base_classes.trainer:train:130 - [EPOCH: 46, STEP: 160, DATA: 20480] loss: 0.03642614861018956
+2019-10-26 21:51:00.695 | INFO     | base_classes.trainer:train:130 - [EPOCH: 46, STEP: 240, DATA: 30720] loss: 0.042595257563516495
+2019-10-26 21:51:06.757 | INFO     | base_classes.trainer:train:130 - [EPOCH: 46, STEP: 320, DATA: 40960] loss: 0.03641540296375752
+2019-10-26 21:51:12.046 | INFO     | base_classes.trainer:train:135 - Epoch 46 took 30.020958423614502 seconds
+2019-10-26 21:51:12.063 | INFO     | base_classes.trainer:_save_model:162 - NN model weights saved successfully!
+2019-10-26 21:51:12.063 | INFO     | base_classes.trainer:train:147 - Finished Training
+2019-10-26 21:51:18.055 | INFO     | base_classes.trainer:train:130 - [EPOCH: 47, STEP: 80, DATA: 10240] loss: 0.03593661880586296
+2019-10-26 21:51:24.045 | INFO     | base_classes.trainer:train:130 - [EPOCH: 47, STEP: 160, DATA: 20480] loss: 0.03647146988660097
+2019-10-26 21:51:30.045 | INFO     | base_classes.trainer:train:130 - [EPOCH: 47, STEP: 240, DATA: 30720] loss: 0.03634355394169688
+2019-10-26 21:51:36.035 | INFO     | base_classes.trainer:train:130 - [EPOCH: 47, STEP: 320, DATA: 40960] loss: 0.0364010963588953
+2019-10-26 21:51:41.329 | INFO     | base_classes.trainer:train:135 - Epoch 47 took 29.26060962677002 seconds
+2019-10-26 21:51:41.345 | INFO     | base_classes.trainer:_save_model:162 - NN model weights saved successfully!
+2019-10-26 21:51:41.346 | INFO     | base_classes.trainer:train:147 - Finished Training
+2019-10-26 21:51:41.350 | INFO     | __main__:main:29 - Finished Generating
