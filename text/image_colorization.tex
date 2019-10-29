@@ -218,14 +218,24 @@
 
   \subsubsection{Wykorzystywany zbiór treningowy}
 
-  Do uczenia modelu został wykorzystany zbiór danych CIFAR-10, składający się z
-  60000 obrazów w przestrzeni kolorów RGB o rozdzielczości 32 x 32 pikseli.
+  Do uczenia modelu został wykorzystany zbiór danych CIFAR-10 stworzony przez
+  A. Krizhevsky oraz zaprezentowany w 2009 roku \cite{cifar-10}.
+  Składa się on z 60000 obrazów w przestrzeni kolorów RGB o rozdzielczości 32 x 32 piksele.
   Spośród tych obrazów 10000 z nich zostało wykorzystanych jako zbiór
-  walidacyjny do śledzenia skuteczności treningu modelu. 
+  walidacyjny do śledzenia skuteczności treningu modelu. Przykładowe obrazy
+  ze zbioru danych zostały przedstawione na Rysunku
+
+  Zaletą CIFAR-10 jest niewielka rozdzielczość obrazów co pozwala na mniej
+  złożony model oraz szybszy proces uczenia, który można skutecznie przeprowadzić
+  nawet przy ograniczonych możliwościach obliczeniowych. Ponadto zbiór ten składa
+  się z obrazów dzielących się na 10 klas,
 
   W trakcie uczenia obraz w przestrzeni barw RGB jest konwertowany do CIELab,
   składowa \textit{L} stanowi w tym przypadku wejście sieci, a składowe \textit{A}
   oraz \textit{B}
+
+  \subsubsection{Wstępne przetwarzania danych}
+
 
   \subsubsection{Funkcje kosztów}
 
