@@ -300,22 +300,50 @@
   W celu skutecznego treningu modelu potrzebny jest odpowiednio duży i różnorodny
   zbiór treningowy. W obliczu problemu niewystarczającej ilości danych stosuje
   się metody zwane augmentacją danych pozwalające poszerzyć zbiór obrazów uczących
-  stosując proste przekształcenia obrazu takie jak:
+  poprzez dodawanie nowych informacji do obrazów będących podstawą zbioru tworząc
+  w ten sposób nowe obrazy, które mogą być wykorzystane w treningu. Augmentacja
+  danych przeciwdziała uczeniu się przez sieć nieistotnych wzorów i cech takich jak
+  orientacja obiektu, jego umiejscowienie albo rozmiar. Dzięki temu model jest
+  w stanie dogłębniej analizować obrazy wejściowe ucząc się rozpoznawać cechy
+  o coraz to większym poziomie abstrakcji co przekłada się na o wiele lepiej
+  rozwiniętą zdolność modelu do generalizacji danej problematyki.
+
+  \noindent
+  Do augmentacji stosuje się proste przekształcenia obrazu takie jak:
   \begin{itemize}
   \item Rotacja obrazu o wybrany kąt.
   \item Odbicie obrazu względem osi pionowej.
-  \item Obcinanie skrajnych fragmentów obrazów.
+  \item Obcinanie skrajnych fragmentów obrazów (ang. crop).
   \item Zmiana odcienia oraz saturacji barw obrazu.
+  \item Przybliżanie albo oddalanie treści obrazu.
   \item Modyfikacja rozdzielczości obrazu poprzez jego rozciąganie lub ściskanie.
-  \item coarse dropout
+  \item Tworzenie niewielkich ubytków w obrazach w losowych miejscach (ang. coarse dropout).
   \end{itemize}
 
-  dodatkowa zaleta
+  Należy jednak pamiętać, że nie wszystkie metody augmentacji nadają się do każdego zbioru
+  danych, kluczowe jest, aby wybrać takie operacje, które poszerzają zbiór
+  uczący o dane niosące znaczące oraz sensowne informacje patrząc z punktu wybranej
+  problematyki oraz nie przesłaniają wzorców kluczowych do wyuczenia przez sieć.
+  W przypadku zagadnienia kolorowania czarno-białych obrazów kluczową informacją
+  jest kolor analizowanej powierzchni oraz jej cechy charakterystyczne, z tego
+  powodu, do treningu modelu podstawowego nie zostały wykorzystane żadne metody
+  augmentacji wpływające na barwy albo jasność obrazów. Wykluczone zostały również takie
+  metody jak tworzeniu ubytków w obrazach, gdyż powoduje to niepotrzebną utratę
+  informacji.
+  W związku z tym, że wykorzystany zbiór CIFAR-10 posiada dużą ilość obrazów
+  to w procesie uczenia została wykorzystana jedynie augmentacja poprzez
+  odbicie obrazu względem osi pionowej z prawdopodobieństwem równym 50\%.
 
-  wybraliśmy to bo
+  % W zagadnieniu kolorowania czarno-białych obrazów informacjami najważniejszymi
+  % są wartości pikseli powiązane z daną powierzchnią oraz cechy charakterystyczne
+  % tych powierzchni, z tego powodu, aby ograniczyć straty
+  % w procesie uczenia nie zastosowano żadnej
+  % metody związanej ze zmianą barw obrazu wejściowego, jednocześnie nie można
+  % było sobie pozwolić
 
   \subsubsection{Funkcje kosztów}
   % Bez teorii
+
 
   \subsubsection{Funkcje aktywacji}
 
