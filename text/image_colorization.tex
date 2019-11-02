@@ -15,7 +15,7 @@
   rozpoznawania wzorców oraz posiadają wyjątkowe zdolności do adaptacji. Z tego
   właśnie powodu sieci splotowe zostaną użyte w przedstawionym rozwiązaniu.
 
-  \subsubsection{Podejście}
+\subsubsection{Podejście}
 
   Rozważając możliwe sposoby pokolorowania czarno-białego zdjęcia można spostrzec,
   że kiedy niektóre powierzchnie na zdjęciu mają zazwyczaj oczywiste barwy, niebo
@@ -60,7 +60,7 @@
   testom należą algorytm optymalizacyjny, funkcja straty, funkcja aktywacja oraz
   sposób przetwarzania wstępnego danych treningowych.
 
-  \subsubsection{Model podstawowy}
+\subsubsection{Model podstawowy}
 
   Opracowany przez nas model jest to FCN. Konwolucyjna część sieci składa się
   z 12 warstw splotowych
@@ -126,7 +126,7 @@
   warstwa BatchNorm oraz warstwa funkcji aktywacji RELU mające na celu
   ustabilizować proces uczenia oraz zwiększyć jego efektywność.
 
-  \subsubsection{BatchNorm}
+\subsubsection{BatchNorm}
 
   Warstwa Batch Normalization została przedstawiona w 2015 roku przez S. Ioeffe
   oraz C. Szegedy jako odpowiedź
@@ -176,7 +176,7 @@
   przed warstwami funkcji aktywacji, lecz dało ono gorsze rezultaty, niż
   podejście wspomniane jako pierwsze.
 
-  \subsubsection{Dropout}
+\subsubsection{Dropout}
 
   W trakcie pracy nad ostatecznym modelem podstawowym sprawdzona została
   skuteczność zastosowania warstw Dropout \cite{dropout}. Warstwy te w trakcie
@@ -203,10 +203,10 @@
   nadmiernej ilości cech przez sieć, co wpływa niekorzystnie na otrzymywane
   rezultaty końcowe. Podczas testów skuteczności tych warstw zostały one umieszczone
   za warstwami BatchNorm. Wizualizacja skutków tej decyzji wraz z rozważeniem
-  pozostałych czynników wpływających na efektywność sieci znajduje się w
-  sekcji związanej z rezultatami modelu podstawowego.
+  pozostałych czynników wpływających na efektywność sieci znajdują się w
+  punkcie \ref{Rezultaty} związanym z rezultatami modelu podstawowego.
 
-  \subsubsection{Modyfikacja rozdzielczości}
+\subsubsection{Modyfikacja rozdzielczości}
 
   W modelach FCN powszechnie stosuje się różne metody zmiany rozdzielczości
   kanałów przechodzących przez sieć, najczęściej są do operacje poolingu mające
@@ -237,7 +237,7 @@
   kluczowych informacji przestrzennych koniecznych to właściwego wygenerowanie
   możliwych barw obrazu.
 
-  \subsubsection{Wykorzystywany zbiór treningowy}
+\subsubsection{Wykorzystywany zbiór treningowy}
 
   Do uczenia modelu został wykorzystany zbiór danych CIFAR-10 stworzony przez
   A. Krizhevsky oraz zaprezentowany w 2009 roku \cite{cifar-10}.
@@ -266,7 +266,7 @@
   się do żadnej klasy, co powinno umożliwić wyuczenia się generalizacji przez
   sieć.
 
-  \subsubsection{Przetwarzanie wstępne danych}
+\subsubsection{Przetwarzanie wstępne danych}
 
   Przed podaniem na wejście sieci obrazy uczące były wpierw poddawane
   przetwarzaniu wstępnemu mającemu na celu doprowadzić do szybszego oraz
@@ -313,10 +313,10 @@
 
   Wymienione metody przetwarzania były stosowane w różnych połączeniach oraz
   konfiguracjach zarówno na składowej \textit{L}, jak i składowych \textit{A}
-  oraz \textit{B}.
+  oraz \textit{B}, a uzyskane wyniki opisane zostały w punkcie \ref{Rezultaty}
 
 
-  \subsubsection{Augmentacja danych}
+\subsubsection{Augmentacja danych}
 
   W celu skutecznego treningu modelu potrzebny jest odpowiednio duży i różnorodny
   zbiór treningowy. W obliczu problemu niewystarczającej ilości danych stosuje
@@ -362,7 +362,7 @@
   % metody związanej ze zmianą barw obrazu wejściowego, jednocześnie nie można
   % było sobie pozwolić
 
-  \subsubsection{Funkcje kosztów}
+\subsubsection{Funkcje kosztów}
   % Bez teorii
   Kluczem do właściwego funkcjonowania modelu jest wybór odpowiedniej funkcji
   kosztu. W przypadku problematyki kolorowania czarno-białych obrazów ważne
@@ -468,7 +468,11 @@
     współrzędnych $(i, j)$.
   \end{itemize}
 
-  \subsubsection{Funkcje aktywacji}
+  \noindent
+  Szczegółowy opis skutków zastosowanie poszczególnych funkcji kosztów umieszczony
+  został w punkcie \ref{Rezultaty}.
+
+\subsubsection{Funkcje aktywacji}
   % RELU
   W wyborze odpowiednej funkcji aktywacji kierowaliśmy się badaniami przeprowadzonymi
   przez B. Xu oraz jego współpracowników \cite{evaluatiuon_of_relu}. Testowali
@@ -503,10 +507,31 @@
   zabiegi takie jak zastosowanie warstw BatchNorm pozwolą zminimalizować
   niepożądane efekty tego zjawiska.
 
-  \subsubsection{Algorytmy optymalizacyjne}
+\subsubsection{Algorytmy optymalizacyjne}
   % Bez teorii
+  % TODO: Może dać bardziej szczegółowy opis
+  % TODO: Zacytować twórców Adam i Adagrad, linki do paperów są w dokumentacji
+  % pytorcha o tych algorytmach
+  Podczas planowanie treningu modelu należy zdecydować się na odpowiedni
+  algorytm optymalizacyjny, właściwa decyzja pozwala uniknąć zatrzymania się
+  procesu uczenia w lokalnych minimach co zwiększa końcową dokładność oraz
+  skuteczność modelu.
+  Podczas badań przetestowane zostały różne algorytmy optymalizacyjne,
+  a uzyskane rezultaty zostały szczegółowo opisane oraz porównane w punkcie
+  \ref{Rezultaty}.\newline
+  Wykorzystane zostały następujące algorytmy:
+  \begin{itemize}
+    \item Adam (ang. Adaptive Moment Estimation)
+    \item Adagrad (ang. Adaptive Gradient Algorithm)
+    \item SGD (ang. Stochastic Gradient Descent)
+  \end{itemize}
+
+  \noindent
+  Przeprowadzone zostały także poszukiwania najbardziej odpowiednich hiperparametrów
+  dla wymienionych algorytmów w celu osiągnięcia jak największej ich skuteczności
+  w rozwiązaniu rozważanej problematyki.
+
+\subsubsection{Trening}
 
 
-  \subsubsection{Trening}
-
-  \subsubsection{Rezultaty}
+\subsubsection{Rezultaty} \label{Rezultaty}
