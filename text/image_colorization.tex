@@ -133,15 +133,36 @@
   na problem zmieniającej się podczas uczenia dystrybucji wartości wejść
   każdej z warstw sieci \cite{BatchNorm}. Ma ona na celu usprawnić i ustabilizować
   trening sieci poprzez normalizację wartości podawanych na funkcje aktywacji.
-  Zmienna dystrybucja tych wartości znacznie spowalnia proces uczenia poprzez
+  Zmienna dystrybucja tych wartości znacznie spowalnia i utrudnia proces uczenia
+  poprzez potrzebę przemyślanego inicjowania
+  wag sieci w celu zwiększenia prawdopodobieństwa nakierowania modelu na pożądane
+  rozwiązania w trakcie procesu uczenia oraz przez
   konieczność używania mniejszych wartości współczynnika uczenia, aby
   przeciwdziałać problemom zanikającego oraz wybuchającego gradientu
-  \cite{exploding_vanishing_grad} oraz przez potrzebę przemyślanego inicjowania
-  wag sieci w celu zwiększenia prawdopodobieństwa nakierowania modelu na pożądane
-  rozwiązania w trakcie procesu uczenia.
-  % Może jeszcze opisać co to eksplodujący i zanikający gradient
+  \cite{exploding_vanishing_grad}.
 
-  Podczas uczenia metodą mini-batch (pol. małych paczek), każda paczka jest
+  Problemy te zostały już zauważone i opisane w 1994 roku przez Y. Bengio
+  oraz jego współpracowników \cite{exploding_vanishing_grad}. Dowodzą oni, że:
+  \begin{quote}
+    % 'Gradient descent becomes increasingly inefficient when the
+    % temporal span of the dependencies increases'
+    'Metoda gradientu prostego staje się coraz bardziej nieefektywna, gdy
+    rośnie czasowy zakres zależności'
+  \end{quote}
+  Wskazują także, że problemy powstają podczas treningu DNN w fazie wstecznej
+  propagacji błędu, kiedy to gradient pochodzący z głębszych warstw przechodzi
+  wielokrotnie przez operacje mnożenia macierzowego. Jeśli wartość gradientu
+  jest niewielka, to z każdą operacją mnożenia staje się jeszcze mniejsza, aż
+  maleje do takich wartości, które nie umożliwiają modelowi uczenia się, a jeśli
+  wartość ta jest wysoka to, wraz z przechodzeniem przez kolejne warstwy, rośnie
+  jeszcze bardziej co przy bardzo dużych wartościach może doprowadzić do
+  destabilizacji procesu uczenia. Są to zjawiska zdecydowanie niepożądane i z
+  tego powodu powstało wiele rozwiązań, aby im przeciwdziałać takich jak
+  ograniczanie maksymalnej wartości gradientu (ang. gradient clipping) albo
+  zastosowanie warstw BatchNorm.
+
+  Zastosowanie warstw BatchNorm sprawia, że podczas uczenia metodą mini-batch
+  (pol. małych paczek) każda paczka jest
   normalizowana w sposób zapewniający zerową wartość średnią oraz
   równą jedności wariancję na przestrzeni wszystkich kanałów wejściowych.
   Zaletą takiego podejścia jest poprawienie przepływu korygującego gradientu
@@ -265,7 +286,7 @@
   % przedziałów, o niewielkiej wartości maksymalnej i minimalnej oraz wartości
   % średniej zbliżonej do zera, sprzyja ujednoliceniu tempa uczenia się przez sieć
   % rozpoznawania różnych cech.
-
+  \noindent
   W ramach badania rozwiązania przetestowane zostały różne metody przetwarzania
   wstępnego:
   \begin{itemize}
@@ -343,7 +364,109 @@
 
   \subsubsection{Funkcje kosztów}
   % Bez teorii
+  Kluczem do właściwego funkcjonowania modelu jest wybór odpowiedniej funkcji
+  kosztu. W przypadku problematyki kolorowania czarno-białych obrazów ważne
+  jest, aby wybrana funkcja kosztu uwzględniała specyficzną naturę problemu,
+  gdzie dla niektórych przypadków właściwych jest wiele odpowiedzi. Jako
+  przykład można podać taki obiekt jak samochód, który może być zarówno
+  zielony, czerwony jak i żółty, każdy z tych kolorów powinien być oceniony
+  jako właściwy, a wartość błędu wyliczona z użyciem funkcji kosztu dla tak
+  wybranych przez sieć kolorów powinna odpowiednio to wskazywać. W ramach
+  poszukiwań najbardziej odpowiedniej funkcji kosztu przetestowane zostały
+  następujące funkcje.
 
+  \begin{enumerate}[leftmargin=*]
+  \item MSELoss (ang. Mean Squared Error Loss) - koszt oparty na błędzie średniokwadratowym
+  przedstawiony funkcją:
+  \begin{equation}
+  Koszt = \frac{1}{n}\sum_{i=0}^{n} (x_{i} - y_{i})^2
+  \end{equation}
+
+  % \noindent
+  % gdzie $x$ są to składowe \textit{A} oraz \textit{B} przewidziane przez sieć,
+  % a $y$ to rzeczywiste \textit{A} i \textit{B}.
+
+  \noindent
+  Po dopasowaniu równania MSELoss do rozważanej problematyki otrzyma się:
+  \begin{equation}
+  Koszt = \frac{1}{n}\frac{1}{m}\sum_{i=0}^{n}\sum_{j=0}^{m} ((A_{i, j}^{P} - A_{i, j}^{R})^2 + (B_{i, j}^{P} - B_{i, j}^{R}))^2
+  \end{equation}
+
+  % \noindent
+  % gdzie $(A_{i, j}^{R}$ i $(B_{i, j}^{R}$ są to rzeczywiste wartości składowych
+  % \textit{A} i \textit{B} dla pikselu obrazy o współrzędnych $(i, j)$, a
+  % $(A_{i, j}^{P}$ i $(B_{i, j}^{P}$ są to wartości przewidziane przez sieć.
+
+  \item L1Loss zwany także MAELoss (ang. Mean Absolute Error Loss) - koszt oparty na
+  średnim błędzie bezwzględnym dany funkcją:
+  \begin{equation}
+  Koszt = \frac{1}{n}\sum_{i=0}^{n} |x_{i} - y_{i}|
+  \end{equation}
+  % gdzie $x$ są to składowe \textit{A} oraz \textit{B} przewidziane przez sieć,
+  % a $y$ to rzeczywiste \textit{A} i \textit{B}.
+
+  \noindent
+  Równanie L1Loss dla rozważanego zagadnienia:
+  \begin{equation}
+  Koszt = \frac{1}{n}\frac{1}{m}\sum_{i=0}^{n}\sum_{j=0}^{m} (|A_{i, j}^{P} - A_{i, j}^{R}| + |B_{i, j}^{P} - B_{i, j}^{R}|)
+  \end{equation}
+  % gdzie $x$ są to składowe \textit{A} oraz \textit{B} przewidziane przez sieć,
+  % a $y$ to rzeczywiste \textit{A} i \textit{B}.
+
+  \item SmoothL1Loss - zwany także \textit{Huber loss}, odmiana L1Loss przedstawiona w
+  2015 roku przez R. Girshick \cite{SmoothL1Loss}. Jej zaletami są mniejsza
+  czułość na elementy odstające (ang. outliner) i zmniejszona szansa na wystąpienie
+  zjawiska eksplodującego gradientu.
+  SmoothL1Loss przedstawiony jest funkcją:
+  \begin{equation}
+  Koszt = \frac{1}{n}\sum_{i=0}^{n} z_{i}
+  \end{equation}
+
+  \noindent
+  gdzie $z_{i}$ dane jest:
+  \begin{equation}
+  z_{i} = \begin{cases}
+               0.5(x_{i} - y_{i})^2 \text{, jeśli } |x_{i} - y_{i}| < 1 \\
+               |x_{i} - y_{i}| - 0.5 \text{, w pozostałych przypadkach}
+            \end{cases}
+  \end{equation}
+
+  \noindent
+  Zastosowanie SmoothL1Loss do modelu podstawowego da następującą funkcję:
+  \begin{equation}
+  Koszt = \frac{1}{n}\sum_{i=0}^{n} (z_{i} + k_{i})
+  \end{equation}
+
+  \noindent
+  gdzie $z_{i}$ dane jest:
+  \begin{equation}
+  z_{i} = \begin{cases}
+               0.5(A_{i, j}^{P} - A_{i, j}^{R})^2 \text{, jeśli } |A_{i, j}^{P} - A_{i, j}^{R}| < 1 \\
+               |A_{i, j}^{P} - A_{i, j}^{R}| - 0.5 \text{, w pozostałych przypadkach}
+            \end{cases}
+  \end{equation}
+
+  \noindent
+  a $k_{i}$ dane jest:
+  \begin{equation}
+  z_{i} = \begin{cases}
+               0.5(B_{i, j}^{P} - B_{i, j}^{R})^2 \text{, jeśli } |B_{i, j}^{P} - B_{i, j}^{R}| < 1 \\
+               |B_{i, j}^{P} - B_{i, j}^{R}| - 0.5 \text{, w pozostałych przypadkach}
+            \end{cases}
+  \end{equation}
+
+  \end{enumerate}
+  \noindent
+  Gdzie:
+  \begin{itemize}
+    \item $x$ są to składowe \textit{A} oraz \textit{B} przewidziane przez sieć.
+    \item $y$ to rzeczywiste składowe \textit{A} i \textit{B}.
+    \item $A_{i, j}^{R}$ i $B_{i, j}^{R}$ są to rzeczywiste wartości składowych
+    \textit{A} i \textit{B} dla pikselu obrazy o współrzędnych $(i, j)$.
+    \item $A_{i, j}^{P}$ i $B_{i, j}^{P}$ są to wartości składowych
+    \textit{A} i \textit{B} przewidziane przez sieć dla pikselu obrazy o
+    współrzędnych $(i, j)$.
+  \end{itemize}
 
   \subsubsection{Funkcje aktywacji}
 
