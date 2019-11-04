@@ -14,6 +14,7 @@ def main():
     # dataloader = DataLoader(dataset, **config_dict['dataloader_parameters'])
     fine_elems = [53, 54, 64, 85, 99, 145, 177, 233, 187, 190, 225, 289, 337, 331]
 
+
     subplots_x = 7
     subplots_y = 2
     fig = plt.figure(figsize=(16, 8))

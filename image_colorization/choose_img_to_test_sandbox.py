@@ -9,6 +9,8 @@ from base_classes.json_parser import JsonParser
 from image_colorization.nets.fcn_models import FCN_net1, FCN_net2, FCN_net3, FCN_net4, FCN_net5, FCN_net_mega, \
     FCN_net_mega_V2, FCN_net_mega_dropout
 
+font_size = 30
+
 
 def main():
     config_dict = JsonParser.read_config(consts.TEST_PARAMETERS)
@@ -38,12 +40,16 @@ def main():
     cifar_ab_std = np.array([[[10.15176795, 16.08094785]]])
 
     fig = plt.figure(figsize=(14, 7))
-    fig2 = plt.figure(figsize=(14, 7))
     ax1 = fig.add_subplot(1, 3, 1)
+    plt.gca().axes.get_xaxis().set_visible(False)
+    plt.gca().axes.get_yaxis().set_visible(False)
     ax2 = fig.add_subplot(1, 3, 2)
-    ax3 = fig2.add_subplot(1, 1, 1)
+    plt.gca().axes.get_xaxis().set_visible(False)
+    plt.gca().axes.get_yaxis().set_visible(False)
+    # ax3 = fig2.add_subplot(1, 1, 1)
     ax4 = fig.add_subplot(1, 3, 3)
-
+    plt.gca().axes.get_xaxis().set_visible(False)
+    plt.gca().axes.get_yaxis().set_visible(False)
     for img_path in img_paths:
         rgb_img = io.imread(img_path)
         rgb_img = rgb_img / 255.0
@@ -68,15 +74,21 @@ def main():
         L_batch_gray = L_batch_gray.view(-1, 1, L_input_gray.shape[0], L_input_gray.shape[1])
 
         ax1.imshow(rgb_img)
-        ax1.title.set_text('Ground Truth')
-
+        ax1.title.set_text('Obraz rzeczywisty')
+        ax1.set_yticklabels([])
+        ax1.set_xticklabels([])
+        change_subplot_fontsize(ax1, font_size)
         # ax2 = fig.add_subplot(1, 4, 2)
         ax2.imshow(gray_img)
-        ax2.title.set_text('Gray')
+        ax2.title.set_text('Obraz czarno-biały')
+        ax2.set_yticklabels([])
+        ax2.set_xticklabels([])
+        change_subplot_fontsize(ax2, font_size)
+
 
         # ax3 = fig.add_subplot(1, 4, 3)
-        ax3.imshow(L_input_gray)
-        ax3.title.set_text(f"gray L channel, blur={config_dict['additional_params']['blur']['do_blur']}")
+        # ax3.imshow(L_input_gray)
+        # ax3.title.set_text(f"gray L channel, blur={config_dict['additional_params']['blur']['do_blur']}")
 
         outputs = net(L_batch_gray)
         ab_outputs = np.transpose(outputs[0].detach().numpy(), (1, 2, 0))
@@ -97,7 +109,11 @@ def main():
 
         # ax4 = fig.add_subplot(1, 4, 4)
         ax4.imshow(img_rgb_outputs)
-        ax4.title.set_text('model output')
+        ax4.title.set_text('Otrzymany rezultat')
+        ax4.set_yticklabels([])
+        ax4.set_xticklabels([])
+        change_subplot_fontsize(ax4, font_size)
+
         # del net
         # del img_rgb_outputs, ab_outputs, outputs, L_batch_gray, L_gray, L_input_gray, gray_img, rgb_img
         # del config_dict, fig, ax1, ax2, ax3, ax4
@@ -107,6 +123,12 @@ def main():
         # del fig
 
     print('Finished Testing')
+
+
+def change_subplot_fontsize(ax1, desired_size):
+    for item in ([ax1.title, ax1.xaxis.label, ax1.yaxis.label] +
+                 ax1.get_xticklabels() + ax1.get_yticklabels()):
+        item.set_fontsize(desired_size)
 
 
 if __name__ == "__main__":
