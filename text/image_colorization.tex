@@ -126,7 +126,7 @@
   warstwa BatchNorm oraz warstwa funkcji aktywacji RELU mające na celu
   ustabilizować proces uczenia oraz zwiększyć jego efektywność.
 
-\subsubsection{BatchNorm}
+\subsubsection{BatchNorm} \label{BatchNorm}
 
   Warstwa Batch Normalization została przedstawiona w 2015 roku przez S. Ioeffe
   oraz C. Szegedy jako odpowiedź
@@ -176,7 +176,7 @@
   przed warstwami funkcji aktywacji, lecz dało ono gorsze rezultaty, niż
   podejście wspomniane jako pierwsze.
 
-\subsubsection{Dropout}
+\subsubsection{Dropout} \label{Dropout}
 
   W trakcie pracy nad ostatecznym modelem podstawowym sprawdzona została
   skuteczność zastosowania warstw Dropout \cite{dropout}. Warstwy te w trakcie
@@ -266,7 +266,7 @@
   się do żadnej klasy, co powinno umożliwić wyuczenia się generalizacji przez
   sieć.
 
-\subsubsection{Przetwarzanie wstępne danych}
+\subsubsection{Przetwarzanie wstępne danych} \label{Przetwarzanie wstępne danych}
 
   Przed podaniem na wejście sieci obrazy uczące były wpierw poddawane
   przetwarzaniu wstępnemu mającemu na celu doprowadzić do szybszego oraz
@@ -362,7 +362,7 @@
   % metody związanej ze zmianą barw obrazu wejściowego, jednocześnie nie można
   % było sobie pozwolić
 
-\subsubsection{Funkcje kosztów}
+\subsubsection{Funkcje kosztów} \label{Funkcje kosztów}
   % Bez teorii
   Kluczem do właściwego funkcjonowania modelu jest wybór odpowiedniej funkcji
   kosztu. W przypadku problematyki kolorowania czarno-białych obrazów ważne
@@ -507,7 +507,7 @@
   zabiegi takie jak zastosowanie warstw BatchNorm pozwolą zminimalizować
   niepożądane efekty tego zjawiska.
 
-\subsubsection{Algorytmy optymalizacyjne}
+\subsubsection{Algorytmy optymalizacyjne} \label{Algorytmy optymalizacyjne}
   % Bez teorii
   % TODO: Może dać bardziej szczegółowy opis
   % TODO: Zacytować twórców Adam i Adagrad, linki do paperów są w dokumentacji
@@ -531,7 +531,18 @@
   dla wymienionych algorytmów w celu osiągnięcia jak największej ich skuteczności
   w rozwiązaniu rozważanej problematyki.
 
+% TODO: Od tego momentu był ekspres pisanie, wiec może do zredagowania
 \subsubsection{Trening}
+
+Model trenowaliśmy paczkami o wielkości 128 obrazów, cała epoka składała się z
+50000 obrazów. Przed każdą epoką zbiór treningowy był przetasowywany, aby
+przeciwdziałać przeuczaniu się sieci. Aby znaleźć najbardziej zadowalające rozwiązanie
+przetestowane zostały różne konfiguracje treningowe, możliwe zmienne elementy
+konfiguracji to algorytmy optymalizacyjne opisane w punkcie
+\ref{Algorytmy optymalizacyjne}, funkcje kosztów opisane w punkcie \ref{Funkcje kosztów},
+rodzaje przetwarzania wstępnego opisane w punkcie \ref{Przetwarzanie wstępne danych} oraz
+skutki zastosowanie takich warstw jak Dropout (punkt \ref{Dropout}) oraz BatchNorm
+\ref{BatchNorm}. Jako funkcja aktywacji wybrana została funkcja ReLU.
 
 
 \subsubsection{Rezultaty} \label{Rezultaty}
