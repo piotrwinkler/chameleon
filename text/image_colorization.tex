@@ -288,7 +288,7 @@
   % rozpoznawania różnych cech.
   \noindent
   W ramach badania rozwiązania przetestowane zostały różne metody przetwarzania
-  wstępnego:
+  wstępnego zarówno danych wejściowych jak i pożądanej odpowiedzi:
   \begin{itemize}
   \item Normalizacja danych na przestrzeni całego zbioru danych z użyciem wartości
   maksymalnej oraz minimalnej całego zbioru, tak aby wartości pikseli danej składowej
@@ -315,6 +315,74 @@
   konfiguracjach zarówno na składowej \textit{L}, jak i składowych \textit{A}
   oraz \textit{B}, a uzyskane wyniki opisane zostały w punkcie \ref{Rezultaty}
 
+\subsubsection{Przetwarzanie końcowe danych}
+
+  Jeśli w trakcie procesu uczenia były stosowane zabiegi przetwarzania
+  wstępnego danych wejściowych to podczas testowania modelu dane testowe również
+  muszą być przetworzone w ten sam sposób, aby zapewnić poprawną pracę sieci.
+  To samo dotyczy się danych wyjściowych sieci, jeśli podczas treningu z nadzorem
+  pożądane wyjście było w pewien sposób przetworzone wstępnie to sieć uczy się
+  odtwarzać te wyjście tak samo przetworzone, aby uzyskać oczekiwany efekty
+  końcowy należy dokonać operacji odwrotnych do tych zastosowanych w fazie
+  przetwarzania wstępnego. Przykładowo jeśli pożądana odpowiedź w procesie
+  uczenia była normalizowana to podczas testów sieci jej wyście należy
+  zdenormalizować, aby uzyskać oczekiwany rezultat. Jednakże my dla rozważanej
+  problematyki proponujemy metodę alternatywną.
+
+  Polega ona na uwydatnianiu kolorów wygenerowanych przez sieć dla wysokich
+  wartości naświetlenia - składowej \textit{L}. Może być ona stosowana
+  niezależnie od metody przetwarzania wstępnego danych wejściowych. Algorytm
+  polega na przeskalowaniu pikseli składowych \textit{A} i \textit{B} tak, aby
+  ich wartości mogły pokryć cały dostępny przedział wartości, ale dla danego
+  piksela jego przedział jest ograniczony proporcjonalnie do stosunku wartości
+  tego piksela w składowej \textit{L} do maksymalnej możliwej wartości pikseli
+  składowej \textit{L}.
+
+  Dla przykładu załóżmy, że wartość danego pikselu dla składowej \textit{A}
+  wynosi 70, dla składowej \textit{B} wynosi -20, a dla składowej \textit{L} 80.
+  Przedział wartości składowych \textit{A} i \textit{B} jest od -127 do 128, a
+  składowej \textit{L} od 0 do 100. W następnym kroku znajdowana jest maksymalna
+  absolutna wartość składowych \textit{A} i \textit{B} dla aktualnego obrazu.
+  Załóżmy, że dla \textit{A} wynosi ona 90, a dla \textit{B} 60.
+  Następnie piksele składowych \textit{A} i \textit{B} są dzielone przez
+  swoje maksymalne wartości, a następnie rozciągnięte na cały dostępny przedział
+  przez pomnożenie przez odpowiedni czynnik, czynnik ten jest z przedziału
+  od 0 do 127 i jest wprost proporcjonalny do stosunku aktualnego piksela
+  składowej \textit{L} do maksymalnej wartości \textit{L}, oznacza to, że jeśli
+  dany piksel \textit{L} jest równy 100 to czynnik jest równy 127, a jeśli
+  dany piksel \textit{L} jest równy 50 to wartość czynnika znajduje się w
+  połowie swojego przedziału i równy jest 63,5.
+
+  \noindent
+  Dla podanych założeń otrzymujemy następujące nowe wartości piksela składowej \textit{A}
+  ($p_{n}^{A}$) i piksela składowej \textit{B} ($p_{n}^{B}$):
+  \begin{equation}
+  p_{n}^{A} = \frac{70}{90} * 127 * \frac{80}{100} = 79.02
+  \end{equation}
+  \begin{equation}
+  p_{n}^{B} = \frac{-20}{60} * 127 * \frac{80}{100} = -33.87
+  \end{equation}
+
+  \noindent
+  Algorytm konwertowanie pikseli danej składowej można przedstawić wzorem:
+  \begin{equation}
+  S_{i, j}^{n} = \frac{S_{i, j}^{p}}{max\{abs\{S\}\}} * 127 * \frac{L_{i, j}}{100}
+  \end{equation}
+
+  \noindent
+  Gdzie:
+  \begin{itemize}
+    \item $S$ - Konwertowana składowa będąca dwuwymiarowa macierzą pikseli.
+    \item $S_{i, j}^{n}$ - Nowa wartość piksela (i, j) dla danej składowej.
+    \item $S_{i, j}^{p}$ - Stara wartość piksela (i, j) dla danej składowej.
+    \item $L_{i, j}$ - Wartość piksela (i, j) składowej jasności.
+  \end{itemize}
+
+  Zastosowanie powyższego algorytmu pozwoliło uzyskać bardziej zadawalające
+  rezultaty działania modelu poprzez faworyzowanie kolorów tworzonych przez sieć
+  dla powierzchni o dużej wartości jasności, jako, że wysoka jasność oferuje
+  bardziej intensywne barwy. Kolorystyka powierzchni ciemnych pozostaje
+  przytłumiona, jako, że brak naświetlenia ogranicza natężenie kolorów.
 
 \subsubsection{Augmentacja danych}
 
@@ -547,3 +615,18 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
 
 \subsubsection{Rezultaty} \label{Rezultaty}
+
+ Najbardziej satysfakcjonujące rezultaty uzyskane przez model zostały
+ przedstawione na Rysunku \ref{fig:best_result}
+
+ \begin{figure}[ht]
+   \centering
+   \subfloat[Obraz zewnątrzny]{\includegraphics[width = 4.5in]{best_results_plane}} \\
+   \subfloat[Obraz zewnątrzny]{\includegraphics[width = 4.5in]{best_results_krajobraz}} \\
+   \subfloat[Obraz z datasetu]{\includegraphics[width = 4.5in]{best_results_horse}} \\
+   \caption[Rezultaty - źródło: Rysunek własny na podstawie kolejno:
+   \url{https://fr.m.wikipedia.org/wiki/Fichier:An_F-A-18C_Hornet_launches_from_the_flight_deck_of_the_conventionally_powered_aircraft_carrier.jpg},
+   \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}, \cite{cifar-10}]
+   {Rezultaty.}
+   \label{fig:best_result}
+ \end{figure}
