@@ -298,7 +298,7 @@
   średnią równą w przybliżeniu zero oraz jednostkowe odchylenie standardowe.
   \item Zastosowanie rozmycia gaussowskiego(ang. Gaussian blur) o różnej
   wielkości filtru Gaussowskiego.
-  \item Przepuszczenie składowej przez filtr Gaussa o różnej wielkości filtru.
+  % \item Przepuszczenie składowej przez filtr Gaussa o różnej wielkości filtru.
   \end{itemize}
 
   Rozmycie gaussowskie, zwane także wygładzaniem gaussowskim (ang. Gaussian smoothing),
@@ -315,7 +315,7 @@
   konfiguracjach zarówno na składowej \textit{L}, jak i składowych \textit{A}
   oraz \textit{B}, a uzyskane wyniki opisane zostały w punkcie \ref{Rezultaty}
 
-\subsubsection{Przetwarzanie końcowe danych}
+\subsubsection{Przetwarzanie końcowe danych}  \label{Przetwarzanie końcowe danych}
 
   Jeśli w trakcie procesu uczenia były stosowane zabiegi przetwarzania
   wstępnego danych wejściowych to podczas testowania modelu dane testowe również
@@ -616,17 +616,79 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
 \subsubsection{Rezultaty} \label{Rezultaty}
 
+ Uzyskane wyniki są w znacznej mierze zależne od wybranej konfiguracji.
  Najbardziej satysfakcjonujące rezultaty uzyskane przez model zostały
  przedstawione na Rysunku \ref{fig:best_result}
 
  \begin{figure}[ht]
    \centering
-   \subfloat[Obraz zewnątrzny]{\includegraphics[width = 4.5in]{best_results_plane}} \\
-   \subfloat[Obraz zewnątrzny]{\includegraphics[width = 4.5in]{best_results_krajobraz}} \\
-   \subfloat[Obraz z datasetu]{\includegraphics[width = 4.5in]{best_results_horse}} \\
-   \caption[Rezultaty - źródło: Rysunek własny na podstawie kolejno:
+   \subfloat[Obraz spoza zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_plane}} \\
+   \subfloat[Obraz spoza zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_krajobraz}} \\
+   \subfloat[Obraz ze zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_horse}} \\
+   \caption[Efekty działania sieci - źródło: Rysunek własny bazujący na:
    \url{https://fr.m.wikipedia.org/wiki/Fichier:An_F-A-18C_Hornet_launches_from_the_flight_deck_of_the_conventionally_powered_aircraft_carrier.jpg},
    \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}, \cite{cifar-10}]
    {Rezultaty.}
    \label{fig:best_result}
  \end{figure}
+
+ \noindent
+ Efekt ten został uzyskany przy następującej konfiguracji:
+ \begin{itemize}
+   \item Funkcja kosztu MSELoss.
+   \item Funkcja aktywacji ReLU.
+   \item Algorytm optymalizacyjny Adam.
+   \item Normalizacja składowej \textit{L} podczas przetwarzania wstępnego.
+   \item Standaryzacja składowych \textit{A} i \textit{B} podczas przetwarzania wstępnego.
+   \item Nie zastosowanie rozmycia Gaussowskiego.
+   \item Zastosowanie warstwy BatchNorm oraz nie zastosowanie warstwy Dropout.
+   \item Zastosowanie zaproponowanego przez nas algorytmu przetwarzania końcowego.
+ \end{itemize}
+
+ \noindent
+ Na podstawie obrazów na Rysunku \ref{fig:best_result} oraz przeprowadzonych
+ testów można wywnioskować, że model nauczył się najlepiej kolorować powierzchnie
+ o zazwyczaj stałej barwie takie jak niebo albo trawa, widać, że ich barwy są
+ wyjątkowo intensywne oraz jednoznacznie wskazują co to są za powierzchnie.
+ Gorzej rzecz się ma z obiektami o zmiennych barwach takimi jak na przykład
+ samochody, w związku z ich zmienną barwą na przestrzeni całego zbioru danych
+ model, chcąc zminimalizować błąd liczony przez funkcję kosztu, uśredniał kolor
+ tych obiektów co skutkuje ich przytłumionymi barwami przechodzącymi często
+ w odcienie brązu. Z tego powodu pomniejsze detale na kolorowanych zdjęciach
+ tracą swoje barwy, efekty tego zjawiska można zaobserwować analizując
+ stateczniki odrzutowca ukazanego na obrazie \textit{(a)} Rysunku \ref{fig:best_result}.
+
+  \noindent
+  W dalszej części sekcji opisany został wpływ poszczególnych elementów konfiguracji.
+
+  Największy wpływ na uzyskiwane rezultaty ma zastosowanie algorytmu przetwarzania
+  końcowego opisanego w punkcie \ref{Przetwarzanie końcowe danych}. Pomógł on
+  znacznie wzbogacić kolory generowane przez sieć. Odpowiednie porównanie
+  zostało przedstawione na Rysunku \ref{fig:trick}. Wadami tej metody są generowane
+  momentami zbyt intensywne barwy zdjęć oraz bardziej widoczne czasami
+  zdarzające się "wycieki"
+  kolorów jednych powierzchni na inne, przykładowo czerwony kolor z samochodu
+  wychodzi poza powierzchnię samochodu i barwi fragmenty trawy przylegające do
+  samochodu na czerwono. Efekt ten jest znacznie mniej widoczny przy zdjęciach
+  o wysokiej rozdzielczości, co sprawia, że w zastosowaniu praktycznym ta
+  wada modelu jest do zaakceptowania. Na Rysunku \ref{fig:trick} widać to
+  poprzez drobne obszary żółci na granicy nieba i drzew.
+
+  \begin{figure}[h]
+   \centering
+   \includegraphics[width=6in]{porownania_trick_krajobraz}
+   \caption[Efekt zastosowania algorytmu przetwarzania końcowego - źródło
+   rysunek własny na podstawie: \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
+   {Efekt zastosowania algorytmu przetwarzania końcowego}
+   \label{fig:trick}
+  \end{figure}
+
+  \textless Skutki rożnych funkcji kosztu \textgreater
+
+  \textless Skutki warstwy Dropout \textgreater
+
+  \textless Skutki rożnych metod przetwarzania wstępnego \textgreater
+
+  \textless Skutki rożnych algorytmów optymalizacyjnych \textgreater
+
+  \textless Skutki rożnych algorytmów optymalizacyjnych \textgreater
