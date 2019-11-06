@@ -1526,8 +1526,6 @@ V73:
                     wyciekają
         
         Po 10 epokach:  
-        
-    
 
         
         
@@ -1684,7 +1682,9 @@ V80:
     Czarny obraz, porażka
     
 V81:
-
+    
+    Zmiana momentum na 0 z 0.9
+    
     which_version = "V81"
     chosen_net = FCN_net_mega()
     

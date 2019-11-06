@@ -38,11 +38,10 @@ def main():
     cifar_ab_std = np.array([[[10.15176795, 16.08094785]]])
 
     fig = plt.figure(figsize=(14, 7))
-    fig2 = plt.figure(figsize=(14, 7))
-    ax1 = fig.add_subplot(1, 3, 1)
-    ax2 = fig.add_subplot(1, 3, 2)
-    ax3 = fig2.add_subplot(1, 1, 1)
-    ax4 = fig.add_subplot(1, 3, 3)
+    ax1 = fig.add_subplot(1, 4, 1)
+    ax2 = fig.add_subplot(1, 4, 2)
+    ax3 = fig.add_subplot(1, 4, 3)
+    ax4 = fig.add_subplot(1, 4, 4)
 
     for img_path in img_paths:
         rgb_img = io.imread(img_path)

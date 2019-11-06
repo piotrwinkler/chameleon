@@ -39,24 +39,57 @@ def main():
     cifar_ab_mean = np.array([[[0.39576409, 5.72532708]]])
     cifar_ab_std = np.array([[[10.15176795, 16.08094785]]])
 
-    fig = plt.figure(figsize=(14, 7))
-    ax1 = fig.add_subplot(1, 3, 1)
-    plt.gca().axes.get_xaxis().set_visible(False)
-    plt.gca().axes.get_yaxis().set_visible(False)
-    ax2 = fig.add_subplot(1, 3, 2)
-    plt.gca().axes.get_xaxis().set_visible(False)
-    plt.gca().axes.get_yaxis().set_visible(False)
-    # ax3 = fig2.add_subplot(1, 1, 1)
-    ax4 = fig.add_subplot(1, 3, 3)
-    plt.gca().axes.get_xaxis().set_visible(False)
-    plt.gca().axes.get_yaxis().set_visible(False)
+    # fig = plt.figure(figsize=(14, 7))
+
+
+    # fig3 = plt.figure(figsize=(14, 7))
+    # ax_for_fig3 = fig3.add_subplot(1, 1, 1)
+    # plt.gca().axes.get_xaxis().set_visible(False)
+    # plt.gca().axes.get_yaxis().set_visible(False)
+    #
+    # ax1 = fig.add_subplot(1, 3, 1)
+    # plt.gca().axes.get_xaxis().set_visible(False)
+    # plt.gca().axes.get_yaxis().set_visible(False)
+    # ax2 = fig.add_subplot(1, 3, 2)
+    # plt.gca().axes.get_xaxis().set_visible(False)
+    # plt.gca().axes.get_yaxis().set_visible(False)
+    # # ax3 = fig2.add_subplot(1, 1, 1)
+    # ax4 = fig.add_subplot(1, 3, 3)
+    # plt.gca().axes.get_xaxis().set_visible(False)
+    # plt.gca().axes.get_yaxis().set_visible(False)
     for img_path in img_paths:
         rgb_img = io.imread(img_path)
         rgb_img = rgb_img / 255.0
+        skladowa_A = color.rgb2lab(rgb_img)[:, :, 1]
+        skladowa_B = color.rgb2lab(rgb_img)[:, :, 2]
         gray_img = color.rgb2gray(rgb_img)
         gray_img = np.dstack((gray_img, gray_img, gray_img))
         L_input_gray = color.rgb2lab(gray_img)[:, :, 0]
+
         L_gray = L_input_gray[:, :, np.newaxis]
+
+        fig2 = plt.figure(figsize=(16, 8))
+        # rgb_plot = fig2.add_subplot(1, 1, 1)
+        # plt.gca().axes.get_xaxis().set_visible(False)
+        # plt.gca().axes.get_yaxis().set_visible(False)
+        # rgb_plot.set_yticklabels([])
+        # rgb_plot.set_xticklabels([])
+        # rgb_plot.imshow(rgb_img)
+        # rgb_plot.title.set_text(f'')
+        # change_subplot_fontsize(rgb_plot, font_size)
+
+        # L_plot = fig2.add_subplot(1, 1, 1)
+        # plt.gca().axes.get_xaxis().set_visible(False)
+        # plt.gca().axes.get_yaxis().set_visible(False)
+        # L_plot.set_yticklabels([])
+        # L_plot.set_xticklabels([])
+        # pos = L_plot.imshow(L_input_gray, cmap="coolwarm")
+        # L_plot.title.set_text(f"Składowa L obrazu w formacie CIELab")
+        # change_subplot_fontsize(L_plot, font_size)
+        # fig2.colorbar(pos, ax=L_plot)
+
+
+
 
         if config_dict['additional_params']['L_input_processing'] == "normalization":
             print("Normalization on L_gray channel")
@@ -73,22 +106,19 @@ def main():
         L_batch_gray = torch.from_numpy(L_input_gray).float()
         L_batch_gray = L_batch_gray.view(-1, 1, L_input_gray.shape[0], L_input_gray.shape[1])
 
-        ax1.imshow(rgb_img)
-        ax1.title.set_text('Obraz rzeczywisty')
-        ax1.set_yticklabels([])
-        ax1.set_xticklabels([])
-        change_subplot_fontsize(ax1, font_size)
-        # ax2 = fig.add_subplot(1, 4, 2)
-        ax2.imshow(gray_img)
-        ax2.title.set_text('Obraz czarno-biały')
-        ax2.set_yticklabels([])
-        ax2.set_xticklabels([])
-        change_subplot_fontsize(ax2, font_size)
 
+        # ax1.imshow(rgb_img)
+        # ax1.title.set_text('Obraz rzeczywisty')
+        # ax1.set_yticklabels([])
+        # ax1.set_xticklabels([])
+        # change_subplot_fontsize(ax1, font_size)
+        # # ax2 = fig.add_subplot(1, 4, 2)
+        # ax2.imshow(gray_img)
+        # ax2.title.set_text('Obraz czarno-biały')
+        # ax2.set_yticklabels([])
+        # ax2.set_xticklabels([])
+        # change_subplot_fontsize(ax2, font_size)
 
-        # ax3 = fig.add_subplot(1, 4, 3)
-        # ax3.imshow(L_input_gray)
-        # ax3.title.set_text(f"gray L channel, blur={config_dict['additional_params']['blur']['do_blur']}")
 
         outputs = net(L_batch_gray)
         ab_outputs = np.transpose(outputs[0].detach().numpy(), (1, 2, 0))
@@ -108,12 +138,27 @@ def main():
         img_rgb_outputs = color.lab2rgb(np.dstack((L_gray, ab_outputs)))
 
         # ax4 = fig.add_subplot(1, 4, 4)
-        ax4.imshow(img_rgb_outputs)
-        ax4.title.set_text('Otrzymany rezultat')
-        ax4.set_yticklabels([])
-        ax4.set_xticklabels([])
-        change_subplot_fontsize(ax4, font_size)
+        # ax4.imshow(img_rgb_outputs)
+        # ax4.title.set_text('Otrzymany rezultat')
+        # ax4.set_yticklabels([])
+        # ax4.set_xticklabels([])
+        # change_subplot_fontsize(ax4, font_size)
 
+        rgb_plot = fig2.add_subplot(1, 1, 1)
+        plt.gca().axes.get_xaxis().set_visible(False)
+        plt.gca().axes.get_yaxis().set_visible(False)
+        rgb_plot.set_yticklabels([])
+        rgb_plot.set_xticklabels([])
+        rgb_plot.imshow(img_rgb_outputs)
+        rgb_plot.title.set_text(f'')
+        change_subplot_fontsize(rgb_plot, font_size)
+
+        #
+        # ax_for_fig3.imshow(img_rgb_outputs)
+        # ax_for_fig3.title.set_text('Bez zastosowanie przetwarzania końcowego')
+        # ax_for_fig3.set_yticklabels([])
+        # ax_for_fig3.set_xticklabels([])
+        # change_subplot_fontsize(ax_for_fig3, font_size)
         # del net
         # del img_rgb_outputs, ab_outputs, outputs, L_batch_gray, L_gray, L_input_gray, gray_img, rgb_img
         # del config_dict, fig, ax1, ax2, ax3, ax4
