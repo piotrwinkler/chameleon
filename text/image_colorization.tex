@@ -68,12 +68,12 @@
   \end{figure}
 
   Jako rozwiązanie podanej problematyki wpierw został oceniony autorski
-  model podstawowy, na jego podstawie zostało przeprowadzone porównanie skuteczności
+  model, na jego podstawie zostało przeprowadzone porównanie skuteczności
   różnych konfiguracji, w których uczony był model. Do elementów poddanych
   testom należą algorytm optymalizacyjny, funkcja straty, funkcja aktywacja oraz
   sposób przetwarzania wstępnego danych treningowych.
 
-\subsubsection{Model podstawowy}
+\subsubsection{Model końcowy}
 
   Opracowany przez nas model jest to FCN. Konwolucyjna część sieci składa się
   z 12 warstw splotowych
@@ -696,7 +696,71 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
    \label{fig:trick}
   \end{figure}
 
-  \textless Skutki rożnych funkcji kosztu \textgreater
+  Kolejnym ważnym komponentem jest użyta funkcja kosztu, właściwy wybór
+  znaczenie poprawia proces aktualizowania się wag sieci, co przekłada się
+  na lepsze rezultaty. Kluczowe było, aby funkcja straty uwzględniała
+  możliwą wielobarwność kolorowanych obiektów i nie karała sieci za barwy niezgodne
+  z barwami na obrazie rzeczywistym, ale pasujące w kontekście kolorowanej
+  powierzchni. Na Rysunku \ref{fig:porownanie_funkcji_kosztu} zostało
+  umieszczone porównanie rezultatów modeli uczonych z użyciem różnych funkcji
+  kosztu, przedstawione obrazy zostały wygenerowane bez użycia algorytmu
+  końcowego przetwarzania w celu uwydatnienia cech funkcji kosztu.
+
+  \begin{figure}[h]
+   \centering
+   \includegraphics[width=6in]{porownanie_funkcji_kosztu}
+   \caption[Porównanie rezultatów modeli uczonych z użyciem różnych funkcji
+   kosztu - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
+   {Porównanie rezultatów modeli uczonych z użyciem różnych funkcji
+   kosztu.}
+   \label{fig:porownanie_funkcji_kosztu}
+  \end{figure}
+
+  \noindent
+  L1Loss: Testując funkcję kosztu L1Loss oczekiwano, że uzyskiwane obrazy będą
+  cechowały się niską saturacją, a generowane kolory będą przytłumione. Jest
+  to spowodowane skłonnościami funkcji L1Loss do uśredniania wyjścia modelu w
+  przypadku, kiedy kolorowana powierzchnia ma zmienną barwę na przestrzeni
+  zbioru uczącego. Działanie L1Loss ma na celu zminimalizować błąd bezwzględny
+  będący różnicą pomiędzy kolorami tych powierzchni, a kolorami generowanymi
+  przez sieć, co skutkuje barwą o wartości znajdującej się pomiędzy wartościami
+  wszystkich występujących kolorów dla powierzchni danego typu. W rezultacie
+  otrzymywane są obrazy w kolorze sepii, co widać na Rysunku
+  \ref{fig:porownanie_funkcji_kosztu}.
+
+  \noindent
+  SmoothL1Loss: Funkcja ta bazuje na L1Loss, ale tworzy kryterium, które przy
+  błędzie bezwzględnym o wartości mniejszej niż 1 używa kwadratu z wartości
+  błędu, a w pozostałych przypadkach używa wartości bezwzględnej błędu. Wzór
+  L1Loss jest przedstawiony w punkcie \ref{Funkcje kosztów}. Zabieg ten sprawia,
+  że funkcja jest mniej czuła na elementy odstające oraz przeciwdziała zjawisku
+  eksplodującego gradientu. Funkcja to została zastosowana jako próba skuteczniejszego
+  wyuczenia się przez model kolorów detali występujących na obrazach oraz aby przeciwdziałać
+  uśrednianiu wartości barw przez sieć. Jednakże efekt ten nie został uzyskany,
+  a przeciwdziałanie elementom odstającym przez SmoothL1Loss dodatkowo negatywnie wpłynęło na
+  kolory generowane przez sieć. Funkcja wylicza mniejszy błąd, gdy
+  wartość różnicy bezwzględnej pomiędzy wyjściem sieci, a kolorem
+  rzeczywistym jest wysoka, co skutkuje tendencją modelu do
+  generowania składowych \textit{A} i \textit{B} o wartościach ze środka
+  przedziału wartości, czyli w okolicy zera. W praktyce jednak wartości tych
+  składowych są ograniczane przez składową \textit{L} będącą jasnością obrazu,
+  czego wynikiem są średnie wartości generowanych \textit{A} i \textit{B} lekko poniżej zera.
+  Takie wartości odpowiadają głównie odcieniom niebieskiego i trochę odcieniom
+  zielonego, co wyraźnie widać na Rysunku \ref{fig:porownanie_funkcji_kosztu}.
+
+  \noindent
+  MSELoss: W związku z brakiem algorytmu, który wstrzymuje karanie modelu w
+  sytuacji, gdy generowane kolory są niezgodne z rzeczywistymi, ale prawdopodobne
+  dla kolorowanej powierzchni to funkcja MSELoss również ma tendencję do
+  uśredniania generowanych kolorów jak funkcja L1Loss. Jednakże większa czułość funkcji
+  na wysokie wartości błędów, powodowana podnoszeniem różnicy pomiędzy wartością
+  przewidzianą a rzeczywistą do kwadratu,
+  umożliwiła wytrenowanie modelu zdolnego do generowania
+  barw z szerokiego zakresu wartości, co korzystnie wpłynęło na rezultaty.
+  Pokolorowany obraz wygenerowane przez model uczony z użyciem funkcji MSELoss prezentuje
+  się najlepiej spośród obrazów na Rysunku \ref{fig:porownanie_funkcji_kosztu},
+  z tego powodu oraz w związku z korzystnym efektem zastosowania MSELoss, właśnie
+  ta funkcja została wybrana w procesie uczenia modelu końcowego.
 
   \textless Skutki warstwy Dropout \textgreater
 
