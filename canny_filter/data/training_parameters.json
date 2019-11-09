@@ -2,7 +2,7 @@
   "net_model": "CannyFilter",
   "criterion":
   {
-      "name": "MSELoss",
+      "name": "KLDivLoss",
       "patameters":
       {
 
