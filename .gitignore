@@ -3,11 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+
 # Images:
 *.jpg
 *.png
 *.jpeg
 *.xcf
+
 
 # Videos:
 *.mp4
@@ -408,3 +410,7 @@ datasets/*
 /image_colorization/datasets/
 /image_colorization/outdated/
 /image_colorization/runs_old/
+
+# exception to the rule
+!text/images/*.png
+!text/images/*.jpg

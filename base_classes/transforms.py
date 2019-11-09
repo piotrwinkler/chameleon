@@ -3,6 +3,8 @@ Rest of the transforms may be removed in the future."""
 import cv2
 import numpy as np
 import torch
+from torchvision import transforms
+from PIL import Image
 
 from loguru import logger as log
 
@@ -37,6 +39,17 @@ class Augment:
     def __init__(self):
         pass
         # TODO write augmentation logic
+
+
+class RandomHorizontalFlip:
+    def __init__(self):
+        self.flip = transforms.Compose([transforms.RandomHorizontalFlip()])
+
+    def __call__(self, array):
+        # im = Image.fromarray(array)
+        # im = self.flip(im)
+        # return np.array(im)
+        return np.array(self.flip(Image.fromarray(array)))
 
 
 class ToTensor:

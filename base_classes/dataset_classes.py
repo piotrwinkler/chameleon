@@ -136,7 +136,9 @@ class BasicCifar10Dataset(BaseDataset):
             # if self.blur_details['do_blur']:
             #     curr_L = cv2.GaussianBlur(curr_L, tuple(self.blur_details['kernel_size']), 0)
 
-            return self.L_rgb[idx][np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1))
+            transformed = self._transform(self.L_rgb[idx])
+
+            return transformed[np.newaxis, :, :], np.transpose(self.ab_rgb[idx], (2, 0, 1))
 
         else:
             gray_img = color.rgb2gray(self.rgb_images[idx])

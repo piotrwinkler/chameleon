@@ -40,8 +40,8 @@
                         "parameters": [50, 100]}],
     "output_conversions": [{"name":"CustomNormalize",
                         "parameters": [0, 255.0]}],
-    "transforms": [{"name": "ToTensor",
-                    "parameters": []}]
+    "transforms": []
+
   },
   "additional_params":
   {

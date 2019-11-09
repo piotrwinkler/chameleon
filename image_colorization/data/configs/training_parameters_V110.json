@@ -39,8 +39,8 @@
     "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
                           {"name":"GaussKernel", "parameters": [[5,5]]}],
     "output_conversions": [{"name":"Standardization", "parameters": []}],
-    "transforms": [{"name": "ToTensor",
-                    "parameters": []}]
+    "transforms": []
+
   },
   "additional_params":
   {

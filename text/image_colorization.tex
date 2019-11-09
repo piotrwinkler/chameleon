@@ -15,7 +15,7 @@
   rozpoznawania wzorców oraz posiadają wyjątkowe zdolności do adaptacji. Z tego
   właśnie powodu sieci splotowe zostaną użyte w przedstawionym rozwiązaniu.
 
-  \subsubsection{Podejście}
+\subsubsection{Podejście}
 
   Rozważając możliwe sposoby pokolorowania czarno-białego zdjęcia można spostrzec,
   że kiedy niektóre powierzchnie na zdjęciu mają zazwyczaj oczywiste barwy, niebo
@@ -36,7 +36,7 @@
 
   \begin{figure}[ht]
     \centering
-    \includegraphics[width=4in]{CIELab}
+    \includegraphics[width=3.5in]{CIELab}
     \caption[Przestrzeń barw CIELab - źródło:
     \url{https://www.flickr.com/photos/greenmambagreenmamba/4236391637}]
     {Przestrzeń barw CIELab.}
@@ -52,15 +52,28 @@
   Składowa \textit{L}, jako, że jest identyczna dla obrazu kolorowego jak i
   czarno-białego, stanowi w tym przypadku wejście sieci, na jej podstawie sieć
   odtwarza składowe \textit{A} oraz \textit{B}, które reprezentują przewidziane
-  kolory dla obrazu wejściowego.
+  kolory dla obrazu wejściowego. W celu lepszego zrozumienia formatu przykładowa
+  składowa \textit{L} została przedstawiona na Rysunku \ref{fig:przyklad_L}.
+  Jak widać zawiera ona informacje wystarczające do rozróżnienia między sobą
+  powierzchni oraz wydobycia ich kluczowych cech.
+
+  \begin{figure}[ht]
+    \centering
+    \includegraphics[width=6in]{rgb_i_L}
+    \caption[Przykładowa składowa \textit{L} - źródło: Rysunek własny
+    wykorzystujący:
+    \url{https://fr.m.wikipedia.org/wiki/Fichier:An_F-A-18C_Hornet_launches_from_the_flight_deck_of_the_conventionally_powered_aircraft_carrier.jpg}]
+    {Przykładowa składowa \textit{L}.}
+    \label{fig:przyklad_L}
+  \end{figure}
 
   Jako rozwiązanie podanej problematyki wpierw został oceniony autorski
-  model podstawowy, na jego podstawie zostało przeprowadzone porównanie skuteczności
+  model, na jego podstawie zostało przeprowadzone porównanie skuteczności
   różnych konfiguracji, w których uczony był model. Do elementów poddanych
   testom należą algorytm optymalizacyjny, funkcja straty, funkcja aktywacja oraz
   sposób przetwarzania wstępnego danych treningowych.
 
-  \subsubsection{Model podstawowy}
+\subsubsection{Model końcowy}
 
   Opracowany przez nas model jest to FCN. Konwolucyjna część sieci składa się
   z 12 warstw splotowych
@@ -126,22 +139,43 @@
   warstwa BatchNorm oraz warstwa funkcji aktywacji RELU mające na celu
   ustabilizować proces uczenia oraz zwiększyć jego efektywność.
 
-  \subsubsection{BatchNorm}
+\subsubsection{BatchNorm} \label{BatchNorm}
 
   Warstwa Batch Normalization została przedstawiona w 2015 roku przez S. Ioeffe
   oraz C. Szegedy jako odpowiedź
   na problem zmieniającej się podczas uczenia dystrybucji wartości wejść
   każdej z warstw sieci \cite{BatchNorm}. Ma ona na celu usprawnić i ustabilizować
   trening sieci poprzez normalizację wartości podawanych na funkcje aktywacji.
-  Zmienna dystrybucja tych wartości znacznie spowalnia proces uczenia poprzez
+  Zmienna dystrybucja tych wartości znacznie spowalnia i utrudnia proces uczenia
+  poprzez potrzebę przemyślanego inicjowania
+  wag sieci w celu zwiększenia prawdopodobieństwa nakierowania modelu na pożądane
+  rozwiązania w trakcie procesu uczenia oraz przez
   konieczność używania mniejszych wartości współczynnika uczenia, aby
   przeciwdziałać problemom zanikającego oraz wybuchającego gradientu
-  \cite{exploding_vanishing_grad} oraz przez potrzebę przemyślanego inicjowania
-  wag sieci w celu zwiększenia prawdopodobieństwa nakierowania modelu na pożądane
-  rozwiązania w trakcie procesu uczenia.
-  % Może jeszcze opisać co to eksplodujący i zanikający gradient
+  \cite{exploding_vanishing_grad}.
 
-  Podczas uczenia metodą mini-batch (pol. małych paczek), każda paczka jest
+  Problemy te zostały już zauważone i opisane w 1994 roku przez Y. Bengio
+  oraz jego współpracowników \cite{exploding_vanishing_grad}. Dowodzą oni, że:
+  \begin{quote}
+    % 'Gradient descent becomes increasingly inefficient when the
+    % temporal span of the dependencies increases'
+    'Metoda gradientu prostego staje się coraz bardziej nieefektywna, gdy
+    rośnie czasowy zakres zależności'
+  \end{quote}
+  Wskazują także, że problemy powstają podczas treningu DNN w fazie wstecznej
+  propagacji błędu, kiedy to gradient pochodzący z głębszych warstw przechodzi
+  wielokrotnie przez operacje mnożenia macierzowego. Jeśli wartość gradientu
+  jest niewielka, to z każdą operacją mnożenia staje się jeszcze mniejsza, aż
+  maleje do takich wartości, które nie umożliwiają modelowi uczenia się, a jeśli
+  wartość ta jest wysoka to, wraz z przechodzeniem przez kolejne warstwy, rośnie
+  jeszcze bardziej co przy bardzo dużych wartościach może doprowadzić do
+  destabilizacji procesu uczenia. Są to zjawiska zdecydowanie niepożądane i z
+  tego powodu powstało wiele rozwiązań, aby im przeciwdziałać takich jak
+  ograniczanie maksymalnej wartości gradientu (ang. gradient clipping) albo
+  zastosowanie warstw BatchNorm.
+
+  Zastosowanie warstw BatchNorm sprawia, że podczas uczenia metodą mini-batch
+  (pol. małych paczek) każda paczka jest
   normalizowana w sposób zapewniający zerową wartość średnią oraz
   równą jedności wariancję na przestrzeni wszystkich kanałów wejściowych.
   Zaletą takiego podejścia jest poprawienie przepływu korygującego gradientu
@@ -155,7 +189,7 @@
   przed warstwami funkcji aktywacji, lecz dało ono gorsze rezultaty, niż
   podejście wspomniane jako pierwsze.
 
-  \subsubsection{Dropout}
+\subsubsection{Dropout} \label{Dropout}
 
   W trakcie pracy nad ostatecznym modelem podstawowym sprawdzona została
   skuteczność zastosowania warstw Dropout \cite{dropout}. Warstwy te w trakcie
@@ -182,10 +216,10 @@
   nadmiernej ilości cech przez sieć, co wpływa niekorzystnie na otrzymywane
   rezultaty końcowe. Podczas testów skuteczności tych warstw zostały one umieszczone
   za warstwami BatchNorm. Wizualizacja skutków tej decyzji wraz z rozważeniem
-  pozostałych czynników wpływających na efektywność sieci znajduje się w
-  sekcji związanej z rezultatami modelu podstawowego.
+  pozostałych czynników wpływających na efektywność sieci znajdują się w
+  punkcie \ref{Rezultaty} związanym z rezultatami modelu podstawowego.
 
-  \subsubsection{Modyfikacja rozdzielczości}
+\subsubsection{Modyfikacja rozdzielczości}
 
   W modelach FCN powszechnie stosuje się różne metody zmiany rozdzielczości
   kanałów przechodzących przez sieć, najczęściej są do operacje poolingu mające
@@ -207,7 +241,7 @@
 
   \begin{figure}[h]
    \centering
-   \includegraphics[width=4in]{pooling}
+   \includegraphics[width=5in]{pooling}
    \caption[Przykładowe operacje warstwy poolingu - źródło: Rysunek własny]{Przykładowe operacje warstwy poolingu}
    \label{fig:pooling}
   \end{figure}
@@ -216,33 +250,522 @@
   kluczowych informacji przestrzennych koniecznych to właściwego wygenerowanie
   możliwych barw obrazu.
 
-  \subsubsection{Wykorzystywany zbiór treningowy}
+\subsubsection{Wykorzystywany zbiór treningowy}
 
   Do uczenia modelu został wykorzystany zbiór danych CIFAR-10 stworzony przez
   A. Krizhevsky oraz zaprezentowany w 2009 roku \cite{cifar-10}.
   Składa się on z 60000 obrazów w przestrzeni kolorów RGB o rozdzielczości 32 x 32 piksele.
   Spośród tych obrazów 10000 z nich zostało wykorzystanych jako zbiór
   walidacyjny do śledzenia skuteczności treningu modelu. Przykładowe obrazy
-  ze zbioru danych zostały przedstawione na Rysunku
+  ze zbioru danych zostały przedstawione na Rysunku \ref{fig:cifar10}.
+
+  \begin{figure}[h]
+   \centering
+   \includegraphics[width=5.5in]{cifar10}
+   \caption[Przykładowe obrazy z CIFAR-10 - źródło: Rysunek własny]
+   {Przykładowe obrazy z CIFAR-10}
+   \label{fig:cifar10}
+  \end{figure}
 
   Zaletą CIFAR-10 jest niewielka rozdzielczość obrazów co pozwala na mniej
   złożony model oraz szybszy proces uczenia, który można skutecznie przeprowadzić
   nawet przy ograniczonych możliwościach obliczeniowych. Ponadto zbiór ten składa
-  się z obrazów dzielących się na 10 klas,
+  się z obrazów dzielących się na 10 klas, tak mała różnorodność klas, a co za
+  tym idzie, stosunkowo niewielka ilość możliwych obiektów pojawiających się
+  na zdjęciach powinna ułatwić sieci wyuczenie się właściwych barw dla
+  identyfikowanych powierzchni. Z drugiej strony mała ilość klas może niekorzystnie
+  wpłynąć na umiejętność generalizacji modelu, jednakże obrazy z CIFAR-10
+  przedstawiają zróżnicowane otoczenia zawierające obiekty nie kwalifikujące
+  się do żadnej klasy, co powinno umożliwić wyuczenia się generalizacji przez
+  sieć.
 
-  W trakcie uczenia obraz w przestrzeni barw RGB jest konwertowany do CIELab,
-  składowa \textit{L} stanowi w tym przypadku wejście sieci, a składowe \textit{A}
-  oraz \textit{B}
+\subsubsection{Przetwarzanie wstępne danych} \label{Przetwarzanie wstępne danych}
 
-  \subsubsection{Wstępne przetwarzania danych}
+  Przed podaniem na wejście sieci obrazy uczące były wpierw poddawane
+  przetwarzaniu wstępnemu mającemu na celu doprowadzić do szybszego oraz
+  stabilniejszego treningu modelu. Przetwarzanie wstępne jest kluczowe, gdyż
+  wartości o jakie aktualizowane są wagi neuronu zależą w dużej mierze od
+  wartości wejść tego neuronu. W przypadku gdy przedziały wartości tych wejść
+  nie są jednolite, to może wystąpić duża różnica w tempie aktualizacji wag
+  sieci, niektóre wagi będą zmieniane o wiele szybciej niż inne co może spowodować
+  destabilizację treningu. Przeskalowanie wszystkich wartości wejściowych do jednakowych
+  przedziałów, o niewielkiej wartości maksymalnej i minimalnej oraz wartości
+  średniej zbliżonej do zera zmniejsza możliwość wystąpienia tego problemu
+  oraz sprzyja ujednoliceniu tempa uczenia się przez sieć rozpoznawania różnych cech.
+  Ponadto brak przeskalowania wejść może doprowadzić do zjawisk wybuchającego
+  oraz zanikającego gradientu.
+
+  % Przeskalowanie wszystkich wartości wejściowych do jednakowych
+  % przedziałów, o niewielkiej wartości maksymalnej i minimalnej oraz wartości
+  % średniej zbliżonej do zera, sprzyja ujednoliceniu tempa uczenia się przez sieć
+  % rozpoznawania różnych cech.
+  \noindent
+  W ramach badania rozwiązania przetestowane zostały różne metody przetwarzania
+  wstępnego zarówno danych wejściowych jak i pożądanej odpowiedzi:
+  \begin{itemize}
+  \item Normalizacja danych na przestrzeni całego zbioru danych z użyciem wartości
+  maksymalnej oraz minimalnej całego zbioru, tak aby wartości pikseli danej składowej
+  dla każdego obrazu zawierały się w przedziale od -0.5 do 0.5.
+  \item Standaryzacja danych na przestrzeni całego zbioru danych z użyciem wartości
+  średniej oraz odchylenia standardowego całego zbioru, tak aby uzyskać wartość
+  średnią równą w przybliżeniu zero oraz jednostkowe odchylenie standardowe.
+  \item Zastosowanie rozmycia gaussowskiego(ang. Gaussian blur) o różnej
+  wielkości filtru Gaussowskiego.
+  % \item Przepuszczenie składowej przez filtr Gaussa o różnej wielkości filtru.
+  \end{itemize}
+
+  Rozmycie gaussowskie, zwane także wygładzaniem gaussowskim (ang. Gaussian smoothing),
+  jest to operacja polegająca na modyfikacji obrazu z użyciem filtru Gaussa.
+  Stosuje się je w celu rozmycia detali na przetwarzanym obrazie, a także by
+  ograniczyć ilość występujących na nim zakłóceń oraz szumów. Jest ono powszechnie
+  stosowane w fazie przetwarzania wstępnego danych graficznych. W praktyce
+  operacja ta sprowadza się do dokonywania splotu kolejnych fragmentów obrazu
+  z funkcją Gaussa. Zastosowanie jej na danych wejściowych miało na celu
+  zmniejszenie znaczenie detali na obrazie oraz ułatwienie sieci nauczenia się
+  rozróżniania rozmaitych powierzchni oraz wzorców.
+
+  Wymienione metody przetwarzania były stosowane w różnych połączeniach oraz
+  konfiguracjach zarówno na składowej \textit{L}, jak i składowych \textit{A}
+  oraz \textit{B}, a uzyskane wyniki opisane zostały w punkcie \ref{Rezultaty}
+
+\subsubsection{Przetwarzanie końcowe danych}  \label{Przetwarzanie końcowe danych}
+
+  Jeśli w trakcie procesu uczenia były stosowane zabiegi przetwarzania
+  wstępnego danych wejściowych to podczas testowania modelu dane testowe również
+  muszą być przetworzone w ten sam sposób, aby zapewnić poprawną pracę sieci.
+  To samo dotyczy się danych wyjściowych sieci, jeśli podczas treningu z nadzorem
+  pożądane wyjście było w pewien sposób przetworzone wstępnie to sieć uczy się
+  odtwarzać te wyjście tak samo przetworzone, aby uzyskać oczekiwany efekty
+  końcowy należy dokonać operacji odwrotnych do tych zastosowanych w fazie
+  przetwarzania wstępnego. Przykładowo jeśli pożądana odpowiedź w procesie
+  uczenia była normalizowana to podczas testów sieci jej wyście należy
+  zdenormalizować, aby uzyskać oczekiwany rezultat. Jednakże my dla rozważanej
+  problematyki proponujemy metodę alternatywną.
+
+  Polega ona na uwydatnianiu kolorów wygenerowanych przez sieć dla wysokich
+  wartości naświetlenia - składowej \textit{L}. Może być ona stosowana
+  niezależnie od metody przetwarzania wstępnego danych wejściowych. Algorytm
+  polega na przeskalowaniu pikseli składowych \textit{A} i \textit{B} tak, aby
+  ich wartości mogły pokryć cały dostępny przedział wartości, ale dla danego
+  piksela jego przedział jest ograniczony proporcjonalnie do stosunku wartości
+  tego piksela w składowej \textit{L} do maksymalnej możliwej wartości pikseli
+  składowej \textit{L}.
+
+  Dla przykładu załóżmy, że wartość danego pikselu dla składowej \textit{A}
+  wynosi 70, dla składowej \textit{B} wynosi -20, a dla składowej \textit{L} 80.
+  Przedział wartości składowych \textit{A} i \textit{B} jest od -127 do 128, a
+  składowej \textit{L} od 0 do 100. W następnym kroku znajdowana jest maksymalna
+  absolutna wartość składowych \textit{A} i \textit{B} dla aktualnego obrazu.
+  Załóżmy, że dla \textit{A} wynosi ona 90, a dla \textit{B} 60.
+  Następnie piksele składowych \textit{A} i \textit{B} są dzielone przez
+  swoje maksymalne wartości, a następnie rozciągnięte na cały dostępny przedział
+  przez pomnożenie przez odpowiedni czynnik, czynnik ten jest z przedziału
+  od 0 do 127 i jest wprost proporcjonalny do stosunku aktualnego piksela
+  składowej \textit{L} do maksymalnej wartości \textit{L}, oznacza to, że jeśli
+  dany piksel \textit{L} jest równy 100 to czynnik jest równy 127, a jeśli
+  dany piksel \textit{L} jest równy 50 to wartość czynnika znajduje się w
+  połowie swojego przedziału i równy jest 63,5.
+
+  \noindent
+  Dla podanych założeń otrzymujemy następujące nowe wartości piksela składowej \textit{A}
+  ($p_{n}^{A}$) i piksela składowej \textit{B} ($p_{n}^{B}$):
+  \begin{equation}
+  p_{n}^{A} = \frac{70}{90} * 127 * \frac{80}{100} = 79.02
+  \end{equation}
+  \begin{equation}
+  p_{n}^{B} = \frac{-20}{60} * 127 * \frac{80}{100} = -33.87
+  \end{equation}
+
+  \noindent
+  Algorytm konwertowanie pikseli danej składowej można przedstawić wzorem:
+  \begin{equation}
+  S_{i, j}^{n} = \frac{S_{i, j}^{p}}{max\{abs\{S\}\}} * 127 * \frac{L_{i, j}}{100}
+  \end{equation}
+
+  \noindent
+  Gdzie:
+  \begin{itemize}
+    \item $S$ - Konwertowana składowa będąca dwuwymiarowa macierzą pikseli.
+    \item $S_{i, j}^{n}$ - Nowa wartość piksela (i, j) dla danej składowej.
+    \item $S_{i, j}^{p}$ - Stara wartość piksela (i, j) dla danej składowej.
+    \item $L_{i, j}$ - Wartość piksela (i, j) składowej jasności.
+  \end{itemize}
+
+  Zastosowanie powyższego algorytmu pozwoliło uzyskać bardziej zadawalające
+  rezultaty działania modelu poprzez faworyzowanie kolorów tworzonych przez sieć
+  dla powierzchni o dużej wartości jasności, jako, że wysoka jasność oferuje
+  bardziej intensywne barwy. Kolorystyka powierzchni ciemnych pozostaje
+  przytłumiona, jako, że brak naświetlenia ogranicza natężenie kolorów.
+
+\subsubsection{Augmentacja danych}
+
+  W celu skutecznego treningu modelu potrzebny jest odpowiednio duży i różnorodny
+  zbiór treningowy. W obliczu problemu niewystarczającej ilości danych stosuje
+  się metody zwane augmentacją danych pozwalające poszerzyć zbiór obrazów uczących
+  poprzez dodawanie nowych informacji do obrazów będących podstawą zbioru tworząc
+  w ten sposób nowe obrazy, które mogą być wykorzystane w treningu. Augmentacja
+  danych przeciwdziała uczeniu się przez sieć nieistotnych wzorów i cech takich jak
+  orientacja obiektu, jego umiejscowienie albo rozmiar. Dzięki temu model jest
+  w stanie dogłębniej analizować obrazy wejściowe ucząc się rozpoznawać cechy
+  o coraz to większym poziomie abstrakcji co przekłada się na o wiele lepiej
+  rozwiniętą zdolność modelu do generalizacji danej problematyki.
+
+  \noindent
+  Do augmentacji stosuje się proste przekształcenia obrazu takie jak:
+  \begin{itemize}
+  \item Rotacja obrazu o wybrany kąt.
+  \item Odbicie obrazu względem osi pionowej.
+  \item Obcinanie skrajnych fragmentów obrazów (ang. crop).
+  \item Zmiana odcienia oraz saturacji barw obrazu.
+  \item Przybliżanie albo oddalanie treści obrazu.
+  \item Modyfikacja rozdzielczości obrazu poprzez jego rozciąganie lub ściskanie.
+  \item Tworzenie niewielkich ubytków w obrazach w losowych miejscach (ang. coarse dropout).
+  \end{itemize}
+
+  Należy jednak pamiętać, że nie wszystkie metody augmentacji nadają się do każdego zbioru
+  danych, kluczowe jest, aby wybrać takie operacje, które poszerzają zbiór
+  uczący o dane niosące znaczące oraz sensowne informacje patrząc z punktu wybranej
+  problematyki oraz nie przesłaniają wzorców kluczowych do wyuczenia przez sieć.
+  W przypadku zagadnienia kolorowania czarno-białych obrazów kluczową informacją
+  jest kolor analizowanej powierzchni oraz jej cechy charakterystyczne, z tego
+  powodu, do treningu modelu podstawowego nie zostały wykorzystane żadne metody
+  augmentacji wpływające na barwy albo jasność obrazów. Wykluczone zostały również takie
+  metody jak tworzeniu ubytków w obrazach, gdyż powoduje to niepotrzebną utratę
+  informacji.
+  W związku z tym, że wykorzystany zbiór CIFAR-10 posiada dużą ilość obrazów
+  to w procesie uczenia została wykorzystana jedynie augmentacja poprzez
+  odbicie obrazu względem osi pionowej z prawdopodobieństwem równym 50\%.
+
+  % W zagadnieniu kolorowania czarno-białych obrazów informacjami najważniejszymi
+  % są wartości pikseli powiązane z daną powierzchnią oraz cechy charakterystyczne
+  % tych powierzchni, z tego powodu, aby ograniczyć straty
+  % w procesie uczenia nie zastosowano żadnej
+  % metody związanej ze zmianą barw obrazu wejściowego, jednocześnie nie można
+  % było sobie pozwolić
+
+\subsubsection{Funkcje kosztów} \label{Funkcje kosztów}
+  % Bez teorii
+  Kluczem do właściwego funkcjonowania modelu jest wybór odpowiedniej funkcji
+  kosztu. W przypadku problematyki kolorowania czarno-białych obrazów ważne
+  jest, aby wybrana funkcja kosztu uwzględniała specyficzną naturę problemu,
+  gdzie dla niektórych przypadków właściwych jest wiele odpowiedzi. Jako
+  przykład można podać taki obiekt jak samochód, który może być zarówno
+  zielony, czerwony jak i żółty, każdy z tych kolorów powinien być oceniony
+  jako właściwy, a wartość błędu wyliczona z użyciem funkcji kosztu dla tak
+  wybranych przez sieć kolorów powinna odpowiednio to wskazywać. W ramach
+  poszukiwań najbardziej odpowiedniej funkcji kosztu przetestowane zostały
+  następujące funkcje.
+
+  \begin{enumerate}[leftmargin=*]
+  \item MSELoss (ang. Mean Squared Error Loss) - koszt oparty na błędzie średniokwadratowym
+  przedstawiony funkcją:
+  \begin{equation}
+  Koszt = \frac{1}{n}\sum_{i=0}^{n} (x_{i} - y_{i})^2
+  \end{equation}
+
+  % \noindent
+  % gdzie $x$ są to składowe \textit{A} oraz \textit{B} przewidziane przez sieć,
+  % a $y$ to rzeczywiste \textit{A} i \textit{B}.
+
+  \noindent
+  Po dopasowaniu równania MSELoss do rozważanej problematyki otrzyma się:
+  \begin{equation}
+  Koszt = \frac{1}{n}\frac{1}{m}\sum_{i=0}^{n}\sum_{j=0}^{m} ((A_{i, j}^{P} - A_{i, j}^{R})^2 + (B_{i, j}^{P} - B_{i, j}^{R}))^2
+  \end{equation}
+
+  % \noindent
+  % gdzie $(A_{i, j}^{R}$ i $(B_{i, j}^{R}$ są to rzeczywiste wartości składowych
+  % \textit{A} i \textit{B} dla pikselu obrazy o współrzędnych $(i, j)$, a
+  % $(A_{i, j}^{P}$ i $(B_{i, j}^{P}$ są to wartości przewidziane przez sieć.
+
+  \item L1Loss zwany także MAELoss (ang. Mean Absolute Error Loss) - koszt oparty na
+  średnim błędzie bezwzględnym dany funkcją:
+  \begin{equation}
+  Koszt = \frac{1}{n}\sum_{i=0}^{n} |x_{i} - y_{i}|
+  \end{equation}
+  % gdzie $x$ są to składowe \textit{A} oraz \textit{B} przewidziane przez sieć,
+  % a $y$ to rzeczywiste \textit{A} i \textit{B}.
+
+  \noindent
+  Równanie L1Loss dla rozważanego zagadnienia:
+  \begin{equation}
+  Koszt = \frac{1}{n}\frac{1}{m}\sum_{i=0}^{n}\sum_{j=0}^{m} (|A_{i, j}^{P} - A_{i, j}^{R}| + |B_{i, j}^{P} - B_{i, j}^{R}|)
+  \end{equation}
+  % gdzie $x$ są to składowe \textit{A} oraz \textit{B} przewidziane przez sieć,
+  % a $y$ to rzeczywiste \textit{A} i \textit{B}.
+
+  \item SmoothL1Loss - zwany także \textit{Huber loss}, odmiana L1Loss przedstawiona w
+  2015 roku przez R. Girshick \cite{SmoothL1Loss}. Jej zaletami są mniejsza
+  czułość na elementy odstające (ang. outliner) i zmniejszona szansa na wystąpienie
+  zjawiska eksplodującego gradientu.
+  SmoothL1Loss przedstawiony jest funkcją:
+  \begin{equation}
+  Koszt = \frac{1}{n}\sum_{i=0}^{n} z_{i}
+  \end{equation}
+
+  \noindent
+  gdzie $z_{i}$ dane jest:
+  \begin{equation}
+  z_{i} = \begin{cases}
+               0.5(x_{i} - y_{i})^2 \text{, jeśli } |x_{i} - y_{i}| < 1 \\
+               |x_{i} - y_{i}| - 0.5 \text{, w pozostałych przypadkach}
+            \end{cases}
+  \end{equation}
+
+  \noindent
+  Zastosowanie SmoothL1Loss do modelu podstawowego da następującą funkcję:
+  \begin{equation}
+  Koszt = \frac{1}{n}\sum_{i=0}^{n} (z_{i} + k_{i})
+  \end{equation}
+
+  \noindent
+  gdzie $z_{i}$ dane jest:
+  \begin{equation}
+  z_{i} = \begin{cases}
+               0.5(A_{i, j}^{P} - A_{i, j}^{R})^2 \text{, jeśli } |A_{i, j}^{P} - A_{i, j}^{R}| < 1 \\
+               |A_{i, j}^{P} - A_{i, j}^{R}| - 0.5 \text{, w pozostałych przypadkach}
+            \end{cases}
+  \end{equation}
+
+  \noindent
+  a $k_{i}$ dane jest:
+  \begin{equation}
+  z_{i} = \begin{cases}
+               0.5(B_{i, j}^{P} - B_{i, j}^{R})^2 \text{, jeśli } |B_{i, j}^{P} - B_{i, j}^{R}| < 1 \\
+               |B_{i, j}^{P} - B_{i, j}^{R}| - 0.5 \text{, w pozostałych przypadkach}
+            \end{cases}
+  \end{equation}
+
+  \end{enumerate}
+  \noindent
+  Gdzie:
+  \begin{itemize}
+    \item $x$ są to składowe \textit{A} oraz \textit{B} przewidziane przez sieć.
+    \item $y$ to rzeczywiste składowe \textit{A} i \textit{B}.
+    \item $A_{i, j}^{R}$ i $B_{i, j}^{R}$ są to rzeczywiste wartości składowych
+    \textit{A} i \textit{B} dla pikselu obrazy o współrzędnych $(i, j)$.
+    \item $A_{i, j}^{P}$ i $B_{i, j}^{P}$ są to wartości składowych
+    \textit{A} i \textit{B} przewidziane przez sieć dla pikselu obrazy o
+    współrzędnych $(i, j)$.
+  \end{itemize}
+
+  \noindent
+  Szczegółowy opis skutków zastosowanie poszczególnych funkcji kosztów umieszczony
+  został w punkcie \ref{Rezultaty}.
+
+\subsubsection{Funkcje aktywacji}
+  % RELU
+  W wyborze odpowiednej funkcji aktywacji kierowaliśmy się badaniami przeprowadzonymi
+  przez B. Xu oraz jego współpracowników \cite{evaluatiuon_of_relu}. Testowali
+  oni skuteczność takich funkcji jak ReLU, Leaky ReLU (pol. przepuszczające ReLU),
+  PReLU (ang. Parametric ReLU) oraz RReLU (ang. Randomized Leaky ReLU) w
+  zagadnieniu klasyfikacji treści obrazów. Bazując na otrzymanych przez nich
+  rezultatach zdecydowaliśmy się wykorzystać w rozważanej problematyce funkcję
+  aktywacji ReLU, przedstawioną na Rysunku \ref{fig:relu}
+
+  \begin{figure}[h]
+   \centering
+   \includegraphics[width=4in]{relu}
+   \caption[Funkcja aktywacji ReLU - źródło: \url{https://pytorch.org/docs/stable/_images/ReLU.png}]
+   {Funkcja aktywacji ReLU}
+   \label{fig:relu}
+  \end{figure}
+
+  Funkcja ta posiada wiele zalet takich jak przyspieszenie procesu zbieganie się stanu
+  sieci do stanu pożądanego poprzez brak ograniczeń na maksymalną wartość
+  funkcji oraz niska złożoność obliczeniowa.
+  Ponadto funkcja ta, w związku z zerową wartością dla ujemnych argumentów,
+  zapewnia aktywację neuronów modelu tylko wtedy, gdy analizują one wzorce
+  kluczowe dla nich samych oraz danego zagadnienia, zwiększa to odporność modelu na
+  szumy wejściowe oraz przeuczanie, a także poprawia zdolności predykcyjne sieci.
+
+  Jednakże stosowanie ReLU tworzy zagrożenie blokowanie się procesu uczenia,
+  jeśli dojdzie do sytuacji, w której wagi modelu dojdą do stanu, gdzie wartość
+  aktywacji będzie zbliżona do zera. Spowoduje to zerową wartość gradientu
+  podczas fazy wstecznej propagacji błędu powodując wstrzymanie się procesu
+  aktualizowania wag modelu, a w rezultacie, nieefektywny proces uczenia.
+  Pomimo to jednak zostaliśmy przy wyborze funkcji ReLU wierząc, że pozostałe
+  zabiegi takie jak zastosowanie warstw BatchNorm pozwolą zminimalizować
+  niepożądane efekty tego zjawiska.
+
+\subsubsection{Algorytmy optymalizacyjne} \label{Algorytmy optymalizacyjne}
+  % Bez teorii
+  % TODO: Może dać bardziej szczegółowy opis
+  % TODO: Zacytować twórców Adam i Adagrad, linki do paperów są w dokumentacji
+  % pytorcha o tych algorytmach
+  Podczas planowanie treningu modelu należy zdecydować się na odpowiedni
+  algorytm optymalizacyjny, właściwa decyzja pozwala uniknąć zatrzymania się
+  procesu uczenia w lokalnych minimach co zwiększa końcową dokładność oraz
+  skuteczność modelu.
+  Podczas badań przetestowane zostały różne algorytmy optymalizacyjne,
+  a uzyskane rezultaty zostały szczegółowo opisane oraz porównane w punkcie
+  \ref{Rezultaty}.\newline
+  Wykorzystane zostały następujące algorytmy:
+  \begin{itemize}
+    \item Adam (ang. Adaptive Moment Estimation)
+    \item Adagrad (ang. Adaptive Gradient Algorithm)
+    \item SGD (ang. Stochastic Gradient Descent)
+  \end{itemize}
+
+  \noindent
+  Przeprowadzone zostały także poszukiwania najbardziej odpowiednich hiperparametrów
+  dla wymienionych algorytmów w celu osiągnięcia jak największej ich skuteczności
+  w rozwiązaniu rozważanej problematyki.
+
+% TODO: Od tego momentu było ekspres pisanie, wiec może do zredagowania
+\subsubsection{Trening}
+
+Model trenowaliśmy paczkami o wielkości 128 obrazów, cała epoka składała się z
+50000 obrazów. Przed każdą epoką zbiór treningowy był przetasowywany, aby
+przeciwdziałać przeuczaniu się sieci. Aby znaleźć najbardziej zadowalające rozwiązanie
+przetestowane zostały różne konfiguracje treningowe, możliwe zmienne elementy
+konfiguracji to algorytmy optymalizacyjne opisane w punkcie
+\ref{Algorytmy optymalizacyjne}, funkcje kosztów opisane w punkcie \ref{Funkcje kosztów},
+rodzaje przetwarzania wstępnego opisane w punkcie \ref{Przetwarzanie wstępne danych} oraz
+skutki zastosowanie takich warstw jak Dropout (punkt \ref{Dropout}) oraz BatchNorm
+(punkt \ref{BatchNorm}). Jako funkcja aktywacji wybrana została funkcja ReLU.
+Dla różnych konfiguracji została także przedstawiona charakterystyka porównawcza.
 
 
-  \subsubsection{Funkcje kosztów}
+\subsubsection{Rezultaty} \label{Rezultaty}
 
-  \subsubsection{Funkcje aktywacji}
+ Uzyskane wyniki są w znacznej mierze zależne od wybranej konfiguracji.
+ Najbardziej satysfakcjonujące rezultaty uzyskane przez model zostały
+ przedstawione na Rysunku \ref{fig:best_result}
 
-  \subsubsection{Algorytmy optymalizacyjne}
+ \begin{figure}[ht]
+   \centering
+   \subfloat[Obraz spoza zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_plane}} \\
+   \subfloat[Obraz spoza zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_krajobraz}} \\
+   \subfloat[Obraz ze zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_horse}} \\
+   \caption[Efekty działania sieci - źródło: Rysunek własny bazujący na:
+   \url{https://fr.m.wikipedia.org/wiki/Fichier:An_F-A-18C_Hornet_launches_from_the_flight_deck_of_the_conventionally_powered_aircraft_carrier.jpg},
+   \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}, \cite{cifar-10}]
+   {Rezultaty.}
+   \label{fig:best_result}
+ \end{figure}
 
-  \subsubsection{Trening}
+ \noindent
+ Efekt ten został uzyskany przy następującej konfiguracji:
+ \begin{itemize}
+   \item Funkcja kosztu MSELoss.
+   \item Funkcja aktywacji ReLU.
+   \item Algorytm optymalizacyjny Adam.
+   \item Normalizacja składowej \textit{L} podczas przetwarzania wstępnego.
+   \item Standaryzacja składowych \textit{A} i \textit{B} podczas przetwarzania wstępnego.
+   \item Nie zastosowanie rozmycia Gaussowskiego.
+   \item Zastosowanie warstwy BatchNorm oraz nie zastosowanie warstwy Dropout.
+   \item Zastosowanie zaproponowanego przez nas algorytmu przetwarzania końcowego.
+ \end{itemize}
 
-  \subsubsection{Rezultaty}
+ \noindent
+ Na podstawie obrazów na Rysunku \ref{fig:best_result} oraz przeprowadzonych
+ testów można wywnioskować, że model nauczył się najlepiej kolorować powierzchnie
+ o zazwyczaj stałej barwie takie jak niebo albo trawa, widać, że ich barwy są
+ wyjątkowo intensywne oraz jednoznacznie wskazują co to są za powierzchnie.
+ Gorzej rzecz się ma z obiektami o zmiennych barwach takimi jak na przykład
+ samochody, w związku z ich zmienną barwą na przestrzeni całego zbioru danych
+ model, chcąc zminimalizować błąd liczony przez funkcję kosztu, uśredniał kolor
+ tych obiektów co skutkuje ich przytłumionymi barwami przechodzącymi często
+ w odcienie brązu. Z tego powodu pomniejsze detale na kolorowanych zdjęciach
+ tracą swoje barwy, efekty tego zjawiska można zaobserwować analizując
+ stateczniki odrzutowca ukazanego na obrazie \textit{(a)} Rysunku \ref{fig:best_result}.
+
+  \noindent
+  W dalszej części sekcji opisany został wpływ poszczególnych elementów konfiguracji.
+
+  Największy wpływ na uzyskiwane rezultaty ma zastosowanie algorytmu przetwarzania
+  końcowego opisanego w punkcie \ref{Przetwarzanie końcowe danych}. Pomógł on
+  znacznie wzbogacić kolory generowane przez sieć. Odpowiednie porównanie
+  zostało przedstawione na Rysunku \ref{fig:trick}. Wadami tej metody są generowane
+  momentami zbyt intensywne barwy zdjęć oraz bardziej widoczne czasami
+  zdarzające się "wycieki"
+  kolorów jednych powierzchni na inne, przykładowo czerwony kolor z samochodu
+  wychodzi poza powierzchnię samochodu i barwi fragmenty trawy przylegające do
+  samochodu na czerwono. Efekt ten jest znacznie mniej widoczny przy zdjęciach
+  o wysokiej rozdzielczości, co sprawia, że w zastosowaniu praktycznym ta
+  wada modelu jest do zaakceptowania. Na Rysunku \ref{fig:trick} widać to
+  poprzez drobne obszary żółci na granicy nieba i drzew.
+
+  \begin{figure}[h]
+   \centering
+   \includegraphics[width=6in]{porownania_trick_krajobraz}
+   \caption[Efekt zastosowania algorytmu przetwarzania końcowego - źródło
+   rysunek własny na podstawie: \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
+   {Efekt zastosowania algorytmu przetwarzania końcowego}
+   \label{fig:trick}
+  \end{figure}
+
+  Kolejnym ważnym komponentem jest użyta funkcja kosztu, właściwy wybór
+  znaczenie poprawia proces aktualizowania się wag sieci, co przekłada się
+  na lepsze rezultaty. Kluczowe było, aby funkcja straty uwzględniała
+  możliwą wielobarwność kolorowanych obiektów i nie karała sieci za barwy niezgodne
+  z barwami na obrazie rzeczywistym, ale pasujące w kontekście kolorowanej
+  powierzchni. Na Rysunku \ref{fig:porownanie_funkcji_kosztu} zostało
+  umieszczone porównanie rezultatów modeli uczonych z użyciem różnych funkcji
+  kosztu, przedstawione obrazy zostały wygenerowane bez użycia algorytmu
+  końcowego przetwarzania w celu uwydatnienia cech funkcji kosztu.
+
+  \begin{figure}[h]
+   \centering
+   \includegraphics[width=6in]{porownanie_funkcji_kosztu}
+   \caption[Porównanie rezultatów modeli uczonych z użyciem różnych funkcji
+   kosztu - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
+   {Porównanie rezultatów modeli uczonych z użyciem różnych funkcji
+   kosztu.}
+   \label{fig:porownanie_funkcji_kosztu}
+  \end{figure}
+
+  \noindent
+  L1Loss: Testując funkcję kosztu L1Loss oczekiwano, że uzyskiwane obrazy będą
+  cechowały się niską saturacją, a generowane kolory będą przytłumione. Jest
+  to spowodowane skłonnościami funkcji L1Loss do uśredniania wyjścia modelu w
+  przypadku, kiedy kolorowana powierzchnia ma zmienną barwę na przestrzeni
+  zbioru uczącego. Działanie L1Loss ma na celu zminimalizować błąd bezwzględny
+  będący różnicą pomiędzy kolorami tych powierzchni, a kolorami generowanymi
+  przez sieć, co skutkuje barwą o wartości znajdującej się pomiędzy wartościami
+  wszystkich występujących kolorów dla powierzchni danego typu. W rezultacie
+  otrzymywane są obrazy w kolorze sepii, co widać na Rysunku
+  \ref{fig:porownanie_funkcji_kosztu}.
+
+  \noindent
+  SmoothL1Loss: Funkcja ta bazuje na L1Loss, ale tworzy kryterium, które przy
+  błędzie bezwzględnym o wartości mniejszej niż 1 używa kwadratu z wartości
+  błędu, a w pozostałych przypadkach używa wartości bezwzględnej błędu. Wzór
+  L1Loss jest przedstawiony w punkcie \ref{Funkcje kosztów}. Zabieg ten sprawia,
+  że funkcja jest mniej czuła na elementy odstające oraz przeciwdziała zjawisku
+  eksplodującego gradientu. Funkcja to została zastosowana jako próba skuteczniejszego
+  wyuczenia się przez model kolorów detali występujących na obrazach oraz aby przeciwdziałać
+  uśrednianiu wartości barw przez sieć. Jednakże efekt ten nie został uzyskany,
+  a przeciwdziałanie elementom odstającym przez SmoothL1Loss dodatkowo negatywnie wpłynęło na
+  kolory generowane przez sieć. Funkcja wylicza mniejszy błąd, gdy
+  wartość różnicy bezwzględnej pomiędzy wyjściem sieci, a kolorem
+  rzeczywistym jest wysoka, co skutkuje tendencją modelu do
+  generowania składowych \textit{A} i \textit{B} o wartościach ze środka
+  przedziału wartości, czyli w okolicy zera. W praktyce jednak wartości tych
+  składowych są ograniczane przez składową \textit{L} będącą jasnością obrazu,
+  czego wynikiem są średnie wartości generowanych \textit{A} i \textit{B} lekko poniżej zera.
+  Takie wartości odpowiadają głównie odcieniom niebieskiego i trochę odcieniom
+  zielonego, co wyraźnie widać na Rysunku \ref{fig:porownanie_funkcji_kosztu}.
+
+  \noindent
+  MSELoss: W związku z brakiem algorytmu, który wstrzymuje karanie modelu w
+  sytuacji, gdy generowane kolory są niezgodne z rzeczywistymi, ale prawdopodobne
+  dla kolorowanej powierzchni to funkcja MSELoss również ma tendencję do
+  uśredniania generowanych kolorów jak funkcja L1Loss. Jednakże większa czułość funkcji
+  na wysokie wartości błędów, powodowana podnoszeniem różnicy pomiędzy wartością
+  przewidzianą a rzeczywistą do kwadratu,
+  umożliwiła wytrenowanie modelu zdolnego do generowania
+  barw z szerokiego zakresu wartości, co korzystnie wpłynęło na rezultaty.
+  Pokolorowany obraz wygenerowane przez model uczony z użyciem funkcji MSELoss prezentuje
+  się najlepiej spośród obrazów na Rysunku \ref{fig:porownanie_funkcji_kosztu},
+  z tego powodu oraz w związku z korzystnym efektem zastosowania MSELoss, właśnie
+  ta funkcja została wybrana w procesie uczenia modelu końcowego.
+
+  \textless Skutki warstwy Dropout \textgreater
+
+  \textless Skutki rożnych metod przetwarzania wstępnego \textgreater
+
+  \textless Skutki rożnych algorytmów optymalizacyjnych \textgreater
+
+  \textless Skutki rożnych algorytmów optymalizacyjnych \textgreater
