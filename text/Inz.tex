@@ -51,6 +51,10 @@
 
 \usepackage{array} %Umożliwia definiowanie własnych wymiarów tabel
 
+\usepackage{longtable} %Umożliwia definiowanie tabel obejmujących wiele stron
+
+\usepackage[caption = false]{subfig}
+
 %\renewcommand{\chaptername}{Rozdział}
 %\renewcommand{\contentsname}{Spis treści}
 %\renewcommand{\figurename}{Rys.}
@@ -139,6 +143,10 @@
   W tym rozdziale zostały przedstawione koncepcje rozwiązań wybranych zagadnień
   oraz ich implementacje.
 
+  \include{framework}
+
+  \include{filters}
+
   \include{image_colorization}
 
 \section{Podsumowanie}
@@ -146,6 +154,5 @@
 \include{bibliografia}
 
 \include{zalaczniki}
-
 
 \end{document}

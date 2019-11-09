@@ -1,7 +1,7 @@
 """Entrypoint for network testing."""
 from base_classes.json_parser import JsonParser
 from base_classes.setup_creator import SetupCreator
-from base_classes.tester import ImageColorizationTester
+from base_classes.tester_sandbox import ImageColorizationTester
 from image_colorization.data import consts
 import os
 from loguru import logger as log

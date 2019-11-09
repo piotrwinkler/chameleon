@@ -1526,8 +1526,6 @@ V73:
                     wyciekają
         
         Po 10 epokach:  
-        
-    
 
         
         
@@ -1684,7 +1682,9 @@ V80:
     Czarny obraz, porażka
     
 V81:
-
+    
+    Zmiana momentum na 0 z 0.9
+    
     which_version = "V81"
     chosen_net = FCN_net_mega()
     
@@ -3439,4 +3439,61 @@ Jeśli mamy normalizację na L i standardyzację na AB (V74) i do tego robimy bl
 SGD i MSELoss
 
 Jeśli zamienimy miejscami warstwy BatchNorm i Relu to zyska na tym V84, czyli normalizacja na L i standardyzacja na 
-AB z Adam i MSELoss
+AB z Adam i MSELoss (V130)
+
+### Testy Augmentacji
+
+V150:
+
+V130, ale z augmnetacją w postaci 50% szansy na horizontal flip
+
+      "net": "FCN_net_mega_V2",
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+    
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "RandomHorizontalFlip",
+                "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+    
+        Results:Oct29_21-43-39_DESKTOP-K2JRB94 , Loss = 0.80
+        
+        Po 60 epokach
+        Bez tricku: Ok, ale trochę gorzej niż V130
+        Z trickiem: Podobnie jak V130, może lekko gorzej

@@ -150,15 +150,15 @@ class GaussKernel:
 
 if __name__ == "__main__":
     # Executable code intended to conversions testing (should be deleted in final version)
-    img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/100000.jpg"
+    img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/124003.jpg"
     img = cv2.imread(img_path)
 
     normalize_image255_canny = NormalizeImage255Canny()
     normalize_image255 = NormalizeImage255()
-    # rgb_to_gray = RgbtoGray()
-    # filter_image_sobelx = FilterImageSobely()
-    # sepia = Sepia()
-    # canny = FilterCanny()
+    rgb_to_gray = RgbtoGray()
+    filter_image_sobelx = FilterImageSobelx()
+    sepia = Sepia()
+    canny = FilterCanny()
     sharpen = FilterSharpen()
     normalize_image = NormalizeImage()
     resize = Resize([512, 512])
@@ -167,12 +167,14 @@ if __name__ == "__main__":
     # img = normalize_image255_canny(img)
     # img = sepia(img).astype('float32')
     # gray_img = ImagesConverter.normalize_image255(gray_img)
-    img = sharpen(img)
     img = normalize_image255(img)
+    # img = rgb_to_gray(img)
+    img = sepia(img)
+    # img = sharpen(img)
     # img = np.array(img, dtype='float32')
-
+    img = normalize_image(img)
     print(np.shape(img))
-    cv2.imshow(f'filtered_img', img)
+    cv2.imshow(f'ground truth', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 

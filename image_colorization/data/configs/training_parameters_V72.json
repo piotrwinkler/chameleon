@@ -45,8 +45,8 @@
     "name": "BasicCifar10Dataset",
     "input_conversions": [{"name":"Standardization", "parameters": []}],
     "output_conversions": [{"name":"Standardization", "parameters": []}],
-    "transforms": [{"name": "ToTensor",
-                    "parameters": []}]
+    "transforms": []
+
   },
   "additional_params":
   {
