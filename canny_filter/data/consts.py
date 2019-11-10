@@ -1,4 +1,4 @@
-"""This file contains all neceepochssary files directories."""
+"""This file contains all necessary files directories."""
 TRAINING_PARAMETERS = "data/training_parameters.json"
 TEST_PARAMETERS = "data/test_parameters.json"
 
