@@ -1,0 +1,30 @@
+\subsection{Filtry AI}
+
+  Filtrowanie obrazów cyfrowych to bardzo popularny i powszechnie stosowany
+  obecnie proces. Pozwala wyostrzyć niewyraźne zdjęcie, zmienić kontrast obrazu,
+  czy zniwelować szumy tła. W rzeczywistości filtrowanie to nic innego, jak
+  operacja matematyczna wykonywana na pikselach. Wykorzystywanie wartości wielu
+  pikseli obrazu źródłowego w celu określenia wartości pojedynczego piksela w
+  obrazie wynikowym. Sposób w jaki wartości te są pobierane oraz przetwarzane
+  określają tak zwane maski. Przyjmują one postać macierzy kwadratowych różnych
+  rozmiarów, a przechowywane w nich wartości decydują o wyniku filtracji.
+
+  Poniższy rozdział tej pracy spróbuje udzielić odpowiedzi na pytanie, czy
+  sieci neuronowe mogą sprawnie posłużyć w procesie filtrowania obrazów.
+  Składa się na niego seria eksperymentów, w których specjalnie dobrane modele
+  sieci spróbują odtworzyć wartości masek użytych do przygotowania danych
+  treningowych, a następnie wykorzystają je do przetworzenia zupełnie nowych
+  obrazów.
+
+  Dane referencyjne składają się z zestawu obrazów przetworzonych za pomocą
+  filtrów wbudowanych w bibliotekę \textit{OpenCV} takich, jak filtr Sobela, czy
+  sepia.
+
+  Wszystkie modele wytrenowane zostały w oparciu o framework TorchFrame.
+
+  \subsubsection{Filtr Sobela}
+
+
+  \subsubsection{Sepia}
+
+  \subsubsection{Filtr górnoprzepustowy}
