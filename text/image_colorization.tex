@@ -670,6 +670,20 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
  w odcienie brązu. Z tego powodu pomniejsze detale na kolorowanych zdjęciach
  tracą swoje barwy, efekty tego zjawiska można zaobserwować analizując
  stateczniki odrzutowca ukazanego na obrazie \textit{(a)} Rysunku \ref{fig:best_result}.
+ Wykres uczenia przedstawionego modelu został przedstawiony na Rysunku
+ \ref{fig:loss_plot}. Można zaobserwować stopniowy spadek wartości funkcji
+ kosztu, co oznacza poprawne zbieganie się modelu do właściwego rozwiązania.
+ W końcowych fazach wykresu widać, że wartość kary zmienia się o bardzo
+ małe wartości, co znaczy, że proces uczenia wpadł już w minimum będące
+ jednym z dostępnych rozwiązań.
+
+ \begin{figure}[h]
+  \centering
+  \includegraphics[width=6in]{loss_plot}
+  \caption[Wykres uczenia modelu końcowego - źródło: Rysunek własny]
+  {Wykres uczenia modelu końcowego}
+  \label{fig:loss_plot}
+ \end{figure}
 
   \noindent
   W dalszej części sekcji opisany został wpływ poszczególnych elementów konfiguracji.
@@ -762,10 +776,66 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   z tego powodu oraz w związku z korzystnym efektem zastosowania MSELoss, właśnie
   ta funkcja została wybrana w procesie uczenia modelu końcowego.
 
+  \textless Skutki rożnych algorytmów optymalizacyjnych \textgreater
+
+  Wybór odpowiedniego algorytmu optymalizacyjnego może znacznie poprawić rezultaty
+  modelu poprzez odpowiednie nakierowanie jego wag aby wartość kary wyliczana
+  przez funkcję kosztu była jak najmniejsza. Minimalizowanie wartości tej kary
+  jest zagadnieniem złożonym, w trakcie poszukiwania optimum dla wag sieci
+  występują liczne minima lokalne, które utrudniają odnalezienie minimum '
+  globalnego zapewniającego najbardziej satysfakcjonujące wyniki. Aby
+  przeciwdziałać zatrzymaniu się procesu uczenia w lokalnych minimach należy
+  zastosować odpowiedni algorytm optymalizacyjny. Przykładowy obraz pokolorowany
+  przez model uczony z użyciem różnych algorytmów optymalizacyjnych został
+  przedstawiony na Rysunku \ref{fig:porownanie_optimizerow}
+
+  \noindent
+  Dla algorytmu Adam zostały wybrane parametry: $\beta_{1} = 0.9$, $\beta_{2} = 0.999$,
+  $\text{wskaźnik uczenia} = 0.1$, $\text{współczynnik zaniku wag} = 1e-10$ oraz
+  $eps=1e-08$.
+  \newline
+  Dla algorytmu Adagrad zostały wybrane parametry: $\text{wskaźnik uczenia} = 0.1$,
+  $\text{współczynnik zaniku wskaźnika uczenia} = 0.999$,
+  $\text{współczynnik zaniku wag} = 1e-10$ oraz $eps=1e-10$.
+  \newline
+  Dla algorytmu SGD zostały wybrane parametry: $\text{wskaźnik uczenia} = 0.1$,
+  $\text{pęd} = 0.9$, $\text{tłumienie} = 0$ oraz $\text{współczynnik zaniku wag} = 0$.
+  Zmianę wskaźnika uczenia dla SGD nadzorował planista o parametrach:
+  $\text{wielkość kroku} = 1$ oraz $\text{gamma} = 0.999$.
+
+  \begin{figure}[h]
+   \centering
+   \includegraphics[width=6in]{porownanie_optimizerow}
+   \caption[Porównanie rezultatów modeli uczonych z użyciem różnych algorytmów
+   optymalizacyjnych - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
+   {Porównanie rezultatów modeli uczonych z użyciem różnych algorytmów
+   optymalizacyjnych}
+   \label{fig:porownanie_optimizerow}
+  \end{figure}
+
+  Jako algorytm optymalizacyjny dla modelu końcowego został wybrany Adam,
+  decyzja ta jest oparta na wielu kryteriach takich jak wartości końcowe funkcji
+  kosztu oraz wizualne efekty działania sieci. Przykładowa ocena wizualna
+  została opisana bazując na Rysunku \ref{fig:porownanie_optimizerow}.
+  Porównując pokolorowane obrazy można zauważyć, że najgorzej prezentuje się
+  rezultat modelu stosujący algorytm Adagrad, na obrazie tym nie występuje wiele
+  kolorów i dominują barwy szarości. Algorytm ten jest przeznaczony do
+  pracy z rzadkimi zbiorami treningowymi, a zastosowany zbiór CIFAR-10 takim nie
+  jest, można więc podejrzewać, że podczas procesu uczenia, wagi sieci na
+  płaszczyźnie funkcji celu wpadły w minimum lokalne i nie były w stanie z niego
+  wyjść, co poskutkowało pominięciem minimum globalnego będącego najlepszym
+  możliwym rozwiązaniem. Analizując obrazy dla algorytmów Adam oraz SGD
+  można zauważyć, że są one znacznie lepiej pokolorowane niż obraz dla
+  algorytmu Adagrad. Można na nich wyraźnie wyróżnić roślinność pokolorowaną
+  na zielono oraz taflę wody w odcieniach niebiskiego. Jednakże pomimo
+  znacznego podobieństwa pomiędzy tymi dwoma obrazami można zauważyć, że tafla
+  wody jest znacznie bardziej wypełniona kolorem na obrazie dla algorytmu Adam,
+  co świadczy, że algorytm ten był w stanie zapewnić lepsze minimum dla wag
+  sieci, co zapewniło modelowi lepiej rozwiniętą zdolność predykcji kolorów dla
+  różnorodnych powierzchni. 
+
   \textless Skutki warstwy Dropout \textgreater
 
   \textless Skutki rożnych metod przetwarzania wstępnego \textgreater
-
-  \textless Skutki rożnych algorytmów optymalizacyjnych \textgreater
 
   \textless Skutki rożnych algorytmów optymalizacyjnych \textgreater
