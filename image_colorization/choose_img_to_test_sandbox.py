@@ -40,7 +40,6 @@ def main():
 
     # fig = plt.figure(figsize=(14, 7))
 
-
     # fig3 = plt.figure(figsize=(14, 7))
     # ax_for_fig3 = fig3.add_subplot(1, 1, 1)
     # plt.gca().axes.get_xaxis().set_visible(False)

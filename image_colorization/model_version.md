@@ -3566,3 +3566,488 @@ V130, ale z augmnetacją w postaci 50% szansy na horizontal flip
         Po 60 epokach
         Bez tricku: Ok, ale trochę gorzej niż V130
         Z trickiem: Podobnie jak V130, może lekko gorzej
+        
+        
+## Różne preprocessing dla V84
+
+Dla V84 jest standardyzacja na ab i normalizacja na L i bez blura
+
+V160:   (Normalizacja na ab i normalizacja na L)
+
+    which_version = "V160"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"CustomNormalize", "parameters": [0, 255.0]}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "normalization",
+        "ab_output_processing": "normalization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: , Loss = 
+    
+    Po 60 epokach:
+    Bez tricku: 
+    Z trickiem: 
+
+
+V161:
+    
+Standardyzacja na ab i L
+
+    which_version = "V161"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results: , Loss = 
+    
+    Po 60 epokach:
+    Bez tricku: 
+    Z trickiem: 
+
+
+V162:
+
+Standardyzacja na ab i normalizacja na L i blur na L 
+
+    which_version = "V162"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: , Loss = 
+    
+    Po 60 epokach:
+    Bez tricku: 
+    Z trickiem: 
+
+
+V163:
+
+Standardyzacja na ab i L i blur na L 
+
+    which_version = "V163"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results: , Loss = 
+    
+    Po 60 epokach:
+    Bez tricku: 
+    Z trickiem: 
+
+
+## Różne preprocessing dla V130
+
+Dla V130 jest standardyzacja na ab i normalizacja na L i bez blura i FCN_net_mega_V2
+
+V170:   (Normalizacja na ab i normalizacja na L)
+
+    which_version = "V170"
+    chosen_net = FCN_net_mega_V2()
+    
+    "net": "FCN_net_mega_V2",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"CustomNormalize", "parameters": [0, 255.0]}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "normalization",
+        "ab_output_processing": "normalization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: , Loss = 
+    
+    Po 60 epokach:
+    Bez tricku: 
+    Z trickiem: 
+
+
+V171:
+    
+Standardyzacja na ab i L
+
+    which_version = "V171"
+    chosen_net = FCN_net_mega_V2()
+    
+    "net": "FCN_net_mega_V2",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results: , Loss = 
+    
+    Po 60 epokach:
+    Bez tricku: 
+    Z trickiem: 
+
+
+V172:
+
+Standardyzacja na ab i normalizacja na L i blur na L 
+
+    which_version = "V172"
+    chosen_net = FCN_net_mega_V2()
+    
+    "net": "FCN_net_mega_V2",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: , Loss = 
+    
+    Po 60 epokach:
+    Bez tricku: 
+    Z trickiem: 
+
+
+V173:
+
+Standardyzacja na ab i L i blur na L 
+
+    which_version = "V173"
+    chosen_net = FCN_net_mega_V2()
+    
+    "net": "FCN_net_mega_V2",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"Standardization", "parameters": []},
+                              {"name":"GaussKernel", "parameters": [[5,5]]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": true,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "standardization"
+      }
+     
+    Results: , Loss = 
+    
+    Po 60 epokach:
+    Bez tricku: 
+    Z trickiem: 
+
