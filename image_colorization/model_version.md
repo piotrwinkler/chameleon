@@ -3479,6 +3479,16 @@ To samo co V140, ale z dropoput rate = 0.5, model FCN_net_mega_dropout2
     Bez tricku: Słabo, wszystko szare
     Z trickiem: Słabo, wszystko niebieskie
     
+V142:
+
+To samo co V140, ale z dropoput rate = 0.3, model FCN_net_mega_dropout3
+    
+    Results: , Loss = 
+    
+    Po 60 epokach
+    Bez tricku: 
+    Z trickiem: 
+    
 ### Wnioski: 
 
 Widać, że dropout duży szkodzi

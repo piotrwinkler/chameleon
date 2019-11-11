@@ -90,17 +90,17 @@
      Nr & Warstwa & Rozmiar filtra & Stride & Padding & Batch Normalization &
      Fun. aktywacji & Ilość kanałów wej./wyj. \\ [0.5ex]
     \hline
-    1 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 1/32 \\ \hline
-    2 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 32/32 \\ \hline
-    3 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 32/32 \\ \hline
-    4 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 32/32 \\ \hline
-    5 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 32/64 \\ \hline
-    6 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 64/64 \\ \hline
-    7 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 64/64 \\ \hline
-    8 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 64/32 \\ \hline
-    9 & Splotowa & 3x3 & 1 & 1 & Tak & RELU & 32/32 \\ \hline
-    10 & Splotowa & 1x1 & 1 & 0 & Tak & RELU & 32/32 \\ \hline
-    11 & Splotowa & 1x1 & 1 & 0 & Tak & RELU & 32/32 \\ \hline
+    1 & Splotowa & 3x3 & 1 & 1 & Tak & ReLU & 1/32 \\ \hline
+    2 & Splotowa & 3x3 & 1 & 1 & Tak & ReLU & 32/32 \\ \hline
+    3 & Splotowa & 3x3 & 1 & 1 & Tak & ReLU & 32/32 \\ \hline
+    4 & Splotowa & 3x3 & 1 & 1 & Tak & ReLU & 32/32 \\ \hline
+    5 & Splotowa & 3x3 & 1 & 1 & Tak & ReLU & 32/64 \\ \hline
+    6 & Splotowa & 3x3 & 1 & 1 & Tak & ReLU & 64/64 \\ \hline
+    7 & Splotowa & 3x3 & 1 & 1 & Tak & ReLU & 64/64 \\ \hline
+    8 & Splotowa & 3x3 & 1 & 1 & Tak & ReLU & 64/32 \\ \hline
+    9 & Splotowa & 3x3 & 1 & 1 & Tak & ReLU & 32/32 \\ \hline
+    10 & Splotowa & 1x1 & 1 & 0 & Tak & ReLU & 32/32 \\ \hline
+    11 & Splotowa & 1x1 & 1 & 0 & Tak & ReLU & 32/32 \\ \hline
     12 & Splotowa & 1x1 & 1 & 0 & Nie & - & 32/2 \\ \hline
     \end{tabular}
     \caption{Architektura modelu podstawowego.}
@@ -136,7 +136,7 @@
   sieci.
 
   Po wszystkich, oprócz ostatniej, warstwach konwolucyjnych znajdują się dodatkowo
-  warstwa BatchNorm oraz warstwa funkcji aktywacji RELU mające na celu
+  warstwa BatchNorm oraz warstwa funkcji aktywacji ReLU mające na celu
   ustabilizować proces uczenia oraz zwiększyć jego efektywność.
 
 \subsubsection{BatchNorm} \label{BatchNorm}
@@ -183,7 +183,7 @@
   warstwy BatchNorm zapewniają większą odporność sieci na niekorzystnie zainicjowane
   wagi początkowe modelu.
 
-  Użycie tych warstw w modelu podstawowym tuż za warstwami RELU pozwoliło
+  Użycie tych warstw w modelu podstawowym tuż za warstwami ReLU pozwoliło
   uzyskać bardziej korzystną zbieżność modelu oraz lepsze rezultaty końcowe.
   Ocenione zostało też rozwiązania, w którym warstwy BatchNorm znajdują się
   przed warstwami funkcji aktywacji, lecz dało ono gorsze rezultaty, niż
@@ -215,7 +215,9 @@
   największej różnorodności kolorów, a Dropout przeciwdziała uczeniu się
   nadmiernej ilości cech przez sieć, co wpływa niekorzystnie na otrzymywane
   rezultaty końcowe. Podczas testów skuteczności tych warstw zostały one umieszczone
-  za warstwami BatchNorm. Wizualizacja skutków tej decyzji wraz z rozważeniem
+  za warstwami BatchNorm. Wizualizacja skutków tej decyzji dla różnych wartości
+  parametru \textit{p} (prawdopodobieństwo dezaktywowania dla każdego neuronu sieci)
+  wraz z rozważeniem
   pozostałych czynników wpływających na efektywność sieci znajdują się w
   punkcie \ref{Rezultaty} związanym z rezultatami modelu podstawowego.
 
@@ -554,7 +556,7 @@
   został w punkcie \ref{Rezultaty}.
 
 \subsubsection{Funkcje aktywacji}
-  % RELU
+  % ReLU
   W wyborze odpowiednej funkcji aktywacji kierowaliśmy się badaniami przeprowadzonymi
   przez B. Xu oraz jego współpracowników \cite{evaluatiuon_of_relu}. Testowali
   oni skuteczność takich funkcji jak ReLU, Leaky ReLU (pol. przepuszczające ReLU),
@@ -776,8 +778,6 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   z tego powodu oraz w związku z korzystnym efektem zastosowania MSELoss, właśnie
   ta funkcja została wybrana w procesie uczenia modelu końcowego.
 
-  \textless Skutki rożnych algorytmów optymalizacyjnych \textgreater
-
   Wybór odpowiedniego algorytmu optymalizacyjnego może znacznie poprawić rezultaty
   modelu poprzez odpowiednie nakierowanie jego wag aby wartość kary wyliczana
   przez funkcję kosztu była jak najmniejsza. Minimalizowanie wartości tej kary
@@ -813,6 +813,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
    \label{fig:porownanie_optimizerow}
   \end{figure}
 
+  \noindent
   Jako algorytm optymalizacyjny dla modelu końcowego został wybrany Adam,
   decyzja ta jest oparta na wielu kryteriach takich jak wartości końcowe funkcji
   kosztu oraz wizualne efekty działania sieci. Przykładowa ocena wizualna
@@ -832,10 +833,31 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   wody jest znacznie bardziej wypełniona kolorem na obrazie dla algorytmu Adam,
   co świadczy, że algorytm ten był w stanie zapewnić lepsze minimum dla wag
   sieci, co zapewniło modelowi lepiej rozwiniętą zdolność predykcji kolorów dla
-  różnorodnych powierzchni. 
+  różnorodnych powierzchni.
 
-  \textless Skutki warstwy Dropout \textgreater
+  Z powodów opisanych w punkcie \ref{Dropout} warstwa Dropout nie została użyta
+  w modelu końcowym. Na Rysunku \ref{fig:porownanie_dropout} został pokazany
+  wpływ zastosowania tej warstwy w modelu na kolorowane przez model obrazy w zależności od
+  wartości parametru \textit{p} (prawdopodobieństwo dezaktywowania dla każdego
+  neuronu sieci).
+
+  \noindent
+  Jak widać zastosowanie tej warstwy nie przyniosło żadnych korzyści. Dla
+  małych wartości parametru \textit{p} barwy na kolorowanym obrazie są
+  mniej żywe niż bez zastosowania Dropout, a dla większych wartości widać, że
+  model traci w dużej mierze swoje zdolności do predykcji kolorów. Dowodzi to,
+  że w przypadku rozważanej problematyki większym zagrożeniem jest utrata
+  kluczowych informacji o obrazie niż niebezpieczeństwo przeuczenia sieci, co
+  sprawia, że warstwa Dropout staje się niepożądana.
+
+  \begin{figure}[h]
+   \centering
+   \includegraphics[width=6in]{porownanie_dropout}
+   \caption[Wpływ zastosowania warstwy Dropout na kolorowanie obrazów - źródło: rysunek własny na podstawie:
+   \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
+   {Wpływ zastosowania warstwy Dropout na kolorowanie obrazów}
+   \label{fig:porownanie_dropout}
+  \end{figure}
+
 
   \textless Skutki rożnych metod przetwarzania wstępnego \textgreater
-
-  \textless Skutki rożnych algorytmów optymalizacyjnych \textgreater
