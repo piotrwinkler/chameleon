@@ -2004,6 +2004,65 @@ może to zniknie po dłuższym uczeniu
 Z trikiem: Adam V84 dalej spoko, kolory pełne, ale bardzo się nauczyła sieć zielonego i często nakłada na różne obiekty
 zielony, ale chyba dalej V84 top 1
 
+V88:
+
+    which_version = "V87"
+    chosen_net = FCN_net_mega()
+    
+    "net": "FCN_net_mega",
+    "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adagrad",
+          "parameters":
+          {
+            "lr": 0.1,
+            "lr_decay": 0.999
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize",
+                            "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization",
+                            "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+     
+    Results: Nov11_16-22-29_DESKTOP-K2JRB94 , Loss = 0.87
+    
+    Po final epokach:
+    Bez tricku: Tak samo jak V82 na szczęście
+    Z trickiem: 
+
 ### Testy funkcji lossu dla V84
 
 CrossEntropyLoss nie działa, jest tylko dla klasyfikatorów
