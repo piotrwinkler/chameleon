@@ -24,7 +24,53 @@
 
   \subsubsection{Filtr Sobela}
 
+    Jednym z podstawowych i najbardziej znanych obecnie filtrów obrazu jest
+    filtr Sobela-Feldmana, który zaprezentowany został po raz pierwszy w 1968
+    roku na konferencji Laboratorium Sztucznej Inteligencji uniwersytetu Stanforda
+    (\textit{SAIL}). Znajduje on przede wszystkim zastosowanie w procesie wykrywania krawędzi
+    na obrazach cyfrowych. Sam Irwin Sobel opisuje ten filtr następująco \cite{sobel}:
+
+    \begin{quote}
+      Motywacją w rozwijaniu tego rozwiązania było stworzenie wydajnej obliczeniowo
+      estymacji gradientu, która byłaby bardziej izotropowa niż popularny wówczas operator
+      "Krzyża Roberts'a".
+    \end{quote}
+
+    Operator izotropowy to, w kontekście przetwarzania obrazów, operator, którego
+    działanie jest równoważne dla wszystkich kierunków na obrazie. Filtr Sobela
+    wyznacza przybliżenie gradientu funkcji natężenia obrazu. Dla każdego pojedynczego
+    piksela wynikiem jego działania jest wektor gradientu (lub jego długość) wskazującego kierunek wzrostu
+    intensywności obrazu, wyznaczony na bazie otaczających wartości ośmiu innych pikseli.
+
+    Na klasyczny filtr Sobela-Feldmana składają się dwie maski:
+
+    \[G_x =
+    \begin{bmatrix}
+    -1 & 0 & +1 \\
+    -2 & 0 & +2 \\
+    -1 & 0 & +1
+    \end{bmatrix}
+    \]
+
+    \[G_y =
+    \begin{bmatrix}
+    -1 & -2 & -1 \\
+    0 & 0 & 0 \\
+    +1 & +2 & +1
+    \end{bmatrix}
+    \]
+
+    $G_x$ odpowiada za filtrowanie krawędzi w pionie, a $G_y$ w poziomie. Obie maski
+    mogą być stosowane oddzielnie. Sam proces filtrowania bazuje na konwolucji
+    opisanej w ramach sieci splotowych \ref{sieci_splotowe}, polegającej na
+    równomiernym przesuwaniu stosowanych filtrów wzdłuż analizowanego obrazu, przy
+    jednoczesnym wykonywaniu zdefiniowanych w nich obliczeń w każdym punkcie. Można
+    w tym miejscu dostrzec spore podobieństwo pomiędzy klasycznymi maskami i ich zastosowaniem,
+    a neuronami wchodzącymi w skład warstw konwolucyjnych sztucznych sieci splotowych. Nie bez powodu neurony te nazywane
+    są filtrami.
+
 
   \subsubsection{Sepia}
+
 
   \subsubsection{Filtr górnoprzepustowy}

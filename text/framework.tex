@@ -353,9 +353,12 @@
     \[\Theta = \Theta - \eta \cdot \nabla J(\Theta),\]
 
     gdzie $\eta$ jest długością kroku treningowego, a $\nabla J(\Theta)$ oznacza
-    gradient funkcji kosztu zależnej od wag sieci $\Theta$.
+    gradient funkcji kosztu zależnej od wag sieci $\Theta$. Warto zauważyć, że
+    wartość gradientu wskazuje na płaszczyźnie funkcji celu położenie maksimum,
+    dlatego w procesie minimalizacji musimy kierować się w przeciwną stronę i odejmować
+    gradient od wag modelu.
 
-    Gradient ten wyznaczany jest z wykorzystaniem bardzo popularnego obecnie
+    Sam gradient wyznaczany jest z wykorzystaniem bardzo popularnego obecnie
     algorytmu nazywanego propagacją wsteczną. Jego ogólna idea jest stosunkowo
     prosta. Rezultaty pracy sieci ewaluowane są względem pożądanych wyników w
     ramach opisanej w poprzednim punkcie funkcji celu. Jeśli wyniki oceny nie są

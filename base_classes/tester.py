@@ -61,6 +61,9 @@ class TestImgtoImg(BaseTester):
 
     def test(self):
         self._model.load_state_dict(torch.load(self._load_net_path))
+        for name, param in self._model.named_parameters():
+            if param.requires_grad:
+                log.info(f'Name: {name}, Tensor: {param.data}')
 
         for i in range(len(self)):
             input_img = self.read_image(self._files_list[i])
