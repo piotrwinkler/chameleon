@@ -62,13 +62,43 @@
 
     $G_x$ odpowiada za filtrowanie krawędzi w pionie, a $G_y$ w poziomie. Obie maski
     mogą być stosowane oddzielnie. Sam proces filtrowania bazuje na konwolucji
-    opisanej w ramach sieci splotowych \ref{sieci_splotowe}, polegającej na
+    opisanej w ramach sieci splotowych w rozdziale \ref{sieci_splotowe}, polegającej na
     równomiernym przesuwaniu stosowanych filtrów wzdłuż analizowanego obrazu, przy
     jednoczesnym wykonywaniu zdefiniowanych w nich obliczeń w każdym punkcie. Można
     w tym miejscu dostrzec spore podobieństwo pomiędzy klasycznymi maskami i ich zastosowaniem,
-    a neuronami wchodzącymi w skład warstw konwolucyjnych sztucznych sieci splotowych. Nie bez powodu neurony te nazywane
-    są filtrami.
+    a neuronami wchodzącymi w skład warstw konwolucyjnych sztucznych sieci splotowych. Nie bez powodu
+    neurony te nazywane są filtrami.
 
+    W przeprowadzonych doświadczeniach zastosowany został filtr Sobela z
+    maską $G_x$. Zbiór uczący wykorzystywany w procesie treningu sieci składał się
+    z różnorodnych obrazów dobieranych w sposób losowy. Przykładowe zdjęcia wchodzące
+    w skład tego zbioru przedstawia Rysunek \ref{fig:dataset_filters}.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=6in]{dataset_filters}
+      \caption[Przykładowe obrazy ze zbioru treningowego - źródło: Praca własna]{Przykładowe obrazy ze zbioru treningowego}
+      \label{fig:dataset_filters}
+    \end{figure}
+
+    Aby mogły właściwie pełnić swoją rolę obrazy treningowe zostały w pierwszej kolejności
+    poddane odpowiedniemu przetworzeniu wstępnemu. W ramach tego procesu rozmiar każdego zdjęcia
+    zmniejszony został do wymiarów $256x256$ pikseli, a wartości kolorów ograniczone
+    do zakresy $<-1, 1>$ w celu usprawnienia obliczeń wykonywanych przez sieć m.in.
+    poprzez zapobieganie zjawisku eksplodującego gradientu. Dodatkowo w przypadku tego
+    filtru zastosowana została konwersja obrazów do formatu czarno-białego, co pozwoliło
+    wyodrębnić pojedynczy kanał kolorystyczny z oryginałów. Tak przetworzony zbiór uczący
+    podawany był na wejście sieci neuronowej, a rezultaty jej pracy porównywane
+    z obrazami na które dodatkowo nałożony został filtr Sobela za pomocą biblioteki
+    \textit{OpenCV}.
+
+    Sam model sieci składa się w tym przypadku z pojedynczego neuronu w warstwie
+    konwolucyjnej, filtrującego obraz za pomocą macierzy kwadratowej stopnia
+    trzeciego. Odzwierciedla to oryginalną macierz filtracji $G_x$ w stosunku jeden
+    do jednego, ponieważ każda z dziewięciu wag sieci odpowiada jednemu polu w tej
+    macierzy.
+
+     
 
   \subsubsection{Sepia}
 

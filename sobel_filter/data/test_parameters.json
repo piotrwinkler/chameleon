@@ -3,7 +3,7 @@
   "transforms":   [{"name": "ToTensor",
                   "parameters": []}],
   "input_conversions": [{"name":"Resize",
-                        "parameters": [[512, 512]]},
+                        "parameters": [[256, 256]]},
                           {"name":"NormalizeImage255",
                         "parameters": []},
                           {"name":"RgbtoGray",

@@ -2,7 +2,7 @@
   "net_model": "SobelFilter",
   "criterion":
   {
-      "name": "MSELoss",
+      "name": "BCELoss",
       "patameters":
       {
 
@@ -13,7 +13,7 @@
       "name": "Adagrad",
       "parameters":
       {
-        "lr": 1e-2
+        "lr": 1e-4
       }
   },
    "scheduler":
@@ -28,16 +28,16 @@
       "scheduler_decay_period": 20
   },
   "init_epoch": 0,
-  "training_epochs": 2,
+  "training_epochs": 1,
   "training_monitoring_period": 1,
   "saving_period": 1,
   "dataloader_parameters":
   {
-      "batch_size": 1,
+      "batch_size": 8,
       "shuffle": false,
       "num_workers": 4
   },
-  "retrain": false,
+  "retrain": true,
   "train_on_gpu": false,
   "dataset":
   {
