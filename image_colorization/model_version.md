@@ -3622,11 +3622,11 @@ V160:   (Normalizacja na ab i normalizacja na L)
         "L_input_processing": "normalization"
       }
      
-    Results: , Loss = 
+    Results: Nov12_14-49-27_DESKTOP-K2JRB94 , Loss = 2.23e-3
     
     Po 60 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Słabo, szaro
+    Z trickiem: Słabo, żółto
 
 
 V161:
@@ -3681,11 +3681,11 @@ Standardyzacja na ab i L
         "L_input_processing": "standardization"
       }
      
-    Results: , Loss = 
+    Results: Nov12_15-18-56_DESKTOP-K2JRB94, Loss = 0.723
     
     Po 60 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Porównywalnie z V84
+    Z trickiem: Podobnie jak V84, kolory trochę zbyt intensywne
 
 
 V162:
@@ -3742,11 +3742,11 @@ Standardyzacja na ab i normalizacja na L i blur na L
         "L_input_processing": "normalization"
       }
      
-    Results: , Loss = 
+    Results: Nov12_15-48-54_DESKTOP-K2JRB94, Loss = 0.74
     
     Po 60 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Ok, ale trochę gorzej niż V84
+    Z trickiem: Ok, ale gorzej niż V84, czasami przytłumione kolory
 
 
 V163:
@@ -3803,11 +3803,11 @@ Standardyzacja na ab i L i blur na L
         "L_input_processing": "standardization"
       }
      
-    Results: , Loss = 
+    Results: Nov12_16-18-37_DESKTOP-K2JRB94 , Loss = 0.74
     
     Po 60 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Ok, ale trochę gorzej niż V84
+    Z trickiem: Tak sobie, kolory trochę zbyt intensywne
 
 
 ## Różne preprocessing dla V130
@@ -3867,8 +3867,8 @@ V170:   (Normalizacja na ab i normalizacja na L)
     Results: , Loss = 
     
     Po 60 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Słabo, szaro
+    Z trickiem: Słabo, czerwono
 
 
 V171:
@@ -3923,11 +3923,11 @@ Standardyzacja na ab i L
         "L_input_processing": "standardization"
       }
      
-    Results: , Loss = 
+    Results: Nov12_17-43-55_DESKTOP-K2JRB94 , Loss = 0.83
     
     Po 60 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Raczej szaro, ale lepiej niż V170
+    Z trickiem: Tak sobie, wszystko raczej niebieskie 
 
 
 V172:
@@ -3984,10 +3984,10 @@ Standardyzacja na ab i normalizacja na L i blur na L
         "L_input_processing": "normalization"
       }
      
-    Results: , Loss = 
+    Results: Nov12_18-13-43_DESKTOP-K2JRB94 , Loss = 0.76
     
     Po 60 epokach:
-    Bez tricku: 
+    Bez tricku: Całkiem spoko, ale chyba leciutko gorzej niż V130
     Z trickiem: 
 
 
@@ -4045,9 +4045,12 @@ Standardyzacja na ab i L i blur na L
         "L_input_processing": "standardization"
       }
      
-    Results: , Loss = 
+    Results: Nov12_18-43-26_DESKTOP-K2JRB94 , Loss = 0.8
     
     Po 60 epokach:
-    Bez tricku: 
-    Z trickiem: 
+    Bez tricku: Tak sobie, lepiej niż V171, ale gorzej niż V130 i V172
+    Z trickiem: Słabo, strasznie intensywne i wyciekające kolory, mocno czerwone
 
+## Wnioski:
+
+Do rozdziału o preprocessingu wziąć porównanie dla V84 bez tricku czyli wersje V160-163, na nich fajnie widać
