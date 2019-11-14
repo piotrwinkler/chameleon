@@ -860,3 +860,49 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   \end{figure}
 
   \textless Skutki rożnych metod przetwarzania wstępnego \textgreater
+
+  Duże znaczenie dla jakości treningu modelu miał wybór metod przetwarzania
+  wstępnego zarówno obrazów wejściowych jak i obrazów referencyjnych. Porównanie
+  efektów zastosowania różnych metod w różnych konfiguracjach zostało umieszczone
+  na Rysunku \ref{fig:porownanie_preprocessing}, a dokładny opis konfiguracji
+  został umieszczony w Tabeli \ref{table:preprocessing}.
+
+  \begin{figure}[ht!]
+    \centering
+    \subfloat[]{\includegraphics[width = 2in]{norm_stand}}
+    \subfloat[]{\includegraphics[width = 2in]{norm_norm}}
+    \subfloat[]{\includegraphics[width = 2in]{stand_stand}} \\
+    \subfloat[]{\includegraphics[width = 2in]{norm_stand_blur}}
+    \subfloat[]{\includegraphics[width = 2in]{stand_stand_blur}} \\
+    \caption[Skutki zastosowania różnych metod przetwarzania wstępnego - źródło:
+    rysunek własny na podstawie
+    \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
+    {Skutki zastosowania różnych metod przetwarzania wstępnego}
+    \label{fig:porownanie_preprocessing}
+  \end{figure}
+
+  \noindent\begin{table}[h!]
+    \center
+    \begin{tabular}{|c | c | c| }
+     \hline
+     Konfiguracja & Przetwarzanie danych wejściowych & Przetwarzanie danych
+     referencyjnych \\ [0.5ex]
+    \hline
+    a & Normalizacja & Standaryzacja \\ \hline
+    b & Normalizacja & Normalizacja \\ \hline
+    c & Standaryzacja & Standaryzacja \\ \hline
+    d & Normalizacja oraz rozmycie gaussowskie & Standaryzacja \\ \hline
+    e & Standaryzacja oraz rozmycie gaussowskie & Standaryzacja \\ \hline
+    \end{tabular}
+    \caption{Szczegóły konfiguracji przetwarzania wstępnego.}
+    \label{table:preprocessing}
+  \end{table}
+
+  Rezultaty przetwarzania wstępnego:
+  \begin{enumerate}[label=(\alph*)]
+    \item sdf
+    \item dsf
+    \item sdf
+    \item sdf
+    \item s
+  \end{enumerate}
