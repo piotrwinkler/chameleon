@@ -144,21 +144,21 @@ class Trainer:
                 self._save_model(self._optimizer, self._scheduler, title=str(epoch))
 
             self._save_model(self._optimizer, self._scheduler)
-            log.info('Finished Training')
+            log.info('Training Finished!')
             self._writer.close()
 
     def _save_model(self, optimizer, scheduler, title="final"):
         try:
-            splitted = self._net_saving_directory.split('.')
-            torch.save(self._network.state_dict(), f"{splitted[0]}_epoch_{title}.{splitted[-1]}")
+            splitted_net = self._net_saving_directory.split('.')
+            torch.save(self._network.state_dict(), f"{splitted_net[0]}_epoch_{title}.{splitted_net[-1]}")
 
-            splitted = self._optimizer_saving_directory.split('.')
-            torch.save(optimizer.state_dict(), f"{splitted[0]}_epoch_{title}.{splitted[-1]}")
+            splitted_opt = self._optimizer_saving_directory.split('.')
+            torch.save(optimizer.state_dict(), f"{splitted_opt[0]}_epoch_{title}.{splitted_opt[-1]}")
 
             if scheduler is not None:
-                splitted = self._scheduler_saving_directory.split('.')
-                torch.save(scheduler.state_dict(), f"{splitted[0]}_epoch_{title}.{splitted[-1]}")
+                splitted_sch = self._scheduler_saving_directory.split('.')
+                torch.save(scheduler.state_dict(), f"{splitted_sch[0]}_epoch_{title}.{splitted_sch[-1]}")
 
-            log.info('NN model weights saved successfully!')
+            log.info(f'NN model weights saved successfully as {splitted_net[0]}_epoch_{title}.{splitted_net[-1]}!')
         except Exception as e:
-            log.error(f'Trainer was unable to save image due to: {e}')
+            log.error(f'Trainer was unable to save model data due to: {e}')

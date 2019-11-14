@@ -147,19 +147,32 @@ class GaussKernel:
 
         return input_array.astype('float32')
 
-#
+
+class RestrictValues:
+    """
+    Standardization of whole input array
+    """
+    def __init__(self):
+        pass
+
+    def __call__(self, input_array):
+        new = input_array + abs(np.min(input_array))
+        return new/np.max(new)
+
+
 if __name__ == "__main__":
     #   Executable code intended to conversions testing (should be deleted in final version)
-    img_path5 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/124003.jpg"
-    img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/126803.jpg"
+    img_path5 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/124003.jpg"     # stateczek
+    img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/126803.jpg"      # skały
     img_path2 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/100000.jpg"
     img_path3 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/101801.jpg"
     img_path4 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/112602.jpg"
 
-    img = cv2.imread(img_path)
+    # img = cv2.imread(img_path)
     img2 = cv2.imread(img_path2)
     img3 = cv2.imread(img_path3)
     img4 = cv2.imread(img_path4)
+    img5 = cv2.imread(img_path5)
 
     normalize_image255_canny = NormalizeImage255Canny()
     normalize_image255 = NormalizeImage255()
@@ -171,7 +184,7 @@ if __name__ == "__main__":
     normalize_image = NormalizeImage()
     resize = Resize([256, 256])
 
-    img = resize(img)
+    img = resize(img5)
     img2 = resize(img2)
     img3 = resize(img3)
     img4 = resize(img4)
