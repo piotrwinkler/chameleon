@@ -2,7 +2,7 @@
   "net_model": "SharpenFilter",
   "criterion":
   {
-      "name": "MSELoss",
+      "name": "SmoothL1Loss",
       "patameters":
       {
 
@@ -10,10 +10,10 @@
   },
   "optimizer":
   {
-      "name": "Adagrad",
+      "name": "Adadelta",
       "parameters":
       {
-        "lr": 1e-1
+        "lr": 0.5
       }
   },
    "scheduler":
@@ -28,12 +28,12 @@
       "scheduler_decay_period": 20
   },
   "init_epoch": 0,
-  "training_epochs": 2,
+  "training_epochs": 3,
   "training_monitoring_period": 1,
   "saving_period": 1,
   "dataloader_parameters":
   {
-      "batch_size": 1,
+      "batch_size": 4,
       "shuffle": true,
       "num_workers": 4
   },
@@ -46,14 +46,14 @@
     "name": "BasicFiltersDataset",
     "input_conversions": [{"name":"Resize",
                         "parameters": [[256, 256]]},
-                          {"name":"NormalizeImage255",
+                          {"name":"RestrictValues",
                         "parameters": []}],
     "output_conversions": [{"name":"Resize",
                         "parameters": [[256, 256]]},
                           {"name": "FilterSharpen",
                             "parameters": []},
-                          {"name":"NormalizeImage255",
-                          "parameters": []}],
+                          {"name": "RestrictValues",
+                            "parameters": []}],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]
   },

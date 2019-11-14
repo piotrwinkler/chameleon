@@ -149,9 +149,6 @@ class GaussKernel:
 
 
 class RestrictValues:
-    """
-    Standardization of whole input array
-    """
     def __init__(self):
         pass
 
