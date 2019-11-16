@@ -28,8 +28,8 @@
   Aby zwiększyć efektywność uczenia wykorzystano przestrzeń barw CIELab. W tej
   przestrzeni barwę obrazu opisują 3 składowe:
   \begin{itemize}
-  \item L -jasność (luminacja)
-  \item A -barwa od zielonej do magenty
+  \item L - jasność (luminacja)
+  \item A - barwa od zielonej do magenty
   \item B - barwa od niebieskiej do żółtej
   \end{itemize}
   Przestrzeń barw CIELab została przedstawiona na Rysunku \ref{fig:CIELab}
@@ -83,7 +83,7 @@
   parametrów warstw takich jak \textit{padding} (pol. otoczka), \textit{stride}
   (pol. krok) oraz wielkość filtrów. Pełna architektura sieci została przedstawiona w
   Tabeli \ref{table:model_architecture}.
-  \noindent\begin{table}[h!]
+  \noindent\begin{table}[H]
     \center
     \begin{tabular}{|c | c | m{3.3em} | c | c | m{4em} | c | c| }
      \hline
@@ -703,7 +703,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   wada modelu jest do zaakceptowania. Na Rysunku \ref{fig:trick} widać to
   poprzez drobne obszary żółci na granicy nieba i drzew.
 
-  \begin{figure}[h]
+  \begin{figure}[H]
    \centering
    \includegraphics[width=6in]{porownania_trick_krajobraz}
    \caption[Efekt zastosowania algorytmu przetwarzania końcowego - źródło
@@ -722,7 +722,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   kosztu, przedstawione obrazy zostały wygenerowane bez użycia algorytmu
   końcowego przetwarzania w celu uwydatnienia cech funkcji kosztu.
 
-  \begin{figure}[h]
+  \begin{figure}[H]
    \centering
    \includegraphics[width=6in]{porownanie_funkcji_kosztu}
    \caption[Porównanie rezultatów modeli uczonych z użyciem różnych funkcji
@@ -803,7 +803,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   Zmianę wskaźnika uczenia dla SGD nadzorował planista o parametrach:
   $\text{wielkość kroku} = 1$ oraz $\text{gamma} = 0.999$.
 
-  \begin{figure}[h]
+  \begin{figure}[H]
    \centering
    \includegraphics[width=6in]{porownanie_optimizerow}
    \caption[Porównanie rezultatów modeli uczonych z użyciem różnych algorytmów
@@ -850,7 +850,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   kluczowych informacji o obrazie niż niebezpieczeństwo przeuczenia sieci, co
   sprawia, że warstwa Dropout staje się niepożądana.
 
-  \begin{figure}[h]
+  \begin{figure}[H]
    \centering
    \includegraphics[width=6in]{porownanie_dropout}
    \caption[Wpływ zastosowania warstwy Dropout na kolorowanie obrazów - źródło: rysunek własny na podstawie:
@@ -859,18 +859,18 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
    \label{fig:porownanie_dropout}
   \end{figure}
 
-  \textless Skutki rożnych metod przetwarzania wstępnego \textgreater
-
-  Duże znaczenie dla jakości treningu modelu miał wybór metod przetwarzania
-  wstępnego zarówno obrazów wejściowych jak i obrazów referencyjnych. Porównanie
-  efektów zastosowania różnych metod w różnych konfiguracjach zostało umieszczone
+  Duże znaczenie dla jakości treningu modelu miał także wybór metod przetwarzania
+  wstępnego zarówno obrazów wejściowych jak i obrazów referencyjnych. Przyczyny
+  zastosowania takich zabiegów zostały dokładnie opisane w punkcie
+  \ref{Przetwarzanie wstępne danych}.
+  Porównanie efektów zastosowania różnych metod w różnych konfiguracjach zostało umieszczone
   na Rysunku \ref{fig:porownanie_preprocessing}, a dokładny opis konfiguracji
   został umieszczony w Tabeli \ref{table:preprocessing}.
 
   \begin{figure}[ht!]
     \centering
-    \subfloat[]{\includegraphics[width = 2in]{norm_stand}}
     \subfloat[]{\includegraphics[width = 2in]{norm_norm}}
+    \subfloat[]{\includegraphics[width = 2in]{norm_stand}}
     \subfloat[]{\includegraphics[width = 2in]{stand_stand}} \\
     \subfloat[]{\includegraphics[width = 2in]{norm_stand_blur}}
     \subfloat[]{\includegraphics[width = 2in]{stand_stand_blur}} \\
@@ -881,15 +881,15 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
     \label{fig:porownanie_preprocessing}
   \end{figure}
 
-  \noindent\begin{table}[h!]
+  \noindent\begin{table}[H]
     \center
     \begin{tabular}{|c | c | c| }
      \hline
      Konfiguracja & Przetwarzanie danych wejściowych & Przetwarzanie danych
      referencyjnych \\ [0.5ex]
     \hline
-    a & Normalizacja & Standaryzacja \\ \hline
-    b & Normalizacja & Normalizacja \\ \hline
+    a & Normalizacja & Normalizacja \\ \hline
+    b & Normalizacja & Standaryzacja \\ \hline
     c & Standaryzacja & Standaryzacja \\ \hline
     d & Normalizacja oraz rozmycie gaussowskie & Standaryzacja \\ \hline
     e & Standaryzacja oraz rozmycie gaussowskie & Standaryzacja \\ \hline
@@ -898,11 +898,99 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
     \label{table:preprocessing}
   \end{table}
 
+  \noindent
   Rezultaty przetwarzania wstępnego:
   \begin{enumerate}[label=(\alph*)]
-    \item sdf
-    \item dsf
-    \item sdf
-    \item sdf
-    \item s
+    \item W pierwszej przetestowanej konfiguracji została zastosowana najprostsza
+    metoda przetwarzania wstępnego - normalizacja, po jej zastosowaniu wartości wejścia sieci
+    (składowa \textit{L}) oraz wartości referencyjne (rzeczywiste składowe
+    \textit{A} i \textit{B}) były przeskalowane do przedziału od -0.5 do 0.5. Zabieg ten miał na
+    celu usprawnić trening modelu z przyczyn opisanych w punkcie
+    \ref{Przetwarzanie wstępne danych}. Jednakże można zauważyć, że rezultaty
+    uzyskane przy tej konfiguracji prezentują się najgorzej w porównaniu z
+    pozostałymi konfiguracjami, barwy na obrazie są przytłumione oraz mało
+    różnorodne. Dowodzi to, że w przypadku rozważanej problematyki najprostsze
+    rozwiązanie jest niewystarczające.
+    \item W tym przypadku można zaobserwować znacznie lepsze rezultaty niż dla
+    poprzedniej konfiguracji, Zastosowanie standaryzacji na danych referencyjnych
+    znacznie usprawniło proces aktualizacji wag sieci w trakcie szukania minimum
+    globalnego na płaszczyźnie funkcji celu. Generowane kolory są kontekstowo
+    prawdopodobne dla kolorowanych powierzchni oraz cechują się wysokim stopniem
+    nasycenia, co pozytywnie przekłada się na ich odbiór przez obserwatora. Ta
+    konfiguracja została wybrana jako dająca najlepsze efekty z przedstawionych
+    opcji.
+    \item Kierując się sukcesem standaryzacji w konfiguracji (b) ocenione
+    zostały rezultaty zastosowanie tej metody również dla danych wejściowych.
+    Niestety zabieg ten nie przyniósł oczekiwanego polepszenia wyników
+    modelu. Barwy na obrazie wyjściowym są mniej różnorodne oraz o
+    niższej saturacji niż dla konfiguracji (b), ale za to o wyższej saturacji
+    niż dla konfiguracji (a). Świadczy to, że w rozważanym zagadnieniu
+    standaryzacja składowej luminacji nie wpływa pozytywnie na proces uczenia.
+    Może to być spowodowane utratą kluczowych informacji o powiązaniach pomiędzy
+    jasnością, a barwą, w przypadku przeskalowania składowej \textit{L}, tak aby
+    uzyskać zerową wartość średnią oraz jednostkowe odchylenie standardowe.
+    \item W tej konfiguracji została podjęta próba polepszenia rezultatów
+    uzyskanych dla konfiguracji (b) poprzez zastosowanie dodatkowo rozmycia
+    gaussowskiego na znormalizowanych danych wejściowych. Operacja ta miała na celu
+    zmniejszyć wyraźność detali na obrazie, aby uwydatnić kluczowe cechy charakterystyczne
+    powierzchni identyfikowanych przez warstwy konwolucyjne. Dzięki temu trenowany
+    model miał się nauczyć rozpoznawać prawidłowo powierzchnie bez względu na
+    przesłaniające je drobne obiekty oraz zawarte w tych powierzchniach detale
+    nie zmieniające rodzaju tych powierzchni. Niepożądane by było,
+    aby model inaczej nauczył się kolorować niebo w zależności czy na tle tego
+    nieba występuje jakiś drobny obiekt taki jak ptak. Jednakże analizując
+    Rysunek \ref{fig:porownanie_preprocessing} można dojść do wniosku, że nie
+    przyniosło to oczekiwanych rezultatów, wbrew przeciwnie, obniżyło to jakość
+    kolorowania względem konfiguracji bez rozmycia gaussowskiego, co wyraźnie
+    widać po mniej intensywnych barwach na obrazie.
+    \item Zastosowanie rozmycia gaussowskiego opisane dla konfiguracji (d)
+    zostało także przetestowane w połączeniu z konfiguracją (c). W tym
+    przypadku widać, że odniosło to pożądany efekt. Generowane kolory są znacznie
+    bardziej nasycone niż dla konfiguracji (c) oraz pasują kontekstowo do
+    powierzchni, na którą zostały nałożone. Wynika z tego, że w przypadku, kiedy zastosowanie
+    standaryzacja na składowej \textit{L} może mieć niekorzystne skutki, to
+    można je zredukować używają właśnie rozmycia gaussowskiego. Aczkolwiek
+    porównując wyniki tej konfiguracji z wynikami konfiguracji (b) widać, że
+    nie jest ona konfiguracją najbardziej odpowiednią dla rozważanego
+    rozwiązania.
   \end{enumerate}
+
+  \noindent
+  Bazując na efektach wizualnych różnych konfiguracji do modelu końcowego
+  została zastosowana konfiguracja (b) składająca się z operacji
+  normalizacji składowej wejściowej sieci \textit{L} oraz standaryzacji
+  referencyjnych składowych \textit{A} oraz \textit{B}.
+
+  \subsubsection{Model końcowy - wnioski}
+
+  Analizując uzyskane rezultaty dla modelu końcowego, można stanowczo
+  stwierdzić, że sieci FCN zdecydowanie nadają się jako rozwiązanie problematyki kolorowania
+  czarno-białych obrazów. Ich niezwykłe zdolności do adaptacji oraz wyjątkowa
+  biegłość w zapamiętywaniu i identyfikowanie istotnych wzorców świetnie współgrają
+  przy generowaniu prawdopodobnych barw pasujących do kolorowanych powierzchni.
+  Jednakże przedstawione rozwiązanie nie jest idealne, jego dużą wadą jest
+  słabo rozwinięta umiejętność do kolorowania przez modeli drobnych detali na obrazach.
+  Aby zniwelować tę wadę należałoby znacząco zmodyfikować model oraz podejście do
+  danej problematyki.
+
+  Jedno z potencjalnych modyfikacji mogłoby obejmować
+  wprowadzenie segmentacji obrazu oraz klasyfikacji jego segmentów w celu
+  zawężenia ilości potencjalnych barw prawdopodobnych dla analizowanego segmentu obrazu.
+  Model w trakcie treningu uczyłby się możliwych kolorów oddzielnie dla wszystkich
+  występujących na obrazach klas zamiast dla całego obrazu jako całość,
+  zmniejszyłoby to wpływ obiektów na siebie nawzajem i prawdopodobnie zwiększyło
+  zdolności sieci do kolorowanie pomniejszych detali występujących na obrazach.
+  Ponadto umożliwiłoby to wykorzystanie większych oraz bardziej różnorodnych
+  zbiorów treningowych, co zwiększyłoby uniwersalność tego rozwiązania.
+  Jednakże takie podejście wymagałoby sieci o znacznie większej architekturze,
+  co przekłada się na o wiele wyższe zapotrzebowanie na moc obliczeniową często
+  ciężko dostępną bez wyspecjalizowanego sprzętu.
+
+  Pomimo niedoskonałości przedstawionego modelu końcowego należy podkreślić jego
+  użyteczność w półautomatycznym kolorowaniu czarno-białych obrazów. Jak można
+  było zauważyć zadowalająco radzi sobie on z kolorowaniem tła obrazów oraz
+  powierzchni o mało różnorodnej kolorystyce. Można wykorzystać to do wstępnego
+  pokolorowania czarno-białego obrazu, a następnie tylko innymi metodami uzupełnić
+  ubytki koloru oraz poprawić barwy wymagających tego detali. Takie podejście
+  jest znacznie bardziej efektywne niż przykładowo kolorowanie obrazu ręcznie od
+  początku do końca.
