@@ -180,6 +180,7 @@ if __name__ == "__main__":
     sharpen = FilterSharpen()
     normalize_image = NormalizeImage()
     resize = Resize([256, 256])
+    restrict_values = RestrictValues()
 
     img = resize(img5)
     img2 = resize(img2)
@@ -188,7 +189,7 @@ if __name__ == "__main__":
     # img = normalize_image255_canny(img)
     # img = sepia(img).astype('float32')
     # gray_img = ImagesConverter.normalize_image255(gray_img)
-    img = normalize_image255(img)
+    # img = normalize_image255(img)
     img = rgb_to_gray(img)
 
     img = filter_image_sobelx(img)
@@ -196,7 +197,7 @@ if __name__ == "__main__":
     # img = sharpen(img)
 
     # img = np.array(img, dtype='float32')
-    img = normalize_image(img)
+    img = restrict_values(img)
     print(np.shape(img))
     cv2.imshow(f'img', img)
     # cv2.imshow(f'img2', img2)
