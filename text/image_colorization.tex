@@ -1063,4 +1063,14 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   optymalizacji w procesie uczenia.
   Wyjście bloku fuzji jest następnie przekazywane na sieć dekonwolucyjną, która
   tworzy oczekiwane składowe \textit{A} i \textit{B} przestrzeni kolorów CIELab.
-  Sieć ta składa się z kolejno występujących po sobie warstw 
+  Sieć ta składa się z zestawu warstw konwolucyjnych i warstw nadpróbkujących
+  (ang. upsampling). Mają one na celu przetworzyć wejściówy zbiór cech po
+  etapie fuzji w składowe kolorów przewidzianych dla obrazu wejściowego.
+  Każda warstwa nadpróbkująca zwiększają dwukrotnie szerokość i wysokość obrazu
+  używając algorytmu najbliższego sąsiada.
+
+  Wybrany loss i optimizer
+
+  Wybrany preprocessing
+
+  Rezultaty i porówniania
