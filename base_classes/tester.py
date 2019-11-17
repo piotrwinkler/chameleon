@@ -35,6 +35,7 @@ class BaseTester:
 
     @staticmethod
     def show_images_opencv(images, titles):
+        """Beware that opencv requires BGR colors format!"""
         assert len(images) == len(titles), 'Every image should have unique title!'
         for img, title in zip(images, titles):
             cv2.imshow(title, img)
@@ -43,6 +44,7 @@ class BaseTester:
 
     @staticmethod
     def show_images_pyplot(images, titles, cols=1):
+        """Beware that pyplot requires RGB colors format!"""
         assert len(images) == len(titles), 'Every image should have unique title!'
         n_images = len(images)
         fig = plt.figure()
@@ -110,11 +112,18 @@ class TestImgtoImg(BaseTester):
             normalize_image = conversions.NormalizeImage()
             resize = conversions.Resize([512, 512])
             restrict_values = conversions.RestrictValues()
+            ceiling = conversions.Ceiling()
 
             img = resize(orig)
-            img = rgb_to_gray(img)
-            img = filter_image_sobelx(img)
-            img = restrict_values(img)
+            img = normalize_image255(img)
+            # img = rgb_to_gray(img)
+            # img = filter_image_sobelx(img)
+            # img = restrict_values(img)
+            img = sepia(img)
+            img = ceiling(img)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            orig_img = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
+            output_img = cv2.cvtColor(output_img, cv2.COLOR_BGR2RGB)
             # =========================================================================================================
 
             self.show_images_pyplot([img, orig_img, output_img], ['OpenCV', 'oryginał', 'NN'])

@@ -189,5 +189,114 @@
 
   \subsubsection{Sepia}
 
+    Sepia to filtr obrazu nadający zdjęciom charakterystycznego czerwonawo-brązowego
+    koloru. Jego nazwa pochodzi od rodzaju mątwy, Sepii, z której pozyskiwany
+    był atrament cechujący się takim właśnie zabarwieniem. Choć obecnie materiał ten
+    nie jest już powszechnie wykorzystywany w malarstwie, to sepia wciąż cieszy się
+    sporą popularnością w dziedzinie fotografii i cyfrowego przetwarzania obrazów.
+
+    Zastosowanie sepii, jako filtru, wiąże się z konwolucyjnym przetworzeniem
+    zdjęcia za pomocą następującej maski:
+
+    \[G_x =
+    \begin{bmatrix}
+    +0.131 & +0.534 & +0.272 \\
+    +0.168 & +0.686 & +0.349 \\
+    +0.189 & +0.769 & +0.393
+    \end{bmatrix}
+    \]
+
+    Sieć neuronowa użyta do jej odtworzenia składa się z trzech neuronów w
+    warstwie splotowej. Jest to minimalna struktura niezbędna do odtworzenia
+    trójkanałowego obrazu wyjściowego, jako że każdy filtr odpowiada za wygenerowanie
+    pojedynczej warstwy kolorystycznej.
+
+    W procesie uczenia sieci zastosowany został identyczny zbiór treningowy, co w
+    przypadku filtru Sobela, opisanego w poprzednim rozdziale. Ponownie w ramach
+    wstępnego przetwarzania danych, wartości pikseli ograniczone zostały w przedziale
+    $<0,1>$, a każdy obraz przeskalowany do wymiarów $256x256$. W przypadku obrazów
+    referencyjnych zastosowany został oczywiście filtr zapewniający efekt sepii
+    pochodzący z biblioteki \textit{OpenCV}. Dodatkowo wartości, które w wyniku filtracji
+    przekroczyły wartość 1, zostały ograniczone do jej poziomu. Główną różnicą w stosunku
+    do opisanego uprzednio filtru Sobela jest fakt, że sieć trenowana była na
+    obrazach posiadających pełny zakres trzech kanałów kolorystycznych, a nie jak
+    poprzednio z wykorzystaniem formatu czarno-białego.
+
+    Optymalny rezultat działania sieci udało się uzyskać dla następującego
+    zestawu hiperparametrów:
+
+    \begin{itemize}
+    \item Funkcja kosztu: \textit{SmoothL1Loss}
+    \item Optymalizator: \textit{Adam}
+    \item Funkcja aktywacji: \textit{ReLU}
+    \item Ilość epok treningowych: 5
+    \item Rozmiar pakietu danych: 8
+    \end{itemize}
+
+    Większość parametrów nie uległa zmianie w stosunku do filtru Sobela. Świadczy to
+    przede wszystkim o uniwersalności algorytmu \textit{Adam} w odnajdywaniu optymalnych
+    rozwiązań w procesie minimalizacji. Rezultaty pracy wytrenowanego modelu przedstawione
+    zostały na Rysunku \ref{fig:sepia_result}.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=6in]{sepia_result}
+      \caption[Działanie sepii - źródło: Praca własna]{Działanie sepii}
+      \label{fig:sepia_result}
+    \end{figure}
+
+    Wizualnie wyniki działania sztucznej sieci neuronowej cechują się nieco bardziej
+    przytłumionymi kolorami w stosunku do obrazów wygenerowanych z wykorzystaniem
+    oryginalnej maski. Powodem takiego zachowania jest najprawdopodobniej dążenie
+    sieci do zminimalizowania wartości funkcji kosztu w obrębie całego zbioru
+    treningowego, co wiąże się z pewnym mimowolnym uśrednieniem wag modelu. Przekłada
+    się ono na trudności w odwzorowaniu obrazów cechujących się dużym kontrastem.
+
+    Dodatkowo w rozważanym przypadku rozmiar zastosowanej sieci, choć pozornie
+    niewielki, nie pozwala jednoznacznie przełożyć uzyskanych parametrów modelu na
+    referencyjną maskę $G_x$. Każdy z trzech zastosowanych filtrów przetwarza
+    obraz za pomocą macierzy $3x3$ dla każdej z trzech warstw kolorystycznych.
+    Oznacza to, że pojedynczy neuron powiązany jest z 27 wagami, a w całym modelu
+    jest ich sumarycznie 81. Informacja o sposobie filtracji jest więc mocno
+    rozproszona i ciężko jednoznacznie odczytać postać maski jaką w praktyce
+    implementuje wytrenowany model.
+
+    W takiej sytuacji, poza wizualną oceną działania sieci, przydatnych informacji
+    dostarcza wykres wartości funkcji kosztu przedstawiony na Rysunku \ref{fig:tensorboard_sepia}.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=6in]{tensorboard_sepia}
+      \caption[Wykres wartości funkcji kosztu w zależności od ilości kroków treningowych - źródło: Praca własna]{Wykres wartości funkcji kosztu w zależności od ilości kroków treningowych}
+      \label{fig:tensorboard_sepia}
+    \end{figure}
+
+    Wyraźne zbocze opadające w początkowej fazie treningu świadczy o poprawnym dążeniu
+    sieci do rozwiązania optymalnego, a następujące po nim wypłaszczenie oznacza, że
+    rozwiązanie to zostało osiągnięte. Porównując Rysunki \ref{fig:tensorboard_sepia}
+    i \ref{fig:tensorboard_sobel} zauważyć można że w przypadku sepii długość zbocza
+    opadającego jest znacząco większa. Może być to spowodowane większą złożonością
+    funkcji kosztu w przypadku tego filtru, lub niekorzystnym początkowym umiejscowieniem
+    algorytmu optymalizacji na płaszczyźnie celu, wynikającym z losowego doboru startowych parametrów sieci.
+    Najprawdopodobniej oba te czynniki wywarły swój wpływ na przebieg procesu uczenia.
+
+    W ramach przeprowadzonych eksperymentów ponownie testowane były rozmaite funkcje
+    optymalizacji, jednak żadna nie pozwoliła osiągnąć takiej powtarzalności w osiąganiu
+    poprawnych rezultatów, jak \textit{Adam}. Nawet zastosowanie innych optymalizatorów
+    adaptacyjnych bardzo często kończyło się na osiągnięciu jedynie jednego z minimów
+    lokalnych. Przykładem takiego rozwiązania może być efekt działania algorytmu
+    \textit{Adagrad} przedstawiony na Rysunku \ref{fig:sepia_fail}.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=6in]{sepia_fail}
+      \caption[Przykład działania sieci w minimum lokalnym - źródło: Praca własna]{Przykład działania sieci w minimum lokalnym}
+      \label{fig:sepia_fail}
+    \end{figure}
+
+    Choć na obrazie wygenerowanym przez sieć dostrzec można pewne podobieństwo do
+    poprawnie działającego filtru, to wyraźnie widać że nie jest to zadowalający
+    rezultat, a znalezione na hiperpłaszczyźnie funkcji celu minimum nie jest z pewnością
+    minimum globalnym.
 
   \subsubsection{Filtr górnoprzepustowy}

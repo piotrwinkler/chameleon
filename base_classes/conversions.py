@@ -157,6 +157,15 @@ class RestrictValues:
         return new/np.max(new)
 
 
+class Ceiling:
+    def __init__(self):
+        pass
+
+    def __call__(self, input_array):
+        input_array[input_array > 1] = 1
+        return input_array
+
+
 if __name__ == "__main__":
     #   Executable code intended to conversions testing (should be deleted in final version)
     img_path5 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/124003.jpg"     # stateczek
@@ -181,6 +190,7 @@ if __name__ == "__main__":
     normalize_image = NormalizeImage()
     resize = Resize([256, 256])
     restrict_values = RestrictValues()
+    ceiling = Ceiling()
 
     img = resize(img5)
     img2 = resize(img2)
@@ -189,15 +199,16 @@ if __name__ == "__main__":
     # img = normalize_image255_canny(img)
     # img = sepia(img).astype('float32')
     # gray_img = ImagesConverter.normalize_image255(gray_img)
-    # img = normalize_image255(img)
-    img = rgb_to_gray(img)
+    img = normalize_image255(img)
+    # img = rgb_to_gray(img)
 
-    img = filter_image_sobelx(img)
-    # img = sepia(img)
+    # img = filter_image_sobelx(img)
+    img = sepia(img)
+    img = ceiling(img)
     # img = sharpen(img)
 
     # img = np.array(img, dtype='float32')
-    img = restrict_values(img)
+    # img = restrict_values(img)
     print(np.shape(img))
     cv2.imshow(f'img', img)
     # cv2.imshow(f'img2', img2)
