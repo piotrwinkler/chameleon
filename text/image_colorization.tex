@@ -73,7 +73,7 @@
   testom należą algorytm optymalizacyjny, funkcja straty, funkcja aktywacja oraz
   sposób przetwarzania wstępnego danych treningowych.
 
-\subsubsection{Model końcowy}
+\subsubsection{Model autorski} \label{model autorski}
 
   Opracowany przez nas model jest to FCN. Konwolucyjna część sieci składa się
   z 12 warstw splotowych
@@ -248,7 +248,7 @@
    \label{fig:pooling}
   \end{figure}
 
-  W modelu końcowym warstwy poolingu nie zostały zastosowane, aby uniknąć utraty
+  W modelu autorskim warstwy poolingu nie zostały zastosowane, aby uniknąć utraty
   kluczowych informacji przestrzennych koniecznych to właściwego wygenerowanie
   możliwych barw obrazu.
 
@@ -337,7 +337,7 @@
   muszą być przetworzone w ten sam sposób, aby zapewnić poprawną pracę sieci.
   To samo dotyczy się danych wyjściowych sieci, jeśli podczas treningu z nadzorem
   pożądane wyjście było w pewien sposób przetworzone wstępnie to sieć uczy się
-  odtwarzać te wyjście tak samo przetworzone, aby uzyskać oczekiwany efekty
+  odtwarzać te wyjście tak samo przetworzone, aby uzyskać oczekiwany efekt
   końcowy należy dokonać operacji odwrotnych do tych zastosowanych w fazie
   przetwarzania wstępnego. Przykładowo jeśli pożądana odpowiedź w procesie
   uczenia była normalizowana to podczas testów sieci jej wyście należy
@@ -836,7 +836,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   różnorodnych powierzchni.
 
   Z powodów opisanych w punkcie \ref{Dropout} warstwa Dropout nie została użyta
-  w modelu końcowym. Na Rysunku \ref{fig:porownanie_dropout} został pokazany
+  w modelu autorskim. Na Rysunku \ref{fig:porownanie_dropout} został pokazany
   wpływ zastosowania tej warstwy w modelu na kolorowane przez model obrazy w zależności od
   wartości parametru \textit{p} (prawdopodobieństwo dezaktywowania dla każdego
   neuronu sieci).
@@ -961,7 +961,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   normalizacji składowej wejściowej sieci \textit{L} oraz standaryzacji
   referencyjnych składowych \textit{A} oraz \textit{B}.
 
-  \subsubsection{Model końcowy - wnioski}
+  \subsubsection{Model autorski - wnioski}
 
   Analizując uzyskane rezultaty dla modelu końcowego, można stanowczo
   stwierdzić, że sieci FCN zdecydowanie nadają się jako rozwiązanie problematyki kolorowania
@@ -994,3 +994,73 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   ubytki koloru oraz poprawić barwy wymagających tego detali. Takie podejście
   jest znacznie bardziej efektywne niż przykładowo kolorowanie obrazu ręcznie od
   początku do końca.
+
+
+  \subsubsection{Model z wykorzystaniem przeniesienia uczenia}
+
+  Olbrzymią zaletą sieci neuronowych, sprawiającą, że są one wyjątkowo
+  uniwersalne, jest możliwość przenoszenia uczenia. Polega
+  to na zastosowaniu w wybranym modelu wiedzy, którą inny model posiadł w trakcie
+  treningu. Dzięki temu sieć trenowana do pewnego zadania z użyciem olbrzymich
+  ilości danych może być wykorzystana w zadaniu podobnym, do którego nie
+  posiada się zbyt wielu danych treningowych. Innym zastosowaniem jest
+  wyciągnięcie z wybranego modelu wyuczonych warstw specjalizujących się w
+  pewnych operacjach oraz zastosowanie tych warstw w innym modelu, dzięki
+  temu można przykładowo uzyskać bez treningu warstwy konwolucyjne wytrenowane
+  do wyciągania z obrazu jego kluczowych cech i charakterystycznych wzorców.
+  Przenoszenie uczenia odbywa się poprzez zaimplementowanie w tworzonym modelu
+  warstw na podobieństwo warstw modelu z użyciem którego chcemy dokonać
+  przeniesienia uczenia, następnie dla tych warstw wczytuje się odpowiednie wagi
+  z modelu już wytrenowanego.
+  Takie działania dają olbrzymie możliwości konstruowania wyjątkowo złożonych i
+  zaawansowanych modeli bez konieczności długiego ich treningu. Przenoszenie
+  uczenia jest jedną z głównych metod znajdywania rozwiązań różnych problematyk
+  z użyciem sieci neuronowych przy ograniczonych zasobach dostępnej mocy
+  obliczeniowej oraz danych treningowych.
+
+  Z związku z tym została podjęta próba zastosowanie przeniesienia uczenia w
+  zagadnieniu kolorowania czarno-białych obrazów. Do tego celu wykorzystane
+  zostało podejście zaprezentowane przez L. Melas-Kyriazi oraz G. Han w 2016
+  roku \cite{deconvolution_colorization}. Wykorzystali oni głęboką sieć
+  splotową będącą połączeniem wyuczonej sieci typu ResNet
+  (ang. Residual Networks) \cite{ResNet}
+  z opracowanymi przez nich warstwami dekonwolucyjnymi. Model ten został
+  zaimplementowany oraz wytrenowany, a jego rezultaty zostały porównane z
+  rezultatami modelu zaprezentowanego w punkcie \ref{model autorski}.
+
+  Podobnie jak w modelu autorskim w procesie uczenia została wykorzystana przestrzeń
+  barw CIELab. Na wejście sieci podawana była składowa jasności, a danymi
+  referencyjnymi dla wyjścia sieci były dwie składowe koloru. Do przeniesienia
+  uczenia został wykorzystany model
+  ResNet-Gray opracowany przez autorów testowanego rozwiązania poprzez
+  wytrenowanie modelu ResNet-18 do zadania klasyfikacji czarno-białych obrazów
+  z użyciem zbioru danych ImageNet \cite{ImageNet}. Osiągnięta dokładność na zbiorze testowym
+  była na poziomie 79.9\% w porównaniu z ResNet-18 klasyfikującym kolorowe obrazy z
+  dokładnością 85\%. Pozwala to założyć, że model ResNet-Gray poprawnie nauczył
+  się rozpoznawać najistotniejsze cechy obiektów na obrazach, co powinno
+  przełożyć się na satysfakcjonującą jakość kolorowania.
+
+  Idea testowanej architektury
+  polega na integracji cech wysokiego oraz średniego poziomu z przetwarzanego obrazu.
+  Przykładowo cechy wysokiego poziomu mogą wskazywać na typ otoczenia, jeśli
+  wykryte otoczenia okaże się pomieszczeniem to będzie to miało bezpośredni wpływ
+  na cechy średniego poziomu, aby wskazywały, że w danej
+  sytuacji niekorzystne jest kolorowanie powierzchni w barwach nieba albo trawy,
+  a bardziej prawdopodobne będą barwy powiązane z wnętrzem pomieszczenia.
+  Wykorzystany model składa się z 3 komponentów, sieci ResNet-Gray stanowiącej
+  początkową część testowanego modelu, bloku fuzji oraz sieci dekonwolucyjnej
+  odpowiedzialnej za wygenerowanie oczekiwanych kolorów.
+  Model ResNet-Gray identyfikuje
+  na obrazie wejściowym kluczowe wzorce wymagane do wyciągnięcia cech
+  poszczególnych poziomów. Początkowe warstwy wyciągają cechy niskopoziomowe, takie jak położenie krawędzi na obrazie. Warstwy środkowe
+  służą do odpowiedniego przetworzenia tych cech, aby uzyskać cechy średniopoziomowe,
+  cechy te oprócz podania ich na kolejne warstwy ResNet-Gray są dodatkowo wyprowadzane
+  na blok fuzji. Zadaniem ostatnich warstw jest wydobycie cech
+  wysokiego poziomu, które również są przekazywane do bloku odpowiedzialnego za
+  fuzję. Blok fuzji jest odpowiedzialny za przestrzenne połączenie podawanych
+  na niego cech, a następnie przetworzenie ich przez sieć złożoną z jednej
+  warstwy realizującą odpowiednią funkcję, której współczynniki poddawane są
+  optymalizacji w procesie uczenia.
+  Wyjście bloku fuzji jest następnie przekazywane na sieć dekonwolucyjną, która
+  tworzy oczekiwane składowe \textit{A} i \textit{B} przestrzeni kolorów CIELab.
+  Sieć ta składa się z kolejno występujących po sobie warstw 
