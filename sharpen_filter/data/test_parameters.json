@@ -1,0 +1,11 @@
+{
+  "net_model": "SharpenFilter",
+  "transforms":   [{"name": "ToTensor",
+                  "parameters": []}],
+  "input_conversions": [{"name":"Resize",
+                        "parameters": [[512, 512]]},
+                        {"name":"NormalizeImage255",
+                        "parameters": []}],
+  "output_conversions": [],
+  "additional_params": {}
+}

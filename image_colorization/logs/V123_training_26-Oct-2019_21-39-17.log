@@ -1,0 +1,9 @@
+2019-10-26 21:39:17.713 | DEBUG    | __main__:main:19 - Training version: V123
+2019-10-26 21:39:17.715 | INFO     | __main__:deploy_training:34 - TRAINING
+2019-10-26 21:39:17.715 | INFO     | __main__:deploy_training:35 - Choosing version V123
+2019-10-26 21:39:17.716 | INFO     | __main__:deploy_training:39 - Saving models to directory model_states/V123
+2019-10-26 21:39:17.718 | INFO     | base_classes.setup_creator:create_dataset:39 - All dataset features collected properly!
+2019-10-26 21:39:17.719 | INFO     | base_classes.data_collector:collect_images:24 - List of loaded files: []
+2019-10-26 21:39:17.720 | INFO     | base_classes.data_collector:collect_images:25 - 0 images loaded from: .!
+2019-10-26 21:39:17.721 | DEBUG    | base_classes.data_collector:collect_images:27 - . is empty!
+2019-10-26 21:39:17.722 | INFO     | base_classes.dataset_classes:__init__:86 - Loading train set

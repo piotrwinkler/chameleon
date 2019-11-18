@@ -50,5 +50,10 @@ Ten paper jest taki trochę w kit, bo oni tutaj najpierw używają już gotowej 
 do feature extraction i dopiero potem dodają coś swojego, wiec moim zdaniem nie wiele 
 możemy z tego papera wyciągnąc dla nas, no ale się zobaczy.
 
+* [Automatic Colorization with Deep Convolutional Generative Adversarial
+Networks](https://pdfs.semanticscholar.org/ca76/9bc02cb1b74a160d606fbb171afb13d0d615.pdf)
+Kolejny paper o kolorowaniu, mają ciekawy baseline model bazujący na sieci FCN, który spróbuję zaimplementować
+
+
 
 
