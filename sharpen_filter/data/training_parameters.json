@@ -10,10 +10,10 @@
   },
   "optimizer":
   {
-      "name": "Adadelta",
+      "name": "Adam",
       "parameters":
       {
-        "lr": 0.5
+        "lr": 1e-3
       }
   },
    "scheduler":
@@ -28,7 +28,7 @@
       "scheduler_decay_period": 20
   },
   "init_epoch": 0,
-  "training_epochs": 3,
+  "training_epochs": 5,
   "training_monitoring_period": 1,
   "saving_period": 1,
   "dataloader_parameters":
@@ -46,13 +46,13 @@
     "name": "BasicFiltersDataset",
     "input_conversions": [{"name":"Resize",
                         "parameters": [[256, 256]]},
-                          {"name":"RestrictValues",
+                          {"name":"NormalizeImage255",
                         "parameters": []}],
     "output_conversions": [{"name":"Resize",
                         "parameters": [[256, 256]]},
                           {"name": "FilterSharpen",
                             "parameters": []},
-                          {"name": "RestrictValues",
+                          {"name": "NormalizeImage255",
                             "parameters": []}],
     "transforms": [{"name": "ToTensor",
                     "parameters": []}]

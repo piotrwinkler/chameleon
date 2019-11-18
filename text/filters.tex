@@ -31,9 +31,9 @@
     na obrazach cyfrowych. Sam Irwin Sobel opisuje ten filtr następująco \cite{sobel}:
 
     \begin{quote}
-      Motywacją w rozwijaniu tego rozwiązania było stworzenie wydajnej obliczeniowo
+      "Motywacją w rozwijaniu tego rozwiązania było stworzenie wydajnej obliczeniowo
       estymacji gradientu, która byłaby bardziej izotropowa niż popularny wówczas operator
-      "Krzyża Roberts'a".
+      "Krzyża Roberts'a"."
     \end{quote}
 
     Operator izotropowy to, w kontekście przetwarzania obrazów, operator, którego
@@ -300,3 +300,119 @@
     minimum globalnym.
 
   \subsubsection{Filtr górnoprzepustowy}
+
+    Filtry górnoprzepustowe używane są w celu uwypuklenia szczegółów występujących na
+    obrazie. Tłumią one elementy o niskiej częstotliwości, a wzmacniają te cechujące
+    się częstotliwościami wysokimi poprzez zwiększenie ich jasności lub barwy.
+    Efektem zastosowania filtru górnoprzepustowego jest najczęściej zwiększenie
+    kontrastu poprzez podkreślenie ostrych krawędzi obiektów. W pracy
+    \textit{"Image Enhancement Techniques using Highpass and
+    Lowpass Filters"} \cite{highpass_filter} znaleźć można następujący opis:
+
+    \begin{quote}
+      "Filtr górnoprzepustowy to filtr, który dobrze przepuszcza wysokie częstotliwości,
+      ale tłumi częstotliwości niższe niż częstotliwość graniczna. Ostrzenie jest
+      zasadniczo operacją górnoprzepustową w dziedzinie częstotliwości.
+
+      Istnieje kilka standardowych form filtrów górnoprzepustowych, takich jak
+      filtr Butterworth'a, czy Gauss'a. Wszystkie filtry górnoprzepustowe ($H_{hp}$) są
+      zazwyczaj reprezentowane poprzez ich relację z filtrami dolnoprzepustowymi ($H_{lp}$):
+
+      \[H_{hp} = 1 - H_{lp}\]."
+    \end{quote}
+
+    W ramach niniejszego eksperymentu zastosowany został filtr górnoprzepustowy
+    reprezentowany przez maskę następującej postaci:
+
+    \[G_x =
+    \begin{bmatrix}
+    -1 & -1 & -1 \\
+    -1 & +9 & -1 \\
+    -1 & -1 & -1
+    \end{bmatrix}
+    \]
+
+    W celu odwzorowania działania filtru zastosowana została sztuczna sieć
+    splotowa złożona z trzech neuronów, podobnie jak miało to miejsce w przypadku
+    sepii. Model sieci uczony był na tych samych danych, z tą różnicą, że dane
+    referencyjne zostały przetworzone z wykorzystaniem filtru górnoprzepustowego
+    $G_x$.
+
+    Wyniki działania wytrenowanego modelu przedstawia Rysunek \ref{fig:sharpen_result}.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=6in]{sharpen_result}
+      \caption[Działanie filtru górnoprzepustowego - źródło: Praca własna]{Działanie filtru górnoprzepustowego}
+      \label{fig:sharpen_result}
+    \end{figure}
+
+    Parametry dla których uzyskany został przedstawiony efekt są następujące:
+
+    \begin{itemize}
+    \item Funkcja kosztu: \textit{SmoothL1Loss}
+    \item Optymalizator: \textit{Adam}
+    \item Funkcja aktywacji: \textit{ReLU}
+    \item Ilość epok treningowych: 5
+    \item Rozmiar pakietu danych: 2
+    \end{itemize}
+
+    Na uwagę zasługuje tutaj przede wszystkim rozmiar pakietu danych odróżniający
+    ten zbiór hiperparametrów od dwóch poprzednich. Został on zmniejszony w celu
+    ograniczenia wpływu uśrednienia wartości funkcji kosztu na modyfikację wag
+    modelu. Pomimo tego zabiegu wyraźnie widać, że w ramach wszystkich przeprowadzonych
+    eksperymentów to właśnie efekt działania sieci górnoprzepustowej najbardziej
+    odbiega od obrazu referencyjnego. Jest to spowodowane charakterem działania
+    badanego filtru. Jego celem jest uwypuklanie pojedynczych elementów obrazu, takich
+    jak krawędzie, co stoi w niejakiej sprzeczności z procesem treningu, którego celem
+    jest osiągnięcie jak najmniejszej wartości błędu w obrębie wszystkich danych
+    treningowych. Oznacza to, że sieć będzie dążyła do jak najlepszego uśrednienia
+    procesu filtracji górnoprzepustowej. Efekt ten został niewątpliwie osiągnięty.
+    Obraz wygenerowany przez model cechuje się wyraźniejszymi konturami, jednak
+    nie w takim stopniu jak obraz docelowy.
+
+    Wykres wartości funkcji kosztu przedstawia Rysunek \ref{fig:tensorboard_sharpen}.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=6in]{tensorboard_sharpen}
+      \caption[Wykres wartości funkcji kosztu w zależności od ilości kroków treningowych - źródło: Praca własna]{Wykres wartości funkcji kosztu w zależności od ilości kroków treningowych}
+      \label{fig:tensorboard_sharpen}
+    \end{figure}
+
+    Podobnie jak w dwóch poprzednich przypadkach początkowy spadek wartości
+    prowadzi model do punktu optymalnego rozwiązania. W punkcie tym algorytm optymalizacji
+    zaczyna nieznacznie oscylować podejmując kolejne próby poprawy uzyskanych wyników.
+
+    W ramach testów różnych rozwiązań na uwagę zasługują rezultaty osiągnięte
+    z wykorzystaniem optymalizatora \textit{Adadelta} przedstawione na Rysunku \ref{fig:sharpen_fail}.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=6in]{sharpen_fail}
+      \caption[Przykład działania sieci w minimum lokalnym - źródło: Praca własna]{Przykład działania sieci w minimum lokalnym}
+      \label{fig:sharpen_fail}
+    \end{figure}
+
+    Wygenerowany obraz został wyostrzony w stosunku do oryginału, jednak
+    nieznacznie wypaczone zostały przy tym kolory tła, co jest zjawiskiem niekorzystnym i
+    może wskazywać na osiągnięcie przez model jednego z lokalnych minimów funkcji celu.
+
+  \subsubsection{Podsumowanie}
+
+    Przeprowadzone w ramach tego rozdziału eksperymenty dowodzą, że sztuczne
+    sieci splotowe z powodzeniem mogą posłużyć w procesie filtrowania obrazów.
+    Należy zadać sobie jednak pytanie, czy rezultaty ich działania są w stanie
+    zrekompensować stosunkowo czasochłonny proces treningu związany z odpowiednią
+    obróbką danych oraz eksperymentalnym doborem właściwych hiperparametrów.
+
+    W przypadku prostych filtrów, jak sepia, czy filtr górnoprzepustowy korzystniejsze
+    okazuje się zastosowanie klasycznych metod przetwarzania w postaci
+    odpowiednich masek konwolucyjnie nakładanych na docelowe obrazy. Rozwiązania te
+    są często pozbawione typowej dla sieci neuronowych tendencji do uśredniania
+    wyników, co przekłada się na lepsze rezultaty w sytuacjach, w których celem jest
+    na przykład osiągnięcie dużego kontrastu przetwarzanych obrazów.
+
+    Nie oznacza to jednak, że sieci neuronowe mogą zostać zastąpione w każdej sytuacji.
+    Ich zdolności adaptacyjne sprawiają, że znajdują one zastosowanie w rozwiązaniach, w
+    których klasyczne metody zawodzą. Dowodem na to będą kolejne rozdziały tej pracy.

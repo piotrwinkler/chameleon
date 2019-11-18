@@ -10,6 +10,6 @@ NET_LOADING_DIRECTORY = "data/checkpoints/net_epoch_final.pth"
 OPTIMIZER_SAVING_DIRECTORY = "data/checkpoints/optimizer.pth"
 
 
-RETRAINING_NET_DIRECTORY = "data/checkpoints/net_sharpen_base.pth"
+RETRAINING_NET_DIRECTORY = "data/checkpoints/net_new.pth"
 
 TENSORBOARD_DIRECTORY = "."
