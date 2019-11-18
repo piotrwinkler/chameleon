@@ -53,7 +53,7 @@
       'PyTorch, podobnie jak większość innych bibliotek do uczenia głębokiego obsługuje
       automatyczne różnicowanie funkcji skalarnych w trybie wstecznym, czyli jedną z najważniejszych form
       automatycznego różnicowania dla aplikacji uczenia głębokiego, które zwykle
-      różnicują skalarną funckję celu.'
+      różnicują skalarną funkcję celu.'
     \end{quote}
 
     TorchFrame wykorzystuje zdefiniowane w ramach PyTorch'a mechanizmy budowania sieci neuronowych
@@ -104,7 +104,7 @@
     \textit{JsonParser} jest klasą odpowiedzialną za odczytanie danych z pliku konfiguracyjnego,
     w formie słownika języka Python, oraz przekazanie ich w dalszą drogę w obrębie TorchFrame.
 
-    Centralnym punktem całej zaprezentowanej architekruty jest \textit{entrypoint}. Stanowi on
+    Centralnym punktem całej zaprezentowanej architektury jest \textit{entrypoint}. Stanowi on
     punkt wejścia dla aplikacji użytkownika. Jego uruchomienie powoduje
     agregację danych ze wspomnianych już plików konfiguracyjnych, pogrupowanie ich
     oraz rozpropagowanie do dalszych komponentów odpowiedzialnych za przetwarzanie
@@ -218,7 +218,7 @@
        \begin{itemize}
        \item reduction - parametr ten może przyjmować trzy wartości \textit{none},
        \textit{mean} oraz \textit{sum}. Pierwsza opcja spowoduje, że wartość funkcji
-       celu zostanie wyznaczona zgonie z podanym powyżej wzorem. Wartość \textit{mean}
+       celu zostanie wyznaczona zgodnie z podanym powyżej wzorem. Wartość \textit{mean}
        spowoduje wyznaczenie średniej wartości elementów wyjściowych. \textit{Sum}
        oznacza natomiast, że wyznaczona zostanie ich suma.
        \end{itemize} \\
@@ -237,7 +237,7 @@
 
        Parametry:
        \begin{itemize}
-       \item reduction - czytaj \textit{reduction} dla funckji \textit{L1Loss}.
+       \item reduction - czytaj \textit{reduction} dla funkcji \textit{L1Loss}.
        \end{itemize} \\
 
      \hline
@@ -282,7 +282,7 @@
        \begin{itemize}
        \item \textit{weight} - manualna wartość wagi przeskalowującej funkcję kosztu
        każdego elementu w pakiecie danych.
-       \item \textit{reduction} - czytaj \textit{reduction} dla funckji \textit{L1Loss}.
+       \item \textit{reduction} - czytaj \textit{reduction} dla funkcji \textit{L1Loss}.
        \end{itemize} \\
 
      \hline
@@ -290,7 +290,7 @@
      Loss} &
 
        Kryterium przyjmujące postać funckji \textit{MSE} w przypadku, gdy wartość
-       błędu bezwzględnego spada poniżej 1 oraz funckji \textit{L1} w przeciwnym
+       błędu bezwzględnego spada poniżej 1 oraz funkcji \textit{L1} w przeciwnym
        wypadku. Funkcja ta jest mniej czuła na wartości odstające niż
        \textit{MSELoss}, a w niektórych przypadkach zapobiega zjawisku
        eksplodującego gradientu. Znana jest również jako funkcja kosztu \textit{Huber'a}.
@@ -334,15 +334,15 @@
     \begin{figure}[H]
       \centering
       \includegraphics[width=4in]{plaszczyzna_optymalizacji}
-      \caption[Przykładowa płaszczyzna funckji celu - źródło: \url{https://towardsdatascience.com/neural-network-optimization-7ca72d4db3e0}]{Przykładowa płaszczyzna funckji celu}
+      \caption[Przykładowa płaszczyzna funkcji celu - źródło: \url{https://towardsdatascience.com/neural-network-optimization-7ca72d4db3e0}]{Przykładowa płaszczyzna funkcji celu}
       \label{fig:plaszczyzna_optymalizacji}
     \end{figure}
 
-    Można powiedzieć, że argumentami funckji celu są wagi modelu sieci neuronowej.
+    Można powiedzieć, że argumentami funkcji celu są wagi modelu sieci neuronowej.
     Każde kolejne połączenie w sieci posiadające własną wagę zwiększa wymiar
     płaszczyzny poszukiwań. Oznacza to, że dla modelu opisanego trzema wagami
     obszarem poszukiwań będzie płaszczyzna trójwymiarowa. Zazwyczaj modele sieci
-    są jednak dużo większe. I tak dla modelu na który składa się przykładowo sto
+    są jednak dużo większe. I tak dla modelu, na który składa się przykładowo sto
     wag poszukiwania optimum są w rzeczywistości prowadzone na hiperpłaszczyźnie
     posiadającej sto wymiarów.
 
@@ -353,9 +353,12 @@
     \[\Theta = \Theta - \eta \cdot \nabla J(\Theta),\]
 
     gdzie $\eta$ jest długością kroku treningowego, a $\nabla J(\Theta)$ oznacza
-    gradient funkcji kosztu zależnej od wag sieci $\Theta$.
+    gradient funkcji kosztu zależnej od wag sieci $\Theta$. Warto zauważyć, że
+    wartość gradientu wskazuje na płaszczyźnie funkcji celu położenie maksimum,
+    dlatego w procesie minimalizacji musimy kierować się w przeciwną stronę i odejmować
+    gradient od wag modelu.
 
-    Gradient ten wyznaczany jest z wykorzystaniem bardzo popularnego obecnie
+    Sam gradient wyznaczany jest z wykorzystaniem bardzo popularnego obecnie
     algorytmu nazywanego propagacją wsteczną. Jego ogólna idea jest stosunkowo
     prosta. Rezultaty pracy sieci ewaluowane są względem pożądanych wyników w
     ramach opisanej w poprzednim punkcie funkcji celu. Jeśli wyniki oceny nie są
@@ -366,7 +369,7 @@
     opisuje etapy tego algorytmu:
 
     \begin{quote}
-      'Rozważmy sieć neuronową z pojedynczym wejściem rzeczywistym $x$ i funckją
+      'Rozważmy sieć neuronową z pojedynczym wejściem rzeczywistym $x$ i funkcją
       sieci $F$. Pochodna $F(x)$ jest obliczana w dwóch fazach:
 
       Przekazywanie: wejście $x$ jest podawane do sieci. Funkcje aktywacji i ich pochodne są oceniane w każdym węźle (neuronie) sieci. Pochodne są przechowywane.
@@ -389,13 +392,13 @@
     rozwiązania, a jego dokładnością. Dodatkowo w przypadku wspomnianych algorytmów
     wszystkie parametry sieci modyfikowane są w jednakowy sposób, co nie zawsze jest
     korzystne. Przykładowo, gdy dane treningowe są rzadkie, a różne cechy występują
-    w nich z różnymi częstotliwościami pożądanym zjawiskiem byłoby przeprowadzanie większych
+    w nich z różnymi częstotliwościami, pożądanym zjawiskiem byłoby przeprowadzanie większych
     aktualizacji wag sieci dla cech występujących rzadziej. Pozostaje także niebezpieczeństwo
     związane z potencjalnym utknięciem modelu w jednym z minimów lokalnych, lub co gorsza
     w puncie siodłowym, którego przykładowy kształt przedstawia Rysunek \ref{fig:punkt_siodlowy}.
     Posiada on jednocześnie cechy zarówno minimum, jak i maksimum lokalnego i jest najczęściej
     otoczony przez płaskowyż cechujący się tą samą wartością funkcji kosztu. Bardzo często
-    uniemożliwia to ucieczkę takim algorytmom jak spadek gradientu, ponieważ wartość 
+    uniemożliwia to ucieczkę takim algorytmom jak spadek gradientu, ponieważ wartość
     gradientu jest wówczas bliska zeru we wszystkich wymiarach.
 
     \begin{figure}[H]
@@ -539,7 +542,7 @@
        \[m'_t = \frac{m_t}{1 - \beta^t_1}\]
        \[v'_t = \frac{v_t}{1 - \beta^t_2}\]
 
-       Na tej podstawie wyznaczana jest reguła aktualizacyjna Adama postaci:
+       Na tej podstawie wyznaczana jest reguła aktualizacyjna Adama, postaci:
 
        \[\Theta_{t+1} = \Theta_t - \frac{\eta}{\sqrt{v'_t} + \epsilon} \cdot m'_t.\]
 
@@ -585,7 +588,7 @@
     wykorzystywana przez optymalizator do aktualizacji wag modelu.
 
     \textit{Shuffle} pozwala określić, czy dane ze zbioru treningowego zostaną
-    posortowane, aby uniknąć powtarzalnej kolejności ich przekazaywania na wejście
+    posortowane, aby uniknąć powtarzalnej kolejności ich przekazywania na wejście
     sieci. Pozwala to lepiej przygotować sieć do pracy z danymi, których nie widziała
     w procesie uczenia.
 

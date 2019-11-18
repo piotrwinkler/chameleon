@@ -3,9 +3,10 @@
   "transforms":   [{"name": "ToTensor",
                   "parameters": []}],
   "input_conversions": [{"name":"Resize",
-                        "parameters": [[512, 512]]},
+                        "parameters": [[516, 516]]},
                         {"name":"NormalizeImage255",
                         "parameters": []}],
-  "output_conversions": [],
+  "output_conversions": [{"name":"Ceiling",
+                        "parameters": []}],
   "additional_params": {}
 }

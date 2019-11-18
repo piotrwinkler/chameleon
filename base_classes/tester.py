@@ -3,11 +3,12 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-
-from base_classes.data_collector import DataCollector
 from loguru import logger as log
 from skimage import color
 from torch.utils.data import DataLoader
+
+import base_classes.conversions as conversions
+from base_classes.data_collector import DataCollector
 
 
 class BaseTester:
@@ -33,11 +34,28 @@ class BaseTester:
         return cv2.imread(img_path)
 
     @staticmethod
-    def show_image(imgs_list):
-        for i, img in enumerate(imgs_list):
-            cv2.imshow(f'image{i}', img)
+    def show_images_opencv(images, titles):
+        """Beware that opencv requires BGR colors format!"""
+        assert len(images) == len(titles), 'Every image should have unique title!'
+        for img, title in zip(images, titles):
+            cv2.imshow(title, img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+
+    @staticmethod
+    def show_images_pyplot(images, titles, cols=1):
+        """Beware that pyplot requires RGB colors format!"""
+        assert len(images) == len(titles), 'Every image should have unique title!'
+        n_images = len(images)
+        fig = plt.figure()
+        for n, (image, title) in enumerate(zip(images, titles)):
+            a = fig.add_subplot(cols, np.ceil(n_images / float(cols)), n + 1)
+            if image.ndim == 2:
+                plt.gray()
+            plt.axis('off')
+            plt.imshow(image)
+            a.set_title(title)
+        plt.show()
 
     @staticmethod
     def _implement_transforms(data, transforms):
@@ -61,6 +79,9 @@ class TestImgtoImg(BaseTester):
 
     def test(self):
         self._model.load_state_dict(torch.load(self._load_net_path))
+        for name, param in self._model.named_parameters():
+            if param.requires_grad:
+                log.info(f'Name: {name}, Tensor: {param.data}')
 
         for i in range(len(self)):
             input_img = self.read_image(self._files_list[i])
@@ -78,7 +99,41 @@ class TestImgtoImg(BaseTester):
 
             log.info(f'Original image shape: {np.shape(orig_img)}')
             log.info(f'Output image shape: {np.shape(output_img)}')
-            self.show_image([orig_img, output_img])
+
+            # =========================================================================================================
+            orig = self.read_image(self._files_list[i])
+            normalize_image255_canny = conversions.NormalizeImage255Canny()
+            normalize_image255 = conversions.NormalizeImage255()
+            rgb_to_gray = conversions.RgbtoGray()
+            filter_image_sobelx = conversions.FilterImageSobelx()
+            sepia = conversions.Sepia()
+            canny = conversions.FilterCanny()
+            sharpen = conversions.FilterSharpen()
+            normalize_image = conversions.NormalizeImage()
+            resize = conversions.Resize([512, 512])
+            restrict_values = conversions.RestrictValues()
+            ceiling = conversions.Ceiling()
+            img = resize(orig)
+            # img = normalize_image255(img)
+            # img = rgb_to_gray(img)
+            # img = filter_image_sobelx(img)
+            img = sharpen(img)
+            img = restrict_values(img)
+            # img = sepia(img)
+            # img = ceiling(img)
+
+            # img = cv2.cvtColor(orig, cv2.COLOR_BGR2RGB)
+            # orig_img = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
+            # output_img = cv2.cvtColor(output_img, cv2.COLOR_BGR2RGB)
+            img = img[..., ::-1]
+            orig_img = orig_img[..., ::-1]
+            output_img = output_img[..., ::-1]
+            # print(img)
+            # print(orig_img)
+            # print(output_img)
+            # =========================================================================================================
+
+            self.show_images_pyplot([img, orig_img, output_img], ['OpenCV', 'oryginał', 'NN'])
 
 
 class ImageColorizationTester(BaseTester):

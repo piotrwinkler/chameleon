@@ -15,6 +15,6 @@ class SobelFilter(FilterSketch):
         log.info('NN structure defined!')
 
     def forward(self, x):
-        x = f.relu(self.conv1(x))
+        x = f.relu(self.conv1(x), True)
 
         return x

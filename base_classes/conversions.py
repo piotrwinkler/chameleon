@@ -148,10 +148,37 @@ class GaussKernel:
         return input_array.astype('float32')
 
 
+class RestrictValues:
+    def __init__(self):
+        pass
+
+    def __call__(self, input_array):
+        new = input_array + abs(np.min(input_array))
+        return new/np.max(new)
+
+
+class Ceiling:
+    def __init__(self):
+        pass
+
+    def __call__(self, input_array):
+        input_array[input_array > 1] = 1
+        return input_array
+
+
 if __name__ == "__main__":
-    # Executable code intended to conversions testing (should be deleted in final version)
-    img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/124003.jpg"
-    img = cv2.imread(img_path)
+    #   Executable code intended to conversions testing (should be deleted in final version)
+    img_path5 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/124003.jpg"     # stateczek
+    img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/126803.jpg"      # skały
+    img_path2 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/100000.jpg"
+    img_path3 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/101801.jpg"
+    img_path4 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/112602.jpg"
+
+    # img = cv2.imread(img_path)
+    img2 = cv2.imread(img_path2)
+    img3 = cv2.imread(img_path3)
+    img4 = cv2.imread(img_path4)
+    img5 = cv2.imread(img_path5)
 
     normalize_image255_canny = NormalizeImage255Canny()
     normalize_image255 = NormalizeImage255()
@@ -161,20 +188,32 @@ if __name__ == "__main__":
     canny = FilterCanny()
     sharpen = FilterSharpen()
     normalize_image = NormalizeImage()
-    resize = Resize([512, 512])
+    resize = Resize([256, 256])
+    restrict_values = RestrictValues()
+    ceiling = Ceiling()
 
-    img = resize(img)
+    img = resize(img5)
+    img2 = resize(img2)
+    img3 = resize(img3)
+    img4 = resize(img4)
     # img = normalize_image255_canny(img)
     # img = sepia(img).astype('float32')
     # gray_img = ImagesConverter.normalize_image255(gray_img)
     img = normalize_image255(img)
     # img = rgb_to_gray(img)
+
+    # img = filter_image_sobelx(img)
     img = sepia(img)
+    img = ceiling(img)
     # img = sharpen(img)
+
     # img = np.array(img, dtype='float32')
-    img = normalize_image(img)
+    # img = restrict_values(img)
     print(np.shape(img))
-    cv2.imshow(f'ground truth', img)
+    cv2.imshow(f'img', img)
+    # cv2.imshow(f'img2', img2)
+    # cv2.imshow(f'img3', img3)
+    # cv2.imshow(f'img4', img4)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
@@ -189,3 +228,42 @@ if __name__ == "__main__":
     # cv2.imshow('Image Sharpening', sharpened)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
+
+# def show_images(images, cols=2, titles=None):
+#     """Display a list of images in a single figure with matplotlib.
+#
+#     Parameters
+#     ---------
+#     images: List of np.arrays compatible with plt.imshow.
+#
+#     cols (Default = 1): Number of columns in figure (number of rows is
+#                         set to np.ceil(n_images/float(cols))).
+#
+#     titles: List of titles corresponding to each image. Must have
+#             the same length as titles.
+#     """
+#     assert ((titles is None) or (len(images) == len(titles)))
+#     n_images = len(images)
+#     if titles is None:
+#         titles = ['Image (%d)' % i for i in range(1, n_images + 1)]
+#     fig = plt.figure()
+#     for n, (image, title) in enumerate(zip(images, titles)):
+#         a = fig.add_subplot(cols, np.ceil(n_images / float(cols)), n + 1)
+#         if image.ndim == 2:
+#             plt.gray()
+#         plt.axis('off')
+#         plt.imshow(image)
+#         # a.set_title(title)
+#     fig.set_size_inches(np.array(fig.get_size_inches()) * n_images)
+#     plt.show()
+#
+
+# import matplotlib.pyplot as plt
+# import numpy as np
+#
+# img_path = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/124003.jpg"
+# img_path2 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/118200.jpg"
+# img_path3 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/101801.jpg"
+# img_path4 = "/home/piotr/venvs/inz/projects/chameleon/datasets/training_dataset/112602.jpg"
+# list_ = [plt.imread(img_path), plt.imread(img_path2), plt.imread(img_path3), plt.imread(img_path4)]
+# show_images(list_)

@@ -6,7 +6,7 @@
                         "parameters": [[512, 512]]},
                           {"name":"NormalizeImage255",
                         "parameters": []}],
-  "output_conversions": [{"name":"NormalizeImage",
+  "output_conversions": [{"name": "Ceiling",
                         "parameters": []}],
   "additional_params": {}
 }
