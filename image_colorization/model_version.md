@@ -4054,3 +4054,61 @@ Standardyzacja na ab i L i blur na L
 ## Wnioski:
 
 Do rozdziału o preprocessingu wziąć porównanie dla V84 bez tricku czyli wersje V160-163, na nich fajnie widać
+
+## Uzycie sigmoid zamiast ReLU wszędzie
+
+V200:
+
+V130 ale z sigmoidem
+
+
+      "net": "FCN_net_mega_sigmoid",
+      "criterion":
+      {
+          "name": "MSELoss",
+          "patameters":
+          {
+            "reduction": "mean"
+          }
+      },
+      "optimizer":
+      {
+          "name": "Adam",
+          "parameters":
+          {
+            "lr": 0.1,
+            "weight_decay": 1e-10
+          }
+      },
+      "scheduler":
+      {
+    
+      },
+      "dataset":
+      {
+        "name": "BasicCifar10Dataset",
+        "input_conversions": [{"name":"CustomNormalize", "parameters": [50, 100]}],
+        "output_conversions": [{"name":"Standardization", "parameters": []}],
+        "transforms": [{"name": "ToTensor",
+                        "parameters": []}]
+      },
+      "additional_params":
+      {
+        "get_data_to_test": false,
+        "choose_train_set": true,
+    
+        "blur":
+        {
+          "do_blur": false,
+          "kernel_size": [5, 5]
+        },
+        "ab_input_processing": "standardization",
+        "ab_output_processing": "standardization",
+        "L_input_processing": "normalization"
+      }
+    
+        Results: Nov18_16-17-43_DESKTOP-K2JRB94 , Loss = 
+        
+        Po 60 epokach
+        Bez tricku: 
+        Z trickiem: 

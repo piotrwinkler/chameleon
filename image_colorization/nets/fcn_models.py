@@ -565,3 +565,71 @@ class FCN_net_mega_dropout3(nn.Module):
         output = self.conv12(output)
 
         return output
+
+# zmiana miejscami warstw BatchNorm i Relu w FCN_net_mega, najpierw conv, potem relu, potem batch
+class FCN_net_mega_sigmoid(nn.Module):
+    def __init__(self):
+        super(FCN_net_mega_sigmoid, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1)
+        self.bn1 = nn.BatchNorm2d(32)
+        self.sigm1 = nn.Sigmoid()
+
+        self.conv2 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, stride=1, padding=1)
+        self.bn2 = nn.BatchNorm2d(32)
+        self.sigm2 = nn.Sigmoid()
+
+        self.conv3 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, stride=1, padding=1)
+        self.bn3 = nn.BatchNorm2d(32)
+        self.sigm3 = nn.Sigmoid()
+
+        self.conv4 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, stride=1, padding=1)
+        self.bn4 = nn.BatchNorm2d(32)
+        self.sigm4 = nn.Sigmoid()
+
+        self.conv5 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1, padding=1)
+        self.bn5 = nn.BatchNorm2d(64)
+        self.sigm5 = nn.Sigmoid()
+
+        self.conv6 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
+        self.bn6 = nn.BatchNorm2d(64)
+        self.sigm6 = nn.Sigmoid()
+
+        self.conv7 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
+        self.bn7 = nn.BatchNorm2d(64)
+        self.sigm7 = nn.Sigmoid()
+
+        self.conv8 = nn.Conv2d(in_channels=64, out_channels=32, kernel_size=3, stride=1, padding=1)
+        self.bn8 = nn.BatchNorm2d(32)
+        self.sigm8 = nn.Sigmoid()
+
+        self.conv9 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, stride=1, padding=1)
+        self.bn9 = nn.BatchNorm2d(32)
+        self.sigm9 = nn.Sigmoid()
+
+        self.conv10 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=1, stride=1, padding=0)
+        self.bn10 = nn.BatchNorm2d(32)
+        self.sigm10 = nn.Sigmoid()
+
+        self.conv11 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=1, stride=1, padding=0)
+        self.bn11 = nn.BatchNorm2d(32)
+        self.sigm11 = nn.Sigmoid()
+
+        self.conv12 = nn.Conv2d(in_channels=32, out_channels=2, kernel_size=1, stride=1, padding=0)
+
+    def forward(self, inp):
+
+        output = self.bn1(self.sigm1(self.conv1(inp)))
+        output = self.bn2(self.sigm2(self.conv2(output)))
+        output = self.bn3(self.sigm3(self.conv3(output)))
+        output = self.bn4(self.sigm4(self.conv4(output)))
+        output = self.bn5(self.sigm5(self.conv5(output)))
+        output = self.bn6(self.sigm6(self.conv6(output)))
+        output = self.bn7(self.sigm7(self.conv7(output)))
+        output = self.bn8(self.sigm8(self.conv8(output)))
+        output = self.bn9(self.sigm9(self.conv9(output)))
+        output = self.bn10(self.sigm10(self.conv10(output)))
+        output = self.bn11(self.sigm11(self.conv11(output)))
+
+        output = self.conv12(output)
+
+        return output

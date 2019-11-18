@@ -1003,11 +1003,11 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   to na zastosowaniu w wybranym modelu wiedzy, którą inny model posiadł w trakcie
   treningu. Dzięki temu sieć trenowana do pewnego zadania z użyciem olbrzymich
   ilości danych może być wykorzystana w zadaniu podobnym, do którego nie
-  posiada się zbyt wielu danych treningowych. Innym zastosowaniem jest
+  posiada się zbyt wielu danych treningowych. Odbywa się to poprzez
   wyciągnięcie z wybranego modelu wyuczonych warstw specjalizujących się w
   pewnych operacjach oraz zastosowanie tych warstw w innym modelu, dzięki
-  temu można przykładowo uzyskać bez treningu warstwy konwolucyjne wytrenowane
-  do wyciągania z obrazu jego kluczowych cech i charakterystycznych wzorców.
+  czemu można przykładowo uzyskać, bez konieczności treningu, warstwy konwolucyjne wytrenowane
+  do wyciągania z obrazu jego kluczowych cech i identyfikowania charakterystycznych wzorców.
   Przenoszenie uczenia odbywa się poprzez zaimplementowanie w tworzonym modelu
   warstw na podobieństwo warstw modelu z użyciem którego chcemy dokonać
   przeniesienia uczenia, następnie dla tych warstw wczytuje się odpowiednie wagi
@@ -1018,28 +1018,20 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   z użyciem sieci neuronowych przy ograniczonych zasobach dostępnej mocy
   obliczeniowej oraz danych treningowych.
 
-  Z związku z tym została podjęta próba zastosowanie przeniesienia uczenia w
+  Z związku z licznymi zaletami przenoszenia uczenia została podjęta próba
+  zastosowania tej metody w
   zagadnieniu kolorowania czarno-białych obrazów. Do tego celu wykorzystane
   zostało podejście zaprezentowane przez L. Melas-Kyriazi oraz G. Han w 2016
   roku \cite{deconvolution_colorization}. Wykorzystali oni głęboką sieć
   splotową będącą połączeniem wyuczonej sieci typu ResNet
   (ang. Residual Networks) \cite{ResNet}
   z opracowanymi przez nich warstwami dekonwolucyjnymi. Model ten został
-  zaimplementowany oraz wytrenowany, a jego rezultaty zostały porównane z
+  zaimplementowany, a jego rezultaty zostały porównane z
   rezultatami modelu zaprezentowanego w punkcie \ref{model autorski}.
 
   Podobnie jak w modelu autorskim w procesie uczenia została wykorzystana przestrzeń
   barw CIELab. Na wejście sieci podawana była składowa jasności, a danymi
-  referencyjnymi dla wyjścia sieci były dwie składowe koloru. Do przeniesienia
-  uczenia został wykorzystany model
-  ResNet-Gray opracowany przez autorów testowanego rozwiązania poprzez
-  wytrenowanie modelu ResNet-18 do zadania klasyfikacji czarno-białych obrazów
-  z użyciem zbioru danych ImageNet \cite{ImageNet}. Osiągnięta dokładność na zbiorze testowym
-  była na poziomie 79.9\% w porównaniu z ResNet-18 klasyfikującym kolorowe obrazy z
-  dokładnością 85\%. Pozwala to założyć, że model ResNet-Gray poprawnie nauczył
-  się rozpoznawać najistotniejsze cechy obiektów na obrazach, co powinno
-  przełożyć się na satysfakcjonującą jakość kolorowania.
-
+  referencyjnymi dla wyjścia sieci były dwie składowe koloru.
   Idea testowanej architektury
   polega na integracji cech wysokiego oraz średniego poziomu z przetwarzanego obrazu.
   Przykładowo cechy wysokiego poziomu mogą wskazywać na typ otoczenia, jeśli
@@ -1050,24 +1042,45 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   Wykorzystany model składa się z 3 komponentów, sieci ResNet-Gray stanowiącej
   początkową część testowanego modelu, bloku fuzji oraz sieci dekonwolucyjnej
   odpowiedzialnej za wygenerowanie oczekiwanych kolorów.
-  Model ResNet-Gray identyfikuje
-  na obrazie wejściowym kluczowe wzorce wymagane do wyciągnięcia cech
+
+  Model ResNet-Gray został opracowany przez autorów testowanego rozwiązania poprzez
+  wytrenowanie modelu ResNet-18 do zadania klasyfikacji czarno-białych obrazów
+  z użyciem zbioru danych ImageNet \cite{ImageNet}. Osiągnięta dokładność na zbiorze testowym
+  była na poziomie 79.9\% w porównaniu z ResNet-18 klasyfikującym kolorowe obrazy z
+  dokładnością 85\%. Pozwala to założyć, że model ResNet-Gray poprawnie nauczył
+  się rozpoznawać najistotniejsze cechy obiektów na obrazach, co powinno
+  przełożyć się na satysfakcjonującą jakość kolorowania.
+  Zadanie ResNet-Gray w testowanym rozwiązaniu polega na identyfikacji
+  na obrazie wejściowym kluczowych wzorców wymaganych do wyciągnięcia cech
   poszczególnych poziomów. Początkowe warstwy wyciągają cechy niskopoziomowe, takie jak położenie krawędzi na obrazie. Warstwy środkowe
   służą do odpowiedniego przetworzenia tych cech, aby uzyskać cechy średniopoziomowe,
   cechy te oprócz podania ich na kolejne warstwy ResNet-Gray są dodatkowo wyprowadzane
   na blok fuzji. Zadaniem ostatnich warstw jest wydobycie cech
   wysokiego poziomu, które również są przekazywane do bloku odpowiedzialnego za
-  fuzję. Blok fuzji jest odpowiedzialny za przestrzenne połączenie podawanych
+  fuzję.
+
+  Blok fuzji jest odpowiedzialny za przestrzenne połączenie podawanych
   na niego cech, a następnie przetworzenie ich przez sieć złożoną z jednej
-  warstwy realizującą odpowiednią funkcję, której współczynniki poddawane są
+  warstwy realizującej odpowiednią funkcję, której współczynniki poddawane są
   optymalizacji w procesie uczenia.
+
   Wyjście bloku fuzji jest następnie przekazywane na sieć dekonwolucyjną, która
   tworzy oczekiwane składowe \textit{A} i \textit{B} przestrzeni kolorów CIELab.
-  Sieć ta składa się z zestawu warstw konwolucyjnych i warstw nadpróbkujących
-  (ang. upsampling). Mają one na celu przetworzyć wejściówy zbiór cech po
-  etapie fuzji w składowe kolorów przewidzianych dla obrazu wejściowego.
-  Każda warstwa nadpróbkująca zwiększają dwukrotnie szerokość i wysokość obrazu
-  używając algorytmu najbliższego sąsiada.
+  Sieć ta składa się z zestawu członów konwolucyjnych i warstw nadpróbkujących
+  (ang. upsampling). Ma ona na celu przetworzyć wejściowy zbiór cech otrzymany w
+  procesie fuzji na składowe kolorów przewidzianych dla obrazu wejściowego.
+  Każdy człon konwolucyjny, oprócz dwóch ostatnich, składa się z pojedynczej
+  warstwy konwolucyjnej połączonej z warstwą BatchNorm i warstwą funkcji
+  aktywacji ReLU. Przedostatni człon złożony jest z warstwy konwolucyjnej, po
+  której umieszczona jest warstwa funkcji aktywacji Sigmoid, mająca na celu
+  wygenerowanie oczekiwanych wartości dla składowych kolorów. Ostatni człon
+  konwolucyjny składa się z pojedynczej warstwy konwolucyjnej, której wyjście
+  przekazywane jest na ostatnią warstwę nadpróbkującą będącą zarazem wyjściem
+  sieci dekonwolucyjnej.
+  Warstwy nadpróbkujące w sieci służy do modyfikacji rozdzielczości kanałów
+  przechodzących przez sieć, w tym rozwiązaniu zwiększają one
+  dwukrotnie szerokość i wysokość każdego kanału wejściowego używając algorytmu
+  najbliższego sąsiada.
 
   Wybrany loss i optimizer
 
