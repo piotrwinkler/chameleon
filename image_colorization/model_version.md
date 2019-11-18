@@ -4107,8 +4107,8 @@ V130 ale z sigmoidem
         "L_input_processing": "normalization"
       }
     
-        Results: Nov18_16-17-43_DESKTOP-K2JRB94 , Loss = 
+        Results: Nov18_16-17-43_DESKTOP-K2JRB94 , Loss = 0.85
         
         Po 60 epokach
-        Bez tricku: 
-        Z trickiem: 
+        Bez tricku: Słabiutko, wszystko szare 
+        Z trickiem: Słabo, wszystko niebieskie
