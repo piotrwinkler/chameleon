@@ -1,4 +1,4 @@
-\subsection{Automatyczne kolorowanie czarno-białych obrazów}
+\subsection[Automatyczne kolorowanie czarno-białych obrazów (Bartosz Bieliński)]{Automatyczne kolorowanie czarno-białych obrazów}
 
   Problem kolorowania czarno-białych obrazów cieszy się dużym zainteresowaniem z
   wielu powodów. Od potrzeb kulturowych takich jak możliwość lepszego
@@ -593,7 +593,6 @@
 
 \subsubsection{Algorytmy optymalizacyjne} \label{Algorytmy optymalizacyjne}
   % Bez teorii
-  % TODO: Może dać bardziej szczegółowy opis
   % TODO: Zacytować twórców Adam i Adagrad, linki do paperów są w dokumentacji
   % pytorcha o tych algorytmach
   Podczas planowanie treningu modelu należy zdecydować się na odpowiedni
@@ -1030,9 +1029,13 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   zaimplementowany, a jego rezultaty zostały porównane z
   rezultatami modelu zaprezentowanego w punkcie \ref{model autorski}.
 
-  Podobnie jak w modelu autorskim w procesie uczenia została wykorzystana przestrzeń
-  barw CIELab. Na wejście sieci podawana była składowa jasności, a danymi
-  referencyjnymi dla wyjścia sieci były dwie składowe koloru.
+  Podobnie jak w modelu autorskim w procesie uczenia przeprowadzonym przez
+  autorów omawianego rozwiązania została wykorzystana przestrzeń
+  barw CIELab. Wejściowy obraz konwertowany jest oddzielnie do skali szarości oraz do
+  przestrzeni barw CIELab. Na wejście modelu podawana jest wersja obrazu
+  wejściowego w skali szarości, a danymi referencyjnymi dla wyjścia sieci są
+  dwie składowe koloru \textit{A} i \textit{B} obrazu wejściowego w CIELab.
+
   Idea testowanej architektury
   polega na integracji cech wysokiego oraz średniego poziomu z przetwarzanego obrazu.
   Przykładowo cechy wysokiego poziomu mogą wskazywać na typ otoczenia, jeśli
@@ -1083,8 +1086,41 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   dwukrotnie szerokość i wysokość każdego kanału wejściowego używając algorytmu
   najbliższego sąsiada.
 
-  Wybrany loss i optimizer
+  Przedstawiona architektura została zaimplementowana i do każdego z 3
+  komponentów została zastosowana metoda przeniesienia uczenia polegająca na
+  wczytaniu do wszystkich zaimplementowanych warstw wag udostępnionych przez
+  autorów architektury. Tak przygotowana sieć została następnie douczona
+  na zbiorze danych CIFAR-10 w celu zwiększenia rzetelności porównania jej
+  rezultatów z rezultatami modelu autorskiego. W procesie treningu
+  możliwość aktualizacji wag komponenty ResNet-Gray została zablokowana, aby
+  przeciwdziałać traceniu wyuczonej wiedzy przez ten model. Zjawisko to
+  % TODO:
 
-  Wybrany preprocessing
+  jako, że
+  wytrenowany był on do zadania klasyfikacji, które jest bardzo odmienne
+  od zagadnienia kolorowania czarno-białych zdjęć pod względem
+
+  Wybór funkcji kosztu wykorzystanej w procesie uczenia był poparty badaniami
+  przeprowadzonymi przez L. Melas-Kyriazi oraz G. Han. Pomysłodawcy rozwiązania przetestowali skuteczność takich funkcji celu jak L1Loss i MSELoss. Dowiedli
+  oni, że MSELoss pozwala uzyskać żywsze barwy w kolorowanych obrazach, z tego
+  powodu właśnie ta funkcja została wykorzystana w treningu modelu.
+  Kierując się testami przeprowadzonymi w punkcie \ref{Algorytmy optymalizacyjne}
+  oraz zaleceniami autorów ResNet-Gray jako algorytm optymalizacyjny został
+  wybrany algorytm Adam o parametrach $\beta_{1} = 0.9$, $\beta_{2} = 0.999$,
+  $\text{wskaźnik uczenia} = 0.1$, $\text{współczynnik zaniku wag} = 1e-10$ oraz
+  $eps=1e-08$.
+
+  Możliwości wyboru metody wstępnego przetwarzania danych są znacznie ograniczone
+  z powodu stosowania przenoszenia uczenia. Wynika to z faktu, że wykorzystując
+  już wyuczone warstwy należy im zapewnić dane wejściowe w takiej samej postaci,
+  jaka była wykorzystana podczas treningu tych warstw. Pierwszym komponentem
+  testowanej architektury jest model ResNet-Gray, model ten
+  samodzielnie dokonuje odpowiedniego przygotowania danych wejściowych, w związku
+  z czym nie ma potrzeby wykonywać tego samodzielnie. Natomiast referencyjne
+  składowe \textit{A} i \textit{B} muszą być znormalizowane na przestrzeni
+  całego zbioru danych do przedziału od
+  0 do 1 tak jak odbywało się to podczas pierwotnego treningu modelu. Ma to
+  bezpośredni związek z zastosowaniem warstwy funkcji aktywacji Sigmoid, której
+  przedział aktywacji równa się właśnie \textless 0, 1 \textgreater.
 
   Rezultaty i porówniania
