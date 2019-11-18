@@ -15,7 +15,8 @@ def main():
     network = eval(config_dict['net_model'])()
     trainer = Trainer(config_dict, network, tensorboard_directory=consts.TENSORBOARD_DIRECTORY,
                       net_saving_directory=consts.NET_SAVING_DIRECTORY,
-                      retraining_net_directory=consts.RETRAINING_NET_DIRECTORY)
+                      retraining_net_directory=consts.RETRAINING_NET_DIRECTORY,
+                      optimizer_saving_directory=consts.OPTIMIZER_SAVING_DIRECTORY)
     trainer.train(dataset)
 
 
