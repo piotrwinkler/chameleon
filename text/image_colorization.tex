@@ -1142,13 +1142,15 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   bezpośredni związek z zastosowaniem warstwy funkcji aktywacji Sigmoid, której
   przedział aktywacji równa się właśnie \textless 0, 1 \textgreater.
 
-  Obrazek
+  Obrazek !!!
 
-  Analizując pokolorowane obrazy na Rysunku ... można zauwążyć, że o wiele lepszą
+  Analizując pokolorowane obrazy na Rysunku ... można zauwążyć, że bardziej satysfakcjonująca
   jakość kolorowania została uzyskaną z użyciem modelu, dla którego zastosowano metodę
   przeniesienia uczenia. Kolory są bla bla bla ... . Świadczy to, że podejście zaproponowane
   przez autorów rozwiązania wykazuje się wysoką skutecznością jako rozwiązanie omawianej problematyki,
   a integracja cech wysokiego oraz średniego poziomu przynosi oczekiwane rezultaty.
+  Wielką zaletą zaimplementowanej architekury jest jej modułowość dająca znacznie większe możliwości rozprowadzania w sieci
+  danych z poszczególnych etapów przetwarzania.
   Sieć dekonwolucyjna dostając dodatkowe informację o kolorowanych obiektach, zwłasza o ich klasie, jest w stanie
   lepiej wyuczyć się prawdopodobnych barw dla tych obiektów. Wadą tej architekury jest jednak narzucona
   stała rozdzielczość obrazów wyjściowych równa 512x512 pikseli, w przypadku kolorowanie obrazów
@@ -1156,11 +1158,17 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   większą elastycznością w tym obszarze działań umożliwiając kolorowanie dowolnych obrazów
   bez modyfikacji ich rozdzielczości.
 
-  Jak widać zastosowanie w rozwiązaniu sieci neuronowej, która specjalizuje się w
-  operacjach nie do końca związanych z  problematyką, do której sieć ta zostanie zastosowana,
-  może pozytywnie wpłynąć na skuteczność całego rozwiązania. Utwierdza to w przekonaniu, że
+  Jak widać zastosowanie w przedstawionym rozwiązaniu sieci neuronowej specjalizującej się w
+  operacjach nie do końca związanych z rozwiązywaną  problematyką, może pozytywnie wpłynąć na
+  skuteczność całego rozwiązania. Utwierdza to w przekonaniu, że
   przeniesienie uczenia jest podejściem o wielu zaletach, które znacznie zwiększa ilość
-  możliwych zastosowań sieci neuronowych oraz poszerza
+  możliwych zastosowań sieci neuronowych. Jest one szczególnie przydatne w rozwiązaniach, w których
+  pragnie się zastosować sieć neuronową o złożonej architekurze, a dysponuje się ograniczonymi
+  zasobami obliczeniowymi.
+  Ponadto metoda przeniesienia uczenia pozwala, z użyciem douczania, zwiększyć
+  skuteczność końcową modelu poprzez poszerzenie ogólnej wiedzy już wytrenowanej sieci o wiedzę związaną
+  z docelową problematyką, umożliwia to dokładne dopracowanie efektywności pracy sieci.
+  Dużą zaletą jest także znacznie ułatwione tworzenie modularnych
+  rozwiązań cechujących się większą uniwersalnością oraz elastycznością.
 
   \subsubsection{Podsumowanie}
-
