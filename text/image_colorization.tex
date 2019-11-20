@@ -1017,7 +1017,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   początku do końca.
 
 
-  \subsubsection{Model z wykorzystaniem przeniesienia uczenia}
+  \subsubsection{Model z wykorzystaniem przeniesienia uczenia} \label{transfer model}
 
   Olbrzymią zaletą sieci neuronowych, sprawiającą, że są one wyjątkowo
   uniwersalne, jest możliwość przenoszenia uczenia. Polega
@@ -1188,6 +1188,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   przez autorów rozwiązania wykazuje się wysoką skutecznością jako rozwiązanie
   zagadnienia predykcji kolorów, a integracja cech wysokiego oraz średniego poziomu
   przynosi oczekiwane rezultaty.
+
   Wielką zaletą zaimplementowanej architektury jest jej modułowość dająca znacznie
   większe możliwości rozprowadzania w sieci danych z poszczególnych etapów przetwarzania.
   Sieć dekonwolucyjna dostając dodatkowe informację o kolorowanych obiektach,
@@ -1205,7 +1206,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   Utwierdza to w przekonaniu, że przeniesienie uczenia jest podejściem o wielu
   zaletach, które znacznie zwiększa ilość możliwych zastosowań sieci neuronowych.
   Jest one szczególnie przydatne w rozwiązaniach, które wymagają
-  zastosowania sieci neuronowej o złożonej architekurze, a dysponuje się ograniczonymi
+  zastosowania sieci neuronowej o złożonej architekturze, a dysponuje się ograniczonymi
   zasobami obliczeniowymi.
   Ponadto metoda przeniesienia uczenia pozwala, z użyciem douczania, zwiększyć
   skuteczność końcową modelu poprzez poszerzenie ogólnej wiedzy już wytrenowanej
@@ -1215,3 +1216,37 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   rozwiązań cechujących się większą uniwersalnością oraz elastycznością.
 
   \subsubsection{Podsumowanie}
+
+  Sieci neuronowe słyną ze swoich niezwykłych zdolności adaptacyjnych
+  sprawiających, że mogą być z licznymi sukcesami stosowane do wielu różnych celów.
+  Badania przeprowadzone w tym rozdziale dowodzą, że nadają się one znakomicie
+  także jako rozwiązanie problematyki kolorowania czarno-białych obrazów.
+  Warto zaznaczyć, że jest to problematyka bardzo złożona, dla której nie
+  istnieje proste rozwiązanie używające klasycznych metod edycji obrazu.
+  W rozdziale tym zostały przedstawione dwa funkcjonujące rozwiązania.
+  Posiadają one swoje zalety i wady, jednakże oba prezentują zadowalające
+  rezultaty.
+
+  Model autorski przedstawiony w punkcie \ref{model autorski}
+  jest dowodem na to, że wstępnie pozytywne wyniki można osiągnąć
+  stosując nawet proste sieci splotowe. Model taki ze względu na
+  nieskomplikowaną architekturę jest mało problematyczny w implementacji, a jego
+  skuteczny trening można przeprowadzać bez dużego zapotrzebowania na moc
+  obliczeniową. Sprawia to, że jest on wyjątkowo łatwo dostępny i stanowi
+  znakomitą bazę pod różnorakie eksperymenty i potencjalne rozszerzenia.
+
+  Inne podejście zostało zaprezentowane w przypadku modelu opisanego w punkcie
+  \ref{transfer model}. Fundamentem tego rozwiązania jest wykorzystanie
+  techniki przeniesienia uczenia redukującej ograniczenia wynikające z
+  niewystarczających zasobów obliczeniowych. Wykorzystany model cechuje się
+  znacznie większą złożonością zastosowanej architektury niż model autorski.
+  Bazuje on na efektywnej współpracy pomniejszych komponentów składających się
+  na całokształt rozwiązania. Charakter tego podejścia umożliwił stworzenie
+  znacznie bardziej zaawansowanego modelu uwzględniającego większą ilość czynników
+  kluczowych dla rozważanego zagadnienia, co przekłada się na wysoce zadowalające
+  rezultaty.
+
+  Zaprezentowane w tym rozdziale wyniki dowodzą wysokiej użyteczności i
+  nadzwyczajnej skuteczności zastosowań sieci neuronowych do rozwiązywania
+  niepospolitych oraz złożonych problemów, tak w zakresie edycji obrazu jak i
+  w innych dziedzinach.
