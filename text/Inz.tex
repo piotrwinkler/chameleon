@@ -60,6 +60,9 @@
 \usepackage[caption = false]{subfig}
 \usepackage{caption}  % Umożliwia zdefiniowanie, że podpis pod rysunkiem ma być np wyśrodkowany
 
+\usepackage[scaled]{helvet} %Zastępczy font dla Ariala
+\renewcommand\familydefault{\sfdefault}
+\usepackage[T1]{fontenc}
 
 %\renewcommand{\chaptername}{Rozdział}
 %\renewcommand{\contentsname}{Spis treści}
@@ -93,6 +96,7 @@
 
 % Strone tytulowa trzeba bedzie pobrac z moja pg
 \includepdf[pages=-]{StronaTytulowa_bb.pdf} %pages=- to załączenie wszystkich stron
+\includepdf[pages=-]{Oswiadczenie_PW.pdf}
 
 
 % \begin{titlepage}
