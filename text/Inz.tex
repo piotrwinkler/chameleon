@@ -95,34 +95,34 @@
 \includepdf[pages=-]{StronaTytulowa_bb.pdf} %pages=- to załączenie wszystkich stron
 
 
-\begin{titlepage}
-  \begin{center}
-
-    \vspace*{1cm}
-    \Huge
-    \textbf{POLITECHNIKA GDAŃSKA}
-    \newline
-    \vspace{0.5cm}
-    \LARGE
-    \newline
-    Katedra Systemów Decyzyjnych i Robotyki
-
-    \vspace{1.5cm}
-    \textbf{PRACA INŻYNIERSKA}
-    \\[0.5cm]
-    \textbf{Zastosowanie sieci neuronowych do edycji obrazów}
-
-    \vspace{2.5cm}
-    \Large
-    \textbf{Autorzy}\\
-    Piotr Winkler\\
-    Bartosz Bieliński
-
-    \vspace{3.5cm}
-    Gdańsk 2019
-
-  \end{center}
-\end{titlepage}
+% \begin{titlepage}
+%   \begin{center}
+%
+%     \vspace*{1cm}
+%     \Huge
+%     \textbf{POLITECHNIKA GDAŃSKA}
+%     \newline
+%     \vspace{0.5cm}
+%     \LARGE
+%     \newline
+%     Katedra Systemów Decyzyjnych i Robotyki
+%
+%     \vspace{1.5cm}
+%     \textbf{PRACA INŻYNIERSKA}
+%     \\[0.5cm]
+%     \textbf{Zastosowanie sieci neuronowych do edycji obrazów}
+%
+%     \vspace{2.5cm}
+%     \Large
+%     \textbf{Autorzy}\\
+%     Piotr Winkler\\
+%     Bartosz Bieliński
+%
+%     \vspace{3.5cm}
+%     Gdańsk 2019
+%
+%   \end{center}
+% \end{titlepage}
 
 \setcounter{page}{2}
 
@@ -148,6 +148,20 @@
 
   W tym rozdziale zostały przedstawione koncepcje rozwiązań wybranych zagadnień
   oraz ich implementacje.
+
+  W pierwszej kolejności zaprezentowany został autorski framework TorchFrame,
+  stworzony w języku Python i przeznaczony do przyspieszenia i uproszczenia
+  pracy z sieciami neuronowymi. Z jego pomocą wykonane zostały modele przeznaczone
+  do różnego rodzaju filtrowania i przetwarzania obrazów. Rozwiązania te
+  skupiły się na rozległej tematyce poczynając od prostych filtrów demonstrujących
+  działanie sztucznych sieci splotowych, a kończąc na złożonym modelu przeznaczonym do
+  inteligentnego kolorowania czarno-białych zdjęć.
+
+  W ramach przedstawionych rozwiązań zamieszczone zostały porównania wyników
+  osiągniętych rozmaitymi metodami treningowymi wraz z rozważaniami teoretycznymi
+  związanymi z zastosowaniem różnorodnych hiperparametrów w czasie uczenia sieci.
+  Ponadto, w ramach kolejnych rozdziałów, opisane zostały istotne
+  elementy składające się na proces tworzenia sztucznych sieci neuronowych.
 
   \include{framework}
 
