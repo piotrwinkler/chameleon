@@ -1142,20 +1142,25 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   bezpośredni związek z zastosowaniem warstwy funkcji aktywacji Sigmoid, której
   przedział aktywacji równa się właśnie \textless 0, 1 \textgreater.
 
-  Rezultaty i porówniania
-  
-  Testowana architekura, po odpowiednim douczeniu, została wykorzystana do 
-pokolorowania wybranych obrazów. Porównanie otrzymanych rezultatów z rezultatami 
-uzyskanymi z użyciem modelu autorskiego zostało przedstawione na Rysunku ... .
+  Obrazek
 
+  Analizując pokolorowane obrazy na Rysunku ... można zauwążyć, że o wiele lepszą
+  jakość kolorowania została uzyskaną z użyciem modelu, dla którego zastosowano metodę
+  przeniesienia uczenia. Kolory są bla bla bla ... . Świadczy to, że podejście zaproponowane
+  przez autorów rozwiązania wykazuje się wysoką skutecznością jako rozwiązanie omawianej problematyki,
+  a integracja cech wysokiego oraz średniego poziomu przynosi oczekiwane rezultaty.
+  Sieć dekonwolucyjna dostając dodatkowe informację o kolorowanych obiektach, zwłasza o ich klasie, jest w stanie
+  lepiej wyuczyć się prawdopodobnych barw dla tych obiektów. Wadą tej architekury jest jednak narzucona
+  stała rozdzielczość obrazów wyjściowych równa 512x512 pikseli, w przypadku kolorowanie obrazów
+  o wysokiej rozdzielczości dochodzi do znacznej utraty ich jakości. Model autorski cechuje się
+  większą elastycznością w tym obszarze działań umożliwiając kolorowanie dowolnych obrazów
+  bez modyfikacji ich rozdzielczości.
 
-Analizując pokolorowane obrazy na Rysunku ... można zauwążyć o wiele lepszą 
-jakość kolorowania uzyskaną z użyciem modelu, do którego została zastosowana metoda 
-przeniesienia uczenia. Kolory są bla bla bla ... . Świadczy to, że podejście zaproponowane 
-przez autorów rozwiązania może być skutecznie zastosowane jako rozwiązanie omawianej problematyki, 
-a integracja cech wysokiego oraz średniego poziomu przynosi oczekiwane rezultaty. 
-Jak widać zastosowanie w rozwiązaniu sieci neuronowej, która specjalizuje się w 
-operacjach nie do końca związanych z problematyką, do której sieć ta zostanie zastosowana, 
-może pozytywnie wpłynąć na skuteczność całego rozwiązania. Utwierdza to w przekonaniu, że 
-przeniesienie uczenia jest podejściem o wielu zaletach, które znacznie zwiększa ilość 
-możliwych zastosowań sieci neuronowych. 
+  Jak widać zastosowanie w rozwiązaniu sieci neuronowej, która specjalizuje się w
+  operacjach nie do końca związanych z  problematyką, do której sieć ta zostanie zastosowana,
+  może pozytywnie wpłynąć na skuteczność całego rozwiązania. Utwierdza to w przekonaniu, że
+  przeniesienie uczenia jest podejściem o wielu zaletach, które znacznie zwiększa ilość
+  możliwych zastosowań sieci neuronowych oraz poszerza
+
+  \subsubsection{Podsumowanie}
+
