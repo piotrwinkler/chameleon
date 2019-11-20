@@ -36,6 +36,7 @@
 
   \begin{figure}
     \centering
+    \captionsetup{justification=centering}
     \includegraphics[width=3.5in]{CIELab}
     \caption[Przestrzeń barw CIELab - źródło:
     \url{https://www.flickr.com/photos/greenmambagreenmamba/4236391637}]
@@ -59,6 +60,7 @@
 
   \begin{figure}[ht]
     \centering
+    \captionsetup{justification=centering}
     \includegraphics[width=6in]{rgb_i_L}
     \caption[Przykładowa składowa \textit{L} - źródło: Rysunek własny
     wykorzystujący:
@@ -250,6 +252,7 @@
 
   \begin{figure}[h]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=5in]{pooling}
    \caption[Przykładowe operacje warstwy poolingu - źródło: Rysunek własny]{Przykładowe operacje warstwy poolingu}
    \label{fig:pooling}
@@ -271,6 +274,7 @@
 
   \begin{figure}[h]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=5.5in]{cifar10}
    \caption[Przykładowe obrazy z CIFAR-10 - źródło: Rysunek własny]
    {Przykładowe obrazy z CIFAR-10}
@@ -576,6 +580,7 @@
 
   \begin{figure}[h]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=4in]{relu}
    \caption[Funkcja aktywacji ReLU - źródło: \url{https://pytorch.org/docs/stable/_images/ReLU.png}]
    {Funkcja aktywacji ReLU}
@@ -645,6 +650,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
  \begin{figure}[ht]
    \centering
+   \captionsetup{justification=centering}
    \subfloat[Obraz spoza zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_plane}} \\
    \subfloat[Obraz spoza zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_krajobraz}} \\
    \subfloat[Obraz ze zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_horse}} \\
@@ -689,6 +695,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
  \begin{figure}[h]
   \centering
+  \captionsetup{justification=centering}
   \includegraphics[width=6in]{loss_plot}
   \caption[Wykres uczenia modelu autorskiego - źródło: Rysunek własny]
   {Wykres uczenia modelu autorskiego}
@@ -713,6 +720,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
   \begin{figure}[H]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=6in]{porownania_trick_krajobraz}
    \caption[Efekt zastosowania algorytmu przetwarzania końcowego - źródło
    rysunek własny na podstawie: \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
@@ -732,6 +740,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
   \begin{figure}[H]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=6in]{porownanie_funkcji_kosztu}
    \caption[Porównanie rezultatów modeli uczonych z użyciem różnych funkcji
    kosztu - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
@@ -811,8 +820,10 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   Zmianę wskaźnika uczenia dla SGD nadzorował planista o parametrach:
   $\text{wielkość kroku} = 1$ oraz $\text{gamma} = 0.999$.
 
+
   \begin{figure}[H]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=6in]{porownanie_optimizerow}
    \caption[Porównanie rezultatów modeli uczonych z użyciem różnych algorytmów
    optymalizacyjnych - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
@@ -860,6 +871,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
   \begin{figure}[H]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=6in]{porownanie_dropout}
    \caption[Wpływ zastosowania warstwy Dropout na kolorowanie obrazów - źródło: rysunek własny na podstawie:
    \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
@@ -877,6 +889,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
   \begin{figure}[ht!]
     \centering
+    \captionsetup{justification=centering}
     \subfloat[]{\includegraphics[width = 2in]{norm_norm}}
     \subfloat[]{\includegraphics[width = 2in]{norm_stand}}
     \subfloat[]{\includegraphics[width = 2in]{stand_stand}} \\
@@ -1142,32 +1155,62 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   bezpośredni związek z zastosowaniem warstwy funkcji aktywacji Sigmoid, której
   przedział aktywacji równa się właśnie \textless 0, 1 \textgreater.
 
-  Obrazek !!!
+  Testowana architektura, po odpowiednim douczeniu, została wykorzystana do
+  pokolorowania wybranych obrazów. Porównanie otrzymanych rezultatów z rezultatami
+  uzyskanymi z użyciem modelu autorskiego zostało przedstawione na Rysunku
+  \ref{fig:porownanie_modeli}.
 
-  Analizując pokolorowane obrazy na Rysunku ... można zauwążyć, że bardziej satysfakcjonująca
-  jakość kolorowania została uzyskaną z użyciem modelu, dla którego zastosowano metodę
-  przeniesienia uczenia. Kolory są bla bla bla ... . Świadczy to, że podejście zaproponowane
-  przez autorów rozwiązania wykazuje się wysoką skutecznością jako rozwiązanie omawianej problematyki,
-  a integracja cech wysokiego oraz średniego poziomu przynosi oczekiwane rezultaty.
-  Wielką zaletą zaimplementowanej architekury jest jej modułowość dająca znacznie większe możliwości rozprowadzania w sieci
-  danych z poszczególnych etapów przetwarzania.
-  Sieć dekonwolucyjna dostając dodatkowe informację o kolorowanych obiektach, zwłasza o ich klasie, jest w stanie
-  lepiej wyuczyć się prawdopodobnych barw dla tych obiektów. Wadą tej architekury jest jednak narzucona
-  stała rozdzielczość obrazów wyjściowych równa 512x512 pikseli, w przypadku kolorowanie obrazów
-  o wysokiej rozdzielczości dochodzi do znacznej utraty ich jakości. Model autorski cechuje się
+  \begin{figure}[ht]
+    \centering
+    \captionsetup{justification=centering}
+    \subfloat[]{\includegraphics[width = 6in]{plane_porownanie}} \\
+    \subfloat[]{\includegraphics[width = 6in]{krajobraz_porownanie}} \\
+    \subfloat[]{\includegraphics[width = 6in]{rzeka_porownanie}} \\
+    \caption[Porównanie skuteczności modelu autorskiego i modelu z zastosowaniem
+    metody przeniesienia uczenia - źródło: Rysunek własny bazujący na:
+    \url{https://fr.m.wikipedia.org/wiki/Fichier:An_F-A-18C_Hornet_launches_from_the_flight_deck_of_the_conventionally_powered_aircraft_carrier.jpg},
+    \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg},
+    \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
+    {Porównanie skuteczności modelu autorskiego i modelu z zastosowaniem metody
+    przeniesienia uczenia.}
+    \label{fig:porownanie_modeli}
+  \end{figure}
+
+  Analizując pokolorowane obrazy na Rysunku \ref{fig:porownanie_modeli} można
+  dojść do wniosku, że bardziej satysfakcjonująca jakość kolorowania została uzyskana z
+  użyciem modelu, dla którego zastosowano metodę przeniesienia uczenia.
+  Porównując wygenerowane barwy można zauważyć, że dla modelu z przeniesieniem
+  uczenia są one bardziej realistyczne i nadzwyczaj dobrze przypominają barwy
+  prawdopodobne dla powierzchni, na które zostały nałożone. Ponadto widać, że
+  model autorski ma niekorzystną tendencję do generowanie kolorów o zbyt wysokiej
+  saturacji, co obniża wiarygodność rezultatów tego modelu.
+  Świadczy to, że podejście zaproponowane
+  przez autorów rozwiązania wykazuje się wysoką skutecznością jako rozwiązanie
+  zagadnienia predykcji kolorów, a integracja cech wysokiego oraz średniego poziomu
+  przynosi oczekiwane rezultaty.
+  Wielką zaletą zaimplementowanej architektury jest jej modułowość dająca znacznie
+  większe możliwości rozprowadzania w sieci danych z poszczególnych etapów przetwarzania.
+  Sieć dekonwolucyjna dostając dodatkowe informację o kolorowanych obiektach,
+  zwłaszcza o ich klasie, jest w stanie lepiej przewidzieć prawdopodobne barwy dla
+  tych obiektów.
+  Wadą tej architektury jest jednak narzucona stała rozdzielczość obrazów
+  wyjściowych równa 512 x 512 piksele, w przypadku kolorowanie obrazów o wysokiej
+  rozdzielczości dochodzi do znacznej utraty ich jakości. Model autorski cechuje się
   większą elastycznością w tym obszarze działań umożliwiając kolorowanie dowolnych obrazów
   bez modyfikacji ich rozdzielczości.
 
-  Jak widać zastosowanie w przedstawionym rozwiązaniu sieci neuronowej specjalizującej się w
-  operacjach nie do końca związanych z rozwiązywaną  problematyką, może pozytywnie wpłynąć na
-  skuteczność całego rozwiązania. Utwierdza to w przekonaniu, że
-  przeniesienie uczenia jest podejściem o wielu zaletach, które znacznie zwiększa ilość
-  możliwych zastosowań sieci neuronowych. Jest one szczególnie przydatne w rozwiązaniach, w których
-  pragnie się zastosować sieć neuronową o złożonej architekurze, a dysponuje się ograniczonymi
+  Jak widać zastosowanie w przedstawionym rozwiązaniu sieci neuronowej
+  specjalizującej się w operacjach nie do końca związanych z rozwiązywaną
+  problematyką, może pozytywnie wpłynąć na skuteczność całego rozwiązania.
+  Utwierdza to w przekonaniu, że przeniesienie uczenia jest podejściem o wielu
+  zaletach, które znacznie zwiększa ilość możliwych zastosowań sieci neuronowych.
+  Jest one szczególnie przydatne w rozwiązaniach, które wymagają
+  zastosowania sieci neuronowej o złożonej architekurze, a dysponuje się ograniczonymi
   zasobami obliczeniowymi.
   Ponadto metoda przeniesienia uczenia pozwala, z użyciem douczania, zwiększyć
-  skuteczność końcową modelu poprzez poszerzenie ogólnej wiedzy już wytrenowanej sieci o wiedzę związaną
-  z docelową problematyką, umożliwia to dokładne dopracowanie efektywności pracy sieci.
+  skuteczność końcową modelu poprzez poszerzenie ogólnej wiedzy już wytrenowanej
+  sieci o wiedzę związaną z docelową problematyką, umożliwia to skuteczne
+  dopracowanie efektywności pracy sieci.
   Dużą zaletą jest także znacznie ułatwione tworzenie modularnych
   rozwiązań cechujących się większą uniwersalnością oraz elastycznością.
 
