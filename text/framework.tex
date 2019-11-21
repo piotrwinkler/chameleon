@@ -69,9 +69,9 @@
     zapewniają elastyczność przy wprowadzaniu rozmaitych modyfikacji. Schemat funkcjonalny
     całego systemu przedstawiony został na Rysunku \ref{fig:torchframetrain}.
 
-      \begin{figure}[H]
+      \begin{figure}[h!]
         \centering
-        \includegraphics[width=6.5in]{torchframetrain}
+        \includegraphics[width=5.5in]{torchframetrain}
         \caption[Architektura TorchFrame - źródło: Praca własna]{Architektura TorchFrame}
         \label{fig:torchframetrain}
       \end{figure}
@@ -409,7 +409,7 @@
     \end{figure}
 
     W odpowiedzi na opisane problemy opracowana została technika tak zwanego
-    pędu. Ogranicza ona oscylacje spadku gradientu w niewłaściwych kierunkach i
+    pędu \cite{Momentum}. Ogranicza ona oscylacje spadku gradientu w niewłaściwych kierunkach i
     przyspiesza proces zbiegania rozwiązania. Pęd sprowadza się do dodawania ułamka
     $\gamma$ wektora aktualizacji z poprzedniego kroku algorytmu do bieżącego wektora
     aktualizacji. Przedstawia to poniższy wzór:
@@ -454,7 +454,7 @@
        \textbf{Optymalizator} & \textbf{Opis} \\
 
      \hline
-       \textbf{SGD} &
+       \textbf{SGD \cite{SGD}} &
 
        Algorytm stochastycznego spadku gradientu. Stanowi wariację bazowego spadku
        gradientu polegającą na aktualizowaniu parametrów sieci dla
@@ -472,7 +472,7 @@
        algorytmu Nesterov'a w celu poprawy wydajności działania tego algorytmu. \\
 
      \hline
-       \textbf{Adagrad} &
+       \textbf{Adagrad \cite{Adagrad}} &
 
         Algorytm pozwalający dopasować długość kroku treningowego do poszczególnych
         wag modelu. Parametry rzadko biorące udział w pracy sieci otrzymują wówczas
@@ -498,7 +498,7 @@
         zablokowania możliwości dalszego treningu sieci. \\
 
      \hline
-       \textbf{AdaDelta} &
+       \textbf{AdaDelta \cite{Adadelta}} &
 
        Algorytm ten stanowi rozszerzenie optymalizatora Adagrad. Rozwiązuje
        trapiący go problem zanikającego kroku treningowego poprzez wprowadzenie
@@ -523,7 +523,7 @@
        \[\Delta \Theta_t = -\frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \cdot g_t\] \\
 
      \hline
-       \textbf{Adam} &
+       \textbf{Adam \cite{Adam}} &
 
        Optymalizator Adam podobnie jak AdaDelta pozwala wyznaczać adaptacyjne długości
        kroku uczącego dla każdego parametru sieci. Przechowuje on również
@@ -534,7 +534,7 @@
        Wartości $m_t$ oraz $v_t$ są szacunkami odpowiednio pierwszego momentu
        (średnia) oraz drugiego momentu (wariancja niecentrowana), stąd nazwa metody.
 
-       Autorzy Adama zauważyli, że $m_t$ oraz $v_t$, które inicjalizowane są jako
+       Autorzy Adama zauważyli, że $m_t$ oraz $v_t$, które inicjowane są jako
        wektory zerowe dążą tendencyjnie do zera zwłaszcza podczas początkowych
        iteracji. Aby przeciwdziałać temu procesowi wyznaczane są odpowiednie
        estymaty korekcyjne obu momentów zgodnie ze wzorami:
@@ -661,7 +661,7 @@
     przejrzystość środowiska testowego i ułatwia rozpropagowanie danych
     w systemie.
 
-    \begin{figure}[H]
+    \begin{figure}[h!]
       \centering
       \includegraphics[width=6.5in]{torchframetest}
       \caption[Architektura testowa TorchFrame - źródło: Praca własna]{Architektura testowa TorchFrame}
