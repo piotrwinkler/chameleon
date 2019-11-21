@@ -30,9 +30,10 @@ def main():
         im = Image.fromarray(image)
         im.save(os.path.join(output_dataset_directory, f"img_{i:05}.png"))
         if i % 1000 == 0:
-            print(f"Processed {i} images")
+            print(f"Saved {i} images")
 
     print("Finished saving CIFAR-10 to png images")
+
 
 def unpickle(file):
     with open(file, 'rb') as pickle_file:
