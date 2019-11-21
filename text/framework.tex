@@ -1,4 +1,5 @@
-\subsection{TorchFrame}
+\subsection{\textit{TorchFrame}}
+\label{TorchFrame}
 
   Sztuczne sieci neuronowe stanowią dziedzinę nauki opartą w dużej mierze na
   eksperymentach. Dostarczane przez nie rozwiązania, choć często tak spektakularne,
@@ -15,13 +16,13 @@
 
   Wspomniane zabiegi, jak również konieczność częstego powtarzania treningów,
   wymagają dużych nakładów pracy i czasu, aby mogły przynieść zamierzone efekty.
-  W celu ułatwienia całego procesu przygotowany został framework TorchFrame
+  W celu ułatwienia całego procesu przygotowany został framework \textit{TorchFrame}
   stanowiący bazę pod eksperymenty podejmowane w ramach tej pracy i opisane w
   dalszych jej rozdziałach.
 
   Sam framework umożliwia użytkownikom przeprowadzanie treningów sieci neuronowych,
   udostępniając wachlarz modyfikowalnych hiperparametrów oraz zestaw filtrów i metod
-  przeznaczonych do obróbki danych treningowych. Właściwie użyty TorchFrame kontroluje
+  przeznaczonych do obróbki danych treningowych. Właściwie użyty \textit{TorchFrame} kontroluje
   przepływ danych uczących od początku do końca ograniczając konieczność ingerencji ze
   strony użytkownika do minimum, jednocześnie nie ograniczając przy tym potencjału
   eksperymentalnego sztucznych sieci neuronowych.
@@ -29,13 +30,13 @@
   W ramach frameworka udostępniony został również prosty interfejs testowy
   umożliwiający ocenę efektów uzyskanych w procesie uczenia.
 
-  Niniejszy rozdział zostanie poświęcony analizie architektury TorchFrame'a oraz
+  Niniejszy rozdział zostanie poświęcony analizie architektury \textit{TorchFrame'a} oraz
   opisowi sposobu jego działania.
 
-  \subsubsection{PyTorch}
+  \subsubsection{\textit{PyTorch}}
 
-    U podstaw TorchFrame'a leżą mechanizmy innego frameworka, napisanego w języku Python i
-    przeznaczonego do uczenia maszynowego o nazwie PyTorch. Jest to otwartoźródłowa
+    U podstaw \textit{TorchFrame'a} leżą mechanizmy innego frameworka, napisanego w języku Python i
+    przeznaczonego do uczenia maszynowego o nazwie \textit{PyTorch}. Jest to otwartoźródłowa
     biblioteka programistyczna stworzona przez oddział sztucznej inteligencji firmy
     Facebook. W jednym z artykułów \cite{pytorch} opublikowanych w ramach konferencji NIPS 2017
     grupa badaczy opisuje ją następująco:
@@ -56,15 +57,15 @@
       różnicują skalarną funkcję celu.'
     \end{quote}
 
-    TorchFrame wykorzystuje zdefiniowane w ramach PyTorch'a mechanizmy budowania sieci neuronowych
+    \textit{TorchFrame} wykorzystuje zdefiniowane w ramach \textit{PyTorch'a} mechanizmy budowania sieci neuronowych
     korzystając z predefiniowanych metod opisu warstw sieci. Wykorzystuje ponadto
-    zdefiniowane odgórnie hiperparametry, takie jak funkcje kosztu. Sam rdzeń TorchFrame'a
+    zdefiniowane odgórnie hiperparametry, takie jak funkcje kosztu. Sam rdzeń \textit{TorchFrame'a}
     bazuje na przytoczonym mechanizmie różnicowania, umożliwiając przeprowadzanie treningów
     na CPU oraz GPU.
 
-  \subsubsection{Architektura TorchFrame}
+  \subsubsection{Architektura \textit{TorchFrame}}
 
-    TorchFrame podzielony został na bloki funkcjonalne, które powiązane ze sobą
+    \textit{TorchFrame} podzielony został na bloki funkcjonalne, które powiązane ze sobą
     umożliwiają kontrolowany przepływ danych w procesie uczenia, a jednocześnie
     zapewniają elastyczność przy wprowadzaniu rozmaitych modyfikacji. Schemat funkcjonalny
     całego systemu przedstawiony został na Rysunku \ref{fig:torchframetrain}.
@@ -72,7 +73,7 @@
       \begin{figure}[h!]
         \centering
         \includegraphics[width=5.5in]{torchframetrain}
-        \caption[Architektura TorchFrame - źródło: Praca własna]{Architektura TorchFrame}
+        \caption[Architektura \textit{TorchFrame} - źródło: Praca własna]{Architektura \textit{TorchFrame}}
         \label{fig:torchframetrain}
       \end{figure}
 
@@ -80,29 +81,29 @@
     oznaczonych na przytoczonym schemacie odpowiednio jako: \textit{consts}, \textit{.json config}
     oraz \textit{NN model}.
 
-    W pliku \textit{consts} użytkownik TorchFrame definiuje zmienne środowiskowe, takie, jak
+    W pliku \textit{consts} użytkownik \textit{TorchFrame} definiuje zmienne środowiskowe, takie, jak
     ścieżki do plików kluczowych w procesie uczenia. Konieczne jest jedynie wskazanie
-    położenia pliku konfiguracyjnego w formacie JSON. Pozostałe parametry są opcjonalne
+    położenia pliku konfiguracyjnego w formacie \textit{JSON}. Pozostałe parametry są opcjonalne
     i mogą służyć do wskazania miejsca zapisu gotowego modelu sieci na dysku czy miejsca
     przechowywania danych treningowych, które zostaną następnie przetworzone i przekazane
     na wejście sieci w procesie uczenia.
 
     \textit{NN model} to skrypt języka Python, w którym użytkownik definiuje strukturę sieci
-    neuronowej zgodnie z paradygmatem frameworka PyTorch przytoczonego w poprzednim
-    rozdziale. Struktura TorchFrame narzuca na użytkownika konieczność zdefiniowania
+    neuronowej zgodnie z paradygmatem frameworka \textit{PyTorch} przytoczonego w poprzednim
+    rozdziale. Struktura \textit{TorchFrame} narzuca na użytkownika konieczność zdefiniowania
     metody \textit{forward}, która określa sposób obliczania wartości wyjściowych sieci na podstawie danych
     wejściowych między innymi poprzez określenie funkcji aktywacji poszczególnych warstw
     sztucznych neuronów.
 
-    Najważniejszym punktem zestawu konfiguracyjnego jest wspomniany już plik JSON.
+    Najważniejszym punktem zestawu konfiguracyjnego jest wspomniany już plik \textit{JSON}.
     Udostępnia on szerokie możliwości manipulowania zarówno hiperparametrami sieci
     neuronowej, jak i szeregiem przekształceń możliwych do zaimplementowania
-    na danych treningowych i testowych. Architektura TorchFrame zapewnia odpowiednie
+    na danych treningowych i testowych. Architektura \textit{TorchFrame} zapewnia odpowiednie
     rozpropagowanie zgromadzonych tutaj danych w ramach procesu uczenia oraz podczas
     testów. Dokładna struktura tego pliku zostanie opisana w następnym rozdziale.
 
     \textit{JsonParser} jest klasą odpowiedzialną za odczytanie danych z pliku konfiguracyjnego,
-    w formie słownika języka Python, oraz przekazanie ich w dalszą drogę w obrębie TorchFrame.
+    w formie słownika języka Python, oraz przekazanie ich w dalszą drogę w obrębie \textit{TorchFrame}.
 
     Centralnym punktem całej zaprezentowanej architektury jest \textit{entrypoint}. Stanowi on
     punkt wejścia dla aplikacji użytkownika. Jego uruchomienie powoduje
@@ -117,7 +118,7 @@
     \textit{SetupCreator} są skrypty \textit{transforms} oraz \textit{conversions}. Zawierają one gotową bazę
     przekształceń przeznaczonych do pracy na obrazach cyfrowych, a także metody
     formatowania danych do struktury \textit{tensorów} (przypominających macierze z biblioteki \textit{numpy}
-    języka Python) wykorzystywanych przez bibliotekę PyTorch między innymi w mechanizmach
+    języka Python) wykorzystywanych przez bibliotekę \textit{PyTorch} między innymi w mechanizmach
     automatycznego różnicowania modeli sieci neuronowych. Choć gotowa baza oferuje
     liczne przekształcenia, intuicyjna formuła pozwala użytkownikom w łatwy sposób definiować
     własne metody konwersji i implementować je zarówno na obrazach, jak i dowolnym innym
@@ -125,18 +126,18 @@
 
     Tak skomponowany zestaw przekształceń wykorzystywany jest przy konstruowaniu zbioru
     uczącego w komponencie \textit{Dataset}. Jego uniwersalny szkielet o nazwie \textit{BaseDataset}
-    odpowiada za sprawny przepływ danych w ramach TorchFrame zapewniając łatwy dostęp
+    odpowiada za sprawny przepływ danych w ramach \textit{TorchFrame} zapewniając łatwy dostęp
     do zbioru implementowanych konwersji oraz umożliwiając ich zastosowanie poprzez dedykowane
     do tego metody. Posiada również funkcjonalność odczytu danych ze wskazanej przez
     użytkownika ścieżki w pliku \textit{consts}, a także zdolność przetwarzanie ich na bieżąco, co pozwala
     zaoszczędzić pamięć w przypadku pracy na dużych zbiorach danych. W ramach tworzenia
-    frameworka TorchFrame udostępnione zostały różne implementacje komponentu \textit{Dataset} opierające się o
+    frameworka \textit{TorchFrame} udostępnione zostały różne implementacje komponentu \textit{Dataset} opierające się o
     \textit{BaseDataset}. Ponownie jednak elastyczna struktura umożliwia użytkownikom
     skomponowanie własnych implementacji dostosowanych do indywidualnych potrzeb.
 
     Ostatecznym elementem ścieżki treningowej, w którym skupiają się wszystkie
     zgromadzone dotąd dane jest komponent \textit{Trainer}. Opiera się on o mechanizmy
-    frameworka PyTorch w celu obliczania rezultatów pracy sieci, a także wyznaczanie
+    frameworka \textit{PyTorch} w celu obliczania rezultatów pracy sieci, a także wyznaczanie
     kierunku uczenia w ramach funckji celu i wstęczną propagację modyfikującą wagi
     sieci w czasie treningu. \textit{Trainer} udostępnia na bieżąco dane pozwalające
     określić skuteczność uczenia sieci takie jak aktualny błąd sieci, ilość
@@ -144,14 +145,14 @@
     się model. W trakcie całego procesu możliwe jest również zapisywanie rezultatów
     w celu ich ponownego wykorzystania lub oceny.
 
-  \subsubsection{Konfiguracja w TorchFrame}
+  \subsubsection{Konfiguracja w \textit{TorchFrame}}
 
     Kluczem do właściwego przeprowadzenia treningu sztucznej sieci neuronowej
     jest odpowiedni dobór hiperparametrów. Ich modyfikacja w znaczący sposób
     wpływa na otrzymywane rezultaty przez co istotne jest, aby w ramach
     kolejnych eksperymentów można było w łatwy sposób dostosowywać je do potrzeb.
-    Framework TorchFrame udostępnia pojedynczy interfejs użytkownika w postaci
-    pliku konfiguracyjnego JSON skupiającego wszystkie najistotniejsze
+    Framework \textit{TorchFrame} udostępnia pojedynczy interfejs użytkownika w postaci
+    pliku konfiguracyjnego \textit{JSON} skupiającego wszystkie najistotniejsze
     elementy w jednym miejscu i pozwalającego zachować przejrzystość stosowanej
     konfiguracji. W poniższym rozdziale opisane zostaną dostępne parametry wraz
     z wartościami, jakie mogą przyjmować.
@@ -193,8 +194,8 @@
       wina za złe określenie celu poszukiwań spoczywa na nas.'
     \end{quote}
 
-    Opisy rozmaitych funkcji kosztu dostępnych w TorchFrame zamieszczone zostały
-    w tabeli \ref{tab:cost_functions}.
+    Opisy rozmaitych funkcji kosztu dostępnych w \textit{TorchFrame}, zaczerpniętych z biblioteki \textit{PyTorch},
+    zamieszczone zostały w tabeli \ref{tab:cost_functions}.
 
     \begin{longtable}{ |m{2cm}|m{11cm}| }
 
@@ -315,7 +316,7 @@
 
      \hline
 
-    \caption{Funkcje kosztu w TorchFrame}
+    \caption{Funkcje kosztu w \textit{TorchFrame}}
     \label{tab:cost_functions}
     \end{longtable}
 
@@ -427,7 +428,7 @@
     W sytuacji, gdy algorytm przemieszcza się w dół zbocza funkcji celu w żaden
     sposób nie kontroluje, czy znalazł się już na dnie. Gdy je osiąga wartość pędu
     jest dość wysoka, co może spowodować, że punkt optymalny zostanie pominięty
-    lub osiągnięty z opóźnieniem. Nesterov zaproponował nieco inne rozwiązanie.
+    lub osiągnięty z opóźnieniem. Nesterov zaproponował nieco inne rozwiązanie \cite{Nesterov_momentum}.
     W jego metodzie najpierw wykonywany jest duży skok bazujący na poprzedniej
     wartości pędu, a następnie w nowym, potencjalnym położeniu, obliczana jest wartość 
     gradientu, która dokonuje korekcji miejsca docelowego. Dopiero wówczas dokonywana
@@ -445,7 +446,7 @@
     ominięcia punktu optymalnego ze względu na zbyt dużą wartość pędu.
 
     Bazując na opisanych tutaj algorytmach przygotowane zostały metody optymalizacji
-    dostępne w TorchFrame, a zaczerpnięte z biblioteki PyTorch. Wiele z nich wprowadza
+    dostępne w \textit{TorchFrame}, a zaczerpnięte z biblioteki \textit{PyTorch}. Wiele z nich wprowadza
     również dodatkowe funkcjonalności, z których najistotniejsze opisane zostały w Tabeli \ref{tab:optimizers}.
 
     \begin{longtable}{ |m{3cm}|m{10cm}| }
@@ -476,7 +477,7 @@
 
         Algorytm pozwalający dopasować długość kroku treningowego do poszczególnych
         wag modelu. Parametry rzadko biorące udział w pracy sieci otrzymują wówczas
-        większe aktualizacje niż te występujące stosunkowo często. Adagrad nadaje się
+        większe aktualizacje niż te występujące stosunkowo często. \textit{Adagrad} nadaje się
         przez to do pracy z rzadkimi zbiorami treningowymi. Wzór prezentujący sposób aktualizacji
         pojedynczego i-tego parametru w sieci prezentuje się następująco:
 
@@ -487,7 +488,7 @@
         $\epsilon$ oznacza współczynnik wygładzający, zabezpieczający przed ewentualnym dzieleniem
         przez 0.
 
-        Wzór ten oznacza, że Adagrad modyfikuje długość kroku uczącego w każdej iteracji $t$
+        Wzór ten oznacza, że \textit{Adagrad} modyfikuje długość kroku uczącego w każdej iteracji $t$
         dla każdego parametru $i$ bazując na przeszłych wartościach gradientu wyznaczonych
         dla tej wagi.
 
@@ -500,7 +501,7 @@
      \hline
        \textbf{AdaDelta \cite{Adadelta}} &
 
-       Algorytm ten stanowi rozszerzenie optymalizatora Adagrad. Rozwiązuje
+       Algorytm ten stanowi rozszerzenie optymalizatora \textit{Adagrad}. Rozwiązuje
        trapiący go problem zanikającego kroku treningowego poprzez wprowadzenie
        ograniczenia, co do ilości przeszłych gradientów mających wpływ na aktualizację
        wag w bieżącej iteracji.
@@ -525,7 +526,7 @@
      \hline
        \textbf{Adam \cite{Adam}} &
 
-       Optymalizator Adam podobnie jak AdaDelta pozwala wyznaczać adaptacyjne długości
+       Optymalizator Adam podobnie jak \textit{AdaDelta} pozwala wyznaczać adaptacyjne długości
        kroku uczącego dla każdego parametru sieci. Przechowuje on również
        eksponencjalnie zanikającą średnią wartość kwadratów przeszłych gradientów $v_t$.
        Poza tym przechowuje również eksponencjalnie zanikającą średnią
@@ -550,9 +551,24 @@
        jednak rekomendowane jest przyjęcie następujących liczb: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$. \\
      \hline
 
-    \caption{Optymalizatory w TorchFrame}
+    \caption{Optymalizatory w \textit{TorchFrame}}
     \label{tab:optimizers}
     \end{longtable}
+
+    Wybór odpowiedniego algorytmu optymalizacji nie jest prostym zagadnieniem.
+    Ostateczną decyzję powinna poprzedzać matematyczna analiza postawionego
+    problemu lub eksperymentalne porównanie dostępnych możliwości. Należy
+    pamiętać że czynnik ten ma często kluczowy wpływ na uzyskiwane rezultaty.
+    W przypadku prostych zadań optymalizacji najczęściej, choć nie zawsze,
+    wystarczające powinny okazać się proste algorytmy takie jak \textit{SGD}.
+    Z kolei bardziej złożone problemy z reguły wymagać będą zastosowania metod
+    adaptacyjnych takich jak \textit{Adam}, czy \textit{Adagrad}. Z reguły
+    oferują one lepsze rezultaty, jednak za cenę większej złożoności obliczeniowej.
+    Wiele zależy również od samego kontekstu użycia. Przykładowo w przypadku
+    douczania sieci neuronowej w celu poprawy ostatecznych rezultatów zalecane jest
+    użycie algorytmów ze stałą długością kroku treningowego, które w odróżnieniu od
+    algorytmów adaptacyjnych mają w takich przypadkach mniejszą tendencję do
+    destabilizacji rozwiązania.
 
     \item \textbf{\textit{Scheduler}} - umożliwia wybór planisty. Odpowiada on za
     modyfikowanie długości kroku treningowego w zależności od aktualnego numeru
@@ -596,13 +612,13 @@
     dane i tym samym przyspieszających cały proces treningu.
 
     \item \textbf{\textit{Retrain}} - wartość \textit{true} tego parametru powoduje, że
-    TorchFrame podejmie próbę wczytania modelu sieci, optymalizatora oraz
+    \textit{TorchFrame} podejmie próbę wczytania modelu sieci, optymalizatora oraz
     planisty zgodnie ze ścieżkami zdefiniowanymi w pliku \textit{consts}. Brak którejkolwiek
     ścieżki spowoduje, że dany parametr zostanie zainicjowany losowo, co pozwala
     dotrenować sieć w dowolnej konfiguracji parametrów startowych.
 
     \item \textbf{\textit{Train on gpu}} - wartość \textit{true} tego parametru sprawi, że
-    TorchFrame podejmie próbę rozpoznania, czy dostępna jest graficzna jednostka
+    \textit{TorchFrame} podejmie próbę rozpoznania, czy dostępna jest graficzna jednostka
     obliczeniowa, a następnie przeniesie na nią dane umożliwiając przeprowadzanie
     za jej pomocą obliczeń w celu przyspieszenia procesu uczenia.
 
@@ -612,7 +628,7 @@
     \textit{Name} - zawiera nazwę klasy definiującej sposób przetwarzania
     i przekazywania danych ze zbioru uczącego. Klasa ta powinna być oparta o
     szkielet \textit{BaseDataset} zapewniający sprawny przepływ danych przez framework
-    TorchFrame.
+    \textit{TorchFrame}.
 
     \textit{Input conversions} - jest to lista konwersji przeznaczonych do
     przetwarzania danych treningowych przekazywanych na wejście sieci. Każda
@@ -626,19 +642,19 @@
 
     \textit{Transforms} - lista transformacji zdefiniowanych w pliku \textit{transforms},
     zapewniających między innymi formatowanie danych do postaci tensorów
-    obsługiwanych przez bazowe mechanizmy biblioteki PyTorch.
+    obsługiwanych przez bazowe mechanizmy biblioteki \textit{PyTorch}.
 
     \item \textbf{\textit{Additional params}} - słownik języka Python, w którym użytkownik
-    TorchFrame ma możliwość zdefiniowania dowolnych dodatkowych parametrów, jakie
+    \textit{TorchFrame} ma możliwość zdefiniowania dowolnych dodatkowych parametrów, jakie
     mogą wydać się pomocne w procesie treningu sieci neuronowej.
 
     \end{enumerate}
 
-  \subsubsection{Testowanie w TorchFrame}
+  \subsubsection{Testowanie w \textit{TorchFrame}}
     Podstawą do określenia skuteczności przeprowadzanych treningów sieci neuronowych
     jest nie tylko obserwacja parametrów takich jak wartość funckji kosztu. Bardzo
     często konieczna jest wizualizacja wyników działania wytrenowanych modeli.
-    Komponentowa budowa TorchFrame pozwala w łatwy sposób osiągnąć ten cel.
+    Komponentowa budowa \textit{TorchFrame} pozwala w łatwy sposób osiągnąć ten cel.
     Na bazie fragmentów wydzielonych z głównej architektury skomponowany został
     system testowy, którego schemat przedstawia Rysunek \ref{fig:torchframetest}.
 
@@ -664,6 +680,6 @@
     \begin{figure}[h!]
       \centering
       \includegraphics[width=6.5in]{torchframetest}
-      \caption[Architektura testowa TorchFrame - źródło: Praca własna]{Architektura testowa TorchFrame}
+      \caption[Architektura testowa \textit{TorchFrame} - źródło: Praca własna]{Architektura testowa \textit{TorchFrame}}
       \label{fig:torchframetest}
     \end{figure}
