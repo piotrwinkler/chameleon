@@ -1,4 +1,4 @@
-\subsection{Automatyczne kolorowanie czarno-białych obrazów}
+\subsection[Automatyczne kolorowanie czarno-białych obrazów (Bartosz Bieliński)]{Automatyczne kolorowanie czarno-białych obrazów}
 
   Problem kolorowania czarno-białych obrazów cieszy się dużym zainteresowaniem z
   wielu powodów. Od potrzeb kulturowych takich jak możliwość lepszego
@@ -36,6 +36,7 @@
 
   \begin{figure}
     \centering
+    \captionsetup{justification=centering}
     \includegraphics[width=3.5in]{CIELab}
     \caption[Przestrzeń barw CIELab - źródło:
     \url{https://www.flickr.com/photos/greenmambagreenmamba/4236391637}]
@@ -59,6 +60,7 @@
 
   \begin{figure}[ht]
     \centering
+    \captionsetup{justification=centering}
     \includegraphics[width=6in]{rgb_i_L}
     \caption[Przykładowa składowa \textit{L} - źródło: Rysunek własny
     wykorzystujący:
@@ -103,7 +105,7 @@
     11 & Splotowa & 1x1 & 1 & 0 & Tak & ReLU & 32/32 \\ \hline
     12 & Splotowa & 1x1 & 1 & 0 & Nie & - & 32/2 \\ \hline
     \end{tabular}
-    \caption{Architektura modelu podstawowego.}
+    \caption{Architektura modelu autorskiego.}
     \label{table:model_architecture}
   \end{table}
   Pierwsza warstwa konwolucyjna rozkłada wejściowy kanał na 32 kanały, co
@@ -154,6 +156,7 @@
   przeciwdziałać problemom zanikającego oraz wybuchającego gradientu
   \cite{exploding_vanishing_grad}.
 
+  \noindent
   Problemy te zostały już zauważone i opisane w 1994 roku przez Y. Bengio
   oraz jego współpracowników \cite{exploding_vanishing_grad}. Dowodzą oni, że:
   \begin{quote}
@@ -183,7 +186,7 @@
   warstwy BatchNorm zapewniają większą odporność sieci na niekorzystnie zainicjowane
   wagi początkowe modelu.
 
-  Użycie tych warstw w modelu podstawowym tuż za warstwami ReLU pozwoliło
+  Użycie tych warstw w modelu autorskim tuż za warstwami ReLU pozwoliło
   uzyskać bardziej korzystną zbieżność modelu oraz lepsze rezultaty końcowe.
   Ocenione zostało też rozwiązania, w którym warstwy BatchNorm znajdują się
   przed warstwami funkcji aktywacji, lecz dało ono gorsze rezultaty, niż
@@ -191,18 +194,24 @@
 
 \subsubsection{Dropout} \label{Dropout}
 
-  W trakcie pracy nad ostatecznym modelem podstawowym sprawdzona została
-  skuteczność zastosowania warstw Dropout \cite{dropout}. Warstwy te w trakcie
-  treningu dezaktywują część neuron aby przeciwdziałać efektowi przeuczania
-  się sieci oraz zapewniać wydajny sposób łączenia wielu różnych architektur
-  sieci stworzonych do jednego celu w jednolitą całość o skuteczności większej
-  niż poszczególne sieci osobno.
-
-  Wybór neuronów, dla których w danej iteracji treningu nie zostaną
-  zaktualizowane wagi odbywa się z pewnym prawdopodobieństwem określonym
-  podczas inicjalizacji modelu. Dezaktywowanie neuronów można interpretować jak
-  przerywanie tymczasowo wszystkich połączeń danego neuronu, zarówno wejściowych
-  jak i wyjściowych. Takie działania są równoznaczne z wyselekcjonowaniem z modelu
+  W trakcie pracy nad ostatecznym modelem autorskim sprawdzona została
+  skuteczność zastosowania warstw Dropout (pol. algorytm odrzucania) \cite{dropout}.
+  Autorzy tej techniki opisują ją następująco:
+  \begin{quote}
+    % It prevents overtting and provides a way of approximately combining exponentially
+    % many different neural network architectures effciently. The term dropout
+    % refers to dropping out units (hidden and visible) in a neural network.
+    'Technika ta przeciwdziała efektowi przeuczenia się sieci oraz zapewnia wydajny
+    sposób łączenia wielu różnych architektur sieci neuronowych. Termin "odrzucenie"
+    nawiązuje do odrzucania neuronów (widocznych i ukrytych) z sieci neuronowej.'
+  \end{quote}
+  Warstwy te w trakcie treningu dezaktywują część neuron w uczonej sieci neuronowej,
+  co jest równoznaczne ze wstrzymaniem aktualizacji ich wag w danej iteracji treningu.
+  Wybór neuronów do dezaktywowania odbywa się z pewnym prawdopodobieństwem określonym
+  podczas inicjalizacji modelu. Dezaktywowanie neuronów, zwane również odrzuceniem,
+  można interpretować jak przerwanie tymczasowo wszystkich połączeń danego neuronu,
+  zarówno wejściowych jak i wyjściowych.
+  Takie działania są równoznaczne z wyselekcjonowaniem z modelu
   mniejszej sieci i trenowaniu wyłącznie jej w aktualnej iteracji. Wagi tej
   podsieci są wtedy współdzielone z modelem źródłowym.
   Jako rezultat uzyskuje się model o znacznie ulepszonych zdolnościach generalizacji.
@@ -219,7 +228,7 @@
   parametru \textit{p} (prawdopodobieństwo dezaktywowania dla każdego neuronu sieci)
   wraz z rozważeniem
   pozostałych czynników wpływających na efektywność sieci znajdują się w
-  punkcie \ref{Rezultaty} związanym z rezultatami modelu podstawowego.
+  punkcie \ref{Rezultaty} związanym z rezultatami modelu autorskiego.
 
 \subsubsection{Modyfikacja rozdzielczości}
 
@@ -243,11 +252,13 @@
 
   \begin{figure}[h]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=5in]{pooling}
    \caption[Przykładowe operacje warstwy poolingu - źródło: Rysunek własny]{Przykładowe operacje warstwy poolingu}
    \label{fig:pooling}
   \end{figure}
 
+  \noindent
   W modelu autorskim warstwy poolingu nie zostały zastosowane, aby uniknąć utraty
   kluczowych informacji przestrzennych koniecznych to właściwego wygenerowanie
   możliwych barw obrazu.
@@ -263,6 +274,7 @@
 
   \begin{figure}[h]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=5.5in]{cifar10}
    \caption[Przykładowe obrazy z CIFAR-10 - źródło: Rysunek własny]
    {Przykładowe obrazy z CIFAR-10}
@@ -430,7 +442,7 @@
   problematyki oraz nie przesłaniają wzorców kluczowych do wyuczenia przez sieć.
   W przypadku zagadnienia kolorowania czarno-białych obrazów kluczową informacją
   jest kolor analizowanej powierzchni oraz jej cechy charakterystyczne, z tego
-  powodu, do treningu modelu podstawowego nie zostały wykorzystane żadne metody
+  powodu, do treningu modelu autorskiego nie zostały wykorzystane żadne metody
   augmentacji wpływające na barwy albo jasność obrazów. Wykluczone zostały również takie
   metody jak tworzeniu ubytków w obrazach, gdyż powoduje to niepotrzebną utratę
   informacji.
@@ -515,7 +527,7 @@
   \end{equation}
 
   \noindent
-  Zastosowanie SmoothL1Loss do modelu podstawowego da następującą funkcję:
+  Zastosowanie SmoothL1Loss do modelu autorskiego da następującą funkcję:
   \begin{equation}
   Koszt = \frac{1}{n}\sum_{i=0}^{n} (z_{i} + k_{i})
   \end{equation}
@@ -568,6 +580,7 @@
 
   \begin{figure}[h]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=4in]{relu}
    \caption[Funkcja aktywacji ReLU - źródło: \url{https://pytorch.org/docs/stable/_images/ReLU.png}]
    {Funkcja aktywacji ReLU}
@@ -593,7 +606,6 @@
 
 \subsubsection{Algorytmy optymalizacyjne} \label{Algorytmy optymalizacyjne}
   % Bez teorii
-  % TODO: Może dać bardziej szczegółowy opis
   % TODO: Zacytować twórców Adam i Adagrad, linki do paperów są w dokumentacji
   % pytorcha o tych algorytmach
   Podczas planowanie treningu modelu należy zdecydować się na odpowiedni
@@ -638,6 +650,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
  \begin{figure}[ht]
    \centering
+   \captionsetup{justification=centering}
    \subfloat[Obraz spoza zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_plane}} \\
    \subfloat[Obraz spoza zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_krajobraz}} \\
    \subfloat[Obraz ze zbioru uczącego]{\includegraphics[width = 4.5in]{best_results_horse}} \\
@@ -676,15 +689,16 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
  Wykres uczenia przedstawionego modelu został przedstawiony na Rysunku
  \ref{fig:loss_plot}. Można zaobserwować stopniowy spadek wartości funkcji
  kosztu, co oznacza poprawne zbieganie się modelu do właściwego rozwiązania.
- W końcowych fazach wykresu widać, że wartość kary zmienia się o bardzo
+ W końcowych fazach wykresu widać, że wartość błędu zmienia się o bardzo
  małe wartości, co znaczy, że proces uczenia wpadł już w minimum będące
  jednym z dostępnych rozwiązań.
 
  \begin{figure}[h]
   \centering
+  \captionsetup{justification=centering}
   \includegraphics[width=6in]{loss_plot}
-  \caption[Wykres uczenia modelu końcowego - źródło: Rysunek własny]
-  {Wykres uczenia modelu końcowego}
+  \caption[Wykres uczenia modelu autorskiego - źródło: Rysunek własny]
+  {Wykres uczenia modelu autorskiego}
   \label{fig:loss_plot}
  \end{figure}
 
@@ -706,6 +720,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
   \begin{figure}[H]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=6in]{porownania_trick_krajobraz}
    \caption[Efekt zastosowania algorytmu przetwarzania końcowego - źródło
    rysunek własny na podstawie: \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
@@ -725,6 +740,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
   \begin{figure}[H]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=6in]{porownanie_funkcji_kosztu}
    \caption[Porównanie rezultatów modeli uczonych z użyciem różnych funkcji
    kosztu - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
@@ -777,11 +793,11 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   Pokolorowany obraz wygenerowane przez model uczony z użyciem funkcji MSELoss prezentuje
   się najlepiej spośród obrazów na Rysunku \ref{fig:porownanie_funkcji_kosztu},
   z tego powodu oraz w związku z korzystnym efektem zastosowania MSELoss, właśnie
-  ta funkcja została wybrana w procesie uczenia modelu końcowego.
+  ta funkcja została wybrana w procesie uczenia modelu autorskiego.
 
   Wybór odpowiedniego algorytmu optymalizacyjnego może znacznie poprawić rezultaty
-  modelu poprzez odpowiednie nakierowanie jego wag aby wartość kary wyliczana
-  przez funkcję kosztu była jak najmniejsza. Minimalizowanie wartości tej kary
+  modelu poprzez odpowiednie nakierowanie jego wag, aby wartość straty wyliczana
+  przez funkcję kosztu była jak najmniejsza. Minimalizowanie wartości straty
   jest zagadnieniem złożonym, w trakcie poszukiwania optimum dla wag sieci
   występują liczne minima lokalne, które utrudniają odnalezienie minimum '
   globalnego zapewniającego najbardziej satysfakcjonujące wyniki. Aby
@@ -804,8 +820,10 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   Zmianę wskaźnika uczenia dla SGD nadzorował planista o parametrach:
   $\text{wielkość kroku} = 1$ oraz $\text{gamma} = 0.999$.
 
+
   \begin{figure}[H]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=6in]{porownanie_optimizerow}
    \caption[Porównanie rezultatów modeli uczonych z użyciem różnych algorytmów
    optymalizacyjnych - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
@@ -815,7 +833,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   \end{figure}
 
   \noindent
-  Jako algorytm optymalizacyjny dla modelu końcowego został wybrany Adam,
+  Jako algorytm optymalizacyjny dla modelu autorskiego został wybrany Adam,
   decyzja ta jest oparta na wielu kryteriach takich jak wartości końcowe funkcji
   kosztu oraz wizualne efekty działania sieci. Przykładowa ocena wizualna
   została opisana bazując na Rysunku \ref{fig:porownanie_optimizerow}.
@@ -853,6 +871,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
   \begin{figure}[H]
    \centering
+   \captionsetup{justification=centering}
    \includegraphics[width=6in]{porownanie_dropout}
    \caption[Wpływ zastosowania warstwy Dropout na kolorowanie obrazów - źródło: rysunek własny na podstawie:
    \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
@@ -870,6 +889,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
   \begin{figure}[ht!]
     \centering
+    \captionsetup{justification=centering}
     \subfloat[]{\includegraphics[width = 2in]{norm_norm}}
     \subfloat[]{\includegraphics[width = 2in]{norm_stand}}
     \subfloat[]{\includegraphics[width = 2in]{stand_stand}} \\
@@ -957,14 +977,14 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   \end{enumerate}
 
   \noindent
-  Bazując na efektach wizualnych różnych konfiguracji do modelu końcowego
+  Bazując na efektach wizualnych różnych konfiguracji do modelu autorskiego
   została zastosowana konfiguracja (b) składająca się z operacji
   normalizacji składowej wejściowej sieci \textit{L} oraz standaryzacji
   referencyjnych składowych \textit{A} oraz \textit{B}.
 
   \subsubsection{Model autorski - wnioski}
 
-  Analizując uzyskane rezultaty dla modelu końcowego, można stanowczo
+  Analizując uzyskane rezultaty dla modelu autorskiego, można stanowczo
   stwierdzić, że sieci FCN zdecydowanie nadają się jako rozwiązanie problematyki kolorowania
   czarno-białych obrazów. Ich niezwykłe zdolności do adaptacji oraz wyjątkowa
   biegłość w zapamiętywaniu i identyfikowanie istotnych wzorców świetnie współgrają
@@ -987,7 +1007,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   co przekłada się na o wiele wyższe zapotrzebowanie na moc obliczeniową często
   ciężko dostępną bez wyspecjalizowanego sprzętu.
 
-  Pomimo niedoskonałości przedstawionego modelu końcowego należy podkreślić jego
+  Pomimo niedoskonałości przedstawionego modelu autorskiego należy podkreślić jego
   użyteczność w półautomatycznym kolorowaniu czarno-białych obrazów. Jak można
   było zauważyć zadowalająco radzi sobie on z kolorowaniem tła obrazów oraz
   powierzchni o mało różnorodnej kolorystyce. Można wykorzystać to do wstępnego
@@ -997,7 +1017,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   początku do końca.
 
 
-  \subsubsection{Model z wykorzystaniem przeniesienia uczenia}
+  \subsubsection{Model z wykorzystaniem przeniesienia uczenia} \label{transfer model}
 
   Olbrzymią zaletą sieci neuronowych, sprawiającą, że są one wyjątkowo
   uniwersalne, jest możliwość przenoszenia uczenia. Polega
@@ -1007,10 +1027,11 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   posiada się zbyt wielu danych treningowych. Odbywa się to poprzez
   wyciągnięcie z wybranego modelu wyuczonych warstw specjalizujących się w
   pewnych operacjach oraz zastosowanie tych warstw w innym modelu, dzięki
-  czemu można przykładowo uzyskać, bez konieczności treningu, warstwy konwolucyjne wytrenowane
-  do wyciągania z obrazu jego kluczowych cech i identyfikowania charakterystycznych wzorców.
+  czemu można uzyskać, bez konieczności treningu, warstwy konwolucyjne wytrenowane
+  przykładowo do wyciągania z obrazu jego kluczowych cech i identyfikowania
+  charakterystycznych wzorców.
   Przenoszenie uczenia odbywa się poprzez zaimplementowanie w tworzonym modelu
-  warstw na podobieństwo warstw modelu z użyciem którego chcemy dokonać
+  warstw na podobieństwo warstw modelu, z użyciem którego chcemy dokonać
   przeniesienia uczenia, następnie dla tych warstw wczytuje się odpowiednie wagi
   z modelu już wytrenowanego.
   Takie działania dają olbrzymie możliwości konstruowania wyjątkowo złożonych i
@@ -1030,12 +1051,17 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   zaimplementowany, a jego rezultaty zostały porównane z
   rezultatami modelu zaprezentowanego w punkcie \ref{model autorski}.
 
-  Podobnie jak w modelu autorskim w procesie uczenia została wykorzystana przestrzeń
-  barw CIELab. Na wejście sieci podawana była składowa jasności, a danymi
-  referencyjnymi dla wyjścia sieci były dwie składowe koloru.
+  Podobnie jak w modelu autorskim w procesie uczenia przeprowadzonym przez
+  autorów omawianego rozwiązania została wykorzystana przestrzeń
+  barw CIELab. Wejściowy obraz konwertowany jest oddzielnie do skali szarości oraz do
+  przestrzeni barw CIELab. Na wejście modelu podawana jest wersja obrazu
+  wejściowego w skali szarości, a danymi referencyjnymi dla wyjścia sieci są
+  dwie składowe koloru \textit{A} i \textit{B} obrazu wejściowego w
+  przestrzeni barw CIELab.
+
   Idea testowanej architektury
   polega na integracji cech wysokiego oraz średniego poziomu z przetwarzanego obrazu.
-  Przykładowo cechy wysokiego poziomu mogą wskazywać na typ otoczenia, jeśli
+  Założenia jest takie, że cechy wysokiego poziomu mogą wskazywać na typ otoczenia, jeśli
   wykryte otoczenia okaże się pomieszczeniem to będzie to miało bezpośredni wpływ
   na cechy średniego poziomu, aby wskazywały, że w danej
   sytuacji niekorzystne jest kolorowanie powierzchni w barwach nieba albo trawy,
@@ -1054,10 +1080,10 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   Zadanie ResNet-Gray w testowanym rozwiązaniu polega na identyfikacji
   na obrazie wejściowym kluczowych wzorców wymaganych do wyciągnięcia cech
   poszczególnych poziomów. Początkowe warstwy wyciągają cechy niskopoziomowe, takie jak położenie krawędzi na obrazie. Warstwy środkowe
-  służą do odpowiedniego przetworzenia tych cech, aby uzyskać cechy średniopoziomowe,
+  służą do odpowiedniego przetworzenia tych cech, aby uzyskać cechy średniego poziomu,
   cechy te oprócz podania ich na kolejne warstwy ResNet-Gray są dodatkowo wyprowadzane
   na blok fuzji. Zadaniem ostatnich warstw jest wydobycie cech
-  wysokiego poziomu, które również są przekazywane do bloku odpowiedzialnego za
+  wysokopoziomowych, które również są przekazywane do bloku odpowiedzialnego za
   fuzję.
 
   Blok fuzji jest odpowiedzialny za przestrzenne połączenie podawanych
@@ -1066,11 +1092,10 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   optymalizacji w procesie uczenia.
 
   Wyjście bloku fuzji jest następnie przekazywane na sieć dekonwolucyjną, która
-  tworzy oczekiwane składowe \textit{A} i \textit{B} przestrzeni kolorów CIELab.
+  ma celu przetworzyć wejściowy zbiór cech otrzymany w procesie fuzji na składowe
+  \textit{A} i \textit{B} przestrzeni kolorów CIELab dla obrazu wejściowego.
   Sieć ta składa się z zestawu członów konwolucyjnych i warstw nadpróbkujących
-  (ang. upsampling). Ma ona na celu przetworzyć wejściowy zbiór cech otrzymany w
-  procesie fuzji na składowe kolorów przewidzianych dla obrazu wejściowego.
-  Każdy człon konwolucyjny, oprócz dwóch ostatnich, składa się z pojedynczej
+  (ang. upsampling). Każdy człon konwolucyjny, oprócz dwóch ostatnich, składa się z pojedynczej
   warstwy konwolucyjnej połączonej z warstwą BatchNorm i warstwą funkcji
   aktywacji ReLU. Przedostatni człon złożony jest z warstwy konwolucyjnej, po
   której umieszczona jest warstwa funkcji aktywacji Sigmoid, mająca na celu
@@ -1083,8 +1108,145 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   dwukrotnie szerokość i wysokość każdego kanału wejściowego używając algorytmu
   najbliższego sąsiada.
 
-  Wybrany loss i optimizer
+  Przedstawiona architektura została zaimplementowana i do każdego z 3
+  komponentów została zastosowana metoda przeniesienia uczenia polegająca na
+  wczytaniu do wszystkich zaimplementowanych warstw wag udostępnionych przez
+  autorów architektury. Tak przygotowana sieć została następnie douczona
+  na zbiorze danych CIFAR-10 w celu zwiększenia rzetelności porównania jej
+  rezultatów z rezultatami modelu autorskiego. Jednakże w procesie uczenia
+  nie wszystkie wagi warstw sieci były aktualizowane.
+  Możliwość aktualizacji wag komponentu ResNet-Gray została zablokowana, aby
+  przeciwdziałać traceniu wyuczonej wiedzy przez ten model.
+  Zjawisko takie może wystąpić ponieważ model ResNet-Gray był trenowany do
+  zadania klasyfikacji, które jest znacznie odmienne od zagadnienia kolorowania
+  czarno-białych obrazów. W związku z tym w problematyce kolorowaniu stosowana jest inna
+  funkcja celu wskazująca kierunek optymalizacji wag wymagany do lepszego
+  generowania potencjalnych barw dla obrazów wejściowych. Jeśli wagi ResNet--Gray
+  byłyby aktualizowane zgodnie ze wskazaniami funkcji kosztu, to doprowadziłoby
+  to do zmiany wyuczonej specjalizacji modelu i utracenia przez niego zdolności
+  do prawidłowego wyciągania pożądanych cech z obrazu, co przy założonej idei
+  rozwiązania byłoby niepożądane.
 
-  Wybrany preprocessing
+  Wybór funkcji kosztu wykorzystanej w procesie uczenia był poparty badaniami
+  przeprowadzonymi przez L. Melas-Kyriazi oraz G. Han.
+  % Tu może cytat taki:
+  % We trained with both mean squared error (L2) and mean absolute error (L1) loss
+  %functions, finding that mean squared error produced more vibrant (qualitative) colorizations.
+  % Ale jest on trochę amatorski więc nie wiem
+  Pomysłodawcy rozwiązania przetestowali skuteczność takich funkcji celu jak L1Loss i MSELoss. Dowiedli
+  oni, że MSELoss pozwala uzyskać żywsze barwy w kolorowanych obrazach, z tego
+  powodu właśnie ta funkcja została wykorzystana w treningu modelu.
+  Kierując się testami przeprowadzonymi w punkcie \ref{Algorytmy optymalizacyjne}
+  oraz zaleceniami autorów ResNet-Gray jako algorytm optymalizacyjny został
+  wybrany algorytm Adam o parametrach: $\beta_{1} = 0.9$, $\beta_{2} = 0.999$,
+  $\text{wskaźnik uczenia} = 0.1$, $\text{współczynnik zaniku wag} = 1e-10$ oraz
+  $eps=1e-08$.
 
-  Rezultaty i porówniania
+  Możliwości wyboru metody wstępnego przetwarzania danych są znacznie ograniczone
+  z powodu stosowania przenoszenia uczenia. Wynika to z faktu, że wykorzystując
+  już wyuczone warstwy należy im zapewnić dane wejściowe w takiej samej postaci,
+  jaka była wykorzystana podczas treningu tych warstw. Pierwszym komponentem
+  testowanej architektury jest model ResNet-Gray, model ten
+  samodzielnie dokonuje odpowiedniego przygotowania danych wejściowych, w związku
+  z czym nie ma potrzeby wykonywać tego samodzielnie. Natomiast referencyjne
+  składowe \textit{A} i \textit{B} muszą być znormalizowane na przestrzeni
+  całego zbioru danych do przedziału \textless 0, 1 \textgreater tak jak odbywało
+  się to podczas pierwotnego treningu modelu. Ma to
+  bezpośredni związek z zastosowaniem warstwy funkcji aktywacji Sigmoid, której
+  przedział aktywacji równa się właśnie \textless 0, 1 \textgreater.
+
+  Testowana architektura, po odpowiednim douczeniu, została wykorzystana do
+  pokolorowania wybranych obrazów. Porównanie otrzymanych rezultatów z rezultatami
+  uzyskanymi z użyciem modelu autorskiego zostało przedstawione na Rysunku
+  \ref{fig:porownanie_modeli}.
+
+  \begin{figure}[ht]
+    \centering
+    \captionsetup{justification=centering}
+    \subfloat[]{\includegraphics[width = 6in]{plane_porownanie}} \\
+    \subfloat[]{\includegraphics[width = 6in]{krajobraz_porownanie}} \\
+    \subfloat[]{\includegraphics[width = 6in]{rzeka_porownanie}} \\
+    \caption[Porównanie skuteczności modelu autorskiego i modelu z zastosowaniem
+    metody przeniesienia uczenia - źródło: Rysunek własny bazujący na:
+    \url{https://fr.m.wikipedia.org/wiki/Fichier:An_F-A-18C_Hornet_launches_from_the_flight_deck_of_the_conventionally_powered_aircraft_carrier.jpg},
+    \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg},
+    \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
+    {Porównanie skuteczności modelu autorskiego i modelu z zastosowaniem metody
+    przeniesienia uczenia.}
+    \label{fig:porownanie_modeli}
+  \end{figure}
+
+  Analizując pokolorowane obrazy na Rysunku \ref{fig:porownanie_modeli} można
+  dojść do wniosku, że bardziej satysfakcjonująca jakość kolorowania została uzyskana z
+  użyciem modelu, dla którego zastosowano metodę przeniesienia uczenia.
+  Porównując wygenerowane barwy można zauważyć, że dla modelu z przeniesieniem
+  uczenia są one bardziej realistyczne i nadzwyczaj dobrze przypominają barwy
+  prawdopodobne dla powierzchni, na które zostały nałożone. Ponadto widać, że
+  model autorski ma niekorzystną tendencję do generowanie kolorów o zbyt wysokiej
+  saturacji, co obniża wiarygodność rezultatów tego modelu.
+  Świadczy to, że podejście zaproponowane
+  przez autorów rozwiązania wykazuje się wysoką skutecznością jako rozwiązanie
+  zagadnienia predykcji kolorów, a integracja cech wysokiego oraz średniego poziomu
+  przynosi oczekiwane rezultaty.
+
+  Wielką zaletą zaimplementowanej architektury jest jej modułowość dająca znacznie
+  większe możliwości rozprowadzania w sieci danych z poszczególnych etapów przetwarzania.
+  Sieć dekonwolucyjna dostając dodatkowe informację o kolorowanych obiektach,
+  zwłaszcza o ich klasie, jest w stanie lepiej przewidzieć prawdopodobne barwy dla
+  tych obiektów.
+  Wadą tej architektury jest jednak narzucona stała rozdzielczość obrazów
+  wyjściowych równa 512 x 512 piksele, w przypadku kolorowanie obrazów o wysokiej
+  rozdzielczości dochodzi do znacznej utraty ich jakości. Model autorski cechuje się
+  większą elastycznością w tym obszarze działań umożliwiając kolorowanie dowolnych obrazów
+  bez modyfikacji ich rozdzielczości.
+
+  Jak widać zastosowanie w przedstawionym rozwiązaniu sieci neuronowej
+  specjalizującej się w operacjach nie do końca związanych z rozwiązywaną
+  problematyką, może pozytywnie wpłynąć na skuteczność całego rozwiązania.
+  Utwierdza to w przekonaniu, że przeniesienie uczenia jest podejściem o wielu
+  zaletach, które znacznie zwiększa ilość możliwych zastosowań sieci neuronowych.
+  Jest one szczególnie przydatne w rozwiązaniach, które wymagają
+  zastosowania sieci neuronowej o złożonej architekturze, a dysponuje się ograniczonymi
+  zasobami obliczeniowymi.
+  Ponadto metoda przeniesienia uczenia pozwala, z użyciem douczania, zwiększyć
+  skuteczność końcową modelu poprzez poszerzenie ogólnej wiedzy już wytrenowanej
+  sieci o wiedzę związaną z docelową problematyką, umożliwia to skuteczne
+  dopracowanie efektywności pracy sieci.
+  Dużą zaletą jest także znacznie ułatwione tworzenie modularnych
+  rozwiązań cechujących się większą uniwersalnością oraz elastycznością.
+
+  \subsubsection{Podsumowanie}
+
+  Sieci neuronowe słyną ze swoich niezwykłych zdolności adaptacyjnych
+  sprawiających, że mogą być z licznymi sukcesami stosowane do wielu różnych celów.
+  Badania przeprowadzone w tym rozdziale dowodzą, że nadają się one znakomicie
+  także jako rozwiązanie problematyki kolorowania czarno-białych obrazów.
+  Warto zaznaczyć, że jest to problematyka bardzo złożona, dla której nie
+  istnieje proste rozwiązanie używające klasycznych metod edycji obrazu.
+  W rozdziale tym zostały przedstawione dwa funkcjonujące rozwiązania.
+  Posiadają one swoje zalety i wady, jednakże oba prezentują zadowalające
+  rezultaty.
+
+  Model autorski przedstawiony w punkcie \ref{model autorski}
+  jest dowodem na to, że wstępnie pozytywne wyniki można osiągnąć
+  stosując nawet proste sieci splotowe. Model taki ze względu na
+  nieskomplikowaną architekturę jest mało problematyczny w implementacji, a jego
+  skuteczny trening można przeprowadzać bez dużego zapotrzebowania na moc
+  obliczeniową. Sprawia to, że jest on wyjątkowo łatwo dostępny i stanowi
+  znakomitą bazę pod różnorakie eksperymenty i potencjalne rozszerzenia.
+
+  Inne podejście zostało zaprezentowane w przypadku modelu opisanego w punkcie
+  \ref{transfer model}. Fundamentem tego rozwiązania jest wykorzystanie
+  techniki przeniesienia uczenia redukującej ograniczenia wynikające z
+  niewystarczających zasobów obliczeniowych. Wykorzystany model cechuje się
+  znacznie większą złożonością zastosowanej architektury niż model autorski.
+  Bazuje on na efektywnej współpracy pomniejszych komponentów składających się
+  na całokształt rozwiązania. Charakter tego podejścia umożliwił stworzenie
+  znacznie bardziej zaawansowanego modelu uwzględniającego większą ilość czynników
+  kluczowych dla rozważanego zagadnienia, co przekłada się na wysoce zadowalające
+  rezultaty.
+
+  Zaprezentowane w tym rozdziale wyniki dowodzą wysokiej użyteczności i
+  nadzwyczajnej skuteczności zastosowań sieci neuronowych do rozwiązywania
+  niepospolitych oraz złożonych problemów, tak w zakresie edycji obrazu jak i
+  w innych dziedzinach.

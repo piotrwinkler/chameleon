@@ -3,7 +3,49 @@
   Tematem pracy jest zbadanie możliwości zastosowania sieci neuronowych do
   edycji obrazów. Głównym celem było stworzenie narzędzi opartych na wyuczonych
   sieciach neuronowych, służących do odpowiedniego przetwarzania i
-  modyfikowania obrazu. \textless Zakres pracy \textgreater
+  modyfikowania obrazu. Następnie skuteczność tych narzędzi została oceniona i
+  porównana z rozwiązaniami opartymi na klasycznych metodach przetwarzania obrazu.
+
+  Zbadane zostały dwie problematyki, automatyczne kolorowanie czarno-białych obrazów
+  oraz nakładanie na obraz prostych filtrów takich jak filtr Sobela. Opisy
+  zaimplementowanych rozwiązań zostały umieszczone w odpowiednych podrozdziałach
+  rozdziału \ref{zaimplementowane rozwiazania}.
+
+  Uzyskane wyniki pozwoliły wyciągnąć wiele pouczających wniosków. W przypadku obu
+  problematyk udało się je rozwiązać z użyciem rozwiązań opartych na konwolucyjnych
+  sieciach neuronowych.
+
+  W przypadku prostych filtrów obrazu rozwiązania
+  oparte na sieciach splotowych okazały się wolniejsze i bardziej pracochłonne w
+  implementacji niż metody klasyczne przy porównywalnych rezultatach. Jednakże
+  z ich pomocą udało się udowodnić olbrzymią uniwersalność sieci splotowych
+  mogących być efektywnie zastosowane w zagadnieniach związanych z prostym
+  przetwarzaniem obrazu.
+
+  Zagadnienie automatycznego kolorowania czarno-białych
+  obrazów zostało rozwiązane z użyciem dwóch różnych modeli, autorskiego modelu
+  prostego oraz bardziej zaawansowanego modelu zaimplementowanego z użyciem technik
+  przeniesienia uczenia. Dla modelu autorskiego zostały przeprowadzone szczegółowe
+  badania dotyczące zależności wyników od poszczególnych parametrów architekury
+  sieci jak i konfiguracji procesu uczenia. Rezultaty końcowe uzyskane z użyciem
+  modelu autorskiego były zadowalajace, ale mocno zależne od wybranych parametrów.
+  Dowodzi to, że odpowiednio skonfigurowane sieci splotowe mogą być skutecznie
+  zastosowane w tym zagadnienu, aczkolwiek to model złożony pozwolił osiągnąć
+  największy sukces.
+%  Prezentuje on znacznie lepsze wyniki mogące być uznane za wybitne osiągnięcia
+%  w zagadnieniu automatycznego kolorowania.
+  Idea tego rozwiązania opiera się na integracji cech obrazu średniego oraz wysokiego
+  poziomu uzyskiwanych z użyciem złozonej sieci splotowej wytrenowanej pierwotnie do
+  zadania klasyfikacji. Cechy te, po przejściu przez proces fuzji, są następnie
+  wykorzystywane przez sieć dekonwolucyjną do predykcji prawdopodobnych barw dla
+  obrazu wejściowego. Dzięki tym dodatkowym informacjom o obrazie udało się
+  znacznie zwiększyć efektywność procesu kolorowania, a co za tym idzie,
+  wiarygodność generowanych barw.
+
+  Badania przeprowadzone w ramach tej pracy dyplomowej są dowodem na to, że
+  sieci neuronowe mogą być skutecznie zastosowane jako narzędzia do wszechstronnej
+  edycji obrazu. Często są one jedynym dostępnym rozwiązaniem dla złożonej
+  problematyki.
 
   \textless Zastosowane metody badań \textgreater \textless wyniki \textgreater
   \textless najważniejsze wnioski \textgreater
@@ -11,8 +53,9 @@
   \bigskip
 
   \noindent\textbf{Słowa kluczowe:} sieć neuronowa, przetwarzanie obrazu,
-  konwolucyjna sieć neuronowa, splotowa sieć neuronowa, model generatywny,
-  głęboka sieć neuronowa,
+  konwolucyjna sieć neuronowa, splotowa sieć neuronowa,
+  głęboka sieć neuronowa, filtry obrazu, automatyczne kolorowanie czarno-białych
+  obrazów, platforma programistyczna
 
   \bigskip
 
