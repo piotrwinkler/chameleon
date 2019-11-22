@@ -92,6 +92,7 @@
   Tabeli \ref{table:model_architecture}.
   \noindent\begin{table}[H]
     \center
+    \caption{Architektura modelu autorskiego.}
     \begin{tabular}{|c | c | m{3.3em} | c | c | m{4em} | c | c| }
      \hline
      Nr & Warstwa & Rozmiar filtra & Stride & Padding & Batch Normalization &
@@ -110,7 +111,6 @@
     11 & Splotowa & 1x1 & 1 & 0 & Tak & ReLU & 32/32 \\ \hline
     12 & Splotowa & 1x1 & 1 & 0 & Nie & - & 32/2 \\ \hline
     \end{tabular}
-    \caption{Architektura modelu autorskiego.}
     \label{table:model_architecture}
   \end{table}
   Pierwsza warstwa konwolucyjna rozkłada wejściowy kanał na 32 kanały, co
@@ -909,6 +909,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
   \noindent\begin{table}[H]
     \center
+    \caption{Szczegóły konfiguracji przetwarzania wstępnego.}
     \begin{tabular}{|c | c | c| }
      \hline
      Konfiguracja & Przetwarzanie danych wejściowych & Przetwarzanie danych
@@ -920,7 +921,6 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
     d & Normalizacja oraz rozmycie gaussowskie & Standaryzacja \\ \hline
     e & Standaryzacja oraz rozmycie gaussowskie & Standaryzacja \\ \hline
     \end{tabular}
-    \caption{Szczegóły konfiguracji przetwarzania wstępnego.}
     \label{table:preprocessing}
   \end{table}
 
