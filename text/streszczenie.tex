@@ -22,7 +22,7 @@
   idzie, ograniczyć konieczność ingerencji ze strony użytkownika, przy jednoczesnym
   zapewnieniu swobody w prowadzonych eksperymentach i implementowanych modyfikacjach danych. Przekłada
   się to na znacznie wydajniejszy oraz mniej złożony proces trenowania
-  różnorodnych architektur sieci neuronowych.
+  zróżnicowanych architektur sieci neuronowych.
 
   W przypadku prostych filtrów obrazu rozwiązania
   oparte na sieciach splotowych okazały się wolniejsze i bardziej pracochłonne w
@@ -32,27 +32,28 @@
   przetwarzaniem obrazu. Ukazane zostało ponadto podobieństwo między tradycyjnymi
   metodami filtracji, a sposobem działania neuronów tworzących sieci konwolucyjne.
 
-  Zagadnienie automatycznego kolorowania czarno-białych
-  obrazów zostało rozwiązane z użyciem dwóch różnych modeli, autorskiego modelu
-  prostego oraz bardziej zaawansowanego modelu zaimplementowanego z użyciem technik
-  przeniesienia uczenia. Dla modelu autorskiego zostały przeprowadzone szczegółowe
-  badania dotyczące zależności wyników od poszczególnych parametrów architekury
-  sieci jak i konfiguracji procesu uczenia. Rezultaty końcowe uzyskane z użyciem
-  modelu autorskiego były zadowalające, ale mocno zależne od wybranych parametrów.
-  Dowodzi to, że odpowiednio skonfigurowane sieci splotowe mogą być skutecznie
-  zastosowane w tym zagadnieniu, aczkolwiek to model złożony pozwolił osiągnąć
-  największy sukces.
-  Idea tego rozwiązania opiera się na integracji cech obrazu średniego oraz wysokiego
-  poziomu uzyskiwanych z użyciem złożonej sieci splotowej wytrenowanej pierwotnie do
-  zadania klasyfikacji. Cechy te, po przejściu przez proces fuzji, są następnie
-  wykorzystywane przez sieć dekonwolucyjną do predykcji prawdopodobnych barw dla
-  obrazu wejściowego. Dzięki tym dodatkowym informacjom o obrazie udało się
-  znacznie zwiększyć efektywność procesu kolorowania, a co za tym idzie,
-  wiarygodność generowanych barw.
+  Do rozwiązania problematyki automatycznego kolorowania czarno-białych
+  obrazów zostały przyjęte dwa różne podejścia. Pierwsze obejmowało
+  zastosowanie prostego modelu autorskiego trenowanego z użyciem wielu różnych
+  hiperparametrów oraz metod przygotowania danych treningowych.
+  Wyniki otrzymane z użyciem tego modelu były zadowalające i dowodzą, że
+  sukces w tej dziedzinie można odnieść stosując nawet proste sieci splotowe,
+  jednakże jest on w dużej mierze zależny od wybranych hiperparametrów oraz
+  konfiguracji, w których uczona była sieć.
+
+  Drugie podejście obejmowało zaimplementowanie bardziej złożonego modelu
+  wykorzystując do tego celu technikę przeniesienia uczenia. Podejście to obejmuje
+  integrację cech obrazu średniego oraz wysokiego poziomu uzyskiwanych z użyciem
+  zaawansowanej sieci splotowej, która pierwotnie trenowana była do zadania
+  klasyfikacji obrazu wejściowego.
+  Tak uzyskane informacje były następnie wykorzystywane przez sieć
+  dekonwolucyjną dokonującą predykcji prawdopodobnych barwy obrazu.
+  W rezultacie przełożyło się to na większą realistyczność otrzymanych kolorów,
+  a co za tym idzie, wysoce satysfakcjonujące wyniki.
 
   Badania przeprowadzone w ramach tej pracy dyplomowej są dowodem na to, że
   sieci neuronowe mogą być skutecznie zastosowane jako narzędzia do wszechstronnej
-  edycji obrazu. Często są one jedynym dostępnym rozwiązaniem jeśli problematyka
+  edycji obrazu. Często są one jedynym dostępnym rozwiązaniem, jeśli problematyka
   jest nadzwyczaj złożona. Jednakże, pomimo niezwykłych możliwości sieci
   neuronowych, ich sukces zależy w dużej mierze od dobrze przemyślanego
   wyboru stosowanej architektury oraz poprawnie przeprowadzonego
