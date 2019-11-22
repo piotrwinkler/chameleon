@@ -163,7 +163,7 @@
 \usepackage[font=small,labelfont=bf,justification=centering]{caption}  % Umożliwia zdefiniowanie, że podpis pod rysunkiem ma być np wyśrodkowany
 \usepackage[figuresright]{rotating}
 
-\usepackage{multirow}
+% \usepackage{multirow}
 
 
 %\renewcommand{\chaptername}{Rozdział}
@@ -184,19 +184,19 @@
 %--------------------------------------------------------------------
 \pagenumbering{arabic}
 
-\RequirePackage{fancyhdr}
+% \RequirePackage{fancyhdr}
 
-\fancypagestyle{plain}{
-  \fancyhf{}
-  \fancyfoot[C]{\fontsize{9pt}{9pt}\selectfont\thepage}%
-   \renewcommand{\headrulewidth}{0.0pt}
-}
+% \fancypagestyle{plain}{
+%   \fancyhf{}
+%   \fancyfoot[C]{\fontsize{9pt}{9pt}\selectfont\thepage}%
+%    \renewcommand{\headrulewidth}{0.0pt}
+% }
 
 \pagestyle{plain}
 %--------------------------------------------------------------------
 
 \widowpenalties 1 10000 % żeby jak akapit się nie zmieści cały na danej stronie, to żeby był przeniesiony w pełni na kolejną stonę - kwestie estetyczne
-% \raggedbottom % Nie wiem w sumie co to robi, ale może jest potrzebne do czegoś
+\raggedbottom % Nie wiem w sumie co to robi, ale może jest potrzebne do czegoś
 
 
 \begin{document}
