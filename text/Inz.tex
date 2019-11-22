@@ -28,7 +28,7 @@
 %--------------------------------------------------------------------
 % for margins left, right top bottom
 \usepackage{anysize}
-\marginsize{2.5cm}{2.5cm}{2.5cm}{2.5cm}
+\marginsize{3.5cm}{2.5cm}{2.5cm}{2.5cm}
 % \marginsize{3.5cm}{2.5cm}{2.5cm}{2.5cm} % Te 3.5 sprawia, że lepiej się będzie czytało wydrukowaną dwustronnie pracę
 \let\origdoublepage\cleardoublepage    % komenda wstawiająca czyste kartki
 \newcommand{\clearemptydoublepage}{%
@@ -195,8 +195,8 @@
 \pagestyle{plain}
 %--------------------------------------------------------------------
 
-\widowpenalties 1 10000
-\raggedbottom
+\widowpenalties 1 10000 % żeby jak akapit się nie zmieści cały na danej stronie, to żeby był przeniesiony w pełni na kolejną stonę - kwestie estetyczne
+% \raggedbottom % Nie wiem w sumie co to robi, ale może jest potrzebne do czegoś
 
 
 \begin{document}
