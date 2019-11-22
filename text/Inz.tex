@@ -1,26 +1,100 @@
-\documentclass[10pt, a4paper, twoside]{article}
+\documentclass[10pt, a4paper, twoside, notitlepage, openright]{article}
 
-% Mój kompilator tego nie obsłuży
-% \usepackage{fontspec}
-% \setmainfont{Arial}
+%--------------------------------------------------------------------
 
-\usepackage[utf8]{inputenc}
+% language - polish by default
+%--------------------------------------------------------------------
 \usepackage[MeX]{polski}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%--------------------------------------------------------------------
+
+% basic font:
+%--------------------------------------------------------------------
+\usepackage[scaled]{helvet} %Zastępczy font dla Ariala
+\usepackage{mathpazo} % Zalecany font dla równań matematycznych
+\renewcommand{\familydefault}{\sfdefault}
+%--------------------------------------------------------------------
+
+% baseline:
+%--------------------------------------------------------------------
+\linespread{1.3} % factor 1.3 gives ,,one and a half'' line spacing
+% W wymogach jest, że ma być  1.5, ale podobno ten końcowy line spacing
+% wylicza się jako ten linespread * (baselineskip/fontsize) i w naszym przypadku
+% to powinno być 1.25 * (12/10) = 1.5, no ale zobaczymy bo aktualnie ten parametr wygląda jakby nie działał
+%--------------------------------------------------------------------
+
+% margins:
+%--------------------------------------------------------------------
+% for margins left, right top bottom
+\usepackage{anysize}
+\marginsize{2.5cm}{2.5cm}{2.5cm}{2.5cm}
+% \marginsize{3.5cm}{2.5cm}{2.5cm}{2.5cm} % Te 3.5 sprawia, że lepiej się będzie czytało wydrukowaną dwustronnie pracę
+\let\origdoublepage\cleardoublepage    % komenda wstawiająca czyste kartki
+\newcommand{\clearemptydoublepage}{%
+  \clearpage
+  {\pagestyle{empty}\origdoublepage}%
+}
+\let\cleardoublepage\clearemptydoublepage
+%--------------------------------------------------------------------
+
+% Do rysunków:
+%--------------------------------------------------------------------
 \usepackage{graphicx}
-\usepackage{amsmath,amssymb}
+\graphicspath{ {./images/} }  % Domyślna ścieżka do obrazów
+%--------------------------------------------------------------------
+
+\usepackage{amsmath,amssymb}  % To jest chyba do formuł matematycznych
+\usepackage{setspace,cite}
+
 \usepackage{pdfpages} % paczka żeby móc importować gotowe strony z plików pdf do pdfa z latexa
 \usepackage{titlesec} % może być potrzebne jeśli będziemy chcieli edytować tytuły
 
+
+
+% Do Nagłówków:
+%--------------------------------------------------------------------
 % First {} is a font size for title of sections and second {} is baselineskip,
 % that is size of empty space between section title and text below
-\titleformat{\section}
-  {\normalfont\fontsize{12}{15}\bfseries}{\thesection}{1em}{\MakeUppercase}
+\usepackage{fancyhdr}
+\titleformat{\section}[block]
+  {\normalfont \fontsize{12}{12} \bfseries}{\thesection.}{0.5em}{\fontsize{12}{12} \MakeUppercase }
+\titlespacing{\section}{0pt}{12pt}{6pt}
+
 \titleformat{\subsection}
-  {\normalfont\fontsize{10}{12}\bfseries\itshape}{\thesubsection}{1em}{}
+      {\normalfont\fontsize{10}{10} \bfseries \itshape}{\thesubsection.}{0.5em}{\bfseries \itshape \itshape}
+\titlespacing{\subsection}{0pt}{12pt}{6pt}
+
 \titleformat{\subsubsection}
-  {\normalfont\fontsize{10}{12}\itshape\selectfont}{\thesubsubsection}{1em}{}
+      {\normalfont\fontsize{10}{10}\itshape}{\thesubsubsection.}{0.5em}{\normalfont \itshape}
+\titlespacing{\subsubsection}{0pt}{12pt}{6pt}
+%--------------------------------------------------------------------
 
 % Uwaga, nie dodawać biblioteki sectsty bo to zresetuje formatowanie
+
+% Do Table of Content:
+%--------------------------------------------------------------------
+\usepackage{titletoc}
+\titlecontents{section}
+    [0em] % no indentation
+    {}
+    {\contentslabel[\thecontentslabel.]{1.5em}} % suitable only for one-digit and a comma
+    {\hspace*{-1.5em}}                          % !
+    {\dotfill\contentspage}
+
+\titlecontents{subsection}
+    [2em] % ie, 1.5em (section) + 0.5em
+    {}
+    {\contentslabel[\thecontentslabel.]{2em}}   %two digits and two dots
+    {\hspace*{-2.3em}}                          % !
+    {\dotfill\contentspage}
+
+\titlecontents{subsubsection}
+    [5em] % ie, 2em (subsection) + 3em
+    {}
+    {\contentslabel[\thecontentslabel.]{3em}}  %three digits and three dots
+    {\hspace*{-2.3em}}                          % !
+    {\dotfill\contentspage}
 
 \usepackage{tocloft}  % żeby móc ręcznie dodawać sections do TOC (Table of Content)
 \usepackage[nottoc]{tocbibind}  % definiuje co jest w TOC
@@ -29,23 +103,25 @@
 % to powyższe można zastąpić 2 liniami:
 % \usepackage{tocbibind}
 % \tocbibind{nottoc}
+%--------------------------------------------------------------------
 
-\usepackage{geometry} % Do ustawiania wyglądu stron
-\geometry{margin=1.2in} % Ustawia margines
-
+% Do Indentów itp:
+%--------------------------------------------------------------------
 \usepackage{indentfirst}  % Ustawienia aby pierwszy paragraf w sekcji też miał akapit, bo domyślnie nie ma
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{1ex} %odstępy między akapitami
+%--------------------------------------------------------------------
 
-\usepackage{graphicx} % Do załączania obrazów
-\graphicspath{ {./images/} }  % Domyślna ścieżka do obrazów
-
+% Do spisu rysunków i tabel:
+%--------------------------------------------------------------------
 \usepackage{chngcntr} % Do edycji numerowania rysunków w sekcjach
 \counterwithin{figure}{section} % Sprawia, że numeracja rysunków będzie podzielona na sekcje
 \counterwithin{table}{section} % Sprawia, że numeracja tabel będzie podzielona na sekcje
-
+%--------------------------------------------------------------------
 
 \usepackage{csquotes} % Do cytowania
 \AtBeginEnvironment{quote}{\itshape}  % Ustawia to co jest między \begin{quote}
-% a \end{quote}, że będzie kursyw
+% a \end{quote}, że będzie kursywą
 
 \usepackage[hyphens]{url} % Dodatkowa opcja, żeby linki url łamały się jeśli są
 % za długie
@@ -53,20 +129,46 @@
 
 \usepackage{array} %Umożliwia definiowanie własnych wymiarów tabel
 \usepackage{enumitem} % Do usunięcia indenta dla begin{itemize}
+% --------------------------------------------------------------------
+
+% Do odpowiednich itemize i enumerate:
+%--------------------------------------------------------------------
+% \setenumerate{
+% %     labelindent=0em,
+% %     itemindent=\indentenit,
+%     topsep=1.5\parskip,
+%     itemsep=1.5\parskip,
+%     partopsep=10pt,
+% %     align=left
+%     }
+
+\setitemize{
+%     labelindent=0em,
+%     itemindent=\indentenit,
+    itemsep=0pt,
+    topsep=0pt,
+%     partopsep=0pt,
+%     align=left
+}
+
+\RequirePackage{textcomp} % for \textbullet and \textopenbullet only
+\setitemize[1]{label=\textbullet}   % first level \textbullet
+\setitemize[2]{label=\textopenbullet}     % second level \textopenbullet
+%--------------------------------------------------------------------
 
 \usepackage{longtable} %Umożliwia definiowanie tabel obejmujących wiele stron
 
 \usepackage{float}
 \usepackage[caption = false]{subfig}
-\usepackage{caption}  % Umożliwia zdefiniowanie, że podpis pod rysunkiem ma być np wyśrodkowany
+\usepackage[font=small,labelfont=bf,justification=centering]{caption}  % Umożliwia zdefiniowanie, że podpis pod rysunkiem ma być np wyśrodkowany
+\usepackage[figuresright]{rotating}
 
-\usepackage[scaled]{helvet} %Zastępczy font dla Ariala
-\renewcommand\familydefault{\sfdefault}
-\usepackage[T1]{fontenc}
+\usepackage{multirow}
+
 
 %\renewcommand{\chaptername}{Rozdział}
 %\renewcommand{\contentsname}{Spis treści}
-%\renewcommand{\figurename}{Rys.}
+% \renewcommand{\figurename}{Rys.}
 %\renewcommand{\tablename}{Tab.}
 %\renewcommand{\listfigurename}{Spis rysunków}
 %\renewcommand{\listtablename}{Spis tabel}
@@ -75,24 +177,34 @@
 % Chyba lepiej używać latexowego \indent zamiast definiować własny akapit
 % \newcommand\tab[1][1cm]{\hspace*{#1}}
 % \newcommand\tab{\indent}
-\pagestyle{plain}
+
+% \bibliographystyle{unsrt} % Powinno niby ułożyć dobrze bibliografię, ale nie działa
+
+% pagination:
+%--------------------------------------------------------------------
 \pagenumbering{arabic}
 
+\RequirePackage{fancyhdr}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\fontsize{9pt}{9pt}\selectfont\thepage}%
+   \renewcommand{\headrulewidth}{0.0pt}
+}
+
+\pagestyle{plain}
+%--------------------------------------------------------------------
 
 \widowpenalties 1 10000
 \raggedbottom
 
 
-
-
 \begin{document}
 
-\parskip 1.5ex % paragraph spacing - zwiększa odstępy pomiędzy paragrafami
+% \parskip 1.5ex % paragraph spacing - zwiększa odstępy pomiędzy paragrafami
 
-\baselineskip=15pt  % odległość między liniami chyba
-\linespread{1.3} % W wymogach jest, że ma być  1.5, ale podobno ten końcowy line spacing
-% wylicza się jako ten linespread * (baselineskip/fontsize) i w naszym przypadku
-% to powinno być 1.25 * (12/10) = 1.5, no ale zobaczymy bo aktualnie ten parametr wygląda jakby nie działał
+% \baselineskip=15pt  % odległość między liniami chyba
+
 
 % Strone tytulowa trzeba bedzie pobrac z moja pg
 \includepdf[pages=-]{StronaTytulowa_bb.pdf} %pages=- to załączenie wszystkich stron
