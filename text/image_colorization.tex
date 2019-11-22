@@ -1,5 +1,4 @@
 \subsection[Automatyczne kolorowanie czarno-białych obrazów (Bartosz Bieliński)]{Automatyczne kolorowanie czarno-białych obrazów}
-\label{image_colorization}
 
   Problem kolorowania czarno-białych obrazów cieszy się dużym zainteresowaniem z
   wielu powodów. Od potrzeb kulturowych takich jak możliwość lepszego
@@ -8,9 +7,9 @@
   technologiczne takie jak rekonstrukcja filmów oraz poprawa obrazu cyfrowego.
 
   Pomimo braku informacji o kolorze w czarno-białych zdjęciach, ludzie są w
-  stanie określić potencjalne, rzeczywiste barwy obiektów na zdjęciach bazując jedynie
+  stanie określić potencjalne, rzeczywiste barwy obiektów na zdjęciach bazując
   na treści tych zdjęć oraz swoim doświadczeniu. Można z tego wywnioskować, że
-  zdjęcia te zawierają informacje wystarczające do oszacowania prawdopodobnych
+  zdjęcia te zawierają informacje wystarczające do oszacowania potencjalnych
   kolorów. Pozwala to założyć, że do tego zagadnienia można skutecznie wykorzystać
   konwolucyjne sieci neuronowe, które cechują się niezwykłą umiejętnością do
   rozpoznawania wzorców oraz posiadają wyjątkowe zdolności do adaptacji. Z tego
@@ -19,9 +18,9 @@
 \subsubsection{Podejście}
 
   Rozważając możliwe sposoby pokolorowania czarno-białego zdjęcia można spostrzec,
-  że kiedy niektóre powierzchnie na zdjęciu mają przeważnie oczywiste barwy, niebo
+  że kiedy niektóre powierzchnie na zdjęciu mają zazwyczaj oczywiste barwy, niebo
   jest zazwyczaj niebieskie, a trawa zielona, to są też powierzchnie, które
-  posiadają szeroki wachlarz możliwych kolorów, na przykład samochod może być
+  posiadają szeroki wachlarz możliwych kolorów, na przykład samochodów może być
   zarówno czerwony jak i niebieski albo zielony. Z tego powodu celem zaprezentowanego
   rozwiązania jest niekoniecznie odtworzenie rzeczywistych barw obrazu, a raczej
   wygenerowanie barw, które mogłyby być barwami rzeczywistymi.
@@ -77,7 +76,7 @@
   sposób przetwarzania wstępnego danych treningowych.
 
   Zarówno trening jak i testy modelu autorskiego odbywały się
-  z użyciem platformy programistycznej \textit{TorchFrame} opisanej w
+  z użyciem frameworka \textit{TorchFrame} opisanego w
   podrozdziale \ref{TorchFrame}.
 
 \subsubsection{Model autorski} \label{model autorski}
