@@ -9,17 +9,18 @@
   Zbadane zostały dwie problematyki, automatyczne kolorowanie czarno-białych obrazów
   oraz nakładanie na obraz prostych filtrów takich jak wykrywający
   krawędzie filtr Sobela-Feldmana. Opisy zaimplementowanych rozwiązań zostały
-  umieszczone w odpowiednych podrozdziałach
+  umieszczone w odpowiednich podrozdziałach
   rozdziału \ref{zaimplementowane rozwiazania}.
 
   Uzyskane wyniki pozwoliły dojść do wielu konstruktywnych obserwacji. W przypadku obu
-  problematyk udało się je rozwiązać z użyciem rozwiązań opartych na konwolucyjnych
-  sieciach neuronowych.
+  problematyk udało się osiągnąć rozwiązania oparte na sztucznych sieciach
+  neuronowych.
 
-  W celu ułatwienia przeprowadzania badań została opracowana specjalna platforma
-  programistyczna o nazwie \textit{TorchFrame}. Ma on za zadanie kontrolować
+  W celu ułatwienia przeprowadzania badań został opracowany autorski framework
+  o nazwie \textit{TorchFrame}. Ma on za zadanie kontrolować
   przepływ danych w procesie uczenia i testowania badanych modeli, a co za tym
-  idzie, ograniczyć konieczność ingerencji ze strony użytkownika. Przekłada
+  idzie, ograniczyć konieczność ingerencji ze strony użytkownika, przy jednoczesnym
+  zapewnieniu swobody w prowadzonych eksperymentach i implementowanych modyfikacjach danych. Przekłada
   się to na znacznie wydajniejszy oraz mniej złożony proces trenowania
   różnorodnych architektur sieci neuronowych.
 
@@ -27,8 +28,9 @@
   oparte na sieciach splotowych okazały się wolniejsze i bardziej pracochłonne w
   implementacji niż metody klasyczne przy porównywalnych rezultatach. Jednakże
   z ich pomocą udało się udowodnić olbrzymią uniwersalność sieci splotowych
-  mogących być efektywnie zastosowane w zagadnieniach związanych z prostym
-  przetwarzaniem obrazu.
+  mogących znaleźć zastosowanie w zagadnieniach związanych z prostym
+  przetwarzaniem obrazu. Ukazane zostało ponadto podobieństwo między tradycyjnymi
+  metodami filtracji, a sposobem działania neuronów tworzących sieci konwolucyjne.
 
   Zagadnienie automatycznego kolorowania czarno-białych
   obrazów zostało rozwiązane z użyciem dwóch różnych modeli, autorskiego modelu
@@ -61,7 +63,7 @@
   \noindent\textbf{Słowa kluczowe:} sieć neuronowa, przetwarzanie obrazu,
   konwolucyjna sieć neuronowa, splotowa sieć neuronowa,
   głęboka sieć neuronowa, filtry obrazu, automatyczne kolorowanie czarno-białych
-  obrazów, platforma programistyczna
+  obrazów, framework
 
   \bigskip
 
