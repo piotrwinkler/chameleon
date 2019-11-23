@@ -476,11 +476,11 @@
        algorytmu Nesterov'a w celu poprawy wydajności działania tego algorytmu. \\
 
      \hline
-       \textbf{Adagrad \cite{Adagrad}} &
+       \textbf{AdaGrad \cite{Adagrad}} &
 
         Algorytm pozwalający dopasować długość kroku treningowego do poszczególnych
         wag modelu. Parametry rzadko biorące udział w pracy sieci otrzymują wówczas
-        większe aktualizacje niż te występujące stosunkowo często. \textit{Adagrad} nadaje się
+        większe aktualizacje niż te występujące stosunkowo często. \textit{AdaGrad} nadaje się
         przez to do pracy z rzadkimi zbiorami treningowymi. Wzór prezentujący sposób aktualizacji
         pojedynczego i-tego parametru w sieci prezentuje się następująco:
 
@@ -491,7 +491,7 @@
         $\epsilon$ oznacza współczynnik wygładzający, zabezpieczający przed ewentualnym dzieleniem
         przez 0.
 
-        Wzór ten oznacza, że \textit{Adagrad} modyfikuje długość kroku uczącego w każdej iteracji $t$
+        Wzór ten oznacza, że \textit{AdaGrad} modyfikuje długość kroku uczącego w każdej iteracji $t$
         dla każdego parametru $i$ bazując na przeszłych wartościach gradientu wyznaczonych
         dla tej wagi.
 
@@ -504,7 +504,7 @@
      \hline
        \textbf{AdaDelta \cite{Adadelta}} &
 
-       Algorytm ten stanowi rozszerzenie optymalizatora \textit{Adagrad}. Rozwiązuje
+       Algorytm ten stanowi rozszerzenie optymalizatora \textit{AdaGrad}. Rozwiązuje
        trapiący go problem zanikającego kroku treningowego poprzez wprowadzenie
        ograniczenia, co do ilości przeszłych gradientów mających wpływ na aktualizację
        wag w bieżącej iteracji.
@@ -562,7 +562,7 @@
     W przypadku prostych zadań optymalizacji najczęściej, choć nie zawsze,
     wystarczające powinny okazać się proste algorytmy takie jak \textit{SGD}.
     Z kolei bardziej złożone problemy z reguły wymagać będą zastosowania metod
-    adaptacyjnych takich jak \textit{Adam}, czy \textit{Adagrad}. Z reguły
+    adaptacyjnych takich jak \textit{Adam}, czy \textit{AdaGrad}. Z reguły
     oferują one lepsze rezultaty, jednak za cenę większej złożoności obliczeniowej.
     Wiele zależy również od samego kontekstu użycia. Przykładowo w przypadku
     douczania sieci neuronowej w celu poprawy ostatecznych rezultatów zalecane jest
