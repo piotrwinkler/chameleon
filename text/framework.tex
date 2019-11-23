@@ -138,7 +138,7 @@
     Ostatecznym elementem ścieżki treningowej, w którym skupiają się wszystkie
     zgromadzone dotąd dane jest komponent \textit{Trainer}. Opiera się on o mechanizmy
     frameworka \textit{PyTorch} w celu obliczania rezultatów pracy sieci, a także wyznaczanie
-    kierunku uczenia w ramach funckji celu i wstęczną propagację modyfikującą wagi
+    kierunku uczenia w ramach funkcji celu i wstęczną propagację modyfikującą wagi
     sieci w czasie treningu. \textit{Trainer} udostępnia na bieżąco dane pozwalające
     określić skuteczność uczenia sieci takie jak aktualny błąd sieci, ilość
     przetworzonych danych, czy numer epoki treningowej, w której aktualnie znajduje
@@ -161,10 +161,10 @@
     \item \textbf{\textit{Net model}} - ten parametr przyjmuje nazwę klasy, w której użytkownik
     zdefiniował strukturę sieci neuronowej na etapie inicjalizacji wraz z metodą
     \textit{forward} definiującą sposób przepływu danych w ramach inferencji modelu.
-    \item \textbf{\textit{Criterion}} - parametr ten pozwala zdefiniować funckję kosztu
+    \item \textbf{\textit{Criterion}} - parametr ten pozwala zdefiniować funkcję kosztu
     używaną w procesie uczenia. W czasie treningu sieci neuronowych dąży się
     najczęściej do minimalizacji błędu określanego na bazie porównania rezultatów
-    pracy sieci ze spodziewanym efektem. Zdefiniowana na tej podstawie funckja błędu
+    pracy sieci ze spodziewanym efektem. Zdefiniowana na tej podstawie funkcji błędu
     określana jest jako funkcja celu, a proces uczenia sieci sprowadza się do zdefiniowania
     zestawu wag, dla których jej wartość jest możliwie najmniejsza. Zagadnienie
     to opisane zostało w książce \textit{Deep Learning} \cite{deeplearn} z 2016 roku:
@@ -174,7 +174,7 @@
       W przypadku minimalizacji możemy również nazywać ją funkcją kosztu, funkcją straty, lub funkcją błędu.'
     \end{quote}
 
-    Na funckji kosztu spoczywa bardzo ważne zadanie. Musi ona wiernie destylować wszystkie
+    Na funkcji kosztu spoczywa bardzo ważne zadanie. Musi ona wiernie destylować wszystkie
     aspekty modelu w jedną liczbę, w taki sposób, aby ulepszenia tej liczby były
     oznaką poprawy całego modelu. \cite{neuralsmithing}
 
@@ -198,7 +198,10 @@
     zamieszczone zostały w tabeli \ref{tab:cost_functions}.
 
     \begin{longtable}{ |m{2cm}|m{11cm}| }
-
+      \caption{Funkcje kosztu w \textit{TorchFrame}}
+      \label{tab:cost_functions}
+      \endfirsthead
+      \endhead
      \hline
        \textbf{Funkcja kosztu} & \textbf{Opis} \\
 
@@ -261,7 +264,7 @@
 
        Parametry:
        \begin{itemize}
-       \item reduction - poza wartościami opisanymi dla funckji \textit{L1Loss}
+       \item reduction - poza wartościami opisanymi dla funkcji \textit{L1Loss}
        może przyjmować również parametr \textit{batchmean}. Wymusza on sumowanie
        wartości wyjściowych, a następnie podział sumy przez rozmiar pakietu danych.
        \end{itemize} \\
@@ -290,7 +293,7 @@
      \textbf{SmoothL1-
      Loss} &
 
-       Kryterium przyjmujące postać funckji \textit{MSE} w przypadku, gdy wartość
+       Kryterium przyjmujące postać funkcji \textit{MSE} w przypadku, gdy wartość
        błędu bezwzględnego spada poniżej 1 oraz funkcji \textit{L1} w przeciwnym
        wypadku. Funkcja ta jest mniej czuła na wartości odstające niż
        \textit{MSELoss}, a w niektórych przypadkach zapobiega zjawisku
@@ -311,13 +314,10 @@
 
        Parametry:
        \begin{itemize}
-       \item reduction - czytaj \textit{reduction} dla funckji \textit{L1Loss}.
+       \item reduction - czytaj \textit{reduction} dla funkcji \textit{L1Loss}.
        \end{itemize} \\
 
      \hline
-
-    \caption{Funkcje kosztu w \textit{TorchFrame}}
-    \label{tab:cost_functions}
     \end{longtable}
 
     \item \textbf{\textit{Optimizer}} - pozwala wybrać rodzaj optymalizatora używanego w procesie
@@ -328,8 +328,8 @@
 
     Zadanie zlokalizowania globalnego minimum nie jest zadaniem trywialnym.
     Optymalizacja sieci neuronowych jest optymalizacją niewypukłą. Oznacza to, że
-    funckja celu posiada wiele optimów, z czego tylko jedno jest poszukiwanym
-    optimum globalnym. Przykładowa płaszczyzna funckji celu przedstawiona
+    funkcja celu posiada wiele optimów, z czego tylko jedno jest poszukiwanym
+    optimum globalnym. Przykładowa płaszczyzna funkcji celu przedstawiona
     została na Rysunku \ref{fig:plaszczyzna_optymalizacji}.
 
     \begin{figure}[H]
@@ -376,7 +376,7 @@
 
       Przekazywanie: wejście $x$ jest podawane do sieci. Funkcje aktywacji i ich pochodne są oceniane w każdym węźle (neuronie) sieci. Pochodne są przechowywane.
 
-      Propagacja wsteczna: stała 1 jest podawana do jednostki wyjściowej i sieć biegnie wstecz. Informacje przychodzące do węzła są dodawane, a wynik jest mnożony przez wartość zmagazynowaną w lewej części jednostki. Rezultat jest transmitowany na lewo od jednostki. Wynik zgromadzony w jednostce wejściowej stanowi pochodną funckji sieci względem $x$.'
+      Propagacja wsteczna: stała 1 jest podawana do jednostki wyjściowej i sieć biegnie wstecz. Informacje przychodzące do węzła są dodawane, a wynik jest mnożony przez wartość zmagazynowaną w lewej części jednostki. Rezultat jest transmitowany na lewo od jednostki. Wynik zgromadzony w jednostce wejściowej stanowi pochodną funkcji sieci względem $x$.'
     \end{quote}
 
     Sam algorytm wstecznej propagacji działa poprawnie również dla sieci posiadających
@@ -452,7 +452,10 @@
     również dodatkowe funkcjonalności, z których najistotniejsze opisane zostały w Tabeli \ref{tab:optimizers}.
 
     \begin{longtable}{ |m{3cm}|m{10cm}| }
-
+      \caption{Optymalizatory w \textit{TorchFrame}}
+      \label{tab:optimizers}
+      \endfirsthead
+      \endhead
      \hline
        \textbf{Optymalizator} & \textbf{Opis} \\
 
@@ -475,11 +478,11 @@
        algorytmu Nesterov'a w celu poprawy wydajności działania tego algorytmu. \\
 
      \hline
-       \textbf{Adagrad \cite{Adagrad}} &
+       \textbf{AdaGrad \cite{Adagrad}} &
 
         Algorytm pozwalający dopasować długość kroku treningowego do poszczególnych
         wag modelu. Parametry rzadko biorące udział w pracy sieci otrzymują wówczas
-        większe aktualizacje niż te występujące stosunkowo często. \textit{Adagrad} nadaje się
+        większe aktualizacje niż te występujące stosunkowo często. \textit{AdaGrad} nadaje się
         przez to do pracy z rzadkimi zbiorami treningowymi. Wzór prezentujący sposób aktualizacji
         pojedynczego i-tego parametru w sieci prezentuje się następująco:
 
@@ -490,7 +493,7 @@
         $\epsilon$ oznacza współczynnik wygładzający, zabezpieczający przed ewentualnym dzieleniem
         przez 0.
 
-        Wzór ten oznacza, że \textit{Adagrad} modyfikuje długość kroku uczącego w każdej iteracji $t$
+        Wzór ten oznacza, że \textit{AdaGrad} modyfikuje długość kroku uczącego w każdej iteracji $t$
         dla każdego parametru $i$ bazując na przeszłych wartościach gradientu wyznaczonych
         dla tej wagi.
 
@@ -503,7 +506,7 @@
      \hline
        \textbf{AdaDelta \cite{Adadelta}} &
 
-       Algorytm ten stanowi rozszerzenie optymalizatora \textit{Adagrad}. Rozwiązuje
+       Algorytm ten stanowi rozszerzenie optymalizatora \textit{AdaGrad}. Rozwiązuje
        trapiący go problem zanikającego kroku treningowego poprzez wprowadzenie
        ograniczenia, co do ilości przeszłych gradientów mających wpływ na aktualizację
        wag w bieżącej iteracji.
@@ -552,9 +555,6 @@
        Wartości parametrów $\beta_1$, $\beta_2$ oraz $\epsilon$ mogą być dobierane eksperymentalnie,
        jednak rekomendowane jest przyjęcie następujących liczb: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$. \\
      \hline
-
-    \caption{Optymalizatory w \textit{TorchFrame}}
-    \label{tab:optimizers}
     \end{longtable}
 
     Wybór odpowiedniego algorytmu optymalizacji nie jest prostym zagadnieniem.
@@ -564,7 +564,7 @@
     W przypadku prostych zadań optymalizacji najczęściej, choć nie zawsze,
     wystarczające powinny okazać się proste algorytmy takie jak \textit{SGD}.
     Z kolei bardziej złożone problemy z reguły wymagać będą zastosowania metod
-    adaptacyjnych takich jak \textit{Adam}, czy \textit{Adagrad}. Z reguły
+    adaptacyjnych takich jak \textit{Adam}, czy \textit{AdaGrad}. Z reguły
     oferują one lepsze rezultaty, jednak za cenę większej złożoności obliczeniowej.
     Wiele zależy również od samego kontekstu użycia. Przykładowo w przypadku
     douczania sieci neuronowej w celu poprawy ostatecznych rezultatów zalecane jest
@@ -601,7 +601,7 @@
     \item \textbf{\textit{Dataloader Parameters}} - zestaw trzech parametrów.
 
     \textit{Batch size} określa ilość pojedynczych próbek ze zbioru treningowego które zostaną zgrupowane
-    w jeden pakiet danych. W trakcie procesu uczenia sieci wartość funckji kosztu wyznaczana
+    w jeden pakiet danych. W trakcie procesu uczenia sieci wartość funkcji kosztu wyznaczana
     jest dla wszystkich elementów pakietu, a następnie uśredniana i dopiero wtedy
     wykorzystywana przez optymalizator do aktualizacji wag modelu.
 
@@ -654,7 +654,7 @@
 
   \subsubsection{Testowanie w \textit{TorchFrame}}
     Podstawą do określenia skuteczności przeprowadzanych treningów sieci neuronowych
-    jest nie tylko obserwacja parametrów takich jak wartość funckji kosztu. Bardzo
+    jest nie tylko obserwacja parametrów takich jak wartość funkcji kosztu. Bardzo
     często konieczna jest wizualizacja wyników działania wytrenowanych modeli.
     Komponentowa budowa \textit{TorchFrame} pozwala w łatwy sposób osiągnąć ten cel.
     Na bazie fragmentów wydzielonych z głównej architektury skomponowany został

@@ -94,6 +94,7 @@
   Tabeli \ref{table:model_architecture}.
   \noindent\begin{table}[H]
     \center
+    \caption{Architektura modelu autorskiego.}
     \begin{tabular}{|c | c | m{3.3em} | c | c | m{4em} | c | c| }
      \hline
      Nr & Warstwa & Rozmiar filtra & Stride & Padding & Batch Normalization &
@@ -112,7 +113,6 @@
     11 & Splotowa & 1x1 & 1 & 0 & Tak & ReLU & 32/32 \\ \hline
     12 & Splotowa & 1x1 & 1 & 0 & Nie & - & 32/2 \\ \hline
     \end{tabular}
-    \caption{Architektura modelu autorskiego.}
     \label{table:model_architecture}
   \end{table}
   Pierwsza warstwa konwolucyjna rozkłada wejściowy kanał na 32 kanały, co
@@ -249,7 +249,7 @@
 
   Ponadto pooling wspomaga adaptację modelu do zmiennego położenia
   kluczowych wzorów rozpoznawanych przez sieć na obrazie wejściowym. Cecha ta
-  zwana jest niezmiennością od translacji (ang. transaltion invariance). Jest
+  zwana jest niezmiennością od translacji (ang. translation invariance). Jest
   ona rezultatem dokonywania operacji, takich jak wyliczanie wartości maksymalnej
   z poszczególnych obszarów, dzięki którym zmienne położenie wartości
   selekcjonowanej, a co tym idzie, zmienne położenie ekstraktowanej cechy w obrębie
@@ -316,10 +316,6 @@
   Ponadto brak przeskalowania wejść może doprowadzić do zjawisk wybuchającego
   oraz zanikającego gradientu.
 
-  % Przeskalowanie wszystkich wartości wejściowych do jednakowych
-  % przedziałów, o niewielkiej wartości maksymalnej i minimalnej oraz wartości
-  % średniej zbliżonej do zera, sprzyja ujednoliceniu tempa uczenia się przez sieć
-  % rozpoznawania różnych cech.
   \noindent
   W ramach badania rozwiązania przetestowane zostały różne metody przetwarzania
   wstępnego zarówno danych wejściowych jak i pożądanej odpowiedzi:
@@ -332,7 +328,6 @@
   średnią równą w przybliżeniu zero oraz jednostkowe odchylenie standardowe.
   \item Zastosowanie rozmycia gaussowskiego(ang. Gaussian blur) o różnej
   wielkości filtru Gaussowskiego.
-  % \item Przepuszczenie składowej przez filtr Gaussa o różnej wielkości filtru.
   \end{itemize}
 
   Rozmycie gaussowskie, zwane także wygładzaniem gaussowskim (ang. Gaussian smoothing),
@@ -457,15 +452,7 @@
   to w procesie uczenia została wykorzystana jedynie augmentacja poprzez
   odbicie obrazu względem osi pionowej z prawdopodobieństwem równym 50\%.
 
-  % W zagadnieniu kolorowania czarno-białych obrazów informacjami najważniejszymi
-  % są wartości pikseli powiązane z daną powierzchnią oraz cechy charakterystyczne
-  % tych powierzchni, z tego powodu, aby ograniczyć straty
-  % w procesie uczenia nie zastosowano żadnej
-  % metody związanej ze zmianą barw obrazu wejściowego, jednocześnie nie można
-  % było sobie pozwolić
-
 \subsubsection{Funkcje kosztów} \label{Funkcje kosztów}
-  % Bez teorii
   Kluczem do właściwego funkcjonowania modelu jest wybór odpowiedniej funkcji
   kosztu. W przypadku problematyki kolorowania czarno-białych obrazów ważne
   jest, aby wybrana funkcja kosztu uwzględniała specyficzną naturę problemu,
@@ -576,7 +563,7 @@
 
 \subsubsection{Funkcje aktywacji}
   \label{funkcje_aktywacji}
-  % RELU
+
   W wyborze odpowiednej funkcji aktywacji kierowaliśmy się badaniami przeprowadzonymi
   przez B. Xu oraz jego współpracowników \cite{evaluatiuon_of_relu}. Testowali
   oni skuteczność takich funkcji jak ReLU, Leaky ReLU (pol. przepuszczające ReLU),
@@ -613,9 +600,7 @@
   niepożądane efekty tego zjawiska.
 
 \subsubsection{Algorytmy optymalizacyjne} \label{Algorytmy optymalizacyjne}
-  % Bez teorii
-  % TODO: Zacytować twórców Adam i Adagrad, linki do paperów są w dokumentacji
-  % pytorcha o tych algorytmach
+
   Podczas planowanie treningu modelu należy zdecydować się na odpowiedni
   algorytm optymalizacyjny, właściwa decyzja pozwala uniknąć zatrzymania się
   procesu uczenia w lokalnych minimach co zwiększa końcową dokładność oraz
@@ -626,7 +611,7 @@
   Wykorzystane zostały następujące algorytmy:
   \begin{itemize}
     \item Adam (ang. Adaptive Moment Estimation)
-    \item Adagrad (ang. Adaptive Gradient Algorithm)
+    \item AdaGrad (ang. Adaptive Gradient Algorithm)
     \item SGD (ang. Stochastic Gradient Descent)
   \end{itemize}
 
@@ -635,7 +620,6 @@
   dla wymienionych algorytmów w celu osiągnięcia jak największej ich skuteczności
   w rozwiązaniu rozważanej problematyki.
 
-% TODO: Od tego momentu było ekspres pisanie, wiec może do zredagowania
 \subsubsection{Trening}
 
 Model trenowaliśmy paczkami o wielkości 128 obrazów, cała epoka składała się z
@@ -823,7 +807,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   $\text{wskaźnik uczenia} = 0.1$, $\text{współczynnik zaniku wag} = 1e-10$ oraz
   $eps=1e-08$.
   \newline
-  Dla algorytmu Adagrad zostały wybrane parametry: $\text{wskaźnik uczenia} = 0.1$,
+  Dla algorytmu AdaGrad zostały wybrane parametry: $\text{wskaźnik uczenia} = 0.1$,
   $\text{współczynnik zaniku wskaźnika uczenia} = 0.999$,
   $\text{współczynnik zaniku wag} = 1e-10$ oraz $eps=1e-10$.
   \newline
@@ -851,7 +835,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   kosztu oraz wizualne efekty działania sieci. Przykładowa ocena wizualna
   została opisana bazując na Rysunku \ref{fig:porownanie_optimizerow}.
   Porównując pokolorowane obrazy można zauważyć, że najgorzej prezentuje się
-  rezultat modelu stosujący algorytm Adagrad, na obrazie tym nie występuje wiele
+  rezultat modelu stosujący algorytm AdaGrad, na obrazie tym nie występuje wiele
   kolorów i dominują barwy szarości. Algorytm ten jest przeznaczony do
   pracy z rzadkimi zbiorami treningowymi, a zastosowany zbiór CIFAR-10 takim nie
   jest, można więc podejrzewać, że podczas procesu uczenia, wagi sieci na
@@ -859,7 +843,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
   wyjść, co poskutkowało pominięciem minimum globalnego będącego najlepszym
   możliwym rozwiązaniem. Analizując obrazy dla algorytmów Adam oraz SGD
   można zauważyć, że są one znacznie lepiej pokolorowane niż obraz dla
-  algorytmu Adagrad. Można na nich wyraźnie wyróżnić roślinność pokolorowaną
+  algorytmu AdaGrad. Można na nich wyraźnie wyróżnić roślinność pokolorowaną
   na zielono oraz taflę wody w odcieniach niebiskiego. Jednakże pomimo
   znacznego podobieństwa pomiędzy tymi dwoma obrazami można zauważyć, że tafla
   wody jest znacznie bardziej wypełniona kolorem na obrazie dla algorytmu Adam,
@@ -919,6 +903,7 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
 
   \noindent\begin{table}[H]
     \center
+    \caption{Szczegóły konfiguracji przetwarzania wstępnego.}
     \begin{tabular}{|c | c | c| }
      \hline
      Konfiguracja & Przetwarzanie danych wejściowych & Przetwarzanie danych
@@ -930,7 +915,6 @@ Dla różnych konfiguracji została także przedstawiona charakterystyka porówn
     d & Normalizacja oraz rozmycie gaussowskie & Standaryzacja \\ \hline
     e & Standaryzacja oraz rozmycie gaussowskie & Standaryzacja \\ \hline
     \end{tabular}
-    \caption{Szczegóły konfiguracji przetwarzania wstępnego.}
     \label{table:preprocessing}
   \end{table}
 
