@@ -1,10 +1,10 @@
 \section[Przegląd rozwiązań (Bartosz Bieliński)]{Przegląd rozwiązań}
 
   Na przestrzeni ostatnich paru lat pojawiło się wiele innowacyjnych technologii opartych
-  na sieciach neuronowych. Takie cechy sieci jak niezwykłe zdolności do generalizacji
+  na sieciach neuronowych. Takie cechy sieci, jak niezwykłe zdolności do generalizacji
   zdobytej wiedzy na nowe przypadki oraz olbrzymia elastyczność sprawiły, że
   znalazły one wiele rzeczywistych zastosowań, zwłaszcza do problemów
-  nieszablonowych, dla których metody nie oparte na uczeniu maszynowym,
+  nieszablonowych, dla których metody nie oparte na uczeniu maszynowym
   nie przynosiły zadowalających wyników. Zastosowania te często były
   przełomowe w swojej dziedzinie i do czasów dzisiejszych uważane są
   za prekursorów pewnych idei.
@@ -18,7 +18,7 @@
     Wraz z rozwojem sieci neuronowych, rosło zainteresowanie możliwościami zastosowania
     ich do kolorowania czarno-białych obrazów. Jedno z dostępnych rozwiązań tego
     zagadnienia zostało przedstawione przez grupę pracowników Uniwersytetu w
-    Berkeley \cite{colorful_image_colorization}. Zamiarem ich pracy było stworzenie
+    Berkeley \cite{colorful_image_colorization}. Celem ich pracy było stworzenie
     modelu, który niekoniecznie odtwarza oryginalne barwy obrazu, ale generuje
     barwy prawdopodobne, zdolne przekonać ludzkiego obserwatora o autentyczności
     obrazu. Uzyskane rezultaty zostały przedstawione na
@@ -27,45 +27,47 @@
     \begin{figure}[ht]
       \centering
       \includegraphics[width=4in]{image_colorization}
-      \caption[Efekt kolorowanie czarno-białych zdjęć przez wytrenowany model - źródło:
-      \cite{colorful_image_colorization}]{Efekt kolorowanie czarno-białych zdjęć przez wytrenowany model.}
+      \caption[Efekt kolorowanie czarno-białych obrazów przez wytrenowany model - źródło:
+      \cite{colorful_image_colorization}]{Efekt kolorowanie czarno-białych obrazów przez wytrenowany model.}
       \label{fig:colorful_image_colorization}
     \end{figure}
 
     Wykorzystany model składa się z wielu warstw CNN, w których skład wchodzą
     warstwa filtrów konwolucyjnych, warstwa ReLU (ang. Rectified
     Linear Unit) oraz warstwa BatchNorm (ang. Batch normalization).
-    Aby zapobiec utracie informacji przestrzennych, sieć nie posiada warstw łączących.
+    Aby zapobiec utracie informacji przestrzennych, sieć nie posiada warstw poolingu.
     Istotny był także sposób
     przygotowania zbioru danych do trenowania modelu. Obrazy ze zbioru uczącego
-    były wpierw konwertowane do modelu YUV, a następnie kanał Y był podawany na
-    wejście modelu, warstwy UV pełniły funkcję pożądanej odpowiedzi w uczeniu
+    były wpierw konwertowane do modelu barw YUV. Kanał Y był podawany na
+    wejście sieci, a kanały UV pełniły funkcję pożądanej odpowiedzi w uczeniu
     nadzorowanym.
 
     Ważnym aspektem zbadanym w artykule było także dobranie odpowiedniej
     funkcji kosztu. Nieodpowiedni wybór skutkował desaturacją kolorowanych
-    obrazów, jedną z potencjalnych przyczyn tego zjawiska może być tendencja
+    obrazów. Jedną z potencjalnych przyczyn tego zjawiska może być tendencja
     sieci do tworzenia bardziej konserwatywnych odpowiedzi. Aby zniwelować ten
-    efekt w modelu została zastosowana specjalna technika modyfikacji
+    efekt, w modelu została zastosowana specjalna technika modyfikacji
     funkcji kosztu. Polega ona na przewidywaniu dystrybucji możliwych kolorów
-    dla każdego piksela i zmienianiu kosztu dla modelu, w celu wyróżnienia rzadko
-    spotykanych kolorów.
+    dla każdego piksela i poprawie wartości wyliczanego dla modelu błędu, w celu
+    wyróżnienia rzadko spotykanych kolorów.
 
-    Powstałe rozwiązanie dowodzi olbrzymiego potencjału zastosowanie sieci
-    neuronowych w dziedzinie pracy nad obrazami.
+    Powstałe rozwiązanie dowodzi olbrzymiego potencjału zastosowania sieci
+    neuronowych w dziedzinie pracy nad obrazami, efekty uzyskiwane za ich pomocą
+    są niemożliwe do odtworzenia z użyciem tradycyjnych algorytmów.
 
   \subsection{Image Style Transfer Using Convolutional Neural Networks}
+
     W roku 2016 został przedstawiony światu \textit{A Neural Algorithm of Artistic Style}
     \cite{image_style_transfer}. Wprowadzał on przełom w dziedzinie przenoszenia
     stylu jednego obrazu na inny, a jego sukces opierał się na właściwym wykorzystaniu
-    konwolucyjnych sieci neuronowych. Podstawą tego sukcesu było odkrycie przez
+    konwolucyjnych sieci neuronowych. Podstawą tego osiągnięcia było odkrycie przez
     Leona A. Gatys oraz jego współpracowników, że w CNN reprezentacja treści
     obrazu oraz jego stylu jest rozłączna. Umożliwia to wydobycie stylu
     przetwarzanego obrazu oraz połączenie go z treścią innego obrazu, czego
-    dokonuje właśnie A Neural Algorithm of Artistic Style. Rezultaty takich
+    dokonuje właśnie \textit{A Neural Algorithm of Artistic Style}. Rezultaty takich
     operacji można zaobserwować na Rysunku \ref{fig:image_style_transfer}
 
-    \begin{figure}[ht]
+    \begin{figure}[H]
       \centering
       \includegraphics[width=4in]{image_style_transfer}
       \caption[Obrazy będące kombinacją treści zdjęcia ze stylami kilku znanych dzieł sztuki - źródło:
@@ -74,48 +76,49 @@
       \label{fig:image_style_transfer}
     \end{figure}
 
-    Do zbudowania modelu zostały użyte warstwy konwolucyjne oraz łączące z
+    Do zbudowania modelu zostały użyte warstwy konwolucyjne oraz poolingu z
     architektury VGG-Network \cite{vgg_network}, która została wytrenowana pod
-    kątem rozpoznawanie obiektów i określania ich położenia. Dzięki temu sieć
+    kątem rozpoznawania obiektów i określania ich położenia. Dzięki temu sieć
     przetwarzając obraz tworzy jego reprezentację, która wraz z
-    kolejnymi warstwami, przedstawia coraz wyraźniejszą informację o obiektach,
+    kolejnymi warstwami, przedstawia coraz pełniejszą informację o obiektach,
     a niekoniecznie o dokładnym wyglądzie obrazu.
     W modelu nie została użyta ani jedna warstwa gęsta, dzięki czemu na wyjściu
     możliwe jest otrzymanie dwuwymiarowego obrazu.
     Dla lepszej syntezy obrazów, w warstwach
-    łączących zastosowano próbkowanie wartością średnią zamiast maksymalną.
+    łączących zastosowano próbkowanie wartością średnią, zamiast najczęściej
+    stosowaną wartością maksymalną.
     Takie zabiegi umożliwiają wyliczenie reprezentacji stylu z korelacji
-    pomiędzy różnymi cechami w różnych warstwach konwolucyjnych.
+    pomiędzy poszczególnymi cechami w kolejnych warstwach konwolucyjnych.
 
-    Cały proces renderowania polega na odpowiednim zapisaniu w modelu treści
-    oraz stylu obrazów otrzymanych przez wcześniejsze podanie na model tychże
-    obrazów. Wpierw obraz, z którego pobierany jest styl, jest podawany na
-    wejście sieci oraz przeliczany, reprezentacja stylu wyselekcjonowana z
-    właściwych warstw jest przechowywana, obraz z treścią jest poddawany temu samemu
-    procesowi, ale reprezentacja treści jest wyciągana z ostatnich
+    Cały proces renderowania polega na odpowiednim przechowaniu w modelu treści
+    oraz stylu wejściowych obrazów i składa się z wielu następujących po sobie etapów.
+    Wpierw obraz, z którego pobierany jest styl, jest podawany na
+    wejście sieci oraz przetwarzany, reprezentacja stylu wyselekcjonowana z
+    właściwych warstw jest odpowiednio przechowywana. Następnie temu samemu
+    procesowi poddawany jest obraz z treścią, ale reprezentacja treści jest wyciągana z ostatnich
     warstw konwolucyjnych.
-    W celu uzyskania fuzji obrazów, zapisane reprezentacje treści i stylu są
-    zapisywane w tych warstwach modelu skąd zostały odczytane, a następnie na wejście
+    W celu wykonania fuzji obrazów, uzyskane reprezentacje treści oraz stylu są
+    zapisywane w tych warstwach modelu skąd zostały odczytane, po czym na wejście
     podawany jest obraz składający się z losowego szumu białego.
-    Następnie poprzez iteracyjną minimalizację funkcji kosztu, obraz wejściowy jest modyfikowany, co w rezultacie końcowym doprowadza do nałożenia zapisanego
+    Następnie, poprzez iteracyjną minimalizację funkcji kosztu, obraz wejściowy jest modyfikowany, co w rezultacie końcowym doprowadza do nałożenia zapisanego
     stylu na wczytaną treść.
 
-    A Neural Algorithm of Artistic Style jest świetnym przykładem, jak elastyczne
+    \textit{A Neural Algorithm of Artistic Style} jest świetnym przykładem, jak elastyczne
     mogą być interfejsy do modyfikacji obrazu oparte na technologii sieci neuronowych.
 
   \subsection{Invertible Conditional GANs for image editing}
     Edycja obrazów może być dokonywana na wielu różnych poziomach zaawansowania
-    i abstrakcji, operacje takie jak nakładanie filtrów mogą być
+    i abstrakcji, operacje niezłożone, takie jak nakładanie filtrów, mogą być
     wykonywane przez proste algorytmy. Jednak w przypadku próby modyfikacji
     elementów na obrazie, algorytmy te nie będą w stanie dokonać semantycznych
-    zmian ze względu na brak możliwości zrozumienia treści obrazu. Rozwiązanie
+    zmian, ze względu na brak możliwości zrozumienia treści obrazu. Rozwiązanie
     tego problemu zostało przedstawione w postaci modelu IcGAN
-    (ang. Invertible Conditional Generative Adversarial Network) w roku 2016
-    \cite{gan_editing}. Zaprezentowany model był to enkoder z możliwością
-    generowania wektora informacji o atrybutach obrazu połączony z warunkowym
-    GAN zdolnym do kontrolowania cech generowanych obrazów na podstawie dodatkowej
-    informacji warunkowej. Takie działanie umożliwia wprowadzania zmian w
-    atrybutach generowanego obrazu uzyskiwanego na wyjście cGAN (ang. conditional Generative
+    (ang. Invertible conditional Generative Adversarial Network) w roku 2016
+    \cite{gan_editing}. Zaprezentowany model to enkoder z możliwością
+    generowania wektora informacji o atrybutach obrazu, połączony z warunkowym
+    GANem zdolnym do kontrolowania cech generowanych obrazów na podstawie dodatkowej
+    informacji warunkowej. Takie działanie umożliwia wprowadzanie zmian w
+    atrybutach generowanego obrazu uzyskiwanego na wyjściu cGAN (ang. conditional Generative
     Adversarial Network). Rezultaty działania modelu można zaobserwować na
     Rysunku \ref{fig:IcGAN}
 
@@ -126,27 +129,27 @@
       \label{fig:IcGAN}
     \end{figure}
 
-    Wykorzystany w IcGAN Ekonder w rzeczywistości składa się z dwóch podrzędnych
-    Enkoderów, Enkoder $E_{z}$ koduje wejściowy obraz do utajonego wektora $z$ reprezentacji
-    obrazu, natomiast Enkoder $E_{y}$ generuje wektor informacji $y$ oddających
-    pewne kluczowe atrybuty obrazu. Enkodey są trenowane z użyciem już wytrenowanego
+    Wykorzystany w IcGAN ekonder w rzeczywistości składa się z dwóch podrzędnych
+    enkoderów. Enkoder $E_{z}$ koduje wejściowy obraz do utajonego wektora $z$ reprezentacji
+    obrazu, natomiast enkoder $E_{y}$ generuje wektor informacji $y$, oddający
+    pewne kluczowe atrybuty obrazu. Enkodery są trenowane z użyciem już wytrenowanego
     cGAN oraz obrazów rzeczywistych z etykietami ze zbioru uczącego. Zbadane
-    zostały także różne podejścia interakcji między dwoma Enkoderami, wyróżnić
-    można podejście, w którym Enkdodery są w pełni niezależne, podejście
+    zostały także różne podejścia interakcji między dwoma enkoderami, wyróżnić
+    można podejście, w którym enkdodery są w pełni niezależne, podejście
     gdzie wyjście $E_{z}$ jest zależne od wyjścia $E_{y}$, a także podejście
-    gdzie $E_{z}$ oraz $E_{y}$ są połączone w jednej Enkoder o współdzielonych
+    gdzie $E_{z}$ oraz $E_{y}$ są połączone w jeden enkoder o współdzielonych
     warstwach i dwóch wyjściach.
 
-    W przypadku cGAN możemy wyróżnić dwa najważniejsze czynniki, które trzeba
+    W przypadku cGAN można wyróżnić dwa najważniejsze czynniki, które trzeba
     mieć na uwadze. Pierwszym jest źródło wektora $y$ podawanego na
-    Generator. W przypadku Dyskryminatora $y$ jest pobierany ze
+    generator. W przypadku dyskryminatora, $y$ jest pobierany ze
     zbioru treningowego, jednakże w przypadku podawania tego
-    samego wektora na Generator wystąpiła możliwość, że może dojść do niepożądanego
+    samego wektora na generator, pojawia się możliwość wystąpienia niepożądanego
     przeuczenia modelu. Autorzy artykułu dokonali analizy tego rozwiązania,
-    a także zbadali wydajność metody Bezpośredniej Interpolacji oraz
-    Jądrowego estymatora gęstości. Wynikiem tych badań było stwierdzenie, że
+    a także zbadali wydajność metod Bezpośredniej Interpolacji oraz
+    Jądrowego Estymatora Gęstości. Wynikiem tych badań było stwierdzenie, że
     dla danej problematyki najlepiej sprawdza się podawanie wektora $y$ ze zbioru
-    uczącego, możliwość przeuczenia modelu została skomentowana następująco:
+    uczącego. Możliwość przeuczenia modelu została skomentowana następująco:
     \begin{quote}
       % This is only likely to occur if the conditional information
       % is, to some extent, unique for each image. In the case where the attributes of an image are binary, one attribute vector y could describe a varied and large enough subset of images, preventing the model from overfitting given y.
@@ -157,20 +160,20 @@
       danego $y$.'
     \end{quote}
 
-    Drugim czynnikiem jest warstwa Generatora i Dyskryminatora cGAN na
+    Drugim czynnikiem jest warstwa generatora i dyskryminatora cGAN na
     którą podany jest wektor $y$. Guim Perarnau oraz jego współpracownicy ustalili, że najlepsze rezultaty otrzymuje się po podaniu wektora $y$ na warstwę wejściową
-    Generatora oraz pierwszą warstwę konwolucyjną Dyskryminatora.
+    generatora oraz pierwszą warstwę konwolucyjną dyskryminatora.
 
     Ważnym spostrzeżeniem z analizy rozwiązania IcGAN jest obecność
-    olbrzymiej ilości różnorodnych rozwiązań opartych na sieciach neuronowych,
-    coraz to nowe architektury zostają wynalezione, aby udoskonalić
+    olbrzymiej ilości różnorodnych rozwiązań opartych na sieciach neuronowych.
+    Coraz to nowe architektury zostają wynalezione, aby udoskonalić
     zastosowania sieci neuronowych do przetwarzania i modyfikowania obrazów.
 
   \subsection{Neural photo editing}
     W 2017 roku Andrew Brock, Theodore Lim, J.M. Ritchie and Nick Weston
     zaprezentowali \textit{Neural Photo Editor} \cite{neural_photo_editor}, narzędzie
     do edytowania obrazu wyposażone w mechanizmy wykrywania kontekstu zmiany.
-    Twórcy opisują swój twór następująco:
+    Twórcy opisują swoje dzieło następująco:
 
     \begin{quote}
       % 'An interface that leverages the power of generative neural networks to
@@ -181,27 +184,29 @@
 
     Użytkowanie wygląda następująco: użytkownik pędzlem o określonym kolorze i
     rozmiarze maluje na wybranym obrazie, jednak zamiast zmieniać wartości
-    pojedynczych pikseli, interfejs odczytuje kontekst edycji i wprowadza zmiany
+    pojedynczych pikseli, interfejs odczytuje kontekst wprowadzanej edycji.
+    Następnie na jego podstawie wprowadza zmiany
     semantyczne w kontekście żądanej zmiany koloru. Efekt działania interfejsu
     został przedstawiony na Rysunku \ref{fig:npe}.
 
     \begin{figure}[ht]
       \centering
       \includegraphics[width=4in]{NPE}
-      \caption[Efekt działania Neural Photo Editor - źródło: \cite{neural_photo_editor}]
+      \caption[Efekt działania \textit{Neural Photo Editor} - źródło: \cite{neural_photo_editor}]
       {Efekt działania Neural Photo Editor.}
       \label{fig:npe}
     \end{figure}
 
-    Skuteczność NPE (Neural Photo Editor) polega na zastosowaniu IAN
+    Skuteczność NPE (ang. Neural Photo Editor) polega na zastosowaniu IAN
     (ang. Introspective Adversarial Network), czyli sieci złożonej z połączonych
-    VAE (ang. Variational Autoencoder) \cite{vae} oraz GAN, w taki sposób, że dekodująca
-    sieć autoenkodera jest używana jako sieć generująca w GAN.
+    VAE (ang. Variational Autoencoder) \cite{vae} oraz GANów, w taki sposób, że dekodująca
+    sieć autoenkodera jest używana jako sieć generująca w GANie.
     Poprzez przechwytywanie przez model dalekosiężnych zależności, wykorzystanie
     bloku obliczeniowego bazującego na rozszerzonych splotach o
     współdzielonych wagach oraz dzięki zastosowaniu ulepszonej generalizacji,
-    udało się osiągnąć dokładną rekonstrukcje obrazu bez strat na jakości detali.
+    udało się osiągnąć dokładną rekonstrukcję obrazu bez strat na jakości detali.
 
-    Powstanie NPE utwierdza w przekonaniu, że aktualne możliwości sieci
-    neuronowych do edycji obrazu znacznie przewyższają zwykłe algorytmy pod
-    względem możliwości oraz uzależnienia od wkładu ludzkiego.
+    Powstanie NPE utwierdza w przekonaniu, że aktualnie istniejące sieci
+    neuronowe do edycji obrazu znacznie przewyższają zwykłe algorytmy pod
+    względem możliwości, a także są zauważalnie mniej uzależnienie od wkładu
+    ludzkiego.
