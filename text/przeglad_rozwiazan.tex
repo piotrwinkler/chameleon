@@ -93,8 +93,8 @@
     Cały proces renderowania polega na odpowiednim przechowaniu w modelu treści
     oraz stylu wejściowych obrazów i składa się z wielu następujących po sobie etapów.
     Wpierw obraz, z którego pobierany jest styl, jest podawany na
-    wejście sieci oraz przetwarzany, reprezentacja stylu wyselekcjonowana z
-    właściwych warstw jest odpowiednio przechowywana. Następnie temu samemu
+    wejście sieci oraz przetwarzany, reprezentacja stylu, wyselekcjonowana z
+    właściwych warstw, jest odpowiednio przechowywana. Następnie temu samemu
     procesowi poddawany jest obraz z treścią, ale reprezentacja treści jest wyciągana z ostatnich
     warstw konwolucyjnych.
     W celu wykonania fuzji obrazów, uzyskane reprezentacje treści oraz stylu są
@@ -135,7 +135,7 @@
     pewne kluczowe atrybuty obrazu. Enkodery są trenowane z użyciem już wytrenowanego
     cGAN oraz obrazów rzeczywistych z etykietami ze zbioru uczącego. Zbadane
     zostały także różne podejścia interakcji między dwoma enkoderami, wyróżnić
-    można podejście, w którym enkdodery są w pełni niezależne, podejście
+    można podejście, w którym enkodery są w pełni niezależne, podejście
     gdzie wyjście $E_{z}$ jest zależne od wyjścia $E_{y}$, a także podejście
     gdzie $E_{z}$ oraz $E_{y}$ są połączone w jeden enkoder o współdzielonych
     warstwach i dwóch wyjściach.
@@ -208,5 +208,5 @@
 
     Powstanie NPE utwierdza w przekonaniu, że aktualnie istniejące sieci
     neuronowe do edycji obrazu znacznie przewyższają zwykłe algorytmy pod
-    względem możliwości, a także są zauważalnie mniej uzależnienie od wkładu
+    względem możliwości, a także są zauważalnie słabiej uzależnienie od wkładu
     ludzkiego.
