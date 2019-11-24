@@ -293,7 +293,7 @@
   wszechstronną edycję obrazów cyfrowych. Przygotowane rozwiązania należało
   przetestować, a zastosowane implementacje przeanalizować pod kątem
   skuteczności działania ze względu na różnorodny dobór parametrów oraz
-  architektury sieci.
+  architektury.
 
   Dodatkowo w celu uproszczenia i przyspieszenia wykonywanych eksperymentów
   postawione zostało zadanie przygotowania frameworka w języku Python, umożliwiającego
@@ -330,27 +330,7 @@
   między klasycznymi metodami filtracji, a używanymi powszechnie sieciami
   splotowymi, zbudowanymi z warstw neuronów nazywanych właśnie filtrami.
 
-  Rozdział \ref{image_colorization} przedstawia próby automatycznego kolorowania
-  czarno-białych obrazów.
-  Zagadnienie to zostało rozwiązane z użyciem dwóch różnych modeli, autorskiego modelu
-  prostego oraz bardziej zaawansowanego modelu zaimplementowanego z użyciem technik
-  przeniesienia uczenia. Dla modelu autorskiego zostały przeprowadzone szczegółowe
-  badania dotyczące zależności wyników od poszczególnych parametrów architekury
-  sieci jak i konfiguracji procesu uczenia. Rezultaty końcowe uzyskane z użyciem
-  modelu autorskiego były zadowalające, ale mocno zależne od wybranych parametrów.
-  Dowodzi to, że odpowiednio skonfigurowane sieci splotowe mogą być skutecznie
-  zastosowane w tym zagadnieniu, aczkolwiek to model złożony pozwolił osiągnąć
-  największy sukces.
-  Idea tego rozwiązania opiera się na integracji cech obrazu średniego oraz wysokiego
-  poziomu uzyskiwanych z użyciem złożonej sieci splotowej wytrenowanej pierwotnie do
-  zadania klasyfikacji. Cechy te, po przejściu przez proces fuzji, są następnie
-  wykorzystywane przez sieć dekonwolucyjną do predykcji prawdopodobnych barw dla
-  obrazu wejściowego. Dzięki tym dodatkowym informacjom o obrazie udało się
-  znacznie zwiększyć efektywność procesu kolorowania, a co za tym idzie,
-  wiarygodność generowanych barw. Pokolorowane obrazy w wielu przypadkach
-  wyglądały tak realistycznie, że niemożliwym było zauważenie, że ich kolory zostały
-  wygenerowane automatycznie, co
-  świadczy o nadzwyczaj wysokiej skuteczności bardziej zaawansowanego modelu.
+  Rozdział \ref{image_colorization}
 
   Przeprowadzone eksperymenty i uzyskane w ich wyniku rezultaty jasno
   wskazują na użyteczność sztucznych sieci neuronowych w procesie edycji obrazów.
@@ -368,11 +348,11 @@
 
   Z drugiej strony zaprezentowane rozwiązanie inteligentnego kolorowania
   czarno-białych obrazów pokazało, że zastosowanie złożonych architektur sieci
-  neuronowych, a także odpowiednio duży nakład pracy włożony w proces treningowy,
+  neuronowych, a także odpowiednio duży wysiłek włożony w proces treningowy,
   mogą doprowadzić do rozwiązania nieosiągalnego innymi metodami.
 
   Sztuczna inteligencja bez wątpienia stanowi fenomen w świecie nauki. Nie należy
-  traktować jej jak młotka, dla którego każdy problem wygląda jak gwóźdź, ale warto
+  traktować jej jak młotka dla którego każdy problem wygląda jak gwóźdź, ale warto
   nieustannie śledzić dynamiczny rozwój tej dziedziny wiedzy. Doświadczenie pokazuje,
   że znajduje ona zastosowanie w coraz szerszym gronie aspektów życia codziennego.
   Bardzo często nie jesteśmy nawet świadomi jej obecności wokół nas. W związku z
