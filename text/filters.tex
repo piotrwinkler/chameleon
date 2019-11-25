@@ -6,7 +6,7 @@
   czy zniwelować szumy tła. W rzeczywistości filtrowanie to nic innego, jak
   operacja matematyczna wykonywana na pikselach. Wykorzystywanie wartości wielu
   pikseli obrazu źródłowego w celu określenia wartości pojedynczego piksela w
-  obrazie wynikowym. Sposób w jaki wartości te są pobierane oraz przetwarzane
+  obrazie wynikowym. Sposób, w jaki wartości te są pobierane oraz przetwarzane
   określają tak zwane maski. Przyjmują one postać macierzy kwadratowych różnych
   rozmiarów, a przechowywane w nich wartości decydują o wyniku filtracji.
 
@@ -18,7 +18,7 @@
   obrazów.
 
   Dane referencyjne składają się z zestawu obrazów przetworzonych za pomocą
-  filtrów wbudowanych w bibliotekę \textit{OpenCV} takich, jak filtr Sobela, czy
+  filtrów wbudowanych w bibliotekę \textit{OpenCV} (ang. Open Source Computer Vision Library), takich jak filtr Sobela, czy
   sepia.
 
   Wszystkie modele wytrenowane zostały w oparciu o framework \textit{TorchFrame}.
@@ -28,13 +28,13 @@
     Jednym z podstawowych i najbardziej znanych obecnie filtrów obrazu jest
     filtr Sobela-Feldmana, który zaprezentowany został po raz pierwszy w 1968
     roku na konferencji Laboratorium Sztucznej Inteligencji uniwersytetu Stanforda
-    (\textit{SAIL}). Znajduje on przede wszystkim zastosowanie w procesie wykrywania krawędzi
+    (\textit{SAIL ang. Stanford Artificial Intelligence Laboratory}). Znajduje on przede wszystkim zastosowanie w procesie wykrywania krawędzi
     na obrazach cyfrowych. Sam Irwin Sobel opisuje ten filtr następująco \cite{sobel}:
 
     \begin{quote}
-      "Motywacją w rozwijaniu tego rozwiązania było stworzenie wydajnej obliczeniowo
+      'Motywacją w rozwijaniu tego rozwiązania było stworzenie wydajnej obliczeniowo
       estymacji gradientu, która byłaby bardziej izotropowa niż popularny wówczas operator
-      "Krzyża Roberts'a"."
+      "Krzyża Roberts'a".'
     \end{quote}
 
     Operator izotropowy to, w kontekście przetwarzania obrazów, operator, którego
@@ -82,15 +82,15 @@
       \label{fig:dataset_filters}
     \end{figure}
 
-    Aby mogły właściwie pełnić swoją rolę obrazy treningowe zostały w pierwszej kolejności
-    poddane odpowiedniemu przetworzeniu wstępnemu. W ramach tego procesu rozmiar każdego zdjęcia
-    zmniejszony został do wymiarów $256x256$ pikseli, a wartości kolorów ograniczone
+    Aby mogły właściwie pełnić swoją rolę, obrazy treningowe zostały w pierwszej kolejności
+    poddane odpowiedniemu przetworzeniu wstępnemu. W ramach tego procesu rozdzielczość
+    każdego zdjęcia zmniejszona została do wymiarów $256x256$ pikseli, a wartości kolorów przeskalowane
     do zakresu $<0, 1>$ w celu usprawnienia obliczeń wykonywanych przez sieć m.in.
     poprzez zapobieganie zjawisku eksplodującego gradientu. Dodatkowo w przypadku tego
     filtru zastosowana została konwersja obrazów do formatu czarno-białego, co pozwoliło
     wyodrębnić pojedynczy kanał kolorystyczny z oryginałów. Tak przetworzony zbiór uczący
     podawany był na wejście sieci neuronowej, a rezultaty jej pracy porównywane
-    z obrazami na które dodatkowo nałożony został filtr Sobela za pomocą biblioteki
+    z obrazami, na które dodatkowo nałożony został filtr Sobela za pomocą biblioteki
     \textit{OpenCV}. W przypadku obrazów referencyjnych po zastosowaniu filtracji
     konieczne okazało się również przeskalowanie wartości pikseli do przedziału
     $<0, 1>$, ponieważ w sieci zastosowana została funkcja aktywacji \textit{ReLU}, która
@@ -98,14 +98,14 @@
     wyklucza pojawianie się wartości ujemnych, jako rezultatów pracy modelu, co
     w przypadku braku odpowiedniej normalizacji prowadziło do niepoprawnych wyników.
 
-    Sam model sieci składa się w tym przypadku z pojedynczegwo neuronu w warstwie
+    Sam model sieci składa się w tym przypadku z pojedynczego neuronu w warstwie
     konwolucyjnej, filtrującego obraz za pomocą macierzy kwadratowej stopnia
     trzeciego. Odzwierciedla to oryginalną macierz filtracji $G_x$ w stosunku jeden
     do jednego, ponieważ każda z dziewięciu wag sieci odpowiada jednemu polu w tej
     macierzy. Takie podejście pozwala jednoznacznie ocenić stopień odwzorowania
     maski przez sieć poprzez analizę wartości jej parametrów.
 
-    W ramach przeprowadzonych eksperymentów, wypróbowane zostały różne konfiguracje
+    W ramach przeprowadzonych eksperymentów wypróbowane zostały różne konfiguracje
     hiperparametrów treningowych. Ostatecznie najlepszy rezultat udało się uzyskać
     przy zastosowaniu następującej konfiguracji:
 
@@ -131,8 +131,8 @@
     z wykorzystaniem biblioteki \textit{OpenCV}, a po prawej obraz przetworzony przez
     wytrenowany model sieci neuronowej. Wizualnie otrzymane rezultaty są niemal
     identyczne. Zdjęcie wygenerowane przez sieć charakteryzuje się nieco ciemniejszą
-    barwą, co może mieć związek z normalizacją danych przeprowadzaną w celu skuteczniejszego
-    uczenia sieci. Poprawne rezultaty treningu najlepiej ocenić można analizując
+    barwą, co może mieć związek z normalizacją danych, przeprowadzaną w celu skuteczniejszego
+    uczenia sieci. Poprawność rezultatów treningu najlepiej ocenić można analizując
     macierz wag modelu, która przedstawia się następująco:
 
     \[G_{nn} =
@@ -169,24 +169,24 @@
     że zastosowanie tej metryki do analizy działania sieci może być zwodnicze.
     Ciągły spadek wartości funkcji kosztu nie zawsze oznacza wzrost dokładności działania
     trenowanego modelu. Sieć neuronowa może zacząć w zbyt dużym stopniu dostosowywać się
-    do dostępnych danych treningowych tracąc zdolność do generalizacji rozwiązania dla
+    do dostępnych danych treningowych, tracąc zdolność do generalizacji rozwiązania dla
     przykładów spoza tego zbioru. Zjawisko takie nazywane jest przeuczeniem i najczęściej
     objawia się spadkiem dokładności, przy jednoczesnym opadaniu wartości funkcji kosztu.
 
     Liczne eksperymenty związane z zastosowaniem rozmaitych hiperparametrów wykazały, że
     pomimo niewielkich rozmiarów modelu zlokalizowanie minimum globalnego nie było
-    zadaniem trywialnym. Prosty optymalizator, taki jak \textit{SGD} nie był w stanie odnaleźć
+    zadaniem trywialnym. Prosty optymalizator, taki jak \textit{SGD}, nie był w stanie odnaleźć
     odpowiedniego punktu, a rezultaty jego działania w dużej mierze zależały od
     losowych wartości przypisanych do wag sieci na początku każdej sesji treningowej.
-    Dopiero zastosowanie algorytmu adaptacyjnego, jakim jest \textit{Adam} pozwoliło
+    Dopiero zastosowanie algorytmu adaptacyjnego, jakim jest \textit{Adam}, pozwoliło
     uzyskać powtarzalność w osiąganiu właściwych rezultatów. Algorytm \textit{SGD}
     zastosowany został dopiero w końcowej fazie uczenia z bardzo małym krokiem
     treningowym rzędu $\eta = 10^{-8}$, co pozwoliło nieznacznie poprawić uzyskane
     wyniki.
 
-    Olbrzymi wpływ na rezultaty miały również zastosowane sposoby przetworzenia danych
-    treningowych, między innymi wspomniane już ograniczenie wartości pikseli
-    w przedziale $<0,1>$, tak aby współgrały z zastosowaną funckją aktywacji.
+    Olbrzymi wpływ na rezultaty miały również zastosowane sposoby wstępnego przetworzenia danych
+    treningowych, między innymi wspomniane już przeskalowanie wartości pikseli
+    do przedziału $<0,1>$, tak aby współgrały z zastosowaną funkcją aktywacji.
 
   \subsubsection{Sepia}
 
@@ -213,14 +213,15 @@
     pojedynczej warstwy kolorystycznej.
 
     W procesie uczenia sieci zastosowany został identyczny zbiór treningowy, co w
-    przypadku filtru Sobela, opisanego w poprzednim rozdziale. Ponownie w ramach
-    wstępnego przetwarzania danych, wartości pikseli ograniczone zostały w przedziale
+    przypadku filtru Sobela, opisanego w poprzednim punkcie podrozdziału. Ponownie, w ramach
+    wstępnego przetwarzania danych, wartości pikseli przeskalowane zostały do przedziału
     $<0,1>$, a każdy obraz przeskalowany do wymiarów $256x256$. W przypadku obrazów
     referencyjnych zastosowany został oczywiście filtr zapewniający efekt sepii
     pochodzący z biblioteki \textit{OpenCV}. Dodatkowo wartości, które w wyniku filtracji
-    przekroczyły wartość 1, zostały ograniczone do jej poziomu. Główną różnicą w stosunku
+    przekroczyły wartość 1, zostały ograniczone do jej poziomu. Główną różnicą, w stosunku
     do opisanego uprzednio filtru Sobela jest fakt, że sieć trenowana była na
-    obrazach posiadających pełny zakres trzech kanałów kolorystycznych, a nie jak
+    obrazach posiadających pełny zakres trzech kanałów kolorystycznych RGB
+    (ang. Red Green Blue), a nie jak
     poprzednio z wykorzystaniem formatu czarno-białego.
 
     Optymalny rezultat działania sieci udało się uzyskać dla następującego
@@ -250,16 +251,16 @@
     przytłumionymi kolorami w stosunku do obrazów wygenerowanych z wykorzystaniem
     oryginalnej maski. Powodem takiego zachowania jest najprawdopodobniej dążenie
     sieci do zminimalizowania wartości funkcji kosztu w obrębie całego zbioru
-    treningowego, co wiąże się z pewnym mimowolnym uśrednieniem wag modelu. Przekłada
+    treningowego, co wiąże się z pewnym, mimowolnym uśrednieniem wag modelu. Przekłada
     się ono na trudności w odwzorowaniu obrazów cechujących się dużym kontrastem.
 
-    Dodatkowo w rozważanym przypadku rozmiar zastosowanej sieci, choć pozornie
+    Dodatkowo, w rozważanym przypadku, rozmiar zastosowanej sieci, choć pozornie
     niewielki, nie pozwala jednoznacznie przełożyć uzyskanych parametrów modelu na
     referencyjną maskę $G_x$. Każdy z trzech zastosowanych filtrów przetwarza
     obraz za pomocą macierzy $3x3$ dla każdej z trzech warstw kolorystycznych.
     Oznacza to, że pojedynczy neuron powiązany jest z 27 wagami, a w całym modelu
     jest ich sumarycznie 81. Informacja o sposobie filtracji jest więc mocno
-    rozproszona i ciężko jednoznacznie odczytać postać maski jaką w praktyce
+    rozproszona i ciężko jednoznacznie odczytać postać maski, jaką w praktyce
     implementuje wytrenowany model.
 
     W takiej sytuacji, poza wizualną oceną działania sieci, przydatnych informacji
@@ -275,9 +276,9 @@
     Wyraźne zbocze opadające w początkowej fazie treningu świadczy o poprawnym dążeniu
     sieci do rozwiązania optymalnego, a następujące po nim wypłaszczenie oznacza, że
     rozwiązanie to zostało osiągnięte. Porównując Rysunki \ref{fig:tensorboard_sepia}
-    i \ref{fig:tensorboard_sobel} zauważyć można że w przypadku sepii długość zbocza
-    opadającego jest znacząco większa. Może być to spowodowane większą złożonością
-    funkcji kosztu w przypadku tego filtru, lub niekorzystnym początkowym umiejscowieniem
+    i \ref{fig:tensorboard_sobel} zauważyć można, że w przypadku sepii długość zbocza
+    opadającego jest znacznie większa. Może być to spowodowane większą złożonością
+    funkcji kosztu w przypadku tego filtru lub niekorzystnym początkowym umiejscowieniem
     algorytmu optymalizacji na płaszczyźnie celu, wynikającym z losowego doboru startowych parametrów sieci.
     Najprawdopodobniej oba te czynniki wywarły swój wpływ na przebieg procesu uczenia.
 
@@ -296,7 +297,7 @@
     \end{figure}
 
     Choć na obrazie wygenerowanym przez sieć dostrzec można pewne podobieństwo do
-    poprawnie działającego filtru, to wyraźnie widać że nie jest to zadowalający
+    poprawnie działającego filtru, to wyraźnie widać, że nie jest to zadowalający
     rezultat, a znalezione na hiperpłaszczyźnie funkcji celu minimum nie jest z pewnością
     minimum globalnym.
 
@@ -311,7 +312,7 @@
     Lowpass Filters"} \cite{highpass_filter} znaleźć można następujący opis:
 
     \begin{quote}
-      "Filtr górnoprzepustowy to filtr, który dobrze przepuszcza wysokie częstotliwości,
+      'Filtr górnoprzepustowy to filtr, który dobrze przepuszcza wysokie częstotliwości,
       ale tłumi częstotliwości niższe niż częstotliwość graniczna. Ostrzenie jest
       zasadniczo operacją górnoprzepustową w dziedzinie częstotliwości.
 
@@ -319,7 +320,7 @@
       filtr Butterworth'a, czy Gauss'a. Wszystkie filtry górnoprzepustowe ($H_{hp}$) są
       zazwyczaj reprezentowane poprzez ich relację z filtrami dolnoprzepustowymi ($H_{lp}$):
 
-      \[H_{hp} = 1 - H_{lp}.   "\]
+      \[H_{hp} = 1 - H_{lp}.   '\]
     \end{quote}
 
     W ramach niniejszego eksperymentu zastosowany został filtr górnoprzepustowy
@@ -348,6 +349,7 @@
       \label{fig:sharpen_result}
     \end{figure}
 
+    \noindent
     Parametry dla których uzyskany został przedstawiony efekt są następujące:
 
     \begin{itemize}
@@ -381,7 +383,7 @@
       \label{fig:tensorboard_sharpen}
     \end{figure}
 
-    Podobnie jak w dwóch poprzednich przypadkach początkowy spadek wartości
+    Podobnie jak w dwóch poprzednich przypadkach, początkowy spadek wartości
     prowadzi model do punktu optymalnego rozwiązania. W punkcie tym algorytm optymalizacji
     zaczyna nieznacznie oscylować podejmując kolejne próby poprawy uzyskanych wyników.
 
@@ -407,7 +409,7 @@
     zrekompensować stosunkowo czasochłonny proces treningu związany z odpowiednią
     obróbką danych oraz eksperymentalnym doborem właściwych hiperparametrów.
 
-    W przypadku prostych filtrów, jak sepia, czy filtr górnoprzepustowy korzystniejsze
+    W przypadku prostych filtrów, jak sepia czy filtr górnoprzepustowy korzystniejsze
     okazuje się zastosowanie klasycznych metod przetwarzania w postaci
     odpowiednich masek konwolucyjnie nakładanych na docelowe obrazy. Rozwiązania te
     są często pozbawione typowej dla sieci neuronowych tendencji do uśredniania

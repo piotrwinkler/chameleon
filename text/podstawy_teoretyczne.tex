@@ -65,7 +65,7 @@
     \noindent
     Na CNN składają się zazwyczaj trzy rodzaje warstw, z których każda posiada inne cechy.
 
-    Podstawową warstwę stanowi warstwa splotowa. Składa się ona ze zbioru filtrów (neuronów) odpowiedzialnych za ekstrakcję cech z analizowanych obrazów poprzez dokonanie operacji
+    Podstawową warstwę stanowi warstwa splotowa. Składa się ona ze zbioru filtrów (neuronów) odpowiedzialnych za ekstrakcję cech z analizowanych obrazów w ramach operacji
     konwolucji. Proces ten polega na równomiernym przesuwaniu macierzy filtrujących,
     składających się z wag neuronów, wzdłuż przetwarzanych obrazów.
     Na wyjściu filtrów otrzymuje się macierze o mniejszej rozdzielczości
@@ -73,12 +73,12 @@
     bazując na wynikach obliczeń poprzednich warstw tego rodzaju. Dzięki temu
     procesowi kolejne warstwy filtrów uczą się
     rozpoznawać kluczowe cechy na obrazie, od drobnych elementów takich jak
-    krawędzie albo kształty po bardziej złożone, takie jak części ciała albo
+    krawędzie albo kształty, po bardziej złożone, takie jak części ciała albo
     całe obiekty. Filtry te są zazwyczaj inicjowane losowymi wartościami i w miarę trenowania, dopasowują swoje parametry do wybranej problematyki.
 
     Drugim istotnym elementem sieci splotowych jest warstwa poolingu. Może zostać opisana następująco \cite{deeplearn}:
     \begin{quote}
-      'We wszystkich przypadkach pooling pomaga uczynić reprezentację w przybliżeniu niezmienną w stosunku do małych tłumaczeń danych wejściowych. Niezmienność wobec tłumaczenia oznacza, że jeśli poddamy dane wejściowe nieznacznej translacji, to wartość większości wyników poddanych poolingowi nie ulegnie zmianie.'
+      'We wszystkich przypadkach pooling pomaga uczynić reprezentację w przybliżeniu niezmienną w stosunku do małych translacji danych wejściowych. Niezmienność wobec translacji oznacza, że jeśli poddamy dane wejściowe nieznacznemu przesunięciu, to wartość większości wyników poddanych poolingowi nie ulegnie zmianie.'
     \end{quote}
 
     Końcowy element CNN w większości przypadków stanowią warstwy gęste (FCL ang. Fully Connected Layer). Odpowiadają one za dokonanie odpowiedniej klasyfikacji obrazu na podstawie danych dostarczonych przez warstwy poprzedzające. Są przez to nieodzowne w przypadku zadań związanych z wszelkiego rodzaju klasyfikacją obrazów.
@@ -106,7 +106,7 @@
     \label{fig:segmentation}
   \end{figure}
 
-   W większości modele odpowiadające za przeprowadzanie segmentacji składają się z szeregowego połączenia enkodera oraz dekodera. Enkoder jest zazwyczaj pre-trenowaną siecią neuronową przeznaczoną do klasyfikowania obrazów. Dekoder odpowiada za semantyczne rzutowanie cech w niskiej rozdzielczości, wyuczonych przez enkoder, na wysoką rozdzielczość samych pikseli tworząc wspomniany wcześniej podział segmentowy.
+   W większości modele odpowiadające za przeprowadzanie segmentacji składają się z szeregowego połączenia enkodera oraz dekodera. Enkoder jest zazwyczaj pre-trenowaną siecią neuronową przeznaczoną do klasyfikowania obrazów. Dekoder odpowiada za semantyczne rzutowanie cech w niskiej rozdzielczości, wygenerowanych przez enkoder, na wysoką rozdzielczość samych pikseli tworząc wspomniany wcześniej podział segmentowy.
 
    FCN (ang. Fully Convolutional Networks) stanowią szczególny rodzaj sieci neuronowych przeznaczonych do segmentacji obrazów. Składają się one wyłącznie z kombinacji warstw splotowych oraz poolingu. Są w stanie przetwarzać obrazy o dowolnej, zmiennej wielkości, w odróżnieniu od innych typów modeli, w których zastosowanie warstw gęstych (FCL) wymusza z góry ustalone rozmiary danych wejściowych.
 
