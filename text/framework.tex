@@ -484,7 +484,7 @@
 
         Algorytm pozwalający dopasować długość kroku treningowego do poszczególnych
         wag modelu. Parametry rzadko biorące udział w pracy sieci otrzymują wówczas
-        większe aktualizacje niż te występujące stosunkowo często. \textit{AdaGrad} nadaje się
+        większe aktualizacje niż te występujące stosunkowo często. \textit{AdaGrad} (ang. \textit{Adaptive Gradient Algorithm}) nadaje się
         przez to do pracy z rzadkimi zbiorami treningowymi. Wzór prezentujący sposób aktualizacji
         pojedynczego i-tego parametru w sieci prezentuje się następująco:
 
@@ -514,7 +514,7 @@
        wag w bieżącej iteracji.
 
        Dodatkowo, zamiast przechowywać określoną liczbę przeszłych kwadratów gradientów,
-       AdaDelta wyznacza ich sumę poprzez rekursywne definiowanie zanikającej
+       \textit{AdaDelta} (ang. \textit{ang. Adaptive Delta}) wyznacza ich sumę poprzez rekursywne definiowanie zanikającej
        średniej wartości przeszłych kwadratów tych gradientów.
 
        Sposób działania tego mechanizmu opisuje poniższy wzór:
@@ -533,7 +533,7 @@
      \hline
        \textbf{Adam \cite{Adam}} &
 
-       Optymalizator Adam, podobnie jak \textit{AdaDelta}, pozwala wyznaczać adaptacyjne długości
+       Optymalizator \textit{Adam} (ang. \textit{Adaptive Moment Estimation}), podobnie jak \textit{AdaDelta}, pozwala wyznaczać adaptacyjne długości
        kroku uczącego dla każdego parametru sieci. Przechowuje on
        eksponencjalnie zanikającą średnią wartość kwadratów przeszłych gradientów $v_t$.
        Poza tym zapisuje również eksponencjalnie zanikającą średnią
@@ -542,7 +542,7 @@
        Wartości $m_t$ oraz $v_t$ są szacunkami odpowiednio pierwszego momentu
        (średnia) oraz drugiego momentu (wariancja niecentrowana), stąd nazwa metody.
 
-       Autorzy Adama zauważyli, że $m_t$ oraz $v_t$, które inicjowane są jako
+       Autorzy \textit{Adama} zauważyli, że $m_t$ oraz $v_t$, które inicjowane są jako
        wektory zerowe, dążą tendencyjnie do zera, zwłaszcza podczas początkowych
        iteracji. Aby przeciwdziałać temu procesowi wyznaczane są odpowiednie
        estymaty korekcyjne obu momentów zgodnie ze wzorami:
@@ -565,7 +565,7 @@
     problemu lub eksperymentalne porównanie dostępnych możliwości. Należy
     pamiętać, że czynnik ten ma często kluczowy wpływ na uzyskiwane rezultaty.
     W przypadku prostych zadań optymalizacji najczęściej, choć nie zawsze,
-    wystarczające powinny okazać się bazowe algorytmy, takie jak \textit{SGD}.
+    wystarczające powinny okazać się bazowe algorytmy, takie jak \textit{SGD} (ang. \textit{Stochastic Gradient Descent}).
     Z kolei bardziej złożone problemy z reguły wymagać będą zastosowania metod
     adaptacyjnych takich jak \textit{Adam}, czy \textit{AdaGrad}. Często
     oferują one lepsze rezultaty, jednak za cenę większej złożoności obliczeniowej.
