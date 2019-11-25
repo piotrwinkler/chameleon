@@ -1,14 +1,28 @@
 \section*{Abstract}
-  The theme of the project is to explore the possibilities of using neural networks to
-  image editing. The main goal was to create tools based on
-  trained neural networks used for appropriate processing and modifying of
+
+  The subject of this project is to explore the possibilities of using neural networks for
+  image editing. The main goal was to create tools, based on
+  trained neural networks, used for proper processing and modifying of
   images. Then the effectiveness of these tools was evaluated and
   compared with solutions based on classic image processing methods.
 
   Two approaches were investigated, automatic coloring of black and white images
   and applying simple filters on images such as Sobel-Feldman filter detecting edges.
 
-  
+  To make the research easier, an original framework named TorchFrame has been created.
+  It has the task of controlling
+  data flow in the process of teaching and testing the examined models and hence
+  reduce the need for user interference while ensuring freedom
+  in conducted experiments and implemented data modifications.
+
+  For simple image filters, solutions based on convolutional neural networks proved to
+  be slower and more labor-intensive in implementation than classical methods,
+  while presenting comparable results.
+  However, with their help it was possible to prove the enormous universality
+  of convolutional neural networks, which can be used in issues related to
+  simple image processing. Furthermore, the similarity between traditional filtration
+  methods and the way, how the neurons in convolutional networks works, has been shown.
+
   \bigskip
 
   \noindent\textbf{Keywords:} neural network, image processing, convolutional
