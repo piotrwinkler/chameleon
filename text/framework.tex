@@ -12,22 +12,22 @@
   procesie przetwarzania obrazów cyfrowych. Wiąże się to z koniecznością przygotowywania
   zbiorów treningowych złożonych z ogromnej ilości danych wizyjnych poddanych
   odpowiedniemu przetworzeniu i filtracji, aby mogły właściwie spełnić swoją rolę
-  w czasie treningu sieci.
+  w czasie uczenia sieci.
 
   Wspomniane zabiegi, jak również konieczność częstego powtarzania treningów,
   wymagają dużych nakładów pracy i czasu, aby mogły przynieść zamierzone efekty.
-  W celu ułatwienia całego procesu przygotowany został framework \textit{TorchFrame}
+  W celu ułatwienia całego procesu przygotowany został framework \textit{TorchFrame},
   stanowiący bazę pod eksperymenty podejmowane w ramach tej pracy i opisane w
   dalszych jej rozdziałach.
 
   Sam framework umożliwia użytkownikom przeprowadzanie treningów sieci neuronowych,
-  udostępniając wachlarz modyfikowalnych hiperparametrów oraz zestaw filtrów i metod
+  udostępniając do tego celu wachlarz modyfikowalnych hiperparametrów oraz zestaw filtrów i metod
   przeznaczonych do obróbki danych treningowych. Właściwie użyty \textit{TorchFrame} kontroluje
   przepływ danych uczących od początku do końca ograniczając konieczność ingerencji ze
   strony użytkownika do minimum, jednocześnie nie ograniczając przy tym potencjału
   eksperymentalnego sztucznych sieci neuronowych.
 
-  W ramach frameworka udostępniony został również prosty interfejs testowy
+  W ramach frameworka udostępniony został również interfejs testowy
   umożliwiający ocenę efektów uzyskanych w procesie uczenia.
 
   Niniejszy rozdział zostanie poświęcony analizie architektury \textit{TorchFrame'a} oraz
@@ -36,7 +36,7 @@
   \subsubsection{\textit{PyTorch}}
 
     U podstaw \textit{TorchFrame'a} leżą mechanizmy innego frameworka, napisanego w języku Python i
-    przeznaczonego do uczenia maszynowego o nazwie \textit{PyTorch}. Jest to otwartoźródłowa
+    przeznaczonego do uczenia maszynowego, o nazwie \textit{PyTorch}. Jest to
     biblioteka programistyczna stworzona przez oddział sztucznej inteligencji firmy
     Facebook. W jednym z artykułów \cite{pytorch} opublikowanych w ramach konferencji NIPS 2017
     grupa badaczy opisuje ją następująco:
@@ -58,7 +58,7 @@
     \end{quote}
 
     \textit{TorchFrame} wykorzystuje zdefiniowane w ramach \textit{PyTorch'a} mechanizmy budowania sieci neuronowych
-    korzystając z predefiniowanych metod opisu warstw sieci. Wykorzystuje ponadto
+    korzystając z predefiniowanych metod opisu warstw modelu. Wykorzystuje ponadto
     zdefiniowane odgórnie hiperparametry, takie jak funkcje kosztu. Sam rdzeń \textit{TorchFrame'a}
     bazuje na przytoczonym mechanizmie różnicowania, umożliwiając przeprowadzanie treningów
     na CPU oraz GPU.
@@ -81,16 +81,16 @@
     oznaczonych na przytoczonym schemacie odpowiednio jako: \textit{consts}, \textit{.json config}
     oraz \textit{NN model}.
 
-    W pliku \textit{consts} użytkownik \textit{TorchFrame} definiuje zmienne środowiskowe, takie, jak
+    W pliku \textit{consts} użytkownik \textit{TorchFrame} definiuje zmienne środowiskowe, takie jak
     ścieżki do plików kluczowych w procesie uczenia. Konieczne jest jedynie wskazanie
     położenia pliku konfiguracyjnego w formacie \textit{JSON}. Pozostałe parametry są opcjonalne
-    i mogą służyć do wskazania miejsca zapisu gotowego modelu sieci na dysku czy miejsca
+    i mogą służyć do wskazania miejsca zapisu gotowego modelu na dysku, czy miejsca
     przechowywania danych treningowych, które zostaną następnie przetworzone i przekazane
     na wejście sieci w procesie uczenia.
 
     \textit{NN model} to skrypt języka Python, w którym użytkownik definiuje strukturę sieci
     neuronowej zgodnie z paradygmatem frameworka \textit{PyTorch} przytoczonego w poprzednim
-    rozdziale. Struktura \textit{TorchFrame} narzuca na użytkownika konieczność zdefiniowania
+    punkcie podrozdziału. Struktura \textit{TorchFrame} narzuca na użytkownika konieczność zdefiniowania
     metody \textit{forward}, która określa sposób obliczania wartości wyjściowych sieci na podstawie danych
     wejściowych między innymi poprzez określenie funkcji aktywacji poszczególnych warstw
     sztucznych neuronów.
@@ -99,8 +99,8 @@
     Udostępnia on szerokie możliwości manipulowania zarówno hiperparametrami sieci
     neuronowej, jak i szeregiem przekształceń możliwych do zaimplementowania
     na danych treningowych i testowych. Architektura \textit{TorchFrame} zapewnia odpowiednie
-    rozpropagowanie zgromadzonych tutaj danych w ramach procesu uczenia oraz podczas
-    testów. Dokładna struktura tego pliku zostanie opisana w następnym rozdziale.
+    rozpropagowanie zgromadzonych danych w ramach procesu uczenia oraz podczas
+    testów. Dokładna struktura tego pliku zostanie opisana w następnym punkcie.
 
     \textit{JsonParser} jest klasą odpowiedzialną za odczytanie danych z pliku konfiguracyjnego,
     w formie słownika języka Python, oraz przekazanie ich w dalszą drogę w obrębie \textit{TorchFrame}.
@@ -114,33 +114,33 @@
     Część danych przekazywanych przez \textit{entrypoint} trafia do \textit{SetupCreator'a}. Komponent
     ten odpowiada za skomponowanie listy konwersji wymienionych w pliku
     konfiguracyjnym. Konwersje te zostaną następnie zaimplementowane na danych treningowych
-    na etapie tworzenia zbioru uczącego. Źródłem danych do którego odwołuje się
-    \textit{SetupCreator} są skrypty \textit{transforms} oraz \textit{conversions}. Zawierają one gotową bazę
+    na etapie tworzenia zbioru uczącego. Źródłem danych, do którego odwołuje się
+    \textit{SetupCreator}, są skrypty \textit{transforms} oraz \textit{conversions}. Zawierają one gotową bazę
     przekształceń przeznaczonych do pracy na obrazach cyfrowych, a także metody
     formatowania danych do struktury \textit{tensorów} (przypominających macierze z biblioteki \textit{numpy}
     języka Python) wykorzystywanych przez bibliotekę \textit{PyTorch} między innymi w mechanizmach
     automatycznego różnicowania modeli sieci neuronowych. Choć gotowa baza oferuje
     liczne przekształcenia, intuicyjna formuła pozwala użytkownikom w łatwy sposób definiować
-    własne metody konwersji i implementować je zarówno na obrazach, jak i dowolnym innym
+    własne metody konwersji i implementować je zarówno na obrazach, jak i dowolnym, innym
     rodzaju danych treningowych.
 
     Tak skomponowany zestaw przekształceń wykorzystywany jest przy konstruowaniu zbioru
     uczącego w komponencie \textit{Dataset}. Jego uniwersalny szkielet o nazwie \textit{BaseDataset}
-    odpowiada za sprawny przepływ danych w ramach \textit{TorchFrame} zapewniając łatwy dostęp
+    odpowiada za sprawny przepływ danych w obrębie\textit{TorchFrame} zapewniając łatwy dostęp
     do zbioru implementowanych konwersji oraz umożliwiając ich zastosowanie poprzez dedykowane
     do tego metody. Posiada również funkcjonalność odczytu danych ze wskazanej przez
-    użytkownika ścieżki w pliku \textit{consts}, a także zdolność przetwarzanie ich na bieżąco, co pozwala
+    użytkownika ścieżki w pliku \textit{consts}, a także zdolność przetwarzania ich na bieżąco, co pozwala
     zaoszczędzić pamięć w przypadku pracy na dużych zbiorach danych. W ramach tworzenia
     frameworka \textit{TorchFrame} udostępnione zostały różne implementacje komponentu \textit{Dataset} opierające się o
     \textit{BaseDataset}. Ponownie jednak elastyczna struktura umożliwia użytkownikom
     skomponowanie własnych implementacji dostosowanych do indywidualnych potrzeb.
 
-    Ostatecznym elementem ścieżki treningowej, w którym skupiają się wszystkie
-    zgromadzone dotąd dane jest komponent \textit{Trainer}. Opiera się on o mechanizmy
-    frameworka \textit{PyTorch} w celu obliczania rezultatów pracy sieci, a także wyznaczanie
-    kierunku uczenia w ramach funkcji celu i wstęczną propagację modyfikującą wagi
+    Ostatecznym elementem architektury treningowej, w którym skupiają się wszystkie
+    zgromadzone dotąd dane, jest komponent \textit{Trainer}. Opiera się on o mechanizmy
+    frameworka \textit{PyTorch} w celu obliczania rezultatów pracy sieci, a także wyznaczania
+    kierunku uczenia w ramach funkcji celu i wstecznej propagacji błędu modyfikującej wagi
     sieci w czasie treningu. \textit{Trainer} udostępnia na bieżąco dane pozwalające
-    określić skuteczność uczenia sieci takie jak aktualny błąd sieci, ilość
+    określić skuteczność uczenia sieci, takie jak aktualny błąd, ilość
     przetworzonych danych, czy numer epoki treningowej, w której aktualnie znajduje
     się model. W trakcie całego procesu możliwe jest również zapisywanie rezultatów
     w celu ich ponownego wykorzystania lub oceny.
@@ -164,18 +164,18 @@
     \item \textbf{\textit{Criterion}} - parametr ten pozwala zdefiniować funkcję kosztu
     używaną w procesie uczenia. W czasie treningu sieci neuronowych dąży się
     najczęściej do minimalizacji błędu określanego na bazie porównania rezultatów
-    pracy sieci ze spodziewanym efektem. Zdefiniowana na tej podstawie funkcji błędu
+    pracy sieci ze spodziewanym efektem. Zdefiniowana na tej podstawie funkcja błędu
     określana jest jako funkcja celu, a proces uczenia sieci sprowadza się do zdefiniowania
     zestawu wag, dla których jej wartość jest możliwie najmniejsza. Zagadnienie
     to opisane zostało w książce \textit{Deep Learning} \cite{deeplearn} z 2016 roku:
 
     \begin{quote}
-      'Funckja, którą chcemy minimalizować, lub maksymalizować nazywana jest funkcją celu lub kryterium.
+      'Funkcja, którą chcemy minimalizować, lub maksymalizować nazywana jest funkcją celu lub kryterium.
       W przypadku minimalizacji możemy również nazywać ją funkcją kosztu, funkcją straty, lub funkcją błędu.'
     \end{quote}
 
     Na funkcji kosztu spoczywa bardzo ważne zadanie. Musi ona wiernie destylować wszystkie
-    aspekty modelu w jedną liczbę, w taki sposób, aby ulepszenia tej liczby były
+    aspekty modelu w jedną liczbę, w taki sposób, aby poprawa wartości tej liczby była
     oznaką poprawy całego modelu. \cite{neuralsmithing}
 
     \begin{quote}
@@ -208,8 +208,8 @@
      \hline
        \textbf{L1Loss} &
 
-       Funkcja kosztu mierząca średni błąd bezwzględny pomiędzy
-       odpowiadającymi sobie elementami ze zbioru wejściowego i docelowego.
+       Funkcja kosztu mierząca błąd bezwzględny pomiędzy
+       odpowiadającymi sobie elementami ze zbioru wyjściowego i docelowego.
        Można ją opisać za pomocą następującego wzoru:
 
        \[l(x,y) = L = \{l_1,...,l_N\}^T, l_n = |x_n - y_n|,\]
@@ -220,18 +220,18 @@
 
        Parametry:
        \begin{itemize}
-       \item reduction - parametr ten może przyjmować trzy wartości \textit{none},
+       \item reduction - parametr ten może przyjmować trzy wartości: \textit{none},
        \textit{mean} oraz \textit{sum}. Pierwsza opcja spowoduje, że wartość funkcji
        celu zostanie wyznaczona zgodnie z podanym powyżej wzorem. Wartość \textit{mean}
-       spowoduje wyznaczenie średniej wartości elementów wyjściowych. \textit{Sum}
+       spowoduje wyliczenie średniej wartości elementów wyjściowych. \textit{Sum}
        oznacza natomiast, że wyznaczona zostanie ich suma.
        \end{itemize} \\
 
      \hline
        \textbf{MSELoss} &
 
-       Funkcja kosztu mierząca średni błąd kwadratowy pomiędzy każdym elementem
-       wejściowym \textit{x} i celem \textit{y}. Opisuje ją poniższy wzór:
+       Funkcja kosztu mierząca błąd kwadratowy pomiędzy każdym elementem
+       wyjściowym \textit{x} i celem \textit{y}. Opisuje ją poniższy wzór:
 
        \[l(x,y) = L = \{l_1,...,l_N\}^T, l_n = (x_n - y_n)^2,\]
 
@@ -260,13 +260,13 @@
        \[l(x,y) = L = \{l_1,...,l_N\}, l_n = y_n \cdot (\log_{}y_n - x_n),\]
 
        gdzie indeks \textit{N} obejmuje wszystkie wymiary wejściowe, a \textit{L}
-       ma ten sam kształt, co wejście.
+       ma ten sam kształt, co dane wejściowe.
 
        Parametry:
        \begin{itemize}
        \item reduction - poza wartościami opisanymi dla funkcji \textit{L1Loss}
        może przyjmować również parametr \textit{batchmean}. Wymusza on sumowanie
-       wartości wyjściowych, a następnie podział sumy przez rozmiar pakietu danych.
+       wartości wyjściowych, a następnie podzielenie sumy przez rozmiar pakietu danych.
        \end{itemize} \\
 
      \hline
@@ -308,7 +308,7 @@
        \[
        y = \left\{ \begin{array}{ll}
        0.5 \cdot (x_i - y_i)^2 & \textrm{gdy $|x_i - y_i| < 1$}\\
-       |x_i - y_i| - 0.5 & \textrm{gdy $|x_i - y_i| \ge 1$}
+       |x_i - y_i| - 0.5, & \textrm{w pozostałych przypadkach}
        \end{array} \right.
        \]
 
@@ -342,22 +342,22 @@
     \end{figure}
 
     Można powiedzieć, że argumentami funkcji celu są wagi modelu sieci neuronowej.
-    Każde kolejne połączenie w sieci posiadające własną wagę zwiększa wymiar
+    Każde kolejne połączenie w sieci, posiadające własną wagę, zwiększa wymiar
     płaszczyzny poszukiwań. Oznacza to, że dla modelu opisanego trzema wagami
     obszarem poszukiwań będzie płaszczyzna trójwymiarowa. Zazwyczaj modele sieci
     są jednak dużo większe. I tak dla modelu, na który składa się przykładowo sto
-    wag poszukiwania optimum są w rzeczywistości prowadzone na hiperpłaszczyźnie
+    wag, poszukiwania optimum są w rzeczywistości prowadzone na hiperpłaszczyźnie
     posiadającej sto wymiarów.
 
-    Najbardziej podstawowym algorytmem optymalizacji leżącym u podstaw innych
-    metod jest tak zwany spadek gradientu. Najlepiej opisuje go programistyczna
+    Najbardziej podstawowym algorytmem optymalizacji, leżącym u podstaw innych
+    metod, jest tak zwany spadek gradientu. Najlepiej opisuje go programistyczna
     formuła aktualizacji wag sieci:
 
     \[\Theta = \Theta - \eta \cdot \nabla J(\Theta),\]
 
     gdzie $\eta$ jest długością kroku treningowego, a $\nabla J(\Theta)$ oznacza
     gradient funkcji kosztu zależnej od wag sieci $\Theta$. Warto zauważyć, że
-    wartość gradientu wskazuje na płaszczyźnie funkcji celu położenie maksimum,
+    wartość gradientu wskazuje położenie maksimum na płaszczyźnie funkcji celu,
     dlatego w procesie minimalizacji musimy kierować się w przeciwną stronę i odejmować
     gradient od wag modelu.
 
@@ -365,7 +365,7 @@
     algorytmu nazywanego propagacją wsteczną. Jego ogólna idea jest stosunkowo
     prosta. Rezultaty pracy sieci ewaluowane są względem pożądanych wyników w
     ramach opisanej w poprzednim punkcie funkcji celu. Jeśli wyniki oceny nie są
-    zadowalające wagi sieci są modyfikowane, a cała operacja powtarzana jest aż
+    zadowalające, wagi sieci są modyfikowane, a cała operacja powtarzana jest aż
     do momentu zakończenia treningu.
 
     Raul Rojas w swojej książce \cite{systematic_introduction} z 1996 roku tak
@@ -384,7 +384,7 @@
     więcej niż jedną jednostkę wejściową, w których zaangażowanych jest więcej
     niezależnych zmiennych. Idea jego działania pozostaje wówczas ta sama.
 
-    Wynika z tego, że algorytm wstecznej propagacji, a co za tym idzie czerpiący z
+    Wynika z tego, że algorytm wstecznej propagacji, a co za tym idzie, czerpiący z
     niego w czystej postaci spadek gradientu, cechują się dużą stałością i
     przewidywalnością działania. W wielu przypadkach jest to pożądana cecha, jednak
     zwiększająca się ilość parametrów sieci może powodować pojawianie się trudności
@@ -398,7 +398,7 @@
     w nich z różnymi częstotliwościami, pożądanym zjawiskiem byłoby przeprowadzanie większych
     aktualizacji wag sieci dla cech występujących rzadziej. Pozostaje także niebezpieczeństwo
     związane z potencjalnym utknięciem modelu w jednym z minimów lokalnych, lub co gorsza
-    w puncie siodłowym, którego przykładowy kształt przedstawia Rysunek \ref{fig:punkt_siodlowy}.
+    w punkcie siodłowym, którego przykładowy kształt przedstawia Rysunek \ref{fig:punkt_siodlowy}.
     Posiada on jednocześnie cechy zarówno minimum, jak i maksimum lokalnego i jest najczęściej
     otoczony przez płaskowyż cechujący się tą samą wartością funkcji kosztu. Bardzo często
     uniemożliwia to ucieczkę takim algorytmom jak spadek gradientu, ponieważ wartość
@@ -424,7 +424,7 @@
 
     Nazwa tej metody nawiązuje do pędu znanego z fizyki. Można powiedzieć, że
     w miarę uczenia modyfikacje wag sieci nabierają prędkości we właściwym kierunku, co
-    sprawia, że nie są już tak podatne na ewentualne nieprawidłowe zmiany kierunku i
+    sprawia, że nie są już tak podatne na ewentualne, nieprawidłowe zmiany kierunku i
     szybciej osiągają właściwy cel.
 
     Badacz Yurii Nesterov zauważył jednak zasadniczą wadę związaną z metodą pędu.
@@ -471,7 +471,7 @@
        \[\Theta = \Theta - \eta \cdot \nabla J(\Theta;x(i);y(i)),\]
        gdzie $\{x(i), y(i)\}$ jest zbiorem poszczególnych par treningowych.
 
-       Stochastyczny spadek gradientu cechuje się częstszymi aktualizacjami i
+       Stochastyczny spadek gradientu cechuje się częstymi aktualizacjami i
        zmiennymi oscylacjami na płaszczyźnie funkcji celu. Czyni go to wolniejszym od
        algorytmu bazowego w dążeniu do rozwiązania, jednak zwiększa prawdopodobieństwo odkrycia
        bardziej optymalnych minimów.
@@ -513,7 +513,7 @@
        ograniczenia, co do ilości przeszłych gradientów mających wpływ na aktualizację
        wag w bieżącej iteracji.
 
-       Dodatkowo zamiast przechowywać określoną liczbę przeszłych kwadratów gradientów,
+       Dodatkowo, zamiast przechowywać określoną liczbę przeszłych kwadratów gradientów,
        AdaDelta wyznacza ich sumę poprzez rekursywne definiowanie zanikającej
        średniej wartości przeszłych kwadratów tych gradientów.
 
@@ -533,17 +533,17 @@
      \hline
        \textbf{Adam \cite{Adam}} &
 
-       Optymalizator Adam podobnie jak \textit{AdaDelta} pozwala wyznaczać adaptacyjne długości
-       kroku uczącego dla każdego parametru sieci. Przechowuje on również
+       Optymalizator Adam, podobnie jak \textit{AdaDelta}, pozwala wyznaczać adaptacyjne długości
+       kroku uczącego dla każdego parametru sieci. Przechowuje on
        eksponencjalnie zanikającą średnią wartość kwadratów przeszłych gradientów $v_t$.
-       Poza tym przechowuje również eksponencjalnie zanikającą średnią
-       przeszłych gradientów $m_t$ podobną do wartości pędu.
+       Poza tym zapisuje również eksponencjalnie zanikającą średnią
+       przeszłych gradientów $m_t$, podobną do wartości pędu.
 
        Wartości $m_t$ oraz $v_t$ są szacunkami odpowiednio pierwszego momentu
        (średnia) oraz drugiego momentu (wariancja niecentrowana), stąd nazwa metody.
 
        Autorzy Adama zauważyli, że $m_t$ oraz $v_t$, które inicjowane są jako
-       wektory zerowe dążą tendencyjnie do zera zwłaszcza podczas początkowych
+       wektory zerowe, dążą tendencyjnie do zera, zwłaszcza podczas początkowych
        iteracji. Aby przeciwdziałać temu procesowi wyznaczane są odpowiednie
        estymaty korekcyjne obu momentów zgodnie ze wzorami:
 
@@ -559,25 +559,25 @@
      \hline
     \end{longtable}
   \end{small}
-  
+
     Wybór odpowiedniego algorytmu optymalizacji nie jest prostym zagadnieniem.
     Ostateczną decyzję powinna poprzedzać matematyczna analiza postawionego
     problemu lub eksperymentalne porównanie dostępnych możliwości. Należy
-    pamiętać że czynnik ten ma często kluczowy wpływ na uzyskiwane rezultaty.
+    pamiętać, że czynnik ten ma często kluczowy wpływ na uzyskiwane rezultaty.
     W przypadku prostych zadań optymalizacji najczęściej, choć nie zawsze,
-    wystarczające powinny okazać się proste algorytmy takie jak \textit{SGD}.
+    wystarczające powinny okazać się bazowe algorytmy, takie jak \textit{SGD}.
     Z kolei bardziej złożone problemy z reguły wymagać będą zastosowania metod
-    adaptacyjnych takich jak \textit{Adam}, czy \textit{AdaGrad}. Z reguły
+    adaptacyjnych takich jak \textit{Adam}, czy \textit{AdaGrad}. Często
     oferują one lepsze rezultaty, jednak za cenę większej złożoności obliczeniowej.
     Wiele zależy również od samego kontekstu użycia. Przykładowo w przypadku
-    douczania sieci neuronowej w celu poprawy ostatecznych rezultatów zalecane jest
+    douczania sieci neuronowej w celu poprawy ostatecznych rezultatów, zalecane jest
     użycie algorytmów ze stałą długością kroku treningowego, które w odróżnieniu od
     algorytmów adaptacyjnych mają w takich przypadkach mniejszą tendencję do
     destabilizacji rozwiązania.
 
     \item \textbf{\textit{Scheduler}} - umożliwia wybór planisty. Odpowiada on za
     modyfikowanie długości kroku treningowego w zależności od aktualnego numeru
-    epoki, w jakim znajduje się proces uczenia.
+    epoki, w której znajduje się proces uczenia.
 
     Jest to istotny element pozwalający dynamicznie dostosowywać krok do
     aktualnego położenia modelu na hiperpłaszczyźnie funkcji celu. Przykładowo
@@ -587,10 +587,10 @@
     długość kroku może zostać zmniejszona, co przełoży się na zwiększenie dokładności
     uzyskanych wyników.
 
-    \item \textbf{\textit{Init epoch}} - parametr wskazujący numer epoki od którego
+    \item \textbf{\textit{Init epoch}} - parametr wskazujący numer epoki, od którego
     rozpocznie się trening sieci neuronowej.
 
-    \item \textbf{\textit{Training epochs}} - ilość epok, jaką przejdzie model w danej
+    \item \textbf{\textit{Training epochs}} - Liczba epok, jaką przejdzie model w danej
     sesji treningowej. W każdej epoce modelowi przekazane zostaną wszystkie dane
     wskazane w zbiorze treningowym.
 
@@ -598,18 +598,18 @@
     obiekt \textit{Trainer} będzie wyświetlał w konsoli dane treningowe, takie jak
     aktualna wartość funkcji kosztu.
 
-    \item \textbf{\textit{Saving Period}} - parametr określający co ile epok
+    \item \textbf{\textit{Saving Period}} - parametr określający, co ile epok
     obiekt \textit{Trainer} będzie dokonywał zapisu pośrednich wyników treningu sieci.
 
     \item \textbf{\textit{Dataloader Parameters}} - zestaw trzech parametrów.
 
-    \textit{Batch size} określa ilość pojedynczych próbek ze zbioru treningowego które zostaną zgrupowane
+    \textit{Batch size} określa liczbę pojedynczych próbek ze zbioru treningowego, które zostaną zgrupowane
     w jeden pakiet danych. W trakcie procesu uczenia sieci wartość funkcji kosztu wyznaczana
     jest dla wszystkich elementów pakietu, a następnie uśredniana i dopiero wtedy
     wykorzystywana przez optymalizator do aktualizacji wag modelu.
 
     \textit{Shuffle} pozwala określić, czy dane ze zbioru treningowego zostaną
-    posortowane, aby uniknąć powtarzalnej kolejności ich przekazywania na wejście
+    przetasowane, aby uniknąć powtarzalnej kolejności ich przekazywania na wejście
     sieci. Pozwala to lepiej przygotować sieć do pracy z danymi, których nie widziała
     w procesie uczenia.
 
@@ -619,7 +619,7 @@
     \item \textbf{\textit{Retrain}} - wartość \textit{true} tego parametru powoduje, że
     \textit{TorchFrame} podejmie próbę wczytania modelu sieci, optymalizatora oraz
     planisty zgodnie ze ścieżkami zdefiniowanymi w pliku \textit{consts}. Brak którejkolwiek
-    ścieżki spowoduje, że dany parametr zostanie zainicjowany losowo, co pozwala
+    ścieżki spowoduje, że powiązany z nią parametr zostanie zainicjowany losowo, co pozwala
     dotrenować sieć w dowolnej konfiguracji parametrów startowych.
 
     \item \textbf{\textit{Train on gpu}} - wartość \textit{true} tego parametru sprawi, że
@@ -657,7 +657,7 @@
 
   \subsubsection{Testowanie w \textit{TorchFrame}}
     Podstawą do określenia skuteczności przeprowadzanych treningów sieci neuronowych
-    jest nie tylko obserwacja parametrów takich jak wartość funkcji kosztu. Bardzo
+    jest nie tylko obserwacja parametrów, takich jak wartość funkcji kosztu. Bardzo
     często konieczna jest wizualizacja wyników działania wytrenowanych modeli.
     Komponentowa budowa \textit{TorchFrame} pozwala w łatwy sposób osiągnąć ten cel.
     Na bazie fragmentów wydzielonych z głównej architektury skomponowany został
@@ -667,7 +667,7 @@
     opisane w rozdziale \textit{Architektura TorchFrame}. Istotną różnicą jest
     pojawienie się obiektu \textit{Tester}, którego zadaniem jest przeprowadzanie
     zdefiniowanych przez użytkownika testów. Podobnie jak obiekt \textit{Dataset} bazuje
-    on na szkielecie \textit{BaseTester} odpowiadającym za funkcjonalne połączenie z
+    on na odpowiednim szkielecie, odpowiadającym za funkcjonalne połączenie z
     resztą frameworka. W ramach tej pracy przygotowane zostały różne warianty
     testowe, jednak elastyczna forma szkieletu pozwala użytkownikom
     na definiowanie własnych scenariuszy.
