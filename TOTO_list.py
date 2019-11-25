@@ -7,3 +7,4 @@
 # TODO: Kursywa po (ang. coś)
 # TODO: Streszczenie na max 1 stronę
 # TODO: Załączniki
+# TODO: Jednolite podpisy rysunków
