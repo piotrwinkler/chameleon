@@ -1023,25 +1023,23 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
   Olbrzymią zaletą sieci neuronowych, sprawiającą, że są one wyjątkowo
   uniwersalne, jest możliwość przenoszenia uczenia. Polega
   to na zastosowaniu w wybranym modelu wiedzy, którą inny model posiadł w trakcie
-  treningu. Dzięki temu sieć trenowana do pewnego zadania z użyciem olbrzymich
-  ilości danych może być wykorzystana w zadaniu podobnym, do którego nie
+  treningu. Dzięki temu sieć trenowana do pewnego zadania z użyciem obszernych zbiorów uczących
+  może być wykorzystana w zadaniu podobnym, do którego nie
   posiada się zbyt wielu danych treningowych. Odbywa się to poprzez
   wyciągnięcie z wybranego modelu wyuczonych warstw specjalizujących się w
   pewnych operacjach oraz zastosowanie tych warstw w innym modelu, dzięki
-  czemu można uzyskać, bez konieczności treningu, warstwy konwolucyjne wytrenowane
-  przykładowo do wyciągania z obrazu jego kluczowych cech i identyfikowania
+  czemu można uzyskać, bez konieczności treningu, przykładowo warstwy konwolucyjne wytrenowane
+  do wyciągania z obrazu jego kluczowych cech i identyfikowania
   charakterystycznych wzorców.
   Przenoszenie uczenia odbywa się poprzez zaimplementowanie w tworzonym modelu
-  warstw na podobieństwo warstw modelu, z użyciem którego chcemy dokonać
-  przeniesienia uczenia, następnie dla tych warstw wczytuje się odpowiednie wagi
-  z modelu już wytrenowanego.
+  warstw sieci, z której przenosimy wiedzę wraz z opisującymi te warstwy wagami.
   Takie działania dają olbrzymie możliwości konstruowania wyjątkowo złożonych i
-  zaawansowanych modeli bez konieczności długiego ich treningu. Przenoszenie
+  zaawansowanych modeli bez konieczności przeprowadzania długotrwałego treningu. Przenoszenie
   uczenia jest jedną z głównych metod znajdywania rozwiązań różnych problematyk
   z użyciem sieci neuronowych przy ograniczonych zasobach dostępnej mocy
   obliczeniowej oraz danych treningowych.
 
-  Z związku z licznymi zaletami przenoszenia uczenia została podjęta próba
+  Z związku z licznymi zaletami przenoszenia uczenia, została podjęta próba
   zastosowania tej metody w
   zagadnieniu kolorowania czarno-białych obrazów. Do tego celu wykorzystane
   zostało podejście zaprezentowane przez L. Melas-Kyriazi oraz G. Han w 2016
@@ -1056,44 +1054,44 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
   autorów omawianego rozwiązania została wykorzystana przestrzeń
   barw CIELab. Wejściowy obraz konwertowany jest oddzielnie do skali szarości oraz do
   przestrzeni barw CIELab. Na wejście modelu podawana jest wersja obrazu
-  wejściowego w skali szarości, a danymi referencyjnymi dla wyjścia sieci są
+  w skali szarości, a danymi referencyjnymi dla wyjścia sieci są
   dwie składowe koloru \textit{A} i \textit{B} obrazu wejściowego w
   przestrzeni barw CIELab.
 
   Idea testowanej architektury
   polega na integracji cech wysokiego oraz średniego poziomu z przetwarzanego obrazu.
   Założenie jest takie, że cechy wysokiego poziomu mogą wskazywać na typ otoczenia. Jeśli
-  wykryte otoczenia okaże się pomieszczeniem to będzie to miało bezpośredni wpływ
-  na cechy średniego poziomu, aby wskazywały, że w danej
+  wykryte zostanie np. pomieszczenie, to będzie to miało bezpośredni wpływ
+  na cechy średniego poziomu, tak aby wskazywały, że w danej
   sytuacji niekorzystne jest kolorowanie powierzchni w barwach nieba albo trawy,
-  a bardziej prawdopodobne będą barwy powiązane z wnętrzem pomieszczenia.
-  Wykorzystany model składa się z 3 komponentów, sieci ResNet-Gray stanowiącej
+  a bardziej prawdopodobne będą barwy powiązane z wnętrzem budynku.
+  Wykorzystany model składa się z 3 komponentów: sieci ResNet-Gray stanowiącej
   początkową część testowanego modelu, bloku fuzji oraz sieci dekonwolucyjnej
   odpowiedzialnej za wygenerowanie oczekiwanych kolorów.
 
   Model ResNet-Gray został opracowany przez autorów testowanego rozwiązania poprzez
-  wytrenowanie modelu ResNet-18 do zadania klasyfikacji czarno-białych obrazów
+  wytrenowanie sieci ResNet-18 do zadania klasyfikacji czarno-białych obrazów
   z użyciem zbioru danych ImageNet \cite{ImageNet}. Osiągnięta dokładność na zbiorze testowym
-  była na poziomie 79.9\% w porównaniu z ResNet-18 klasyfikującym kolorowe obrazy z
+  wyniosła 79.9\% w porównaniu z ResNet-18 klasyfikującym kolorowe obrazy z
   dokładnością 85\%. Pozwala to założyć, że model ResNet-Gray poprawnie nauczył
   się rozpoznawać najistotniejsze cechy obiektów na obrazach, co powinno
   przełożyć się na satysfakcjonującą jakość kolorowania.
   Zadanie ResNet-Gray w testowanym rozwiązaniu polega na identyfikacji
   na obrazie wejściowym kluczowych wzorców wymaganych do wyciągnięcia cech
   poszczególnych poziomów. Początkowe warstwy wyciągają cechy niskopoziomowe, takie jak położenie krawędzi na obrazie. Warstwy środkowe
-  służą do odpowiedniego przetworzenia tych cech, aby uzyskać cechy średniego poziomu,
-  cechy te oprócz podania ich na kolejne warstwy ResNet-Gray są dodatkowo wyprowadzane
-  na blok fuzji. Zadaniem ostatnich warstw jest wydobycie cech
+  służą do odpowiedniego przetworzenia tych cech, aby uzyskać cechy średniego poziomu.
+  Są one następnie podawane na kolejne warstwy ResNet-Gray, a dodatkowo trafiają również na blok fuzji.
+  Zadaniem ostatnich warstw jest wydobycie cech
   wysokopoziomowych, które również są przekazywane do bloku odpowiedzialnego za
   fuzję.
 
-  Blok fuzji jest odpowiedzialny za przestrzenne połączenie podawanych
-  na niego cech, a następnie przetworzenie ich przez sieć złożoną z jednej
+  Blok fuzji służy do przestrzennego połączenia podawanych
+  na niego cech, a następnie przetworzenia ich przez sieć złożoną z jednej
   warstwy realizującej odpowiednią funkcję, której współczynniki poddawane są
   optymalizacji w procesie uczenia.
 
   Wyjście bloku fuzji jest następnie przekazywane na sieć dekonwolucyjną, która
-  ma celu przetworzyć wejściowy zbiór cech otrzymany w procesie fuzji na składowe
+  ma na celu przetworzyć wejściowy zbiór cech, otrzymany w procesie fuzji, na składowe
   \textit{A} i \textit{B} przestrzeni kolorów CIELab dla obrazu wejściowego.
   Sieć ta składa się z zestawu członów konwolucyjnych i warstw nadpróbkujących
   (ang. upsampling). Każdy człon konwolucyjny, oprócz dwóch ostatnich, składa się z pojedynczej
@@ -1104,24 +1102,24 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
   konwolucyjny składa się z pojedynczej warstwy konwolucyjnej, której wyjście
   przekazywane jest na ostatnią warstwę nadpróbkującą będącą zarazem wyjściem
   sieci dekonwolucyjnej.
-  Warstwy nadpróbkujące w sieci służy do modyfikacji rozdzielczości kanałów
-  przechodzących przez sieć, w tym rozwiązaniu zwiększają one
+  Warstwy nadpróbkujące w sieci służą do modyfikacji rozdzielczości kanałów
+  przechodzących przez sieć. W tym przypadku zwiększają one
   dwukrotnie szerokość i wysokość każdego kanału wejściowego używając algorytmu
   najbliższego sąsiada.
 
   Przedstawiona architektura została zaimplementowana i do każdego z 3
   komponentów została zastosowana metoda przeniesienia uczenia polegająca na
-  wczytaniu do wszystkich zaimplementowanych warstw wag udostępnionych przez
+  wczytaniu do wszystkich wykorzystanych warstw wag udostępnionych przez
   autorów architektury. Tak przygotowana sieć została następnie douczona
   na zbiorze danych CIFAR-10 w celu zwiększenia rzetelności porównania jej
   rezultatów z rezultatami modelu autorskiego. Jednakże w procesie uczenia
   nie wszystkie wagi warstw sieci były aktualizowane.
   Możliwość aktualizacji wag komponentu ResNet-Gray została zablokowana, aby
   przeciwdziałać traceniu wyuczonej wiedzy przez ten model.
-  Zjawisko takie może wystąpić ponieważ model ResNet-Gray był trenowany do
+  Zjawisko takie może wystąpić, ponieważ model ResNet-Gray był trenowany do
   zadania klasyfikacji, które jest znacznie odmienne od zagadnienia kolorowania
-  czarno-białych obrazów. W związku z tym w problematyce kolorowaniu stosowana jest inna
-  funkcja celu wskazująca kierunek optymalizacji wag wymagany do lepszego
+  czarno-białych obrazów. W związku z tym, w problematyce kolorowaniu, stosowana jest inna
+  funkcja celu, która wskazuje kierunek optymalizacji wag wymagany do lepszego
   generowania potencjalnych barw dla obrazów wejściowych. Jeśli wagi ResNet--Gray
   byłyby aktualizowane zgodnie ze wskazaniami funkcji kosztu, to doprowadziłoby
   to do zmiany wyuczonej specjalizacji modelu i utracenia przez niego zdolności
@@ -1135,26 +1133,26 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
   %functions, finding that mean squared error produced more vibrant (qualitative) colorizations.
   % Ale jest on trochę amatorski więc nie wiem
   Pomysłodawcy rozwiązania przetestowali skuteczność takich funkcji celu jak L1Loss i MSELoss. Dowiedli
-  oni, że MSELoss pozwala uzyskać żywsze barwy w kolorowanych obrazach, z tego
-  powodu właśnie ta funkcja została wykorzystana w treningu modelu.
+  oni, że MSELoss pozwala uzyskać żywsze barwy w kolorowanych obrazach, dlatego
+  właśnie ta funkcja została wykorzystana w treningu modelu.
   Kierując się testami przeprowadzonymi w punkcie \ref{Algorytmy optymalizacyjne}
-  oraz zaleceniami autorów ResNet-Gray jako algorytm optymalizacyjny został
+  oraz zaleceniami autorów ResNet-Gray, jako algorytm optymalizacyjny został
   wybrany algorytm Adam o parametrach: $\beta_{1} = 0.9$, $\beta_{2} = 0.999$,
   $\text{długość kroku treningowego} = 0.1$, $\text{współczynnik zaniku wag} = 1e-10$ oraz
   $eps=1e-08$.
 
   Możliwości wyboru metody wstępnego przetwarzania danych są znacznie ograniczone
-  z powodu stosowania przenoszenia uczenia. Wynika to z faktu, że wykorzystując
+  z powodu stosowania przeniesienia uczenia. Wynika to z faktu, że wykorzystując
   już wyuczone warstwy należy im zapewnić dane wejściowe w takiej samej postaci,
   jaka była wykorzystana podczas treningu tych warstw. Pierwszym komponentem
   testowanej architektury jest model ResNet-Gray, model ten
   samodzielnie dokonuje odpowiedniego przygotowania danych wejściowych, w związku
   z czym nie ma potrzeby wykonywać tego samodzielnie. Natomiast referencyjne
   składowe \textit{A} i \textit{B} muszą być znormalizowane na przestrzeni
-  całego zbioru danych do przedziału \textless 0, 1 \textgreater tak jak odbywało
+  całego zbioru danych do przedziału $<0, 1>$ tak, jak odbywało
   się to podczas pierwotnego treningu modelu. Ma to
   bezpośredni związek z zastosowaniem warstwy funkcji aktywacji Sigmoid, której
-  przedział aktywacji równa się właśnie \textless 0, 1 \textgreater.
+  przedział wartości równy jest $(0, 1)$ .
 
   Testowana architektura, po odpowiednim douczeniu, została wykorzystana do
   pokolorowania wybranych obrazów. Porównanie otrzymanych rezultatów z rezultatami
@@ -1185,11 +1183,11 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
   użyciem modelu, dla którego zastosowano metodę przeniesienia uczenia.
   Porównując wygenerowane barwy można zauważyć, że dla modelu z przeniesieniem
   uczenia są one bardziej realistyczne i nadzwyczaj dobrze przypominają barwy
-  prawdopodobne dla powierzchni, na które zostały nałożone. Ponadto widać, że
+  prawdopodobne dla powierzchni, na które zostały nałożone. Ponadto, widać że
   model autorski ma niekorzystną tendencję do generowanie kolorów o zbyt wysokiej
   saturacji, co obniża wiarygodność rezultatów tego modelu.
   Świadczy to, że podejście zaproponowane
-  przez autorów rozwiązania wykazuje się wysoką skutecznością jako rozwiązanie
+  przez L. Melas-Kyriazi oraz G. Han wykazuje się wysoką skutecznością jako rozwiązanie
   zagadnienia predykcji kolorów, a integracja cech wysokiego oraz średniego poziomu
   przynosi oczekiwane rezultaty.
 
@@ -1199,22 +1197,22 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
   zwłaszcza o ich klasie, jest w stanie lepiej przewidzieć prawdopodobne barwy dla
   tych obiektów.
   Wadą tej architektury jest jednak narzucona stała rozdzielczość obrazów
-  wyjściowych równa $512x512$ pikseli, w przypadku kolorowania obrazów o wysokiej
+  wyjściowych równa $512x512$ pikseli. W przypadku kolorowania obrazów o wysokiej
   rozdzielczości dochodzi do znacznej utraty ich jakości. Model autorski cechuje się
   większą elastycznością w tym obszarze działań umożliwiając kolorowanie dowolnych obrazów
   bez modyfikacji ich rozdzielczości.
 
-  Jak widać zastosowanie w przedstawionym rozwiązaniu sieci neuronowej
+  Jak widać, zastosowanie w przedstawionym rozwiązaniu sieci neuronowej
   specjalizującej się w operacjach nie do końca związanych z rozwiązywaną
   problematyką, może pozytywnie wpłynąć na skuteczność całego rozwiązania.
   Utwierdza to w przekonaniu, że przeniesienie uczenia jest podejściem o wielu
   zaletach, które znacznie zwiększa ilość możliwych zastosowań sieci neuronowych.
-  Jest one szczególnie przydatne w rozwiązaniach, które wymagają
-  zastosowania sieci neuronowej o złożonej architekturze, a dysponuje się ograniczonymi
-  zasobami obliczeniowymi.
+  Jest ono szczególnie przydatne w rozwiązaniach, które wymagają
+  zastosowania sieci neuronowej o złożonej architekturze przy jednoczesnym
+  ograniczeniu zasobów obliczeniowych.
   Ponadto metoda przeniesienia uczenia pozwala, z użyciem douczania, zwiększyć
   skuteczność końcową modelu poprzez poszerzenie ogólnej wiedzy już wytrenowanej
-  sieci o wiedzę związaną z docelową problematyką, umożliwia to skuteczne
+  sieci o wiedzę związaną z docelową problematyką. Umożliwia to skuteczne
   dopracowanie efektywności pracy sieci.
   Dużą zaletą jest także znacznie ułatwione tworzenie modularnych
   rozwiązań cechujących się większą uniwersalnością oraz elastycznością.
@@ -1222,7 +1220,7 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
   \subsubsection{Podsumowanie}
 
   Sieci neuronowe słyną ze swoich niezwykłych zdolności adaptacyjnych
-  sprawiających, że mogą być z licznymi sukcesami stosowane do wielu różnych celów.
+  sprawiających, że mogą być, z licznymi sukcesami, stosowane do wielu różnych celów.
   Badania przeprowadzone w tym rozdziale dowodzą, że nadają się one znakomicie
   także jako rozwiązanie problematyki kolorowania czarno-białych obrazów.
   Warto zaznaczyć, że jest to problematyka bardzo złożona, dla której nie
@@ -1233,10 +1231,10 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
 
   Model autorski przedstawiony w punkcie \ref{model autorski}
   jest dowodem na to, że wstępnie pozytywne wyniki można osiągnąć
-  stosując nawet proste sieci splotowe. Model taki ze względu na
-  nieskomplikowaną architekturę jest mało problematyczny w implementacji, a jego
-  skuteczny trening można przeprowadzać bez dużego zapotrzebowania na moc
-  obliczeniową. Sprawia to, że jest on wyjątkowo łatwo dostępny i stanowi
+  stosując nawet proste sieci splotowe. Model taki, ze względu na
+  nieskomplikowaną architekturę, jest mało problematyczny w implementacji, a jego
+  skuteczny trening można przeprowadzać bez dużych nakładów mocy obliczeniowej.
+  Sprawia to, że jest on wyjątkowo łatwo dostępny i stanowi
   znakomitą bazę pod różnorakie eksperymenty i potencjalne rozszerzenia.
 
   Inne podejście zostało zaprezentowane w przypadku modelu opisanego w punkcie
@@ -1251,6 +1249,6 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
   rezultaty.
 
   Zaprezentowane w tym rozdziale wyniki dowodzą wysokiej użyteczności i
-  nadzwyczajnej skuteczności zastosowań sieci neuronowych do rozwiązywania
+  nadzwyczajnej skuteczności zastosowania sieci neuronowych do rozwiązywania
   niepospolitych oraz złożonych problemów, tak w zakresie edycji obrazu jak i
   w innych dziedzinach.
