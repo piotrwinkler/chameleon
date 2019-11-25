@@ -8,3 +8,4 @@
 # TODO: Streszczenie na max 1 stronę
 # TODO: Załączniki
 # TODO: Jednolite podpisy rysunków
+# TODO: Dodać kierownika katedry
