@@ -79,26 +79,51 @@
 \renewcommand{\cftsecpagefont}{\mdseries}
 
 \usepackage{titletoc}
-\titlecontents{section}
-    [0em] % no indentation
-    {}
-    {\contentslabel[\thecontentslabel.]{1.5em}\uppercase} % suitable only for one-digit and a comma
-    {\hspace*{-1.5em}}                          % !
-    {\dotfill\contentspage}
+% Stare:
+% \titlecontents{section}
+%     [0em] % no indentation
+%     {}
+%     {\contentslabel[\thecontentslabel.]{1.5em}\uppercase} % suitable only for one-digit and a comma
+%     {\hspace*{-1.5em}}                          % !
+%     {\dotfill\contentspage}
+%
+% \titlecontents{subsection}
+%     [2em] % ie, 1.5em (section) + 0.5em
+%     {}
+%     {\contentslabel[\thecontentslabel.]{2em}}   %two digits and two dots
+%     {\hspace*{-2.3em}}                          % !
+%     {\dotfill\contentspage}
 
-\titlecontents{subsection}
-    [2em] % ie, 1.5em (section) + 0.5em
-    {}
-    {\contentslabel[\thecontentslabel.]{2em}}   %two digits and two dots
-    {\hspace*{-2.3em}}                          % !
-    {\dotfill\contentspage}
+% \titlecontents{subsubsection}
+%     [5em] % ie, 2em (subsection) + 3em
+%     {}
+%     {\contentslabel[\thecontentslabel.]{3em}}  %three digits and three dots
+%     {\hspace*{-2.3em}}                          % !
+%     {\dotfill\contentspage}
 
-\titlecontents{subsubsection}
-    [5em] % ie, 2em (subsection) + 3em
-    {}
-    {\contentslabel[\thecontentslabel.]{3em}}  %three digits and three dots
-    {\hspace*{-2.3em}}                          % !
-    {\dotfill\contentspage}
+  % Właściwe:
+\titlecontents{section}[3pt]{}
+{\contentsmargin{0pt}
+\thecontentslabel .
+% \enspace
+\uppercase
+}
+{\contentsmargin{0pt}}
+{\titlerule*[.5pc]{.}\contentspage}[]
+
+\titlecontents{subsection}% <section-type>
+ [20pt]
+ {}
+ {\thecontentslabel. \enspace}
+ {}
+ {\titlerule*[.5pc]{.}\contentspage}
+
+ \titlecontents{subsubsection}% <section-type>
+ [40pt]
+ {}
+ {\thecontentslabel. \enspace}
+ {}
+ {\titlerule*[.5pc]{.}\contentspage}
 
 \usepackage{tocloft}  % żeby móc ręcznie dodawać sections do TOC (Table of Content)
 \usepackage[nottoc]{tocbibind}  % definiuje co jest w TOC
@@ -171,11 +196,11 @@
 
 
 %\renewcommand{\chaptername}{Rozdział}
-%\renewcommand{\contentsname}{Spis treści}
+% \renewcommand{\contentsname}{\noindent{Spis treści}}
 % \renewcommand{\figurename}{Rys.}
 %\renewcommand{\tablename}{Tab.}
-\renewcommand{\listfigurename}{SPIS RYSUNKÓW}
-\renewcommand{\listtablename}{SPIS TABEL}
+\renewcommand{\listfigurename}{WYKAZ RYSUNKÓW}
+\renewcommand{\listtablename}{WYKAZ TABEL}
 \renewcommand{\bibname}{WYKAZ LITERATURY}
 
 % Chyba lepiej używać latexowego \indent zamiast definiować własny akapit
@@ -387,5 +412,7 @@
 \include{bibliografia}
 
 \include{zalaczniki}
+
+\include{dodatki}
 
 \end{document}

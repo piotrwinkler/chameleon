@@ -4,13 +4,13 @@
   do edycji obrazu. Jest to głównie spowodowane ich umiejętnością do
   reprodukowania i modelowania nieliniowych procesów, a także nowoczesnymi
   technikami przetwarzania plików graficznych.
-  Jednak pierwsze architektury ANN (ang. Artificial Neural Network) nie nadawały
+  Jednak pierwsze architektury ANN (ang. \textit{Artificial Neural Network}) nie nadawały
   się do przetwarzania grafik.
   Było to częściowo spowodowane faktem, że obrazy, będące w rzeczywistości macierzami
   wartości pikseli,
   % należało przekształcić w długie wektory liczbowe aby móc podać je
   ciężko było skutecznie podać
-  na wejście typowych architektur DNN (ang. Deep Neural Network) zbudowanych
+  na wejście typowych architektur DNN (ang. \textit{Deep Neural Network}) zbudowanych
   pierwotnie z wielu warstw ukrytych. Neurony w nich zawarte połączone były na
   zasadzie każdy z każdym, a każde takie połączenie opisane było za pomocą wagi
   modyfikowanej w trakcie procesu uczenia.
@@ -28,7 +28,7 @@
   \begin{figure}[h]
     \centering
     \includegraphics[width=4in]{dnn}
-    \caption[Struktura głębokiej sieci neuronowej składającej się wyłącznie z warstw gęstych - źródło: \url{https://towardsdatascience.com}]{Struktura głębokiej sieci neuronowej składającej się wyłącznie z warstw gęstych}
+    \caption[Struktura głębokiej sieci neuronowej składającej się wyłącznie z warstw gęstych - źródło: \url{https://towardsdatascience.com}]{Struktura głębokiej sieci neuronowej składającej się wyłącznie z warstw gęstych.}
     % \caption[Struktura DNN - źródło: \url{https://towardsdatascience.com/building-a-convolutional-neural-network-male-vs-female-50347e2fa88b}]{Struktura DNN}
     \label{fig:dnn}
   \end{figure}
@@ -55,7 +55,7 @@
   \subsection{Sieci splotowe}
     \label{sieci_splotowe}
 
-    Neuronowe sieci splotowe (CNN ang. Convolutional Neural Network) stanowią podstawową strukturę w zakresie przetwarzania i analizowania obrazów cyfrowych. Są to sieci o hierarchicznej strukturze, stanowiące podwaliny większości klasyfikatorów, detektorów, czy sieci segmentujących.
+    Neuronowe sieci splotowe (CNN ang. \textit{Convolutional Neural Network}) stanowią podstawową strukturę w zakresie przetwarzania i analizowania obrazów cyfrowych. Są to sieci o hierarchicznej strukturze, stanowiące podwaliny większości klasyfikatorów, detektorów, czy sieci segmentujących.
 
     Autorzy jednego z artykułów traktujących o sieciach splotowych \cite{cnn} opisują je następująco:
     \begin{quote}
@@ -81,14 +81,14 @@
       'We wszystkich przypadkach pooling pomaga uczynić reprezentację w przybliżeniu niezmienną w stosunku do małych translacji danych wejściowych. Niezmienność wobec translacji oznacza, że jeśli poddamy dane wejściowe nieznacznemu przesunięciu, to wartość większości wyników poddanych poolingowi nie ulegnie zmianie.'
     \end{quote}
 
-    Końcowy element CNN w większości przypadków stanowią warstwy gęste (FCL ang. Fully Connected Layer). Odpowiadają one za dokonanie odpowiedniej klasyfikacji obrazu na podstawie danych dostarczonych przez warstwy poprzedzające. Są przez to nieodzowne w przypadku zadań związanych z wszelkiego rodzaju klasyfikacją obrazów.
+    Końcowy element CNN w większości przypadków stanowią warstwy gęste (FCL ang. \textit{Fully Connected Layer}). Odpowiadają one za dokonanie odpowiedniej klasyfikacji obrazu na podstawie danych dostarczonych przez warstwy poprzedzające. Są przez to nieodzowne w przypadku zadań związanych z wszelkiego rodzaju klasyfikacją obrazów.
 
     Wymienione wcześniej elementy składowe sieci splotowych mogą przyjmować różne rozmiary i występować w różnych konfiguracjach, co przedstawiono na Rysunku \ref{fig:cnn_structure}.
     \begin{figure}[h]
      \centering
      \includegraphics[width=4in]{cnn_structure}
      % \caption[Przykładowa struktura CNN - źródło: \url{https://www.mathworks.com/solutions/deep-learning/convolutional-neural-network.html}]{Przykładowa struktura CNN}
-     \caption[Przykładowa struktura CNN - źródło: \url{https://www.mathworks.com}]{Przykładowa struktura CNN}
+     \caption[Przykładowa struktura CNN - źródło: \url{https://www.mathworks.com}]{Przykładowa struktura CNN.}
      \label{fig:cnn_structure}
     \end{figure}
     \newline
@@ -102,13 +102,13 @@
     \centering
     \includegraphics[width=4in]{segmentation}
     % \caption[Segmentacja semantyczna - źródło: \url{https://devblogs.nvidia.com/image-segmentation-using-digits-5/}]{Segmentacja semantyczna}
-    \caption[Segmentacja semantyczna - źródło: \url{https://devblogs.nvidia.com}]{Segmentacja semantyczna}
+    \caption[Segmentacja semantyczna - źródło: \url{https://devblogs.nvidia.com}]{Segmentacja semantyczna.}
     \label{fig:segmentation}
   \end{figure}
 
    W większości modele odpowiadające za przeprowadzanie segmentacji składają się z szeregowego połączenia enkodera oraz dekodera. Enkoder jest zazwyczaj pre-trenowaną siecią neuronową przeznaczoną do klasyfikowania obrazów. Dekoder odpowiada za semantyczne rzutowanie cech w niskiej rozdzielczości, wygenerowanych przez enkoder, na wysoką rozdzielczość samych pikseli tworząc wspomniany wcześniej podział segmentowy.
 
-   FCN (ang. Fully Convolutional Networks) stanowią szczególny rodzaj sieci neuronowych przeznaczonych do segmentacji obrazów. Składają się one wyłącznie z kombinacji warstw splotowych oraz poolingu. Są w stanie przetwarzać obrazy o dowolnej, zmiennej wielkości, w odróżnieniu od innych typów modeli, w których zastosowanie warstw gęstych (FCL) wymusza z góry ustalone rozmiary danych wejściowych.
+   FCN (ang. \textit{Fully Convolutional Networks}) stanowią szczególny rodzaj sieci neuronowych przeznaczonych do segmentacji obrazów. Składają się one wyłącznie z kombinacji warstw splotowych oraz poolingu. Są w stanie przetwarzać obrazy o dowolnej, zmiennej wielkości, w odróżnieniu od innych typów modeli, w których zastosowanie warstw gęstych (FCL) wymusza z góry ustalone rozmiary danych wejściowych.
 
    Naprzemienne przepuszczanie obrazów przez wspomniane warstwy splotowe oraz pooling może powodować niską rozdzielczość końcowych rezultatów pracy tych sieci oraz rozmycie granic poszczególnych obiektów. Z tego powodu w nowoczesnych rozwiązaniach stosuje się dodatkowe mechanizmy zapobiegające tego typu trendom.
 

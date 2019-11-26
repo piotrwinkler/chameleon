@@ -18,7 +18,7 @@
   obrazów.
 
   Dane referencyjne składają się z zestawu obrazów przetworzonych za pomocą
-  filtrów wbudowanych w bibliotekę \textit{OpenCV} (ang. Open Source Computer Vision Library), takich jak filtr Sobela, czy
+  filtrów wbudowanych w bibliotekę \textit{OpenCV} (ang. \textit{Open Source Computer Vision Library}), takich jak filtr Sobela, czy
   sepia.
 
   Wszystkie modele wytrenowane zostały w oparciu o framework \textit{TorchFrame}.
@@ -28,7 +28,7 @@
     Jednym z podstawowych i najbardziej znanych obecnie filtrów obrazu jest
     filtr Sobela-Feldmana, który zaprezentowany został po raz pierwszy w 1968
     roku na konferencji Laboratorium Sztucznej Inteligencji uniwersytetu Stanforda
-    (\textit{SAIL ang. Stanford Artificial Intelligence Laboratory}). Znajduje on przede wszystkim zastosowanie w procesie wykrywania krawędzi
+    (SAIL ang. \textit{Stanford Artificial Intelligence Laboratory}). Znajduje on przede wszystkim zastosowanie w procesie wykrywania krawędzi
     na obrazach cyfrowych. Sam Irwin Sobel opisuje ten filtr następująco \cite{sobel}:
 
     \begin{quote}
@@ -78,7 +78,7 @@
     \begin{figure}[h!]
       \centering
       \includegraphics[width=6in]{dataset_filters}
-      \caption[Przykładowe obrazy ze zbioru treningowego - źródło: Rysunek własny]{Przykładowe obrazy ze zbioru treningowego}
+      \caption[Przykładowe obrazy ze zbioru treningowego - źródło: Rysunek własny]{Przykładowe obrazy ze zbioru treningowego.}
       \label{fig:dataset_filters}
     \end{figure}
 
@@ -122,7 +122,7 @@
     \begin{figure}[h!]
       \centering
       \includegraphics[width=6in]{sobel_result}
-      \caption[Działanie filtru Sobela - źródło: Rysunek własny]{Działanie filtru Sobela}
+      \caption[Działanie filtru Sobela - źródło: Rysunek własny]{Działanie filtru Sobela.}
       \label{fig:sobel_result}
     \end{figure}
 
@@ -158,7 +158,7 @@
     \begin{figure}[h!]
       \centering
       \includegraphics[width=6in]{tensorboard_sobel}
-      \caption[Wykres wartości funkcji kosztu w zależności od ilości kroków treningowych - źródło: Rysunek własny]{Wykres wartości funkcji kosztu w zależności od ilości kroków treningowych}
+      \caption[Wykres wartości funkcji kosztu w zależności od liczby kroków treningowych - źródło: Rysunek własny]{Wykres wartości funkcji kosztu w zależności od liczby kroków treningowych.}
       \label{fig:tensorboard_sobel}
     \end{figure}
 
@@ -221,7 +221,7 @@
     przekroczyły wartość 1, zostały ograniczone do jej poziomu. Główną różnicą, w stosunku
     do opisanego uprzednio filtru Sobela jest fakt, że sieć trenowana była na
     obrazach posiadających pełny zakres trzech kanałów kolorystycznych RGB
-    (ang. Red Green Blue), a nie jak
+    (ang. \textit{Red Green Blue}), a nie jak
     poprzednio z wykorzystaniem formatu czarno-białego.
 
     Optymalny rezultat działania sieci udało się uzyskać dla następującego
@@ -243,7 +243,7 @@
     \begin{figure}[h!]
       \centering
       \includegraphics[width=6in]{sepia_result}
-      \caption[Działanie sepii - źródło: Rysunek własny]{Działanie sepii}
+      \caption[Działanie sepii - źródło: Rysunek własny]{Działanie sepii.}
       \label{fig:sepia_result}
     \end{figure}
 
@@ -269,7 +269,7 @@
     \begin{figure}[h!]
       \centering
       \includegraphics[width=6in]{tensorboard_sepia}
-      \caption[Wykres wartości funkcji kosztu w zależności od ilości kroków treningowych - źródło: Rysunek własny]{Wykres wartości funkcji kosztu w zależności od ilości kroków treningowych}
+      \caption[Wykres wartości funkcji kosztu w zależności od liczby kroków treningowych - źródło: Rysunek własny]{Wykres wartości funkcji kosztu w zależności od liczby kroków treningowych.}
       \label{fig:tensorboard_sepia}
     \end{figure}
 
@@ -292,7 +292,7 @@
     \begin{figure}[h!]
       \centering
       \includegraphics[width=6in]{sepia_fail}
-      \caption[Przykład działania sieci w minimum lokalnym - źródło: Rysunek własny]{Przykład działania sieci w minimum lokalnym}
+      \caption[Przykład działania sieci w minimum lokalnym - źródło: Rysunek własny]{Przykład działania sieci w minimum lokalnym.}
       \label{fig:sepia_fail}
     \end{figure}
 
@@ -345,7 +345,7 @@
     \begin{figure}[h!]
       \centering
       \includegraphics[width=6in]{sharpen_result}
-      \caption[Działanie filtru górnoprzepustowego - źródło: Rysunek własny]{Działanie filtru górnoprzepustowego}
+      \caption[Działanie filtru górnoprzepustowego - źródło: Rysunek własny]{Działanie filtru górnoprzepustowego.}
       \label{fig:sharpen_result}
     \end{figure}
 
@@ -379,7 +379,7 @@
     \begin{figure}[h!]
       \centering
       \includegraphics[width=6in]{tensorboard_sharpen}
-      \caption[Wykres wartości funkcji kosztu w zależności od ilości kroków treningowych - źródło: Rysunek własny]{Wykres wartości funkcji kosztu w zależności od ilości kroków treningowych}
+      \caption[Wykres wartości funkcji kosztu w zależności od liczby kroków treningowych - źródło: Rysunek własny]{Wykres wartości funkcji kosztu w zależności od liczby kroków treningowych.}
       \label{fig:tensorboard_sharpen}
     \end{figure}
 
@@ -393,7 +393,7 @@
     \begin{figure}[h!]
       \centering
       \includegraphics[width=6in]{sharpen_fail}
-      \caption[Przykład działania sieci w minimum lokalnym - źródło: Rysunek własny]{Przykład działania sieci w minimum lokalnym}
+      \caption[Przykład działania sieci w minimum lokalnym - źródło: Rysunek własny]{Przykład działania sieci w minimum lokalnym.}
       \label{fig:sharpen_fail}
     \end{figure}
 
