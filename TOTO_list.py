@@ -1,4 +1,3 @@
-# TODO: liczb vs Ilość
 # TODO: Rysunki po polsku.
 # TODO: Kursywa po (ang. coś)
 # TODO: Dodatki
