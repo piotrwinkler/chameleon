@@ -33,8 +33,8 @@
     \end{figure}
 
     Wykorzystany model składa się z wielu warstw CNN, w których skład wchodzą
-    warstwa filtrów konwolucyjnych, warstwa ReLU (ang. Rectified
-    Linear Unit) oraz warstwa BatchNorm (ang. Batch normalization).
+    warstwa filtrów konwolucyjnych, warstwa ReLU (ang. \textit{Rectified
+    Linear Unit}) oraz warstwa BatchNorm (ang. \textit{Batch normalization}).
     Aby zapobiec utracie informacji przestrzennych, sieć nie posiada warstw poolingu.
     Istotny był także sposób
     przygotowania zbioru danych do trenowania modelu. Obrazy ze zbioru uczącego
@@ -113,13 +113,13 @@
     elementów na obrazie, algorytmy te nie będą w stanie dokonać semantycznych
     zmian, ze względu na brak możliwości zrozumienia treści obrazu. Rozwiązanie
     tego problemu zostało przedstawione w postaci modelu IcGAN
-    (ang. Invertible conditional Generative Adversarial Network) w roku 2016
+    (ang. \textit{Invertible conditional Generative Adversarial Network}) w roku 2016
     \cite{gan_editing}. Zaprezentowany model to enkoder z możliwością
     generowania wektora informacji o atrybutach obrazu, połączony z warunkowym
     GANem zdolnym do kontrolowania cech generowanych obrazów na podstawie dodatkowej
     informacji warunkowej. Takie działanie umożliwia wprowadzanie zmian w
-    atrybutach generowanego obrazu uzyskiwanego na wyjściu cGAN (ang. conditional Generative
-    Adversarial Network). Rezultaty działania modelu można zaobserwować na
+    atrybutach generowanego obrazu uzyskiwanego na wyjściu cGAN (ang. \textit{conditional Generative
+    Adversarial Network}). Rezultaty działania modelu można zaobserwować na
     Rysunku \ref{fig:IcGAN}
 
     \begin{figure}[ht]
@@ -197,9 +197,9 @@
       \label{fig:npe}
     \end{figure}
 
-    Skuteczność NPE (ang. Neural Photo Editor) polega na zastosowaniu IAN
-    (ang. Introspective Adversarial Network), czyli sieci złożonej z połączonych
-    VAE (ang. Variational Autoencoder) \cite{vae} oraz GANów, w taki sposób, że dekodująca
+    Skuteczność NPE (ang. \textit{Neural Photo Editor}) polega na zastosowaniu IAN
+    (ang. \textit{Introspective Adversarial Network}), czyli sieci złożonej z połączonych
+    VAE (ang. \textit{Variational Autoencoder}) \cite{vae} oraz GANów, w taki sposób, że dekodująca
     sieć autoenkodera jest używana jako sieć generująca w GANie.
     Poprzez przechwytywanie przez model dalekosiężnych zależności, wykorzystanie
     bloku obliczeniowego bazującego na rozszerzonych splotach o

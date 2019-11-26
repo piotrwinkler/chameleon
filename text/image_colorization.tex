@@ -181,7 +181,7 @@
   jeszcze bardziej, co przy bardzo dużych wartościach może doprowadzić do
   destabilizacji procesu uczenia. Są to zjawiska zdecydowanie niepożądane i z
   tego powodu powstało wiele rozwiązań, aby im przeciwdziałać, takich jak
-  ograniczanie maksymalnej wartości gradientu (ang. gradient clipping) albo
+  ograniczanie maksymalnej wartości gradientu (ang. \textit{gradient clipping}) albo
   zastosowanie warstw BatchNorm.
 
   Zastosowanie tych warstw sprawia, że podczas uczenia metodą mini-batch
@@ -249,7 +249,7 @@
 
   Ponadto pooling wspomaga adaptację modelu do zmiennego położenia
   kluczowych wzorów rozpoznawanych przez sieć na obrazie wejściowym. Cecha ta
-  zwana jest niezmiennością od translacji (ang. translation invariance). Jest
+  zwana jest niezmiennością od translacji (ang. \textit{translation invariance}). Jest
   ona rezultatem dokonywania operacji, takich jak wyliczanie wartości maksymalnej
   z poszczególnych obszarów. Dzięki temu zmienne położenie wartości
   selekcjonowanej, a co tym idzie, zmienne położenie ekstraktowanej cechy w obrębie
@@ -325,11 +325,11 @@
   \item Standaryzacja danych na przestrzeni całego zbioru danych z użyciem wartości
   średniej oraz odchylenia standardowego całego zbioru, tak aby uzyskać wartość
   średnią równą w przybliżeniu zero oraz jednostkowe odchylenie standardowe.
-  \item Zastosowanie rozmycia gaussowskiego (ang. Gaussian blur) o różnej
+  \item Zastosowanie rozmycia gaussowskiego (ang. \textit{Gaussian blur}) o różnej
   wielkości filtru Gaussowskiego.
   \end{itemize}
 
-  Rozmycie gaussowskie, zwane także wygładzaniem gaussowskim (ang. Gaussian smoothing),
+  Rozmycie gaussowskie, zwane także wygładzaniem gaussowskim (ang. \textit{Gaussian smoothing}),
   jest to operacja polegająca na modyfikacji obrazu z użyciem filtru Gaussa.
   Stosuje się je w celu rozmycia detali na przetwarzanym obrazie, a także by
   ograniczyć ilość występujących na nim zakłóceń oraz szumów. Jest ono powszechnie
@@ -431,11 +431,11 @@
   \begin{itemize}
   \item Rotacja obrazu o wybrany kąt.
   \item Odbicie obrazu względem osi pionowej.
-  \item Obcinanie skrajnych fragmentów obrazów (ang. crop).
+  \item Obcinanie skrajnych fragmentów obrazów (ang. \textit{crop}).
   \item Zmiana odcienia oraz saturacji barw obrazu.
   \item Przybliżanie albo oddalanie treści obrazu.
   \item Modyfikacja rozdzielczości obrazu poprzez jego rozciąganie lub ściskanie.
-  \item Tworzenie niewielkich ubytków w obrazach w losowych miejscach (ang. coarse dropout).
+  \item Tworzenie niewielkich ubytków w obrazach w losowych miejscach (ang. \textit{coarse dropout}).
   \end{itemize}
 
   Należy jednak pamiętać, że nie wszystkie metody augmentacji nadają się do każdego zbioru
@@ -466,7 +466,7 @@
   następujące możliwości.
 
   \begin{enumerate}[leftmargin=*]
-  \item MSELoss (ang. Mean Squared Error Loss) - koszt oparty na błędzie średniokwadratowym,
+  \item MSELoss (ang. \textit{Mean Squared Error Loss}) - koszt oparty na błędzie średniokwadratowym,
   przedstawiony funkcją:
   \begin{equation}
   Koszt = \frac{1}{n}\sum_{i=0}^{n} (x_{i} - y_{i})^2
@@ -487,7 +487,7 @@
   % \textit{A} i \textit{B} dla pikselu obrazy o współrzędnych $(i, j)$, a
   % $(A_{i, j}^{P}$ i $(B_{i, j}^{P}$ są to wartości przewidziane przez sieć.
 
-  \item L1Loss zwany także MAELoss (ang. Mean Absolute Error Loss) - koszt oparty na
+  \item L1Loss zwany także MAELoss (ang. \textit{Mean Absolute Error Loss}) - koszt oparty na
   średnim błędzie bezwzględnym, dany funkcją:
   \begin{equation}
   Koszt = \frac{1}{n}\sum_{i=0}^{n} |x_{i} - y_{i}|
@@ -565,7 +565,7 @@
   W wyborze odpowiednej funkcji aktywacji kierowano się badaniami przeprowadzonymi
   przez B. Xu oraz jego współpracowników \cite{evaluatiuon_of_relu}. Testowali
   oni skuteczność takich funkcji jak ReLU, Leaky ReLU (pol. przepuszczające ReLU),
-  PReLU (ang. Parametric ReLU) oraz RReLU (ang. Randomized Leaky ReLU) w
+  PReLU (ang. \textit{Parametric ReLU}) oraz RReLU (ang. \textit{Randomized Leaky ReLU}) w
   zagadnieniu klasyfikacji treści obrazów. Bazując na otrzymanych przez nich
   rezultatach zdecydowano się wykorzystać w rozważanej problematyce funkcję
   aktywacji ReLU, przedstawioną na Rysunku \ref{fig:relu}
@@ -715,9 +715,9 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
    \centering
    \captionsetup{justification=centering}
    \includegraphics[width=6in]{porownania_trick_krajobraz}
-   \caption[Efekt zastosowania algorytmu przetwarzania końcowego - źródło
+   \caption[Efekt zastosowania algorytmu przetwarzania końcowego - źródło:
    % rysunek własny na podstawie: \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
-   rysunek własny na podstawie: \url{https://pl.wikipedia.org}]
+   Rysunek własny na podstawie: \url{https://pl.wikipedia.org}]
    {Efekt zastosowania algorytmu przetwarzania końcowego.}
    \label{fig:trick}
   \end{figure}
@@ -738,7 +738,7 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
    \includegraphics[width=6in]{porownanie_funkcji_kosztu}
    \caption[Porównanie rezultatów modeli uczonych z użyciem różnych funkcji
    % kosztu - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
-   kosztu - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com}]
+   kosztu - źródło: Rysunek własny na podstawie: \url{https://cdn.thearthunters.com}]
    {Porównanie rezultatów modeli uczonych z użyciem różnych funkcji
    kosztu.}
    \label{fig:porownanie_funkcji_kosztu}
@@ -822,7 +822,7 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
    \includegraphics[width=6in]{porownanie_optimizerow}
    \caption[Porównanie rezultatów modeli uczonych z użyciem różnych algorytmów
    % optymalizacyjnych - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com/wp-content/uploads/2013/06/bg-960x636.jpg}]
-   optymalizacyjnych - źródło rysunek własny na podstawie: \url{https://cdn.thearthunters.com}]
+   optymalizacyjnych - źródło: Rysunek własny na podstawie: \url{https://cdn.thearthunters.com}]
    {Porównanie rezultatów modeli uczonych z użyciem różnych algorytmów
    optymalizacyjnych.}
    \label{fig:porownanie_optimizerow}
@@ -869,7 +869,7 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
    \centering
    \captionsetup{justification=centering}
    \includegraphics[width=6in]{porownanie_dropout}
-   \caption[Wpływ zastosowania warstwy Dropout na kolorowanie obrazów - źródło: rysunek własny na podstawie:
+   \caption[Wpływ zastosowania warstwy Dropout na kolorowanie obrazów - źródło: Rysunek własny na podstawie:
    % \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
    \url{https://pl.wikipedia.org}]
    {Wpływ zastosowania warstwy Dropout na kolorowanie obrazów.}
@@ -893,7 +893,7 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
     \subfloat[]{\includegraphics[width = 2in]{norm_stand_blur}}
     \subfloat[]{\includegraphics[width = 2in]{stand_stand_blur}} \\
     \caption[Skutki zastosowania różnych metod przetwarzania wstępnego - źródło:
-    rysunek własny na podstawie
+    Rysunek własny na podstawie
     % \url{https://pl.wikipedia.org/wiki/Plik:PL_Bagno_Calowanie_2.jpg}]
     \url{https://pl.wikipedia.org}]
     {Skutki zastosowania różnych metod przetwarzania wstępnego.}
@@ -1045,7 +1045,7 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
   zostało podejście zaprezentowane przez L. Melas-Kyriazi oraz G. Han w 2016
   roku \cite{deconvolution_colorization}. Wykorzystali oni głęboką sieć
   splotową będącą połączeniem wyuczonej sieci typu ResNet
-  (ang. Residual Networks) \cite{ResNet}
+  (ang. \textit{Residual Networks}) \cite{ResNet}
   z opracowanymi przez nich warstwami dekonwolucyjnymi. Model ten został
   zaimplementowany, a jego rezultaty zostały porównane z
   rezultatami modelu zaprezentowanego w punkcie \ref{model autorski}.
@@ -1094,7 +1094,7 @@ Dla przetestowanych konfiguracji została także przedstawiona charakterystyka p
   ma na celu przetworzyć wejściowy zbiór cech, otrzymany w procesie fuzji, na składowe
   \textit{A} i \textit{B} przestrzeni kolorów CIELab dla obrazu wejściowego.
   Sieć ta składa się z zestawu członów konwolucyjnych i warstw nadpróbkujących
-  (ang. upsampling). Każdy człon konwolucyjny, oprócz dwóch ostatnich, składa się z pojedynczej
+  (ang. \textit{upsampling}). Każdy człon konwolucyjny, oprócz dwóch ostatnich, składa się z pojedynczej
   warstwy konwolucyjnej połączonej z warstwą BatchNorm i warstwą funkcji
   aktywacji ReLU. Przedostatni człon złożony jest z warstwy konwolucyjnej, po
   której umieszczona jest warstwa funkcji aktywacji Sigmoid, mająca na celu
