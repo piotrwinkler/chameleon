@@ -9,3 +9,4 @@
 # TODO: Załączniki
 # TODO: Jednolite podpisy rysunków
 # TODO: Dodać kierownika katedry
+# TODO: Ogarniecie formatowanie TOC
