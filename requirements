@@ -1,8 +1,0 @@
-loguru==0.3.2
-torch==0.4.1; sys_platform == 'linux'
-torch==0.4.1; sys_platform == 'darwin'
-http://download.pytorch.org/whl/cu90/torch-0.4.1-cp36-cp36m-win_amd64.whl; sys_platform == 'win32'
-torchvision==0.2.1
-opencv-python==4.1.1.26
-tensorboard==2.0.0
-future==0.18.0
