@@ -1,0 +1,111 @@
+\section*{A. INSTRUKCJA DLA UŻYTKOWNIKA}
+
+  Uruchomienie zawartych w projekcie programów wymaga interpretera
+  języka Python w wersji 3.6.8 lub wyższej!
+
+  UWAGA, poniższa instrukcja zawiera komendy przeznaczone dla systemu operacyjnego
+  Linux!
+
+  Aby poprawnie skonfigurować środowisko należy utworzyć folder docelowy, np.
+  wpisując w konsoli:
+
+  \textit{mkdir <nazwa folderu z projektem>}
+
+  Następnie należy umieścić w folderze pliki projektu. Przed wykonaniem
+  kolejnego kroku zalecane jest utworzenie wirtualnego środowiska za pomocą
+  polecenia:
+
+  \textit{python3 -m venv <nazwa folderu z wirtualnym środowiskiem>},
+
+  oraz aktywowanie go poprzez komendę:
+
+  \textit{source <nazwa folderu z wirtualnym środowiskiem>/bin/activate}
+
+  Teraz należy wejść do folderu głównego poprzez polecenie:
+
+  \textit{cd <nazwa folderu z projektem>}
+
+  Wewnątrz tego folderu należy wykonać polecenia umożliwiające instalację niezbędnych
+  pakietów oraz zbudowanie projektu:
+
+  \textit{pip install -U setuptools}
+
+  \textit{python setup.py install}
+
+  \textit{pip install -r requirements.txt}
+
+  Po wykonaniu tych operacji środowisko jest gotowe do uruchomienia. W ramach
+  przygotowanego projektu udostępnione zostały skrypty umożliwiające trenowanie
+  i testowanie sieci neuronowych filtrujących oraz kolorujących czarno-białe
+  obrazy. W celu uruchomienia odpowiedniego programu należy wejść do folderu
+  docelowego:
+
+  \textit{cd <nazwa folderu docelowego> (np. sepia)}
+
+  Aby rozpocząć proces uczenia sieci należy zastosować komendę:
+
+  \textit{python train <odpowiednia nazwa> (np. train sepia)}
+
+  Aby rozpocząć testy działania sieci należy zastosować komendę:
+
+  \textit{python test <odpowiednia nazwa> (np. test sepia)}
+
+  Poprawne działanie przedstawionych skryptów wymaga dostarczenia odpowiednich
+  danych wejściowych. Aby skorzystać z własnego zbioru treningowego należy podać
+  ścieżkę do folderu z obrazami w skrypcie \textit{data/consts.py}, w folderze docelowym,
+  pod nazwą \textit{TRAINING DATASET DIRECTORY}. W tym samym pliku należy podać
+  również ścieżkę do zbioru testowego pod nazwą \textit{TEST DATASET DIRECTORY}.
+  Aby poprawnie wykonać testy konieczne jest również zdefiniowanie ścieżki do
+  wytrenowanego modelu pod nazwą \textit{NET LOADING DIRECTORY}.
+
+  Rozwiązanie kolorowania czarno-białych obrazów korzysta ze zbioru uczącego
+  dostępnego poprzez API języka Python, dlatego nie jest wymagane dostarczenie
+  własnych danych w tym przypadku.
+
+  Aby dokonać konfiguracji w systemie Windows możliwe jest wykorzystanie
+  podanych poleceń za pośrednictwem środowiska deweloperskiego \textit{MinGW}.
+
+\section*{B. INSTRUKCJA DLA DEWELOPERA}
+
+  W celu początkowego skonfigurowania środowiska oraz uruchomienia procesu
+  treningowego lub testów sieci z wykorzystaniem frameworka \textit{TorchFrame}
+  należy kierować się instrukcjami zawartymi w dodatku \textit{A}.
+
+  W ramach pracy deweloperskiej możliwe jest konfigurowanie parametrów systemu
+  zgodnie z opisem zawartym w rozdziale \ref{TorchFrame}. Ponadto zalecane jest
+  napisanie dedykowanych wersji następujących komponentów:
+
+  \begin{itemize}
+  \item \textit{Dataset} - klasa dziedzicząca po \textit{BaseDataset}. W ramach
+  metody magicznej \textit{getitem} należy zdefiniować sposób pobierania i przetwarzania
+  pojedynczej próbki danych treningowych przekazywanych na wejście sieci.
+
+  \item \textit{Tester} - klasa dziedzicząca po \textit{BaseTester}. W jej obrębie
+  należy zdefiniować sposób testowania pożądanego rozwiązania. Można wykorzystać
+  do tego predefiniowane metody statyczne klasy bazowej służące między innymi
+  do wyświetlania obrazów oraz implementowania przekazanych konwersji zdefiniowanych
+  w pliku \textit{conversions.py}.
+
+  \item \textit{conversions.py} - w tym skrypcie można zdefiniować własne metody
+  konwersji danych. Każda z konwersji jest klasą. W ramach metody magicznej \textit{call}
+  należy zdefiniować sposób przetwarzania pojedynczej próbki danych (w większości
+  przygotowanych przykładów jest to pojedynczy obraz). Podczas inicjalizacji
+  do klasy przekazane zostaną parametry zdefiniowane w pliku konfiguracyjnym
+  \textit{JSON}.
+
+  \item \textit{entrypoint} - W dostarczonych przykładach są to wszystkie
+  skrypty typu \textit{train.py} oraz \textit{test.py}. Istotne jest
+  zawarcie w nich odczytu danych z pliku \textit{JSON} oraz konfiguracji środowiska tak,
+  jak zostało to zrobione w przykładowych rozwiązaniach. Można również dowolnie
+  modyfikować ilość i rodzaj ścieżek systemowych podawanych podczas inicjalizacji
+  klas \textit{Trainer} oraz \textit{Tester}.
+  \end{itemize}
+
+  Bardziej zaawansowani użytkownicy mogą pokusić się o modyfikację skryptu
+  \textit{trainer.py}, zawierającego definicję przebiegu procesu uczenia.
+  Zalecane jest jednak zaznajomienie się z biblioteką \textit{PyTorch} przed wykonaniem
+  jakichkolwiek zmian.
+
+  Jedną z najbardziej oczywistych ścieżek rozwoju projektu jest
+  potrzeba zdefiniowania GUI ułatwiającego pracę z frameworkiem, a co
+  za tym idzie z samymi sieciami neuronowymi.
