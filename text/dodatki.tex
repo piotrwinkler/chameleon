@@ -68,6 +68,14 @@
   Aby poprawnie wykonać testy konieczne jest również zdefiniowanie ścieżki do
   wytrenowanego modelu pod nazwą \textit{NET\_LOADING\_DIRECTORY}.
 
+  Rozwiązanie kolorowania czarno-białych obrazów wykorzystuje dedykowany
+  zbiór uczący \textit{CIFAR-10}. Konieczne jest jego pobranie i
+  odpowiednie dostosowanie ścieżek \textit{TRAINING\_DATASET\_DIRECTORY}
+  oraz \textit{TEST\_DATASET\_DIRECTORY}, aby wskazywały na folder gdzie został
+  on wypakowany. W przypadku potrzeby zmiany zbioru treningowego konieczna jest
+  modyfikacja pliku konfiguracyjnego. Więcej informacji na ten temat można znaleźć
+  w Dodatku \textit{B}.
+
   Aby dokonać konfiguracji w systemie Windows możliwe jest wykorzystanie
   podanych poleceń za pośrednictwem środowiska deweloperskiego \textit{MinGW}.
 
@@ -77,7 +85,7 @@
 
   W celu początkowego skonfigurowania środowiska oraz uruchomienia procesu
   treningowego lub testów sieci z wykorzystaniem frameworka \textit{TorchFrame}
-  należy kierować się instrukcjami zawartymi w dodatku \textit{A}.
+  należy kierować się instrukcjami zawartymi w Dodatku \textit{A}.
 
   W ramach pracy deweloperskiej możliwe jest konfigurowanie parametrów systemu
   zgodnie z opisem zawartym w rozdziale \ref{TorchFrame}. Ponadto zalecane jest
