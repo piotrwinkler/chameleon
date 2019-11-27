@@ -1,30 +1,37 @@
-\section*{A. INSTRUKCJA DLA UŻYTKOWNIKA}
+\section*{DODATEK A: INSTRUKCJA DLA UŻYTKOWNIKA}
+\addcontentsline{toc}{section}{Dodatek A: Instrukcja dla użytkownika} % Dodanie to TOC
 
   Uruchomienie zawartych w projekcie programów wymaga interpretera
-  języka Python w wersji 3.6.8 lub wyższej!
+  języka Python w wersji 3.6.8 lub wyższej.
 
-  UWAGA, poniższa instrukcja zawiera komendy przeznaczone dla systemu operacyjnego
-  Linux!
+  \noindent
+  Poniższa instrukcja zawiera komendy przeznaczone dla systemu operacyjnego
+  Linux.
 
+  \noindent
   Aby poprawnie skonfigurować środowisko należy utworzyć folder docelowy, np.
   wpisując w konsoli:
 
   \textit{mkdir <nazwa folderu z projektem>}
 
+  \noindent
   Następnie należy umieścić w folderze pliki projektu. Przed wykonaniem
   kolejnego kroku zalecane jest utworzenie wirtualnego środowiska za pomocą
   polecenia:
 
   \textit{python3 -m venv <nazwa folderu z wirtualnym środowiskiem>},
 
+  \noindent
   oraz aktywowanie go poprzez komendę:
 
   \textit{source <nazwa folderu z wirtualnym środowiskiem>/bin/activate}
 
+  \noindent
   Teraz należy wejść do folderu głównego poprzez polecenie:
 
   \textit{cd <nazwa folderu z projektem>}
 
+  \noindent
   Wewnątrz tego folderu należy wykonać polecenia umożliwiające instalację niezbędnych
   pakietów oraz zbudowanie projektu:
 
@@ -34,6 +41,7 @@
 
   \textit{pip install -r requirements.txt}
 
+  \noindent
   Po wykonaniu tych operacji środowisko jest gotowe do uruchomienia. W ramach
   przygotowanego projektu udostępnione zostały skrypty umożliwiające trenowanie
   i testowanie sieci neuronowych filtrujących oraz kolorujących czarno-białe
@@ -42,30 +50,30 @@
 
   \textit{cd <nazwa folderu docelowego> (np. sepia)}
 
+  \noindent
   Aby rozpocząć proces uczenia sieci należy zastosować komendę:
 
-  \textit{python train <odpowiednia nazwa> (np. train sepia)}
+  \textit{python train<odpowiednia nazwa> (np. train\_sepia.py)}
 
+  \noindent
   Aby rozpocząć testy działania sieci należy zastosować komendę:
 
-  \textit{python test <odpowiednia nazwa> (np. test sepia)}
+  \textit{python test<odpowiednia nazwa> (np. test\_sepia.py)}
 
   Poprawne działanie przedstawionych skryptów wymaga dostarczenia odpowiednich
   danych wejściowych. Aby skorzystać z własnego zbioru treningowego należy podać
   ścieżkę do folderu z obrazami w skrypcie \textit{data/consts.py}, w folderze docelowym,
-  pod nazwą \textit{TRAINING DATASET DIRECTORY}. W tym samym pliku należy podać
-  również ścieżkę do zbioru testowego pod nazwą \textit{TEST DATASET DIRECTORY}.
+  pod nazwą \textit{TRAINING\_DATASET\_DIRECTORY}. W tym samym pliku należy podać
+  również ścieżkę do zbioru testowego pod nazwą \textit{TEST\_DATASET\_DIRECTORY}.
   Aby poprawnie wykonać testy konieczne jest również zdefiniowanie ścieżki do
-  wytrenowanego modelu pod nazwą \textit{NET LOADING DIRECTORY}.
-
-  Rozwiązanie kolorowania czarno-białych obrazów korzysta ze zbioru uczącego
-  dostępnego poprzez API języka Python, dlatego nie jest wymagane dostarczenie
-  własnych danych w tym przypadku.
+  wytrenowanego modelu pod nazwą \textit{NET\_LOADING\_DIRECTORY}.
 
   Aby dokonać konfiguracji w systemie Windows możliwe jest wykorzystanie
   podanych poleceń za pośrednictwem środowiska deweloperskiego \textit{MinGW}.
 
-\section*{B. INSTRUKCJA DLA DEWELOPERA}
+\newpage
+\section*{DODATEK B: INSTRUKCJA DLA DEVELOPERA}
+\addcontentsline{toc}{section}{Dodatek B: Instrukcja dla developera} % Dodanie to TOC
 
   W celu początkowego skonfigurowania środowiska oraz uruchomienia procesu
   treningowego lub testów sieci z wykorzystaniem frameworka \textit{TorchFrame}
@@ -89,13 +97,13 @@
   \item \textit{conversions.py} - w tym skrypcie można zdefiniować własne metody
   konwersji danych. Każda z konwersji jest klasą. W ramach metody magicznej \textit{call}
   należy zdefiniować sposób przetwarzania pojedynczej próbki danych (w większości
-  przygotowanych przykładów jest to pojedynczy obraz). Podczas inicjalizacji
+  przygotowanych przykładów jest to pojedynczy obraz). Podczas inicjalizacji,
   do klasy przekazane zostaną parametry zdefiniowane w pliku konfiguracyjnym
   \textit{JSON}.
 
-  \item \textit{entrypoint} - W dostarczonych przykładach są to wszystkie
+  \item \textit{entrypoint} - w dostarczonych przykładach są to wszystkie
   skrypty typu \textit{train.py} oraz \textit{test.py}. Istotne jest
-  zawarcie w nich odczytu danych z pliku \textit{JSON} oraz konfiguracji środowiska tak,
+  zawarcie w nich odczytu danych z pliku \textit{JSON} oraz konfiguracji środowiska, tak
   jak zostało to zrobione w przykładowych rozwiązaniach. Można również dowolnie
   modyfikować ilość i rodzaj ścieżek systemowych podawanych podczas inicjalizacji
   klas \textit{Trainer} oraz \textit{Tester}.
@@ -107,5 +115,5 @@
   jakichkolwiek zmian.
 
   Jedną z najbardziej oczywistych ścieżek rozwoju projektu jest
-  potrzeba zdefiniowania GUI ułatwiającego pracę z frameworkiem, a co
+  potrzeba zdefiniowania GUI (ang. graphical user interface, pol. graficzny interfejs użytkownika) ułatwiającego pracę z frameworkiem, a co
   za tym idzie z samymi sieciami neuronowymi.
