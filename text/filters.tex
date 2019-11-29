@@ -45,21 +45,23 @@
 
     Na klasyczny filtr Sobela-Feldmana składają się dwie maski:
 
-    \[G_x =
+    \begin{equation}
+    G_x =
     \begin{bmatrix}
     -1 & 0 & +1 \\
     -2 & 0 & +2 \\
     -1 & 0 & +1
     \end{bmatrix}
-    \]
+  \end{equation}
 
-    \[G_y =
+    \begin{equation}
+    G_y =
     \begin{bmatrix}
     -1 & -2 & -1 \\
     0 & 0 & 0 \\
     +1 & +2 & +1
     \end{bmatrix}
-    \]
+  \end{equation}
 
     $G_x$ odpowiada za filtrowanie krawędzi w pionie, a $G_y$ w poziomie. Obie maski
     mogą być stosowane oddzielnie. Sam proces filtrowania bazuje na konwolucji
@@ -135,13 +137,14 @@
     uczenia sieci. Poprawność rezultatów treningu najlepiej ocenić można analizując
     macierz wag modelu, która przedstawia się następująco:
 
-    \[G_{nn} =
+    \begin{equation}
+    G_{nn} =
     \begin{bmatrix}
     -0.1135 & -0.0144 & +0.1363 \\
     -0.3239 & -0.0016 & +0.3340 \\
     -0.1199 & -0.0058 & +0.1335
     \end{bmatrix}
-    \]
+  \end{equation}
 
     Porównując uzyskane rezultaty z oryginalną maską $G_x$ łatwo zauważyć można,
     że sieć neuronowa właściwie odtworzyła panujące w niej proporcje. Odpowiednio
@@ -199,13 +202,14 @@
     Zastosowanie sepii, jako filtru, wiąże się z konwolucyjnym przetworzeniem
     zdjęcia za pomocą następującej maski:
 
-    \[G_x =
+    \begin{equation}
+    G_x =
     \begin{bmatrix}
     +0.131 & +0.534 & +0.272 \\
     +0.168 & +0.686 & +0.349 \\
     +0.189 & +0.769 & +0.393
     \end{bmatrix}
-    \]
+  \end{equation}
 
     Sieć neuronowa użyta do jej odtworzenia składa się z trzech neuronów w
     warstwie splotowej. Jest to minimalna struktura niezbędna do odtworzenia
@@ -320,19 +324,22 @@
       filtr Butterworth'a, czy Gauss'a. Wszystkie filtry górnoprzepustowe ($H_{hp}$) są
       zazwyczaj reprezentowane poprzez ich relację z filtrami dolnoprzepustowymi ($H_{lp}$):
 
-      \[H_{hp} = 1 - H_{lp}.   '\]
+      \begin{equation}
+      H_{hp} = 1 - H_{lp}.   '
+    \end{equation}
     \end{quote}
 
     W ramach niniejszego eksperymentu zastosowany został filtr górnoprzepustowy
     reprezentowany przez maskę następującej postaci:
 
-    \[G_x =
+    \begin{equation}
+    G_x =
     \begin{bmatrix}
     -1 & -1 & -1 \\
     -1 & +9 & -1 \\
     -1 & -1 & -1
     \end{bmatrix}
-    \]
+  \end{equation}
 
     W celu odwzorowania działania filtru zastosowana została sztuczna sieć
     splotowa złożona z trzech neuronów, podobnie jak miało to miejsce w przypadku
