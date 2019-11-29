@@ -212,7 +212,9 @@
        odpowiadającymi sobie elementami ze zbioru wyjściowego i docelowego.
        Można ją opisać za pomocą następującego wzoru:
 
-       \[l(x,y) = L = \{l_1,...,l_N\}^T, l_n = |x_n - y_n|,\]
+       \begin{equation}
+       l(x,y) = L = \{l_1,...,l_N\}^T, l_n = |x_n - y_n|,
+     \end{equation}
 
        gdzie \textit{N} jest rozmiarem pojedynczego pakietu danych, a \textit{x} i
        \textit{y} to tensory o arbitralnym kształcie, z których każdy posiada
@@ -233,7 +235,9 @@
        Funkcja kosztu mierząca błąd kwadratowy pomiędzy każdym elementem
        wyjściowym \textit{x} i celem \textit{y}. Opisuje ją poniższy wzór:
 
-       \[l(x,y) = L = \{l_1,...,l_N\}^T, l_n = (x_n - y_n)^2,\]
+       \begin{equation}
+       l(x,y) = L = \{l_1,...,l_N\}^T, l_n = (x_n - y_n)^2,
+     \end{equation}
 
        gdzie \textit{N} jest rozmiarem pojedynczego pakietu danych, a \textit{x} i
        \textit{y} to tensory o arbitralnym kształcie, z których każdy posiada
@@ -257,7 +261,9 @@
 
        Wzór matematyczny opisujący rozbieżność KL przedstawiony został poniżej:
 
-       \[l(x,y) = L = \{l_1,...,l_N\}, l_n = y_n \cdot (\log_{}y_n - x_n),\]
+       \begin{equation}
+       l(x,y) = L = \{l_1,...,l_N\}, l_n = y_n \cdot (\log_{}y_n - x_n),
+     \end{equation}
 
        gdzie indeks \textit{N} obejmuje wszystkie wymiary wejściowe, a \textit{L}
        ma ten sam kształt, co dane wejściowe.
@@ -277,8 +283,12 @@
 
        Opisuje to poniższy wzór:
 
-       \[l(x,y) = L = \{l_1,...,l_N\}^T, l_n = -w_n[y_n \cdot \log_{}x_n + (1 - y_n) \cdot \log_{}(1 - x_n)],\]
-       \[w_n = waga[n],\]
+       \begin{equation}
+       l(x,y) = L = \{l_1,...,l_N\}^T, l_n = -w_n[y_n \cdot \log_{}x_n + (1 - y_n) \cdot \log_{}(1 - x_n)],
+     \end{equation}
+       \begin{equation}
+       w_n = waga[n],
+     \end{equation}
 
        gdzie \textit{N} jest rozmiarem pakietu danych.
 
@@ -301,16 +311,18 @@
 
        Wzór opisujący:
 
-       \[loss(x,y) = \frac{1}{n}\sum_{i}^{}z_i,\]
+       \begin{equation}
+       loss(x,y) = \frac{1}{n}\sum_{i}^{}z_i,
+     \end{equation}
 
        gdzie $z_i$ zdefiniowane jest następująco:
 
-       \[
+       \begin{equation}
        y = \left\{ \begin{array}{ll}
        0.5 \cdot (x_i - y_i)^2 & \textrm{gdy $|x_i - y_i| < 1$}\\
        |x_i - y_i| - 0.5, & \textrm{w pozostałych przypadkach}
        \end{array} \right.
-       \]
+     \end{equation}
 
        Parametry:
        \begin{itemize}
@@ -353,7 +365,9 @@
     metod, jest tak zwany spadek gradientu. Najlepiej opisuje go programistyczna
     formuła aktualizacji wag sieci:
 
-    \[\Theta = \Theta - \eta \cdot \nabla J(\Theta),\]
+    \begin{equation}
+    \Theta = \Theta - \eta \cdot \nabla J(\Theta),
+    \end{equation}
 
     gdzie $\eta$ jest długością kroku treningowego, a $\nabla J(\Theta)$ oznacza
     gradient funkcji kosztu zależnej od wag sieci $\Theta$. Warto zauważyć, że
@@ -418,9 +432,13 @@
     $\gamma$ wektora aktualizacji z poprzedniego kroku algorytmu do bieżącego wektora
     aktualizacji. Przedstawia to poniższy wzór:
 
-    \[V(t)=\gamma \cdot V(t - 1) + \eta \cdot \nabla J(\Theta),\]
+    \begin{equation}
+    V(t)=\gamma \cdot V(t - 1) + \eta \cdot \nabla J(\Theta),
+  \end{equation}
     który prowadzi ostatecznie do następującej modyfikacji parametrów:
-    \[\Theta = \Theta - V(t).\]
+    \begin{equation}
+    \Theta = \Theta - V(t).
+  \end{equation}
 
     Nazwa tej metody nawiązuje do pędu znanego z fizyki. Można powiedzieć, że
     w miarę uczenia modyfikacje wag sieci nabierają prędkości we właściwym kierunku, co
@@ -438,9 +456,13 @@
     jest rzeczywista aktualizacja parametrów modelu. Metodę tę można przedstawić za
     pomocą następującego wzoru:
 
-    \[V(t)=\gamma \cdot V(t - 1) + \eta \cdot \nabla J(\Theta - \gamma \cdot V(t - 1)),\]
+    \begin{equation}
+    V(t)=\gamma \cdot V(t - 1) + \eta \cdot \nabla J(\Theta - \gamma \cdot V(t - 1)),
+  \end{equation}
     który prowadzi do aktualizacji:
-    \[\Theta = \Theta - V(t).\]
+    \begin{equation}
+    \Theta = \Theta - V(t).
+  \end{equation}
 
     Argument $\nabla J$, $\Theta - \gamma \cdot V(t - 1)$ odpowiada w tym przypadku za określenie przewidywanego punktu docelowego.
     Pozwala to wyznaczyć wartość gradientu nie dla obecnego położenia modelu na płaszczyźnie
@@ -468,7 +490,9 @@
        gradientu polegającą na aktualizowaniu parametrów sieci dla
        każdego przykładu uczącego. Opisuje to następujący wzór:
 
-       \[\Theta = \Theta - \eta \cdot \nabla J(\Theta;x(i);y(i)),\]
+       \begin{equation}
+       \Theta = \Theta - \eta \cdot \nabla J(\Theta;x(i);y(i)),
+     \end{equation}
        gdzie $\{x(i), y(i)\}$ jest zbiorem poszczególnych par treningowych.
 
        Stochastyczny spadek gradientu cechuje się częstymi aktualizacjami i
@@ -488,7 +512,9 @@
         przez to do pracy z rzadkimi zbiorami treningowymi. Wzór prezentujący sposób aktualizacji
         pojedynczego i-tego parametru w sieci prezentuje się następująco:
 
-        \[\Theta_{t+1,i} = \Theta_{t,i} - \frac{\eta}{\sqrt{G_{t,ii} + \epsilon}} \cdot g_{t,i},\]
+        \begin{equation}
+        \Theta_{t+1,i} = \Theta_{t,i} - \frac{\eta}{\sqrt{G_{t,ii} + \epsilon}} \cdot g_{t,i},
+      \end{equation}
 
         gdzie $G_{t,ii}$ jest diagonalną macierzą zawierającą sumy kwadratów gradientów
         wyznaczonych aż do chwili $t$, $g_{t,i}$ jest bieżącą wartością gradientu dla parametru $\Theta_i$, a
@@ -519,7 +545,9 @@
 
        Sposób działania tego mechanizmu opisuje poniższy wzór:
 
-       \[E[g^2]_t = \gamma \cdot E[g^2]_{t-1} + (1 - \gamma) \cdot g^2_t,\]
+       \begin{equation}
+       E[g^2]_t = \gamma \cdot E[g^2]_{t-1} + (1 - \gamma) \cdot g^2_t,
+     \end{equation}
 
        gdzie $E[g^2]_t$ oznacza średnią wartość sumy kwadratów gradientów w bieżącej
        iteracji, $E[g^2]_{t-1}$ definiuje tę średnią dla poprzedniego kroku, a
@@ -528,7 +556,9 @@
 
        Ostatecznie parametry modelu aktualizowane są zgodnie z następującą formułą:
 
-       \[\Delta \Theta_t = -\frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \cdot g_t\] \\
+       \begin{equation}
+       \Delta \Theta_t = -\frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \cdot g_t
+     \end{equation} \\
 
      \hline
        \textbf{Adam \cite{Adam}} &
@@ -547,12 +577,18 @@
        iteracji. Aby przeciwdziałać temu procesowi wyznaczane są odpowiednie
        estymaty korekcyjne obu momentów zgodnie ze wzorami:
 
-       \[m'_t = \frac{m_t}{1 - \beta^t_1}\]
-       \[v'_t = \frac{v_t}{1 - \beta^t_2}\]
+       \begin{equation}
+       m'_t = \frac{m_t}{1 - \beta^t_1}
+     \end{equation}
+       \begin{equation}
+       v'_t = \frac{v_t}{1 - \beta^t_2}
+     \end{equation}
 
        Na tej podstawie wyznaczana jest reguła aktualizacyjna Adama, postaci:
 
-       \[\Theta_{t+1} = \Theta_t - \frac{\eta}{\sqrt{v'_t} + \epsilon} \cdot m'_t.\]
+       \begin{equation}
+       \Theta_{t+1} = \Theta_t - \frac{\eta}{\sqrt{v'_t} + \epsilon} \cdot m'_t.
+     \end{equation}
 
        Wartości parametrów $\beta_1$, $\beta_2$ oraz $\epsilon$ mogą być dobierane eksperymentalnie,
        jednak rekomendowane jest przyjęcie następujących liczb: $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$. \\
