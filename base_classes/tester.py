@@ -100,7 +100,7 @@ class TestImgtoImg(BaseTester):
             log.info(f'Original image shape: {np.shape(orig_img)}')
             log.info(f'Output image shape: {np.shape(output_img)}')
 
-            self.show_images_pyplot([orig_img, output_img], ['original', 'NN'])
+            self.show_images_opencv([orig_img, output_img], ['original', 'NN'])
 
 
 class ImageColorizationTester(BaseTester):
