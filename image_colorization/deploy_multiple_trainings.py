@@ -50,9 +50,6 @@ def deploy_training(version):
     RETRAINING_NET_DIRECTORY = f"model_states/{version}/fcn_model{load_model}.pth"
     RETRAINING_OPTIMIZER_DIRECTORY = f"model_states/{version}/fcn_optimizer{load_model}.pth"
     RETRAINING_SCHEDULER_DIRECTORY = f"model_states/{version}/fcn_scheduler{load_model}.pth"
-    # RETRAINING_NET_DIRECTORY = f""
-    # RETRAINING_OPTIMIZER_DIRECTORY = f""
-    # RETRAINING_SCHEDULER_DIRECTORY = f""
 
     trainer = Trainer(config_dict, NET_SAVING_DIRECTORY, OPTIMIZER_SAVING_DIRECTORY,
                       SCHEDULER_SAVING_DIRECTORY, consts.TENSORBOARD_DIRECTORY,
@@ -61,8 +58,6 @@ def deploy_training(version):
     trainer.train(dataset)
 
     del config_dict, trainer, dataset
-    # torch.cuda.empty_cache()
-    # gc.collect()
 
 
 if __name__ == "__main__":

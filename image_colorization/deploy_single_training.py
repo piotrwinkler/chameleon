@@ -23,8 +23,6 @@ def main():
         raise Exception(f"No file {TRAINING_PARAMETERS}")
 
     deploy_training(version)
-    # log.info("Cleaning")
-    # gc.collect()
 
     log.info("Finished Generating")
 

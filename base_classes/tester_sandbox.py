@@ -127,11 +127,6 @@ class ImageColorizationTester(BaseTester):
                 plt.gca().axes.get_yaxis().set_visible(False)
                 self.change_subplot_fontsize(ax2, font_size)
 
-
-                # ax3 = fig.add_subplot(1, 4, 3)
-                # ax3.imshow(np.transpose(L_batch_gray[0].numpy(), (1, 2, 0)).squeeze())
-                # ax3.title.set_text(f"gray L channel, blur={self._additional_params['blur']['do_blur']}")
-
                 if self._test_on_gpu:
                     L_batch_gray = L_batch_gray.to(self._device)
 
@@ -169,10 +164,6 @@ class ImageColorizationTester(BaseTester):
 
                 if self._additional_params['do_save_results']:
                     matplotlib.image.imsave(f"{self.results_dir}/{str(i).zfill(4)}.png", img_rgb_outputs)
-
-                # running_loss = loss.item()
-                #
-                # print(f'[{(i + 1) * batch_size}] loss: {running_loss}')
 
                 if i == self._additional_params['how_many_results_to_generate']:
                     break

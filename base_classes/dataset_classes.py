@@ -49,14 +49,6 @@ class BasicFiltersDataset(BaseDataset):
         image_in = self._implement_conversions(image_in, self._input_conversions_list)
         image_out = self._implement_conversions(image_out,  self._output_conversions_list)
 
-        # cv2.imshow(f'image_in', image_in)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-        #
-        # cv2.imshow(f'image_out', image_out)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-
         sample = [image_in, image_out]
 
         if self._transform:
@@ -131,10 +123,6 @@ class BasicCifar10Dataset(BaseDataset):
             idx = idx.tolist()
 
         if not self.get_data_to_tests:
-
-            # curr_L = self.L_rgb[idx]
-            # if self.blur_details['do_blur']:
-            #     curr_L = cv2.GaussianBlur(curr_L, tuple(self.blur_details['kernel_size']), 0)
 
             transformed = self._transform(self.L_rgb[idx])
 

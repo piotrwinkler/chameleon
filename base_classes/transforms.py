@@ -46,9 +46,6 @@ class RandomHorizontalFlip:
         self.flip = transforms.Compose([transforms.RandomHorizontalFlip()])
 
     def __call__(self, array):
-        # im = Image.fromarray(array)
-        # im = self.flip(im)
-        # return np.array(im)
         return np.array(self.flip(Image.fromarray(array)))
 
 
@@ -67,12 +64,5 @@ class ToTensor:
         sample = [torch.from_numpy(np.expand_dims(data.transpose((0, 1)), axis=0)).type(self.data_type)
                   if len(np.shape(data)) == 2
                   else torch.from_numpy(data.transpose((2, 0, 1))).type(self.data_type) for data in sample]
-
-        # output_img = sample[1].detach().numpy()
-        # output_img = np.squeeze(output_img)  # remove redundant dimensions
-        # output_img = output_img.transpose((1, 2, 0)) if len(np.shape(output_img)) == 3 else output_img
-        # cv2.imshow(f'dopa', output_img)
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
 
         return sample

@@ -68,11 +68,9 @@ def main():
         ax1.imshow(rgb_img)
         ax1.title.set_text('Ground Truth')
 
-        # ax2 = fig.add_subplot(1, 4, 2)
         ax2.imshow(gray_img)
         ax2.title.set_text('Gray')
 
-        # ax3 = fig.add_subplot(1, 4, 3)
         ax3.imshow(L_input_gray)
         ax3.title.set_text(f"gray L channel, blur={config_dict['additional_params']['blur']['do_blur']}")
 
@@ -93,16 +91,9 @@ def main():
 
         img_rgb_outputs = color.lab2rgb(np.dstack((L_gray, ab_outputs)))
 
-        # ax4 = fig.add_subplot(1, 4, 4)
         ax4.imshow(img_rgb_outputs)
         ax4.title.set_text('model output')
-        # del net
-        # del img_rgb_outputs, ab_outputs, outputs, L_batch_gray, L_gray, L_input_gray, gray_img, rgb_img
-        # del config_dict, fig, ax1, ax2, ax3, ax4
-        # if additional_params['do_show_results']:
         plt.show()
-        # plt.close()
-        # del fig
 
     print('Finished Testing')
 

@@ -39,7 +39,7 @@ class FCN_net1(nn.Module):
         return output
 
 
-class FCN_net2(nn.Module):  # Ulepszenie A
+class FCN_net2(nn.Module):  # Upgrade A
     def __init__(self):
         super(FCN_net2, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1)
@@ -76,7 +76,7 @@ class FCN_net2(nn.Module):  # Ulepszenie A
         return output
 
 
-class FCN_net3(nn.Module):  # Ulepszenie B
+class FCN_net3(nn.Module):  # Upgrade B
     def __init__(self):
         super(FCN_net3, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1)
@@ -94,11 +94,6 @@ class FCN_net3(nn.Module):  # Ulepszenie B
         self.conv4 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.bn4 = nn.BatchNorm2d(64)
         self.relu4 = nn.ReLU()
-
-        # ??? Może usunąć tę warstwę
-        # self.conv5 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
-        # self.bn5 = nn.BatchNorm2d(64)
-        # self.relu5 = nn.ReLU()
 
         self.conv5 = nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1, stride=1, padding=0)
         self.bn5 = nn.BatchNorm2d(32)
@@ -118,7 +113,7 @@ class FCN_net3(nn.Module):  # Ulepszenie B
         return output
 
 
-class FCN_net4(nn.Module):  # Ulepszenie C
+class FCN_net4(nn.Module):  # Upgrade C
     def __init__(self):
         super(FCN_net4, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1)
@@ -129,17 +124,9 @@ class FCN_net4(nn.Module):  # Ulepszenie C
         self.bn2 = nn.BatchNorm2d(32)
         self.relu2 = nn.ReLU()
 
-        # self.conv3 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, stride=1, padding=1)
-        # self.bn3 = nn.BatchNorm2d(32)
-        # self.relu3 = nn.ReLU()
-
         self.conv3 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.bn3 = nn.BatchNorm2d(64)
         self.relu3 = nn.ReLU()
-
-        # self.conv4 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
-        # self.bn4 = nn.BatchNorm2d(64)
-        # self.relu4 = nn.ReLU()
 
         # Tę warstę można jeszcze zmienić na kernel_size=3
         self.conv4 = nn.Conv2d(in_channels=64, out_channels=32, kernel_size=1, stride=1, padding=0)
@@ -165,7 +152,7 @@ class FCN_net4(nn.Module):  # Ulepszenie C
         return output
 
 
-class FCN_net5(nn.Module):  # Ulepszenia A, B, C
+class FCN_net5(nn.Module):  # Upgrades A, B, C
     def __init__(self):
         super(FCN_net5, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1)
@@ -217,7 +204,7 @@ class FCN_net5(nn.Module):  # Ulepszenia A, B, C
         return output
 
 
-class FCN_net_mega(nn.Module):  # Ulepszenia AA, BB, CC
+class FCN_net_mega(nn.Module):  # Upgrades AA, BB, CC
     def __init__(self):
         super(FCN_net_mega, self).__init__()
         self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=3, stride=1, padding=1)
@@ -284,7 +271,6 @@ class FCN_net_mega(nn.Module):  # Ulepszenia AA, BB, CC
         return output
 
 
-# zmiana miejscami warstw BatchNorm i Relu w FCN_net_mega, najpierw conv, potem relu, potem batch
 class FCN_net_mega_V2(nn.Module):
     def __init__(self):
         super(FCN_net_mega_V2, self).__init__()
@@ -353,7 +339,6 @@ class FCN_net_mega_V2(nn.Module):
         return output
 
 
-# zmiana miejscami warstw BatchNorm i Relu w FCN_net_mega, najpierw conv, potem relu, potem batch, dodanie dropout
 class FCN_net_mega_dropout(nn.Module):
     def __init__(self):
         super(FCN_net_mega_dropout, self).__init__()
@@ -566,7 +551,7 @@ class FCN_net_mega_dropout3(nn.Module):
 
         return output
 
-# zmiana miejscami warstw BatchNorm i Relu w FCN_net_mega, najpierw conv, potem relu, potem batch
+
 class FCN_net_mega_sigmoid(nn.Module):
     def __init__(self):
         super(FCN_net_mega_sigmoid, self).__init__()

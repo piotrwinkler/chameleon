@@ -100,40 +100,7 @@ class TestImgtoImg(BaseTester):
             log.info(f'Original image shape: {np.shape(orig_img)}')
             log.info(f'Output image shape: {np.shape(output_img)}')
 
-            # =========================================================================================================
-            orig = self.read_image(self._files_list[i])
-            normalize_image255_canny = conversions.NormalizeImage255Canny()
-            normalize_image255 = conversions.NormalizeImage255()
-            rgb_to_gray = conversions.RgbtoGray()
-            filter_image_sobelx = conversions.FilterImageSobelx()
-            sepia = conversions.Sepia()
-            canny = conversions.FilterCanny()
-            sharpen = conversions.FilterSharpen()
-            normalize_image = conversions.NormalizeImage()
-            resize = conversions.Resize([512, 512])
-            restrict_values = conversions.RestrictValues()
-            ceiling = conversions.Ceiling()
-            img = resize(orig)
-            # img = normalize_image255(img)
-            # img = rgb_to_gray(img)
-            # img = filter_image_sobelx(img)
-            img = sharpen(img)
-            img = restrict_values(img)
-            # img = sepia(img)
-            # img = ceiling(img)
-
-            # img = cv2.cvtColor(orig, cv2.COLOR_BGR2RGB)
-            # orig_img = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
-            # output_img = cv2.cvtColor(output_img, cv2.COLOR_BGR2RGB)
-            img = img[..., ::-1]
-            orig_img = orig_img[..., ::-1]
-            output_img = output_img[..., ::-1]
-            # print(img)
-            # print(orig_img)
-            # print(output_img)
-            # =========================================================================================================
-
-            self.show_images_pyplot([img, orig_img, output_img], ['OpenCV', 'oryginał', 'NN'])
+            self.show_images_pyplot([orig_img, output_img], ['original', 'NN'])
 
 
 class ImageColorizationTester(BaseTester):
@@ -205,10 +172,6 @@ class ImageColorizationTester(BaseTester):
 
                 if self._additional_params['do_save_results']:
                     matplotlib.image.imsave(f"{self.results_dir}/{str(i).zfill(4)}.png", img_rgb_outputs)
-
-                # running_loss = loss.item()
-                #
-                # print(f'[{(i + 1) * batch_size}] loss: {running_loss}')
 
                 if i == self._additional_params['how_many_results_to_generate']:
                     break
