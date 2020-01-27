@@ -1,7 +1,7 @@
 import time
 import image_colorization.data.consts as consts
-from base_classes.setup_creator import SetupCreator
-from base_classes.json_parser import JsonParser
+from torchframe.setup_creator import SetupCreator
+from torchframe.json_parser import JsonParser
 from torch.utils.data import DataLoader
 
 

@@ -1,7 +1,7 @@
 # TODO: Nie działa - używać deplou_multiple_trainings.bat
-from base_classes.json_parser import JsonParser
-from base_classes.setup_creator import SetupCreator
-from base_classes.trainer import Trainer
+from torchframe.json_parser import JsonParser
+from torchframe.setup_creator import SetupCreator
+from torchframe.trainer import Trainer
 import os
 from loguru import logger as log
 from image_colorization.data import consts

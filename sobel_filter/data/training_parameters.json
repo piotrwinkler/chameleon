@@ -10,10 +10,10 @@
   },
   "optimizer":
   {
-      "name": "SGD",
+      "name": "Adadelta",
       "parameters":
       {
-        "lr": 1e-8
+        "lr": 1e-2
       }
   },
    "scheduler":

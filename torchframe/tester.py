@@ -3,13 +3,12 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-
-from base_classes.data_collector import DataCollector
 from loguru import logger as log
 from skimage import color
 from torch.utils.data import DataLoader
 
-font_size = 30
+import torchframe.conversions as conversions
+from torchframe.data_collector import DataCollector
 
 
 class BaseTester:
@@ -35,11 +34,28 @@ class BaseTester:
         return cv2.imread(img_path)
 
     @staticmethod
-    def show_image(imgs_list):
-        for i, img in enumerate(imgs_list):
-            cv2.imshow(f'image{i}', img)
+    def show_images_opencv(images, titles):
+        """Beware that opencv requires BGR colors format!"""
+        assert len(images) == len(titles), 'Every image should have unique title!'
+        for img, title in zip(images, titles):
+            cv2.imshow(title, img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+
+    @staticmethod
+    def show_images_pyplot(images, titles, cols=1):
+        """Beware that pyplot requires RGB colors format!"""
+        assert len(images) == len(titles), 'Every image should have unique title!'
+        n_images = len(images)
+        fig = plt.figure()
+        for n, (image, title) in enumerate(zip(images, titles)):
+            a = fig.add_subplot(cols, np.ceil(n_images / float(cols)), n + 1)
+            if image.ndim == 2:
+                plt.gray()
+            plt.axis('off')
+            plt.imshow(image)
+            a.set_title(title)
+        plt.show()
 
     @staticmethod
     def _implement_transforms(data, transforms):
@@ -63,6 +79,9 @@ class TestImgtoImg(BaseTester):
 
     def test(self):
         self._model.load_state_dict(torch.load(self._load_net_path))
+        for name, param in self._model.named_parameters():
+            if param.requires_grad:
+                log.info(f'Name: {name}, Tensor: {param.data}')
 
         for i in range(len(self)):
             input_img = self.read_image(self._files_list[i])
@@ -80,7 +99,43 @@ class TestImgtoImg(BaseTester):
 
             log.info(f'Original image shape: {np.shape(orig_img)}')
             log.info(f'Output image shape: {np.shape(output_img)}')
-            self.show_image([orig_img, output_img])
+
+            # self.show_images_opencv([orig_img, output_img], ['original', 'NN'])
+
+            # =========================================================================================================
+            # orig = self.read_image(self._files_list[i])
+            # normalize_image255_canny = conversions.NormalizeImage255Canny()
+            # normalize_image255 = conversions.NormalizeImage255()
+            # rgb_to_gray = conversions.RgbtoGray()
+            # filter_image_sobelx = conversions.FilterImageSobelx()
+            # sepia = conversions.Sepia()
+            # canny = conversions.FilterCanny()
+            # sharpen = conversions.FilterSharpen()
+            # normalize_image = conversions.NormalizeImage()
+            # resize = conversions.Resize([512, 512])
+            # restrict_values = conversions.RestrictValues()
+            # ceiling = conversions.Ceiling()
+            # img = resize(orig)
+            # img = normalize_image255(img)
+            # img = rgb_to_gray(img)
+            # img = filter_image_sobelx(img)
+            # img = sharpen(img)
+            # img = restrict_values(img)
+            # # img = sepia(img)
+            # img = ceiling(img)
+
+            # img = cv2.cvtColor(orig, cv2.COLOR_BGR2RGB)
+            # orig_img = cv2.cvtColor(orig_img, cv2.COLOR_BGR2RGB)
+            # output_img = cv2.cvtColor(output_img, cv2.COLOR_BGR2RGB)
+            # img = img[..., ::-1]
+            # print(img)
+            # print(orig_img)
+            # print(output_img)
+            # =========================================================================================================
+
+            orig_img = orig_img[..., ::-1]
+            output_img = output_img[..., ::-1]
+            self.show_images_pyplot([orig_img, output_img], ['original', 'NN'])
 
 
 class ImageColorizationTester(BaseTester):
@@ -109,23 +164,17 @@ class ImageColorizationTester(BaseTester):
                 L_gray_not_processed = np.transpose(L_batch_gray_not_processed[0].numpy(), (1, 2, 0))
 
                 fig = plt.figure(figsize=(16, 8))
-                ax1 = fig.add_subplot(1, 3, 1)
+                ax1 = fig.add_subplot(1, 4, 1)
                 ax1.imshow(rgb_images[0])
-                ax1.title.set_text('Obraz rzeczywisty')
-                ax1.set_yticklabels([])
-                ax1.set_xticklabels([])
-                plt.gca().axes.get_xaxis().set_visible(False)
-                plt.gca().axes.get_yaxis().set_visible(False)
-                self.change_subplot_fontsize(ax1, font_size)
+                ax1.title.set_text('Ground Truth')
 
-                ax2 = fig.add_subplot(1, 3, 2)
+                ax2 = fig.add_subplot(1, 4, 2)
                 ax2.imshow(gray_images[0])
-                ax2.title.set_text('Obraz czarno-biały')
-                ax2.set_yticklabels([])
-                ax2.set_xticklabels([])
-                plt.gca().axes.get_xaxis().set_visible(False)
-                plt.gca().axes.get_yaxis().set_visible(False)
-                self.change_subplot_fontsize(ax2, font_size)
+                ax2.title.set_text('Gray')
+
+                ax3 = fig.add_subplot(1, 4, 3)
+                ax3.imshow(np.transpose(L_batch_gray[0].numpy(), (1, 2, 0)).squeeze())
+                ax3.title.set_text(f"gray L channel, blur={self._additional_params['blur']['do_blur']}")
 
                 if self._test_on_gpu:
                     L_batch_gray = L_batch_gray.to(self._device)
@@ -150,15 +199,9 @@ class ImageColorizationTester(BaseTester):
 
                 img_rgb_outputs = color.lab2rgb(np.dstack((L_gray_not_processed, ab_outputs)))
 
-                ax4 = fig.add_subplot(1, 3, 3)
+                ax4 = fig.add_subplot(1, 4, 4)
                 ax4.imshow(img_rgb_outputs)
-                ax4.title.set_text('Otrzymany rezultat')
-                ax4.set_yticklabels([])
-                ax4.set_xticklabels([])
-                plt.gca().axes.get_xaxis().set_visible(False)
-                plt.gca().axes.get_yaxis().set_visible(False)
-                self.change_subplot_fontsize(ax4, font_size)
-
+                ax4.title.set_text('model output')
                 if self._additional_params['do_show_results']:
                     plt.show()
 
@@ -173,9 +216,3 @@ class ImageColorizationTester(BaseTester):
 
     def __len__(self):
         return len(self.dataset)
-
-    @staticmethod
-    def change_subplot_fontsize(ax1, desired_size):
-        for item in ([ax1.title, ax1.xaxis.label, ax1.yaxis.label] +
-                     ax1.get_xticklabels() + ax1.get_yticklabels()):
-            item.set_fontsize(desired_size)

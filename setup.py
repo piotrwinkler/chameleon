@@ -7,5 +7,5 @@ setup(
     description="Framework intended for learning and testing artificial neural networks.",
     license="BSD",
     keywords="framework, artificial intelligence, artificial neural networks",
-    packages=['base_classes'],
+    packages=['torchframe'],
 )

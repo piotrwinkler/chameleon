@@ -3,7 +3,7 @@ during setup process and mentioned in according configuration .json files."""
 import torch.nn as nn
 import torch.nn.functional as f
 
-from base_classes.filter_sketch import FilterSketch
+from torchframe.filter_sketch import FilterSketch
 from loguru import logger as log
 
 

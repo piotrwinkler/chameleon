@@ -1,6 +1,6 @@
-import base_classes.dataset_classes as datasets
-import base_classes.conversions as conversions
-import base_classes.transforms as predefined_transforms
+import torchframe.dataset_classes as datasets
+import torchframe.conversions as conversions
+import torchframe.transforms as predefined_transforms
 import sys
 
 from loguru import logger as log

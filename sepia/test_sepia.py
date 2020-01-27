@@ -1,7 +1,7 @@
 """Entrypoint for network testing."""
-from base_classes.json_parser import JsonParser
-from base_classes.setup_creator import SetupCreator
-from base_classes.tester import TestImgtoImg
+from torchframe.json_parser import JsonParser
+from torchframe.setup_creator import SetupCreator
+from torchframe.tester import TestImgtoImg
 from data import consts
 from sepia_filter import SepiaFilter
 

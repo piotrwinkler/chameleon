@@ -1,7 +1,7 @@
 import cv2
 import torch
 
-from base_classes.data_collector import DataCollector
+from torchframe.data_collector import DataCollector
 from torch.utils.data import Dataset
 import numpy as np
 from skimage import color

@@ -1,9 +1,9 @@
 """Entrypoint for network training."""
 import data.consts as consts
 
-from base_classes.setup_creator import SetupCreator
-from base_classes.json_parser import JsonParser
-from base_classes.trainer import Trainer
+from torchframe.setup_creator import SetupCreator
+from torchframe.json_parser import JsonParser
+from torchframe.trainer import Trainer
 from sepia_filter import SepiaFilter
 
 

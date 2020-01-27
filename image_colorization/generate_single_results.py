@@ -1,8 +1,8 @@
 import sys
 sys.path.append('C:/STUDIA/INZYNIERKA/chameleon')
-from base_classes.json_parser import JsonParser
-from base_classes.setup_creator import SetupCreator
-from base_classes.tester import ImageColorizationTester
+from torchframe.json_parser import JsonParser
+from torchframe.setup_creator import SetupCreator
+from torchframe.tester import ImageColorizationTester
 import os
 from loguru import logger as log
 from image_colorization.data import consts

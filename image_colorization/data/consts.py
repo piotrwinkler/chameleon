@@ -9,8 +9,8 @@ load_model = f"{which_version}_epoch_final"
 TRAINING_PARAMETERS = f"data/configs/training_parameters_{which_version}.json"
 TEST_PARAMETERS = f"data/configs/test_parameters_{which_version}.json"
 
-TRAINING_DATASET_DIRECTORY = 'datasets/Cifar-10/cifar-10-batches-py'    # This path has to be overwritten
-TEST_DATASET_DIRECTORY = 'datasets/Cifar-10/cifar-10-batches-py'   # This path has to be overwritten
+TRAINING_DATASET_DIRECTORY = '/home/piotr/venvs/inz/project/chameleon/dataset/colour'    # This path has to be overwritten
+TEST_DATASET_DIRECTORY = '/home/piotr/venvs/inz/project/chameleon/dataset/colour'   # This path has to be overwritten
 
 NET_SAVING_DIRECTORY = f"model_states/{which_version}/fcn_model{which_version}.pth"
 OPTIMIZER_SAVING_DIRECTORY = f"model_states/{which_version}/fcn_optimizer{which_version}.pth"

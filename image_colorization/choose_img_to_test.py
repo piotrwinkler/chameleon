@@ -5,7 +5,7 @@ import cv2
 from tkinter import filedialog, Tk
 from skimage import io, color
 from image_colorization.data import consts
-from base_classes.json_parser import JsonParser
+from torchframe.json_parser import JsonParser
 from image_colorization.nets.fcn_models import *
 
 
@@ -26,7 +26,7 @@ def main():
                                                         ("JPEG images", "*.jpeg*")))
 
     net = eval(config_dict['net'])()
-    net.load_state_dict(torch.load(consts.RETRAINING_NET_DIRECTORY))
+    net.load_state_dict(torch.load(consts.RETRAINING_NET_DIRECTORY, map_location=torch.device('cpu')))
 
     net.eval()
 

@@ -5,9 +5,9 @@
 
 import image_colorization.data.consts as consts
 
-from base_classes.setup_creator import SetupCreator
-from base_classes.json_parser import JsonParser
-from base_classes.trainer import Trainer
+from torchframe.setup_creator import SetupCreator
+from torchframe.json_parser import JsonParser
+from torchframe.trainer import Trainer
 from loguru import logger as log
 import os
 from image_colorization.nets.fcn_models import *
