@@ -55,6 +55,8 @@ class BaseTester:
             plt.axis('off')
             plt.imshow(image)
             a.set_title(title)
+        manager = plt.get_current_fig_manager()
+        manager.resize(*manager.window.maxsize())
         plt.show()
 
     @staticmethod
