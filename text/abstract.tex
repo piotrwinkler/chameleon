@@ -1,0 +1,55 @@
+\section*{Abstract}
+
+  The subject of this project is to explore the possibilities of using neural networks for
+  image editing. The main goal was to create tools, based on
+  trained neural networks, used for proper processing and modifying of
+  images. Then the effectiveness of these tools was evaluated and
+  compared with solutions based on classic image processing methods.
+
+  Two approaches were investigated, automatic coloring of black and white images
+  and applying simple filters on images such as Sobel-Feldman filter detecting edges.
+
+  To make the research easier, an original framework named TorchFrame has been created.
+  It has the task of controlling
+  data flow in the process of teaching and testing the examined models and hence
+  reduce the need for user interference while ensuring freedom
+  in conducted experiments and implemented data modifications.
+
+  For simple image filters, solutions based on convolutional neural networks proved to
+  be slower and more labor-intensive in implementation than classical methods,
+  while presenting comparable results.
+  However, with their help it was possible to prove the enormous universality
+  of convolutional neural networks, which can be used in issues related to
+  simple image processing. Furthermore, the similarity between traditional filtration
+  methods and the way, how the neurons in convolutional networks works, has been shown.
+
+  To solve the problem of black and white images colorization, two different
+  approaches were proposed. The first one included the application of simple author's
+  model trained with many different hiperparameters and data preparation methods.
+  Obtained results were satisfactory but they are greatly dependent from chosen
+  hiperparameters and training configuration.
+
+  The second approach included implementing more complex model using transfer
+  learning technique. This approach was based on the integration of medium
+  and high level features of the image. The information obtained that way was
+  then used to predict possible colors of the image.
+  At the end, this method resulted in more realistic colors and hence
+  highly satisfying results.
+
+  Experiments, carried out as part of this project, proves that neural networks can
+  be successfully used as tools in general image editing process. However, despite
+  their remarkable possibilities, success highly depends on the well considered choice of used architecture
+  and correctly carried out training process.
+
+  \bigskip
+
+  \noindent\textbf{Keywords:} neural network, image processing, convolutional
+  neural network, deep neural network,
+  image filters, automatic image colorizing, framework
+
+  \bigskip
+
+  \noindent\textbf{Field of science and technology in accordance with the
+  requirements of the OECD:} Engineering and technology, Electrical engineering,
+  Electronic engineering, Information engineering, Computer hardware and
+  architecture

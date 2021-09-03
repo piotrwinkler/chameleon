@@ -1,0 +1,420 @@
+\documentclass[10pt, a4paper, twoside, notitlepage, openright]{article}
+
+%--------------------------------------------------------------------
+
+% language - polish by default
+%--------------------------------------------------------------------
+\usepackage[MeX]{polski}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+%--------------------------------------------------------------------
+
+% basic font:
+%--------------------------------------------------------------------
+\usepackage[scaled]{helvet} %Zastępczy font dla Ariala
+\usepackage{mathpazo} % Zalecany font dla równań matematycznych
+\renewcommand{\familydefault}{\sfdefault}
+%--------------------------------------------------------------------
+
+% baseline:
+%--------------------------------------------------------------------
+\linespread{1.3} % factor 1.3 gives ,,one and a half'' line spacing
+% W wymogach jest, że ma być  1.5, ale podobno ten końcowy line spacing
+% wylicza się jako ten linespread * (baselineskip/fontsize) i w naszym przypadku
+% to powinno być 1.25 * (12/10) = 1.5, no ale zobaczymy bo aktualnie ten parametr wygląda jakby nie działał
+%--------------------------------------------------------------------
+
+% margins:
+%--------------------------------------------------------------------
+% for margins left, right top bottom
+\usepackage{anysize}
+\marginsize{3.5cm}{2.5cm}{2.5cm}{2.5cm}
+% \marginsize{3.5cm}{2.5cm}{2.5cm}{2.5cm} % Te 3.5 sprawia, że lepiej się będzie czytało wydrukowaną dwustronnie pracę
+\let\origdoublepage\cleardoublepage    % komenda wstawiająca czyste kartki
+\newcommand{\clearemptydoublepage}{%
+  \clearpage
+  {\pagestyle{empty}\origdoublepage}%
+}
+\let\cleardoublepage\clearemptydoublepage
+%--------------------------------------------------------------------
+
+% Do rysunków:
+%--------------------------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{ {./images/} }  % Domyślna ścieżka do obrazów
+%--------------------------------------------------------------------
+
+\usepackage{amsmath,amssymb}  % To jest chyba do formuł matematycznych
+\usepackage{setspace,cite}
+
+\usepackage{pdfpages} % paczka żeby móc importować gotowe strony z plików pdf do pdfa z latexa
+\usepackage{titlesec} % może być potrzebne jeśli będziemy chcieli edytować tytuły
+
+
+
+% Do Nagłówków:
+%--------------------------------------------------------------------
+% First {} is a font size for title of sections and second {} is baselineskip,
+% that is size of empty space between section title and text below
+\usepackage{fancyhdr}
+\titleformat{\section}[block]
+  {\normalfont \fontsize{12}{12} \bfseries}{\thesection.}{0.5em}{\fontsize{12}{12} \MakeUppercase }
+\titlespacing{\section}{0pt}{12pt}{6pt}
+
+\titleformat{\subsection}
+      {\normalfont\fontsize{10}{10} \bfseries \itshape}{\thesubsection.}{0.5em}{\bfseries \itshape \itshape}
+\titlespacing{\subsection}{0pt}{12pt}{6pt}
+
+\titleformat{\subsubsection}
+      {\normalfont\fontsize{10}{10}\itshape}{\thesubsubsection.}{0.5em}{\normalfont \itshape}
+\titlespacing{\subsubsection}{0pt}{12pt}{6pt}
+%--------------------------------------------------------------------
+
+% Uwaga, nie dodawać biblioteki sectsty bo to zresetuje formatowanie
+
+% Do Table of Content:
+%--------------------------------------------------------------------
+\usepackage[titles]{tocloft}
+\renewcommand{\cftsecfont}{\mdseries}
+\renewcommand{\cftsecpagefont}{\mdseries}
+
+\usepackage{titletoc}
+% Stare:
+% \titlecontents{section}
+%     [0em] % no indentation
+%     {}
+%     {\contentslabel[\thecontentslabel.]{1.5em}\uppercase} % suitable only for one-digit and a comma
+%     {\hspace*{-1.5em}}                          % !
+%     {\dotfill\contentspage}
+%
+% \titlecontents{subsection}
+%     [2em] % ie, 1.5em (section) + 0.5em
+%     {}
+%     {\contentslabel[\thecontentslabel.]{2em}}   %two digits and two dots
+%     {\hspace*{-2.3em}}                          % !
+%     {\dotfill\contentspage}
+
+% \titlecontents{subsubsection}
+%     [5em] % ie, 2em (subsection) + 3em
+%     {}
+%     {\contentslabel[\thecontentslabel.]{3em}}  %three digits and three dots
+%     {\hspace*{-2.3em}}                          % !
+%     {\dotfill\contentspage}
+
+  % Właściwe:
+\titlecontents{section}[3pt]{}
+{\contentsmargin{0pt}
+\thecontentslabel .
+% \enspace
+\uppercase
+}
+{\contentsmargin{0pt}}
+{\titlerule*[.5pc]{.}\contentspage}[]
+
+\titlecontents{subsection}% <section-type>
+ [20pt]
+ {}
+ {\thecontentslabel. \enspace}
+ {}
+ {\titlerule*[.5pc]{.}\contentspage}
+
+ \titlecontents{subsubsection}% <section-type>
+ [40pt]
+ {}
+ {\thecontentslabel. \enspace}
+ {}
+ {\titlerule*[.5pc]{.}\contentspage}
+
+\usepackage{tocloft}  % żeby móc ręcznie dodawać sections do TOC (Table of Content)
+\usepackage[nottoc]{tocbibind}  % definiuje co jest w TOC
+% nottoc -  Disables the inclusion of the ToC.
+
+% to powyższe można zastąpić 2 liniami:
+% \usepackage{tocbibind}
+% \tocbibind{nottoc}
+%--------------------------------------------------------------------
+
+% Do Indentów itp:
+%--------------------------------------------------------------------
+\usepackage{indentfirst}  % Ustawienia aby pierwszy paragraf w sekcji też miał akapit, bo domyślnie nie ma
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{1ex} %odstępy między akapitami
+%--------------------------------------------------------------------
+
+% Do spisu rysunków i tabel:
+%--------------------------------------------------------------------
+\usepackage{chngcntr} % Do edycji numerowania rysunków w sekcjach
+\counterwithin{figure}{section} % Sprawia, że numeracja rysunków będzie podzielona na sekcje
+\counterwithin{table}{section} % Sprawia, że numeracja tabel będzie podzielona na sekcje
+%--------------------------------------------------------------------
+
+\usepackage{csquotes} % Do cytowania
+\AtBeginEnvironment{quote}{\itshape}  % Ustawia to co jest między \begin{quote}
+% a \end{quote}, że będzie kursywą
+
+\usepackage[hyphens]{url} % Dodatkowa opcja, żeby linki url łamały się jeśli są
+% za długie
+\usepackage{hyperref} % Do linków url
+
+\usepackage{array} %Umożliwia definiowanie własnych wymiarów tabel
+\usepackage{enumitem} % Do usunięcia indenta dla begin{itemize}
+% --------------------------------------------------------------------
+
+% Do odpowiednich itemize i enumerate:
+%--------------------------------------------------------------------
+% \setenumerate{
+% %     labelindent=0em,
+% %     itemindent=\indentenit,
+%     topsep=1.5\parskip,
+%     itemsep=1.5\parskip,
+%     partopsep=10pt,
+% %     align=left
+%     }
+
+\setitemize{
+%     labelindent=0em,
+%     itemindent=\indentenit,
+    itemsep=0pt,
+    topsep=0pt,
+%     partopsep=0pt,
+%     align=left
+}
+
+\RequirePackage{textcomp} % for \textbullet and \textopenbullet only
+\setitemize[1]{label=\textbullet}   % first level \textbullet
+\setitemize[2]{label=\textopenbullet}     % second level \textopenbullet
+%--------------------------------------------------------------------
+
+\usepackage{longtable} %Umożliwia definiowanie tabel obejmujących wiele stron
+
+\usepackage{float}
+\usepackage[caption = false]{subfig}
+\usepackage[font=small,labelfont=bf,justification=centering]{caption}  % Umożliwia zdefiniowanie, że podpis pod rysunkiem ma być np wyśrodkowany
+\usepackage[figuresright]{rotating}
+
+% \usepackage{multirow}
+
+
+%\renewcommand{\chaptername}{Rozdział}
+% \renewcommand{\contentsname}{\noindent{Spis treści}}
+% \renewcommand{\figurename}{Rys.}
+%\renewcommand{\tablename}{Tab.}
+\renewcommand{\listfigurename}{WYKAZ RYSUNKÓW}
+\renewcommand{\listtablename}{WYKAZ TABEL}
+\renewcommand{\bibname}{WYKAZ LITERATURY}
+
+% Chyba lepiej używać latexowego \indent zamiast definiować własny akapit
+% \newcommand\tab[1][1cm]{\hspace*{#1}}
+% \newcommand\tab{\indent}
+
+% \bibliographystyle{unsrt} % Powinno niby ułożyć dobrze bibliografię, ale nie działa
+
+% pagination:
+%--------------------------------------------------------------------
+\pagenumbering{arabic}
+
+% \RequirePackage{fancyhdr}
+
+% \fancypagestyle{plain}{
+%   \fancyhf{}
+%   \fancyfoot[C]{\fontsize{9pt}{9pt}\selectfont\thepage}%
+%    \renewcommand{\headrulewidth}{0.0pt}
+% }
+
+\pagestyle{plain}
+%--------------------------------------------------------------------
+
+\widowpenalties 1 10000 % żeby jak akapit się nie zmieści cały na danej stronie, to żeby był przeniesiony w pełni na kolejną stonę - kwestie estetyczne
+\raggedbottom % Nie wiem w sumie co to robi, ale może jest potrzebne do czegoś
+
+
+\begin{document}
+
+% \parskip 1.5ex % paragraph spacing - zwiększa odstępy pomiędzy paragrafami
+
+% \baselineskip=15pt  % odległość między liniami chyba
+
+
+% Strone tytulowa trzeba bedzie pobrac z moja pg
+\includepdf[pages=-]{StronaTytulowa_PW.pdf} %pages=- to załączenie wszystkich stron
+\newpage\null\thispagestyle{empty}\newpage
+
+\includepdf[pages=-]{Oswiadczenie_165504.pdf}
+\newpage\null\thispagestyle{empty}\newpage
+
+% \begin{titlepage}
+%   \begin{center}
+%
+%     \vspace*{1cm}
+%     \Huge
+%     \textbf{POLITECHNIKA GDAŃSKA}
+%     \newline
+%     \vspace{0.5cm}
+%     \LARGE
+%     \newline
+%     Katedra Systemów Decyzyjnych i Robotyki
+%
+%     \vspace{1.5cm}
+%     \textbf{PRACA INŻYNIERSKA}
+%     \\[0.5cm]
+%     \textbf{Zastosowanie sieci neuronowych do edycji obrazów}
+%
+%     \vspace{2.5cm}
+%     \Large
+%     \textbf{Autorzy}\\
+%     Piotr Winkler\\
+%     Bartosz Bieliński
+%
+%     \vspace{3.5cm}
+%     Gdańsk 2019
+%
+%   \end{center}
+% \end{titlepage}
+
+\setcounter{page}{3}
+
+\include{streszczenie}
+\include{abstract}
+
+\newpage
+  \tableofcontents
+
+\include{oznaczenia_skroty}
+
+\include{wstep}
+
+\include{podstawy_teoretyczne}
+
+\include{przeglad_rozwiazan}
+
+\section{Zaimplementowane rozwiązania}  \label{zaimplementowane rozwiazania}
+
+  W celu zbadania skuteczności sieci neuronowych, jako narzędzi do edycji obrazu,
+  należało wybrać przykładowe zagadnienia z tej dziedziny, rozwiązać je z
+  użyciem technik sztucznej inteligencji oraz ocenić ich skuteczność.
+
+  Zadania te zostały zrealizowane, a szczegółowe opisy rozwiązań umieszczone w
+  następującym rozdziale.
+
+  W pierwszej kolejności zaprezentowany został autorski framework (pol. platforma
+  programistyczna) \textit{TorchFrame},
+  stworzony w języku programistycznym Python i przeznaczony do przyspieszenia i uproszczenia
+  pracy z sieciami neuronowymi. Z jego pomocą wykonane zostały modele przeznaczone
+  do różnego rodzaju filtrowania i przetwarzania obrazów. Rozwiązania te
+  skupiły się na rozległej tematyce, poczynając od prostych filtrów demonstrujących
+  działanie sztucznych sieci splotowych, a kończąc na złożonym modelu przeznaczonym do
+  inteligentnego kolorowania czarno-białych obrazów.
+
+  W ramach przedstawionych rozwiązań zamieszczone zostały porównania wyników
+  osiągniętych rozmaitymi metodami treningowymi wraz z rozważaniami teoretycznymi
+  związanymi z zastosowaniem różnorodnych hiperparametrów w procesie uczenia sieci.
+  Ponadto, w ramach kolejnych podrozdziałów, opisane zostały istotne
+  elementy składające się na proces projektowania i tworzenia sztucznych sieci
+  neuronowych.
+
+  \include{framework}
+
+  \include{filters}
+
+  \include{image_colorization}
+
+\section{Podsumowanie}
+
+  Celem zaprezentowanego projektu inżynierskiego było stworzenie oprogramowania,
+  opartego na technologii sztucznych sieci neuronowych, umożliwiającego
+  wszechstronną edycję obrazów cyfrowych. Przygotowane rozwiązania należało
+  przetestować, a zastosowane implementacje przeanalizować pod kątem
+  skuteczności działania ze względu na różnorodny dobór parametrów oraz
+  architektury sieci.
+
+  Dodatkowo, w celu uproszczenia i przyspieszenia wykonywanych eksperymentów,
+  postawione zostało zadanie przygotowania frameworka w języku Python, umożliwiającego
+  łatwe komponowanie oraz testowanie narzędzi opartych o mechanizmy sieci
+  neuronowych.
+
+  Cel ten został zrealizowany, a zaimplementowane rozwiązanie otrzymało nazwę
+  \textit{TorchFrame}. Szczegółowy opis działania frameworka zawarty został w
+  podrozdziale \ref{TorchFrame}. Opracowane oprogramowanie kontroluje przepływ danych
+  w procesie uczenia sieci neuronowych udostępniając użytkownikom szeroki zakres gotowych do
+  użycia metod konwersji obrazu. Ułatwia to znacznie zagadnienia
+  wstępnego oraz wtórnego przetwarzania danych treningowych. Dodatkowo uproszczone
+  zostało zagadnienie parametryzacji całego procesu. Użytkownik \textit{TorchFrame}
+  definiuje wszystkie istotne elementy wykorzystując pojedynczy plik \textit{JSON}, którego
+  struktura została szczegółowo opisana w ramach tej pracy. Komponentowa budowa
+  frameworka umożliwiła wydzielenie części dedykowanej szeroko pojętym testom
+  zaimplementowanych rozwiązań. W ramach przeprowadzonych eksperymentów zdefiniowane
+  zostały przykładowe struktury programistyczne dostosowujące \textit{TorchFrame}
+  do dedykowanych problemów. Jego elastyczna struktura umożliwia jednak
+  intuicyjne implementowanie rozmaitych modyfikacji ograniczonych jedynie
+  wyobraźnią użytkowników.
+
+  Przygotowane w ten sposób narzędzie posłużyło w realizacji wspomnianego oprogramowania
+  przeznaczonego do edycji obrazów cyfrowych. Realizacja tego zadania przedstawiona
+  została w dwóch fazach.
+
+  W podrozdziale \ref{Filtry_AI} opracowana została seria filtrów wzorowanych na
+  klasycznych metodach przetwarzania obrazów, takich jak sepia, czy wykrywający
+  krawędzie filtr Sobela-Feldmana. Każda z oryginalnych metod odtworzona
+  została z wykorzystaniem jak najprostszych modeli neuronowych sieci splotowych.
+  Uzyskane rezultaty przeanalizowane zostały pod kątem skuteczności działania
+  w odniesieniu do zastosowanych hiperparametrów oraz metod przetwarzania danych
+  treningowych. Kluczowym elementem tego rozdziału było wskazanie podobieństwa
+  między klasycznymi metodami filtracji, a używanymi powszechnie sieciami
+  splotowymi, zbudowanymi z warstw neuronów nazywanych właśnie filtrami.
+
+  Rozdział \ref{image_colorization} przedstawia próby automatycznego kolorowania
+  czarno-białych obrazów.
+  Zagadnienie to zostało rozwiązane z użyciem dwóch różnych modeli, autorskiego modelu
+  prostego oraz bardziej zaawansowanego modelu zaimplementowanego z użyciem technik
+  przeniesienia uczenia. Dla modelu autorskiego zostały przeprowadzone szczegółowe
+  badania dotyczące zależności wyników od poszczególnych parametrów architekury
+  sieci, jak i konfiguracji procesu uczenia. Rezultaty końcowe uzyskane z użyciem
+  tego modelu były zadowalające, ale mocno zależne od wybranych parametrów.
+  Dowodzi to, że odpowiednio skonfigurowane sieci splotowe mogą być skutecznie
+  zastosowane w tym zagadnieniu, aczkolwiek to model złożony pozwolił osiągnąć
+  największy sukces.
+  Idea tego rozwiązania opiera się na integracji cech obrazu średniego oraz wysokiego
+  poziomu uzyskiwanych z użyciem złożonej sieci splotowej wytrenowanej pierwotnie do
+  zadania klasyfikacji. Cechy te, po przejściu przez proces fuzji, są następnie
+  wykorzystywane przez sieć dekonwolucyjną do predykcji prawdopodobnych barw dla
+  obrazu wejściowego. Dzięki tym dodatkowym informacjom o obrazie udało się
+  znacznie zwiększyć efektywność procesu kolorowania, a co za tym idzie,
+  wiarygodność generowanych barw. Pokolorowane obrazy w wielu przypadkach
+  wyglądały tak realistycznie, że niemożliwym było zauważenie, że ich kolory zostały
+  wygenerowane automatycznie, co
+  świadczy o nadzwyczaj wysokiej skuteczności bardziej zaawansowanego modelu.
+
+  Przeprowadzone eksperymenty i uzyskane w ich wyniku rezultaty jasno
+  wskazują na użyteczność sztucznych sieci neuronowych w procesie edycji obrazów.
+  Ich zdolności adaptacyjne sprawiają, że są one w stanie odtworzyć niemal każde
+  klasyczne rozwiązanie, a umiejętność rozpoznawania i wykorzystywania
+  skomplikowanych wzorców czyni je ponadto niezastąpionymi w sytuacjach, w których
+  zawodzą tradycyjne metody.
+
+  Należy jednak pamiętać, że sieci neuronowe wciąż znajdują się w fazie rozwoju,
+  a skuteczność ich działania bardzo często nie dorównuje stosowanym powszechnie
+  algorytmom. Dobrym przykładem takiego stanu rzeczy są zaprezentowane filtry \textit{AI}.
+  Zastosowanie prostych masek filtrujących dało w tym przypadku lepsze rezultaty niż,
+  wymagające znacznych nakładów pracy, sieci splotowe, mimo przeprowadzenia licznych
+  eksperymentów i prób dla różnorodnych zestawów hiperparametrów.
+
+  Z drugiej strony, zaprezentowane rozwiązanie inteligentnego kolorowania
+  czarno-białych obrazów pokazało, że zastosowanie złożonych architektur sieci
+  neuronowych, a także odpowiednio duży nakład pracy włożony w proces treningowy,
+  mogą doprowadzić do rozwiązania nieosiągalnego innymi metodami.
+
+  Sztuczna inteligencja bez wątpienia stanowi fenomen w świecie nauki. Nie należy jednak
+  traktować jej jak młotka, dla którego każdy problem wygląda jak gwóźdź, ale warto
+  nieustannie śledzić dynamiczny rozwój tej dziedziny wiedzy. Doświadczenie pokazuje,
+  że znajduje ona zastosowanie w coraz szerszym gronie aspektów życia codziennego.
+  Bardzo często nie jesteśmy nawet świadomi jej obecności wokół nas. W związku z
+  zachodzącymi zmianami nie należy pytać czy sztuczna inteligencja dorówna kiedyś
+  innym, konkurencyjnym metodom. Należy zadać sobie pytanie kiedy to się stanie.
+
+\include{bibliografia}
+
+\include{zalaczniki}
+
+\include{dodatki}
+
+\end{document}

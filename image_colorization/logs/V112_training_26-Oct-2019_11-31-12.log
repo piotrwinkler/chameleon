@@ -1,0 +1,155 @@
+2019-10-26 11:31:12.786 | DEBUG    | __main__:main:18 - Training version: V112
+2019-10-26 11:31:12.787 | INFO     | __main__:deploy_training:33 - TRAINING
+2019-10-26 11:31:12.788 | INFO     | __main__:deploy_training:34 - Choosing version V112
+2019-10-26 11:31:12.790 | INFO     | __main__:deploy_training:38 - Saving models to directory model_states/V112
+2019-10-26 11:31:12.792 | INFO     | base_classes.setup_creator:create_dataset:40 - All dataset features collected properly!
+2019-10-26 11:31:12.795 | INFO     | base_classes.data_collector:collect_images:25 - List of loaded files: []
+2019-10-26 11:31:12.796 | INFO     | base_classes.data_collector:collect_images:26 - 0 images loaded from: .!
+2019-10-26 11:31:12.798 | ERROR    | base_classes.data_collector:collect_images:28 - Images loading from . failed!
+2019-10-26 11:31:12.799 | INFO     | base_classes.dataset_classes:__init__:84 - Loading train set
+2019-10-26 11:31:33.870 | INFO     | base_classes.dataset_classes:__init__:122 - Dataset prepared
+2019-10-26 11:31:34.947 | DEBUG    | base_classes.trainer:__init__:31 - Choosing net FCN_net_mega
+2019-10-26 11:31:34.949 | INFO     | base_classes.trainer:__init__:35 - cuda:0
+2019-10-26 11:31:36.362 | DEBUG    | base_classes.trainer:__init__:46 - model_states/V112/fcn_modelV112_epoch_final.pth model loaded for retraining
+2019-10-26 11:31:36.364 | DEBUG    | base_classes.trainer:train:58 - Trainer loss function: L1Loss()
+2019-10-26 11:31:36.365 | DEBUG    | base_classes.trainer:train:62 - Trainer optimizer: Adam (
+Parameter Group 0
+    amsgrad: False
+    betas: (0.9, 0.999)
+    eps: 1e-08
+    lr: 0.1
+    weight_decay: 1e-10
+)
+2019-10-26 11:31:36.366 | DEBUG    | base_classes.trainer:train:70 - Cannot initialize scheduler: 'name'
+2019-10-26 11:31:36.380 | DEBUG    | base_classes.trainer:train:76 - model_states/V112/fcn_optimizerV112_epoch_final.pth optimizer loaded for retraining
+2019-10-26 11:31:43.609 | INFO     | base_classes.trainer:train:123 - [EPOCH: 21, STEP: 80, DATA: 10240] loss: 0.6220776781439781
+2019-10-26 11:31:49.683 | INFO     | base_classes.trainer:train:123 - [EPOCH: 21, STEP: 160, DATA: 20480] loss: 0.6270660169422626
+2019-10-26 11:31:55.994 | INFO     | base_classes.trainer:train:123 - [EPOCH: 21, STEP: 240, DATA: 30720] loss: 0.6260891281068325
+2019-10-26 11:32:02.150 | INFO     | base_classes.trainer:train:123 - [EPOCH: 21, STEP: 320, DATA: 40960] loss: 0.6235504172742367
+2019-10-26 11:32:07.795 | INFO     | base_classes.trainer:train:127 - Epoch 21 took 31.413512706756592 seconds
+2019-10-26 11:32:07.812 | INFO     | base_classes.trainer:_save_model:158 - NN model weights saved successfully!
+2019-10-26 11:32:13.887 | INFO     | base_classes.trainer:train:123 - [EPOCH: 22, STEP: 80, DATA: 10240] loss: 0.6217719063162803
+2019-10-26 11:32:19.938 | INFO     | base_classes.trainer:train:123 - [EPOCH: 22, STEP: 160, DATA: 20480] loss: 0.6266190610826016
+2019-10-26 11:32:25.990 | INFO     | base_classes.trainer:train:123 - [EPOCH: 22, STEP: 240, DATA: 30720] loss: 0.6252433821558953
+2019-10-26 11:32:32.065 | INFO     | base_classes.trainer:train:123 - [EPOCH: 22, STEP: 320, DATA: 40960] loss: 0.6230611868202687
+2019-10-26 11:32:37.426 | INFO     | base_classes.trainer:train:127 - Epoch 22 took 29.612866640090942 seconds
+2019-10-26 11:32:43.491 | INFO     | base_classes.trainer:train:123 - [EPOCH: 23, STEP: 80, DATA: 10240] loss: 0.6214045375585556
+2019-10-26 11:32:49.561 | INFO     | base_classes.trainer:train:123 - [EPOCH: 23, STEP: 160, DATA: 20480] loss: 0.6262820184230804
+2019-10-26 11:32:55.593 | INFO     | base_classes.trainer:train:123 - [EPOCH: 23, STEP: 240, DATA: 30720] loss: 0.6254182651638984
+2019-10-26 11:33:01.655 | INFO     | base_classes.trainer:train:123 - [EPOCH: 23, STEP: 320, DATA: 40960] loss: 0.6228392757475376
+2019-10-26 11:33:07.007 | INFO     | base_classes.trainer:train:127 - Epoch 23 took 29.578609466552734 seconds
+2019-10-26 11:33:13.084 | INFO     | base_classes.trainer:train:123 - [EPOCH: 24, STEP: 80, DATA: 10240] loss: 0.6208158023655415
+2019-10-26 11:33:19.199 | INFO     | base_classes.trainer:train:123 - [EPOCH: 24, STEP: 160, DATA: 20480] loss: 0.6258140608668328
+2019-10-26 11:33:25.292 | INFO     | base_classes.trainer:train:123 - [EPOCH: 24, STEP: 240, DATA: 30720] loss: 0.6245027996599675
+2019-10-26 11:33:31.397 | INFO     | base_classes.trainer:train:123 - [EPOCH: 24, STEP: 320, DATA: 40960] loss: 0.622282025963068
+2019-10-26 11:33:36.816 | INFO     | base_classes.trainer:train:127 - Epoch 24 took 29.808177947998047 seconds
+2019-10-26 11:33:42.907 | INFO     | base_classes.trainer:train:123 - [EPOCH: 25, STEP: 80, DATA: 10240] loss: 0.6205084279179574
+2019-10-26 11:33:48.987 | INFO     | base_classes.trainer:train:123 - [EPOCH: 25, STEP: 160, DATA: 20480] loss: 0.6254424579441548
+2019-10-26 11:33:55.069 | INFO     | base_classes.trainer:train:123 - [EPOCH: 25, STEP: 240, DATA: 30720] loss: 0.6238668702542782
+2019-10-26 11:34:01.150 | INFO     | base_classes.trainer:train:123 - [EPOCH: 25, STEP: 320, DATA: 40960] loss: 0.6219211481511593
+2019-10-26 11:34:06.536 | INFO     | base_classes.trainer:train:127 - Epoch 25 took 29.718825101852417 seconds
+2019-10-26 11:34:12.622 | INFO     | base_classes.trainer:train:123 - [EPOCH: 26, STEP: 80, DATA: 10240] loss: 0.6201563857495784
+2019-10-26 11:34:18.715 | INFO     | base_classes.trainer:train:123 - [EPOCH: 26, STEP: 160, DATA: 20480] loss: 0.6250840581953525
+2019-10-26 11:34:24.804 | INFO     | base_classes.trainer:train:123 - [EPOCH: 26, STEP: 240, DATA: 30720] loss: 0.6234779924154281
+2019-10-26 11:34:30.883 | INFO     | base_classes.trainer:train:123 - [EPOCH: 26, STEP: 320, DATA: 40960] loss: 0.621597845107317
+2019-10-26 11:34:36.252 | INFO     | base_classes.trainer:train:127 - Epoch 26 took 29.715126514434814 seconds
+2019-10-26 11:34:42.323 | INFO     | base_classes.trainer:train:123 - [EPOCH: 27, STEP: 80, DATA: 10240] loss: 0.6198695987462998
+2019-10-26 11:34:48.408 | INFO     | base_classes.trainer:train:123 - [EPOCH: 27, STEP: 160, DATA: 20480] loss: 0.6247045986354351
+2019-10-26 11:34:54.683 | INFO     | base_classes.trainer:train:123 - [EPOCH: 27, STEP: 240, DATA: 30720] loss: 0.6230033710598946
+2019-10-26 11:35:01.023 | INFO     | base_classes.trainer:train:123 - [EPOCH: 27, STEP: 320, DATA: 40960] loss: 0.6209910549223423
+2019-10-26 11:35:06.636 | INFO     | base_classes.trainer:train:127 - Epoch 27 took 30.382349967956543 seconds
+2019-10-26 11:35:12.856 | INFO     | base_classes.trainer:train:123 - [EPOCH: 28, STEP: 80, DATA: 10240] loss: 0.6195036217570304
+2019-10-26 11:35:18.959 | INFO     | base_classes.trainer:train:123 - [EPOCH: 28, STEP: 160, DATA: 20480] loss: 0.6244198508560658
+2019-10-26 11:35:25.034 | INFO     | base_classes.trainer:train:123 - [EPOCH: 28, STEP: 240, DATA: 30720] loss: 0.6226342990994453
+2019-10-26 11:35:31.079 | INFO     | base_classes.trainer:train:123 - [EPOCH: 28, STEP: 320, DATA: 40960] loss: 0.6205462634563446
+2019-10-26 11:35:36.437 | INFO     | base_classes.trainer:train:127 - Epoch 28 took 29.79942488670349 seconds
+2019-10-26 11:35:42.491 | INFO     | base_classes.trainer:train:123 - [EPOCH: 29, STEP: 80, DATA: 10240] loss: 0.619084020704031
+2019-10-26 11:35:48.577 | INFO     | base_classes.trainer:train:123 - [EPOCH: 29, STEP: 160, DATA: 20480] loss: 0.6240448750555515
+2019-10-26 11:35:54.673 | INFO     | base_classes.trainer:train:123 - [EPOCH: 29, STEP: 240, DATA: 30720] loss: 0.6222103789448739
+2019-10-26 11:45:54.757 | INFO     | base_classes.trainer:train:123 - [EPOCH: 29, STEP: 320, DATA: 40960] loss: 0.6202266044914723
+2019-10-26 11:46:00.143 | INFO     | base_classes.trainer:train:127 - Epoch 29 took 623.6967816352844 seconds
+2019-10-26 11:46:06.206 | INFO     | base_classes.trainer:train:123 - [EPOCH: 30, STEP: 80, DATA: 10240] loss: 0.6186157017946243
+2019-10-26 11:46:12.343 | INFO     | base_classes.trainer:train:123 - [EPOCH: 30, STEP: 160, DATA: 20480] loss: 0.6237784542143345
+2019-10-26 11:46:18.448 | INFO     | base_classes.trainer:train:123 - [EPOCH: 30, STEP: 240, DATA: 30720] loss: 0.6220805644989014
+2019-10-26 11:46:24.634 | INFO     | base_classes.trainer:train:123 - [EPOCH: 30, STEP: 320, DATA: 40960] loss: 0.6198403127491474
+2019-10-26 11:46:29.962 | INFO     | base_classes.trainer:train:127 - Epoch 30 took 29.818122386932373 seconds
+2019-10-26 11:46:36.159 | INFO     | base_classes.trainer:train:123 - [EPOCH: 31, STEP: 80, DATA: 10240] loss: 0.6185736544430256
+2019-10-26 11:46:42.209 | INFO     | base_classes.trainer:train:123 - [EPOCH: 31, STEP: 160, DATA: 20480] loss: 0.6232373476028442
+2019-10-26 11:46:48.246 | INFO     | base_classes.trainer:train:123 - [EPOCH: 31, STEP: 240, DATA: 30720] loss: 0.6215262860059738
+2019-10-26 11:46:54.194 | INFO     | base_classes.trainer:train:123 - [EPOCH: 31, STEP: 320, DATA: 40960] loss: 0.6195400640368461
+2019-10-26 11:46:59.481 | INFO     | base_classes.trainer:train:127 - Epoch 31 took 29.518449544906616 seconds
+2019-10-26 11:46:59.497 | INFO     | base_classes.trainer:_save_model:158 - NN model weights saved successfully!
+2019-10-26 11:47:05.497 | INFO     | base_classes.trainer:train:123 - [EPOCH: 32, STEP: 80, DATA: 10240] loss: 0.6181953303515911
+2019-10-26 11:47:11.516 | INFO     | base_classes.trainer:train:123 - [EPOCH: 32, STEP: 160, DATA: 20480] loss: 0.6229489035904408
+2019-10-26 11:47:17.521 | INFO     | base_classes.trainer:train:123 - [EPOCH: 32, STEP: 240, DATA: 30720] loss: 0.6213547326624393
+2019-10-26 11:47:23.573 | INFO     | base_classes.trainer:train:123 - [EPOCH: 32, STEP: 320, DATA: 40960] loss: 0.6191706843674183
+2019-10-26 11:47:28.871 | INFO     | base_classes.trainer:train:127 - Epoch 32 took 29.37307596206665 seconds
+2019-10-26 11:47:34.884 | INFO     | base_classes.trainer:train:123 - [EPOCH: 33, STEP: 80, DATA: 10240] loss: 0.6179154850542545
+2019-10-26 11:47:40.927 | INFO     | base_classes.trainer:train:123 - [EPOCH: 33, STEP: 160, DATA: 20480] loss: 0.6226515673100949
+2019-10-26 11:47:47.050 | INFO     | base_classes.trainer:train:123 - [EPOCH: 33, STEP: 240, DATA: 30720] loss: 0.6211179852485657
+2019-10-26 11:47:53.170 | INFO     | base_classes.trainer:train:123 - [EPOCH: 33, STEP: 320, DATA: 40960] loss: 0.6187934368848801
+2019-10-26 11:47:58.527 | INFO     | base_classes.trainer:train:127 - Epoch 33 took 29.654958724975586 seconds
+2019-10-26 11:48:04.552 | INFO     | base_classes.trainer:train:123 - [EPOCH: 34, STEP: 80, DATA: 10240] loss: 0.6176717571914196
+2019-10-26 11:48:10.556 | INFO     | base_classes.trainer:train:123 - [EPOCH: 34, STEP: 160, DATA: 20480] loss: 0.6221316024661064
+2019-10-26 11:48:16.626 | INFO     | base_classes.trainer:train:123 - [EPOCH: 34, STEP: 240, DATA: 30720] loss: 0.6208384804427624
+2019-10-26 11:48:22.794 | INFO     | base_classes.trainer:train:123 - [EPOCH: 34, STEP: 320, DATA: 40960] loss: 0.6186008006334305
+2019-10-26 11:48:28.117 | INFO     | base_classes.trainer:train:127 - Epoch 34 took 29.58898401260376 seconds
+2019-10-26 11:48:34.159 | INFO     | base_classes.trainer:train:123 - [EPOCH: 35, STEP: 80, DATA: 10240] loss: 0.6175348959863186
+2019-10-26 11:48:40.238 | INFO     | base_classes.trainer:train:123 - [EPOCH: 35, STEP: 160, DATA: 20480] loss: 0.6220732286572457
+2019-10-26 11:48:46.296 | INFO     | base_classes.trainer:train:123 - [EPOCH: 35, STEP: 240, DATA: 30720] loss: 0.6207250937819481
+2019-10-26 11:48:52.347 | INFO     | base_classes.trainer:train:123 - [EPOCH: 35, STEP: 320, DATA: 40960] loss: 0.6184991419315338
+2019-10-26 11:48:57.796 | INFO     | base_classes.trainer:train:127 - Epoch 35 took 29.678273916244507 seconds
+2019-10-26 11:49:03.895 | INFO     | base_classes.trainer:train:123 - [EPOCH: 36, STEP: 80, DATA: 10240] loss: 0.617421505600214
+2019-10-26 11:49:10.022 | INFO     | base_classes.trainer:train:123 - [EPOCH: 36, STEP: 160, DATA: 20480] loss: 0.6217818468809128
+2019-10-26 11:49:16.169 | INFO     | base_classes.trainer:train:123 - [EPOCH: 36, STEP: 240, DATA: 30720] loss: 0.6209065288305282
+2019-10-26 11:49:22.260 | INFO     | base_classes.trainer:train:123 - [EPOCH: 36, STEP: 320, DATA: 40960] loss: 0.6180110014975071
+2019-10-26 11:49:27.553 | INFO     | base_classes.trainer:train:127 - Epoch 36 took 29.75564432144165 seconds
+2019-10-26 11:49:33.592 | INFO     | base_classes.trainer:train:123 - [EPOCH: 37, STEP: 80, DATA: 10240] loss: 0.6171094663441181
+2019-10-26 11:49:39.622 | INFO     | base_classes.trainer:train:123 - [EPOCH: 37, STEP: 160, DATA: 20480] loss: 0.6216343730688095
+2019-10-26 11:49:45.676 | INFO     | base_classes.trainer:train:123 - [EPOCH: 37, STEP: 240, DATA: 30720] loss: 0.6207964770495892
+2019-10-26 11:49:51.707 | INFO     | base_classes.trainer:train:123 - [EPOCH: 37, STEP: 320, DATA: 40960] loss: 0.6180881604552269
+2019-10-26 11:49:57.075 | INFO     | base_classes.trainer:train:127 - Epoch 37 took 29.5211181640625 seconds
+2019-10-26 11:50:03.283 | INFO     | base_classes.trainer:train:123 - [EPOCH: 38, STEP: 80, DATA: 10240] loss: 0.6169608145952225
+2019-10-26 11:50:09.473 | INFO     | base_classes.trainer:train:123 - [EPOCH: 38, STEP: 160, DATA: 20480] loss: 0.6214122593402862
+2019-10-26 11:50:15.502 | INFO     | base_classes.trainer:train:123 - [EPOCH: 38, STEP: 240, DATA: 30720] loss: 0.6202465109527111
+2019-10-26 11:50:21.445 | INFO     | base_classes.trainer:train:123 - [EPOCH: 38, STEP: 320, DATA: 40960] loss: 0.6176724083721638
+2019-10-26 11:50:26.731 | INFO     | base_classes.trainer:train:127 - Epoch 38 took 29.654568195343018 seconds
+2019-10-26 11:50:32.766 | INFO     | base_classes.trainer:train:123 - [EPOCH: 39, STEP: 80, DATA: 10240] loss: 0.6169642500579358
+2019-10-26 11:50:38.995 | INFO     | base_classes.trainer:train:123 - [EPOCH: 39, STEP: 160, DATA: 20480] loss: 0.6209717430174351
+2019-10-26 11:50:45.087 | INFO     | base_classes.trainer:train:123 - [EPOCH: 39, STEP: 240, DATA: 30720] loss: 0.6198635183274745
+2019-10-26 11:50:51.200 | INFO     | base_classes.trainer:train:123 - [EPOCH: 39, STEP: 320, DATA: 40960] loss: 0.6172015175223351
+2019-10-26 11:50:56.597 | INFO     | base_classes.trainer:train:127 - Epoch 39 took 29.865575075149536 seconds
+2019-10-26 11:51:02.744 | INFO     | base_classes.trainer:train:123 - [EPOCH: 40, STEP: 80, DATA: 10240] loss: 0.6174445964396
+2019-10-26 11:51:08.817 | INFO     | base_classes.trainer:train:123 - [EPOCH: 40, STEP: 160, DATA: 20480] loss: 0.6207110725343228
+2019-10-26 11:51:14.824 | INFO     | base_classes.trainer:train:123 - [EPOCH: 40, STEP: 240, DATA: 30720] loss: 0.6194074407219887
+2019-10-26 11:51:20.901 | INFO     | base_classes.trainer:train:123 - [EPOCH: 40, STEP: 320, DATA: 40960] loss: 0.6172274976968766
+2019-10-26 11:51:26.253 | INFO     | base_classes.trainer:train:127 - Epoch 40 took 29.65483283996582 seconds
+2019-10-26 11:51:32.249 | INFO     | base_classes.trainer:train:123 - [EPOCH: 41, STEP: 80, DATA: 10240] loss: 0.6175927840173244
+2019-10-26 11:51:38.420 | INFO     | base_classes.trainer:train:123 - [EPOCH: 41, STEP: 160, DATA: 20480] loss: 0.6204256355762482
+2019-10-26 11:51:44.646 | INFO     | base_classes.trainer:train:123 - [EPOCH: 41, STEP: 240, DATA: 30720] loss: 0.6193936854600907
+2019-10-26 11:51:50.755 | INFO     | base_classes.trainer:train:123 - [EPOCH: 41, STEP: 320, DATA: 40960] loss: 0.616959523409605
+2019-10-26 11:51:56.135 | INFO     | base_classes.trainer:train:127 - Epoch 41 took 29.88031530380249 seconds
+2019-10-26 11:51:56.151 | INFO     | base_classes.trainer:_save_model:158 - NN model weights saved successfully!
+2019-10-26 11:52:02.293 | INFO     | base_classes.trainer:train:123 - [EPOCH: 42, STEP: 80, DATA: 10240] loss: 0.6182383097708225
+2019-10-26 11:52:08.488 | INFO     | base_classes.trainer:train:123 - [EPOCH: 42, STEP: 160, DATA: 20480] loss: 0.6207613185048103
+2019-10-26 11:52:14.657 | INFO     | base_classes.trainer:train:123 - [EPOCH: 42, STEP: 240, DATA: 30720] loss: 0.620537556707859
+2019-10-26 11:52:20.782 | INFO     | base_classes.trainer:train:123 - [EPOCH: 42, STEP: 320, DATA: 40960] loss: 0.6181214064359665
+2019-10-26 11:52:26.224 | INFO     | base_classes.trainer:train:127 - Epoch 42 took 30.072507619857788 seconds
+2019-10-26 11:52:32.341 | INFO     | base_classes.trainer:train:123 - [EPOCH: 43, STEP: 80, DATA: 10240] loss: 0.6188972637057304
+2019-10-26 11:52:38.482 | INFO     | base_classes.trainer:train:123 - [EPOCH: 43, STEP: 160, DATA: 20480] loss: 0.6222033187747001
+2019-10-26 11:52:44.680 | INFO     | base_classes.trainer:train:123 - [EPOCH: 43, STEP: 240, DATA: 30720] loss: 0.6201734475791454
+2019-10-26 11:52:50.764 | INFO     | base_classes.trainer:train:123 - [EPOCH: 43, STEP: 320, DATA: 40960] loss: 0.616832672059536
+2019-10-26 11:52:56.159 | INFO     | base_classes.trainer:train:127 - Epoch 43 took 29.93397283554077 seconds
+2019-10-26 11:53:02.251 | INFO     | base_classes.trainer:train:123 - [EPOCH: 44, STEP: 80, DATA: 10240] loss: 0.618238701671362
+2019-10-26 11:53:08.268 | INFO     | base_classes.trainer:train:123 - [EPOCH: 44, STEP: 160, DATA: 20480] loss: 0.6233332946896553
+2019-10-26 11:53:14.324 | INFO     | base_classes.trainer:train:123 - [EPOCH: 44, STEP: 240, DATA: 30720] loss: 0.6207151390612126
+2019-10-26 11:53:20.445 | INFO     | base_classes.trainer:train:123 - [EPOCH: 44, STEP: 320, DATA: 40960] loss: 0.6172231584787369
+2019-10-26 11:53:25.776 | INFO     | base_classes.trainer:train:127 - Epoch 44 took 29.615828275680542 seconds
+2019-10-26 11:53:31.819 | INFO     | base_classes.trainer:train:123 - [EPOCH: 45, STEP: 80, DATA: 10240] loss: 0.6167145758867264
+2019-10-26 11:53:37.824 | INFO     | base_classes.trainer:train:123 - [EPOCH: 45, STEP: 160, DATA: 20480] loss: 0.6218709096312522
+2019-10-26 11:53:43.978 | INFO     | base_classes.trainer:train:123 - [EPOCH: 45, STEP: 240, DATA: 30720] loss: 0.6204411469399929
+2019-10-26 11:53:49.995 | INFO     | base_classes.trainer:train:123 - [EPOCH: 45, STEP: 320, DATA: 40960] loss: 0.6170079044997692
+2019-10-26 11:53:55.351 | INFO     | base_classes.trainer:train:127 - Epoch 45 took 29.573810815811157 seconds
+2019-10-26 11:53:55.366 | INFO     | base_classes.trainer:_save_model:158 - NN model weights saved successfully!
+2019-10-26 11:53:55.366 | INFO     | base_classes.trainer:train:139 - Finished Training
+2019-10-26 11:53:55.370 | INFO     | __main__:main:29 - Finished Generating

@@ -1,0 +1,61 @@
+\section*{Streszczenie}
+
+  Tematem projektu jest zbadanie możliwości zastosowania sieci neuronowych do
+  edycji obrazów. Głównym celem było stworzenie narzędzi, opartych na wyuczonych
+  sieciach neuronowych, służących do odpowiedniego przetwarzania i
+  modyfikowania obrazu. Następnie skuteczność tych narzędzi została oceniona i
+  porównana z rozwiązaniami opartymi na klasycznych metodach przetwarzania obrazu.
+
+  Zbadane zostały dwie problematyki, automatyczne kolorowanie czarno-białych obrazów
+  oraz nakładanie na obraz prostych filtrów takich jak wykrywający
+  krawędzie filtr Sobela-Feldmana.
+
+  W celu ułatwienia przeprowadzania badań został opracowany autorski framework
+  \textit{TorchFrame}. Ma on za zadanie kontrolować
+  przepływ danych w procesie uczenia i testowania badanych modeli, a co za tym
+  idzie, ograniczyć konieczność ingerencji ze strony użytkownika, przy jednoczesnym
+  zapewnieniu swobody w prowadzonych eksperymentach i implementowanych modyfikacjach danych.
+
+  W przypadku prostych filtrów obrazu rozwiązania
+  oparte na sieciach splotowych okazały się wolniejsze i bardziej pracochłonne w
+  implementacji niż metody klasyczne przy porównywalnych rezultatach. Jednakże
+  z ich pomocą udało się udowodnić olbrzymią uniwersalność sieci splotowych
+  mogących znaleźć zastosowanie w zagadnieniach związanych z prostym
+  przetwarzaniem obrazu. Ukazane zostało ponadto podobieństwo między tradycyjnymi
+  metodami filtracji, a sposobem działania neuronów tworzących sieci konwolucyjne.
+
+  Do rozwiązania problematyki automatycznego kolorowania czarno-białych
+  obrazów zostały przyjęte dwa różne podejścia. Pierwsze obejmowało
+  zastosowanie prostego modelu autorskiego trenowanego z użyciem wielu różnych
+  hiperparametrów oraz metod przygotowania danych treningowych.
+  Otrzymane wyniki były zadowalające,
+  jednakże są one w dużej mierze zależne od wybranych hiperparametrów oraz
+  konfiguracji, w których uczona była sieć.
+
+  Drugie podejście obejmowało zaimplementowanie bardziej złożonego modelu
+  z użyciem techniki przeniesienia uczenia. Podejście to oparte
+  było na integracji cech obrazu średniego oraz wysokiego poziomu.
+  Tak uzyskane informacje były następnie wykorzystywane do predykcji
+  prawdopodobnych barw obrazu.
+  W rezultacie przełożyło się to na większą realistyczność otrzymanych kolorów,
+  a co za tym idzie, wysoce satysfakcjonujące wyniki.
+
+  Badania przeprowadzone w ramach tego projektu dyplomowego dowodzą, że
+  sieci neuronowe mogą być skutecznie zastosowane jako narzędzia do wszechstronnej
+  edycji obrazu. Jednakże, pomimo ich niezwykłych możliwości, sukces
+  zależy w dużej mierze od dobrze przemyślanego
+  wyboru stosowanej architektury oraz poprawnie przeprowadzonego
+  procesu uczenia.
+
+  \bigskip
+
+  \noindent\textbf{Słowa kluczowe:} sieć neuronowa, przetwarzanie obrazu,
+  konwolucyjna sieć neuronowa, splotowa sieć neuronowa,
+  głęboka sieć neuronowa, filtry obrazu, automatyczne kolorowanie czarno-białych
+  obrazów, platforma programistyczna
+
+  \bigskip
+
+  \noindent\textbf{Dziedzina nauki i techniki zgodna z OECD:} Nauki
+  inżynieryjne i techniczne, Elektrotechnika, elektronika, inżynieria
+  informatyczna, Sprzęt komputerowy i architektura komputerów

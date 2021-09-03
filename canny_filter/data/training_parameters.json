@@ -1,0 +1,59 @@
+{
+  "net_model": "CannyFilter",
+  "criterion":
+  {
+      "name": "KLDivLoss",
+      "patameters":
+      {
+
+      }
+  },
+  "optimizer":
+  {
+      "name": "Adagrad",
+      "parameters":
+      {
+        "lr": 1e-2
+      }
+  },
+   "scheduler":
+  {
+      "name": "",
+      "parameters":
+      {
+        "step_size": 1,
+        "gamma": 0.999
+      },
+      "scheduler_decay": 0.5,
+      "scheduler_decay_period": 20
+  },
+  "init_epoch": 0,
+  "training_epochs": 2,
+  "training_monitoring_period": 1,
+  "saving_period": 1,
+  "dataloader_parameters":
+  {
+      "batch_size": 16,
+      "shuffle": false,
+      "num_workers": 4
+  },
+  "retrain": false,
+  "train_on_gpu": false,
+  "dataset":
+  {
+    "name": "BasicFiltersDataset",
+    "input_conversions": [{"name":"Resize",
+                        "parameters": [[256, 256]]},
+                          {"name":"NormalizeImage255Canny",
+                        "parameters": []}],
+    "output_conversions": [{"name":"Resize",
+                        "parameters": [[256, 256]]},
+                          {"name": "FilterCanny",
+                        "parameters": []},
+                          {"name":"NormalizeImage255Canny",
+                        "parameters": []}],
+    "transforms": [{"name": "ToTensor",
+                    "parameters": []}]
+  },
+  "additional_params": {}
+}

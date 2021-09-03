@@ -1,0 +1,61 @@
+{
+  "net_model": "SharpenFilter",
+  "criterion":
+  {
+      "name": "SmoothL1Loss",
+      "patameters":
+      {
+
+      }
+  },
+  "optimizer":
+  {
+      "name": "Adam",
+      "parameters":
+      {
+        "lr": 1e-3
+      }
+  },
+   "scheduler":
+  {
+      "name": "",
+      "parameters":
+      {
+        "step_size": 1,
+        "gamma": 0.999
+      },
+      "scheduler_decay": 0.5,
+      "scheduler_decay_period": 20
+  },
+  "init_epoch": 0,
+  "training_epochs": 5,
+  "training_monitoring_period": 1,
+  "saving_period": 1,
+  "dataloader_parameters":
+  {
+      "batch_size": 4,
+      "shuffle": true,
+      "num_workers": 4
+  },
+
+  "retrain": false,
+  "train_on_gpu": false,
+
+  "dataset":
+  {
+    "name": "BasicFiltersDataset",
+    "input_conversions": [{"name":"Resize",
+                        "parameters": [[256, 256]]},
+                          {"name":"NormalizeImage255",
+                        "parameters": []}],
+    "output_conversions": [{"name":"Resize",
+                        "parameters": [[256, 256]]},
+                          {"name": "FilterSharpen",
+                            "parameters": []},
+                          {"name": "NormalizeImage255",
+                            "parameters": []}],
+    "transforms": [{"name": "ToTensor",
+                    "parameters": []}]
+  },
+  "additional_params": {}
+}
