@@ -11,4 +11,3 @@
     
 ##### Clone a specific branch from repository
     git clone -b name-of-branch https://gitlab.com/engineering-group/chameleon.git
-  
